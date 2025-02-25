@@ -1,0 +1,62 @@
+[  
+  {
+    "name": "RealEstate - Property Marketplace",
+    "desc": "RealEstate is a cutting-edge web application built to revolutionize the way users buy, sell, and rent properties. ",
+    "image": "realtorwebapp",
+    "category": "mern",
+    "links": {
+      "view": "https://realtor-clone-react-lyart.vercel.app/",
+      "code": "https://github.com/ravindrauiet/Property_Management_System"
+    }
+  },
+  {
+    "name": "ShopifyPro - ECommerce",
+    "desc": "ShopifyPro is an exceptional e-commerce website built on the powerful MERN (MongoDB, Express, React, Node.js) stack, designed to provide an immersive shopping experience for users. ",
+    "image": "e-commercewebapp",
+    "category": "mern",
+    "links": {
+      "view": "https://shoes-webapp.vercel.app/",
+      "code": "https://github.com/ravindrauiet/e-commerce-frontend"
+    }
+  },
+  {
+    "name": "Portfolio Website",
+    "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
+    "image": "portfolioimg",
+    "category": "basicweb",
+    "links": {
+      "view": "#",
+      "code": "https://github.com/ravindrauiet/Portfolio_Ravindra"
+    }
+  },
+  {
+    "name": "NewsPortal - World's News",
+    "desc": "An intuitive news web app providing real-time news and conditions for locations worldwide.",
+    "image": "newswebapp",
+    "category": "basicweb",
+    "links": {
+      "view": "#",
+      "code": "https://github.com/ravindrauiet/taaza_Khabar_react"
+    }
+  },
+  {
+    "name": "Auth - Authentication Web App",
+    "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
+    "image": "mernwebapp",
+    "category": "mern",
+    "links": {
+      "view": "https://mern-auth-w842.onrender.com/",
+      "code": "https://github.com/ravindrauiet/mern-auth"
+    }
+  },
+  {
+    "name": "NoteMaster - Note Assistant",
+    "desc": "NoteMaster is a versatile note-taking application designed to simplify the process of creating, editing, and organizing notes. ",
+    "image": "crudapp",
+    "category": "mern",
+    "links": {
+      "view": "https://ravindrauiet.github.io/Notes-App-react/",
+      "code": "https://github.com/ravindrauiet/Notes-App-react"
+    }
+  }
+]
