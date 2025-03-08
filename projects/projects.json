@@ -1,5 +1,16 @@
 [  
   {
+    "name": "Freelancing Project",
+    "desc": "A responsive real estate platform built as a freelance project for seamless property transactions, deployed on Hostinger.",
+    "image": "realEstate",
+    "category": "basicweb",
+    "links": {
+      "view": "https://www.jkhomesandrealties.com/",
+      "code": "#"
+    }
+  }
+  ,
+  {
     "name": "RealEstate - Property Marketplace",
     "desc": "RealEstate is a cutting-edge web application built to revolutionize the way users buy, sell, and rent properties. ",
     "image": "realtorwebapp",
