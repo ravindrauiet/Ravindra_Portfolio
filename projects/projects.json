@@ -1,4 +1,54 @@
-[  
+[
+  {
+    "name": "PujaKaro", 
+    "desc": "MERN stack project with Firebase database integration. It features Google authentication, booking services, and an admin dashboard for streamlined management.",
+    "image": "pujakaro",
+    "category": "mern",
+    "links": {
+      "view": "https://www.pujakaro.in/",
+      "code": "https://github.com/PujaKaro/frontend-vercel"
+    }
+  },
+  {
+    "name": "Relove WebApp",
+    "desc": "An AI-based project that integrates Gemini AI to filter data and find the best products, leveraging a trained model. It also includes an AI-powered form submission feature.",
+    "image": "relove",
+    "category": "ai",
+    "links": {
+      "view": "https://gloupwebapp.vercel.app/",
+      "code": "https://github.com/ravindrauiet/gloupwebapp"
+    }
+  },
+  {
+    "name": "Relove App",
+    "desc": "A comprehensive mobile application that incorporates all key features for a superior user experience, building on the functionalities of its web counterpart.",
+    "image": "reloveapp",
+    "category": "android",
+    "links": {
+      "view": "",
+      "code": ""
+    }
+  },
+  {
+    "name": "Townmanor.ai",
+    "desc": "A cutting-edge AI-powered platform that integrates advanced machine learning algorithms to enhance user interactions and automate processes.",
+    "image": "townmanor",
+    "category": "ai",
+    "links": {
+      "view": "https://townmanor.ai/",
+      "code": ""
+    }
+  },
+  {
+    "name": "Fastag Bajaj APP",
+    "desc": "A mobile application built with Expo and React Native, integrating with the Bajaj API to deliver fastag functionalities. The project focuses on performance and seamless API connectivity.",
+    "image": "fastag",
+    "category": "android",
+    "links": {
+      "view": "#",
+      "code": "https://github.com/ravindrauiet/fastag_bajaj_api"
+    }
+  },
   {
     "name": "Freelancing Project",
     "desc": "A responsive real estate platform built as a freelance project for seamless property transactions, deployed on Hostinger.",
@@ -8,11 +58,10 @@
       "view": "https://www.jkhomesandrealties.com/",
       "code": "#"
     }
-  }
-  ,
+  },
   {
     "name": "RealEstate - Property Marketplace",
-    "desc": "RealEstate is a cutting-edge web application built to revolutionize the way users buy, sell, and rent properties. ",
+    "desc": "RealEstate is a cutting-edge web application built to revolutionize the way users buy, sell, and rent properties.",
     "image": "realtorwebapp",
     "category": "mern",
     "links": {
@@ -22,7 +71,7 @@
   },
   {
     "name": "ShopifyPro - ECommerce",
-    "desc": "ShopifyPro is an exceptional e-commerce website built on the powerful MERN (MongoDB, Express, React, Node.js) stack, designed to provide an immersive shopping experience for users. ",
+    "desc": "ShopifyPro is an exceptional e-commerce website built on the powerful MERN (MongoDB, Express, React, Node.js) stack, designed to provide an immersive shopping experience for users.",
     "image": "e-commercewebapp",
     "category": "mern",
     "links": {
@@ -62,7 +111,7 @@
   },
   {
     "name": "NoteMaster - Note Assistant",
-    "desc": "NoteMaster is a versatile note-taking application designed to simplify the process of creating, editing, and organizing notes. ",
+    "desc": "NoteMaster is a versatile note-taking application designed to simplify the process of creating, editing, and organizing notes.",
     "image": "crudapp",
     "category": "mern",
     "links": {
