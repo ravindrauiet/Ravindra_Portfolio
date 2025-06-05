@@ -253,11 +253,58 @@ srtop.reveal('.contact .container .form-group', { delay: 400 });
 // Categorize and display skills
 function categorizeSkills(skills) {
     const categories = {
-        frontend: ['ReactJS', 'HTML5', 'CSS3', 'JavaScript', 'MaterialUI', 'TailwindCSS', 'Bootstrap', 'jQuery'],
-        backend: ['NodeJS', 'ExpressJS', 'Python'],
+        frontend: ['ReactJS', 'HTML5', 'CSS3', 'JavaScript', 'MaterialUI', 'TailwindCSS', 'Bootstrap', 'jQuery', 'Redux'],
+        backend: ['NodeJS', 'ExpressJS', 'Python', 'C++'],
         database: ['MongoDB', 'MySQL'],
         other: ['Git VCS', 'GitHub', 'WordPress']
     };
+
+    // Technology-specific icons
+    const techIcons = {
+        'ReactJS': 'fab fa-react',
+        'HTML5': 'fab fa-html5',
+        'CSS3': 'fab fa-css3-alt',
+        'JavaScript': 'fab fa-js-square',
+        'MaterialUI': 'fas fa-palette',
+        'TailwindCSS': 'fas fa-wind',
+        'Bootstrap': 'fab fa-bootstrap',
+        'jQuery': 'fab fa-js',
+        'Redux': 'fas fa-database',
+        'NodeJS': 'fab fa-node-js',
+        'ExpressJS': 'fab fa-node',
+        'Python': 'fab fa-python',
+        'C++': 'fas fa-code',
+        'MongoDB': 'fas fa-database',
+        'MySQL': 'fas fa-server',
+        'Git VCS': 'fab fa-git-alt',
+        'GitHub': 'fab fa-github',
+        'WordPress': 'fab fa-wordpress'
+    };
+
+    // Project counts and links for each skill
+    const skillProjects = {
+        'ReactJS': { count: 5, link: '/projects?tech=react' },
+        'HTML5': { count: 8, link: '/projects?tech=html' },
+        'CSS3': { count: 8, link: '/projects?tech=css' },
+        'JavaScript': { count: 7, link: '/projects?tech=javascript' },
+        'MaterialUI': { count: 3, link: '/projects?tech=materialui' },
+        'TailwindCSS': { count: 4, link: '/projects?tech=tailwind' },
+        'Bootstrap': { count: 6, link: '/projects?tech=bootstrap' },
+        'jQuery': { count: 2, link: '/projects?tech=jquery' },
+        'Redux': { count: 2, link: '/projects?tech=redux' },
+        'NodeJS': { count: 4, link: '/projects?tech=nodejs' },
+        'ExpressJS': { count: 4, link: '/projects?tech=express' },
+        'Python': { count: 2, link: '/projects?tech=python' },
+        'C++': { count: 1, link: '/projects?tech=cpp' },
+        'MongoDB': { count: 3, link: '/projects?tech=mongodb' },
+        'MySQL': { count: 2, link: '/projects?tech=mysql' },
+        'Git VCS': { count: 10, link: '/projects?tech=git' },
+        'GitHub': { count: 10, link: '/projects?tech=github' },
+        'WordPress': { count: 1, link: '/projects?tech=wordpress' }
+    };
+
+    // Calculate max projects for percentage calculation
+    const maxProjects = Math.max(...Object.values(skillProjects).map(p => p.count));
 
     // Load skills into their respective categories
     skills.forEach(skill => {
@@ -269,16 +316,44 @@ function categorizeSkills(skills) {
             }
         }
 
+        const projectInfo = skillProjects[skill.name] || { count: 0, link: '/projects' };
+        // Calculate progress percentage based on project count
+        const progressPercentage = (projectInfo.count / maxProjects) * 100;
+        
         const skillElement = `
-            <div class="bar">
-                <div class="info">
-                    <img src="${skill.icon}" alt="${skill.name}"/>
-                    <span>${skill.name}</span>
+            <div class="skill-card" title="${skill.name}">
+                <div class="skill-info">
+                    <i class="${techIcons[skill.name] || 'fas fa-code'}"></i>
+                    <span class="skill-name">${skill.name}</span>
                 </div>
+                <div class="skill-level">
+                    <div class="skill-progress" data-width="${progressPercentage}%" data-projects="${projectInfo.count}"></div>
+                </div>
+                <a href="${projectInfo.link}" class="project-count" title="View ${projectInfo.count} projects using ${skill.name}">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>${projectInfo.count} Projects</span>
+                </a>
             </div>
         `;
 
         document.getElementById(`${category}Skills`).innerHTML += skillElement;
+    });
+
+    // Animate skill progress bars when they come into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target;
+                const width = progressBar.getAttribute('data-width');
+                progressBar.style.width = width;
+                observer.unobserve(progressBar);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.skill-progress').forEach(progress => {
+        progress.style.width = '0';
+        observer.observe(progress);
     });
 }
 
@@ -289,3 +364,47 @@ fetch('./skills.json')
         categorizeSkills(skills);
     })
     .catch(error => console.error('Error loading skills:', error));
+
+// Initialize Lottie Animations
+function initLottieAnimations() {
+    // Developer coding animation for hero section
+    const heroLottie = lottie.loadAnimation({
+        container: document.getElementById('hero-lottie-container'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'https://assets5.lottiefiles.com/packages/lf20_w51pcehl.json' // Developer animation
+    });
+    
+    // Skills animation
+    const skillsLottie = lottie.loadAnimation({
+        container: document.getElementById('skills-lottie-container'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'https://assets1.lottiefiles.com/packages/lf20_3ntisyac.json' // Skills animation
+    });
+    
+    // Services animation
+    const servicesLottie = lottie.loadAnimation({
+        container: document.getElementById('services-lottie-container'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'https://assets9.lottiefiles.com/packages/lf20_kyu7xb1v.json' // Services animation
+    });
+    
+    // Contact animation
+    const contactLottie = lottie.loadAnimation({
+        container: document.getElementById('contact-lottie-container'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'https://assets2.lottiefiles.com/packages/lf20_u8o7BL.json' // Contact animation
+    });
+}
+
+// Initialize Lottie animations after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initLottieAnimations();
+});
