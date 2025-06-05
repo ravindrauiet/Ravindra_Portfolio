@@ -4,6 +4,7 @@
     "desc": "MERN stack project with Firebase database integration. It features Google authentication, booking services, and an admin dashboard for streamlined management.",
     "image": "pujakaro",
     "category": "mern",
+    "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Firebase", "Google Auth", "Material UI"],
     "links": {
       "view": "https://www.pujakaro.in/",
       "code": "https://github.com/PujaKaro/frontend-vercel"
@@ -14,6 +15,7 @@
     "desc": "An AI-based project that integrates Gemini AI to filter data and find the best products, leveraging a trained model. It also includes an AI-powered form submission feature.",
     "image": "relove",
     "category": "ai",
+    "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Gemini AI", "TensorFlow", "Material UI"],
     "links": {
       "view": "https://gloupwebapp.vercel.app/",
       "code": "https://github.com/ravindrauiet/gloupwebapp"
@@ -24,6 +26,7 @@
     "desc": "A comprehensive mobile application that incorporates all key features for a superior user experience, building on the functionalities of its web counterpart.",
     "image": "reloveapp",
     "category": "android",
+    "tech_stack": ["React Native", "Expo", "Node.js", "MongoDB", "Firebase", "Google Auth"],
     "links": {
       "view": "",
       "code": ""
@@ -34,6 +37,7 @@
     "desc": "A cutting-edge AI-powered platform that integrates advanced machine learning algorithms to enhance user interactions and automate processes.",
     "image": "townmanor",
     "category": "ai",
+    "tech_stack": ["React", "Python", "TensorFlow", "Node.js", "Express", "MongoDB", "AWS"],
     "links": {
       "view": "https://townmanor.ai/",
       "code": ""
@@ -44,6 +48,7 @@
     "desc": "A mobile application built with Expo and React Native, integrating with the Bajaj API to deliver fastag functionalities. The project focuses on performance and seamless API connectivity.",
     "image": "fastag",
     "category": "android",
+    "tech_stack": ["React Native", "Expo", "Node.js", "RESTful API", "Redux"],
     "links": {
       "view": "#",
       "code": "https://github.com/ravindrauiet/fastag_bajaj_api"
@@ -54,6 +59,7 @@
     "desc": "A React Native (Expo) based CRM solution tailored for mobile retail stores, providing inventory management, sales tracking, and customer relationship tools.",
     "image": "Mobile-Store-CRM",
     "category": "android",
+    "tech_stack": ["React Native", "Expo", "Firebase", "Redux", "Node.js"],
     "links": {
       "view": "#",
       "code": "https://github.com/ravindrauiet/mobile-store"
@@ -64,6 +70,7 @@
     "desc": "A Flutter-powered mobile application designed for efficient petrol pump management and team collaboration.",
     "image": "ClickApp",
     "category": "android",
+    "tech_stack": ["Flutter", "Dart", "Firebase", "Google Maps API"],
     "links": {
       "view": "#",
       "code": "https://github.com/ravindrauiet/"
@@ -74,6 +81,7 @@
     "desc": "A responsive real estate platform built as a freelance project for seamless property transactions, deployed on Hostinger.",
     "image": "realEstate",
     "category": "basicweb",
+    "tech_stack": ["HTML", "CSS", "JavaScript", "Bootstrap", "PHP", "MySQL"],
     "links": {
       "view": "https://www.jkhomesandrealties.com/",
       "code": "#"
@@ -84,6 +92,7 @@
     "desc": "RealEstate is a cutting-edge web application built to revolutionize the way users buy, sell, and rent properties.",
     "image": "realtorwebapp",
     "category": "mern",
+    "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Firebase", "Material UI"],
     "links": {
       "view": "https://realtor-clone-react-lyart.vercel.app/",
       "code": "https://github.com/ravindrauiet/Property_Management_System"
@@ -94,6 +103,7 @@
     "desc": "A modern e-commerce web application for Fika that allows users to browse product catalogs, add items to a shopping cart, and complete secure checkouts. ",
     "image": "fika",
     "category": "mern",
+    "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Razorpay API", "JWT", "Redux"],
     "links": {
       "view": "https://www.fika-india.com/",
       "code": "https://github.com/ravindrauiet"
@@ -104,6 +114,7 @@
     "desc": "ShopifyPro is an exceptional e-commerce website built on the powerful MERN (MongoDB, Express, React, Node.js) stack, designed to provide an immersive shopping experience for users.",
     "image": "e-commercewebapp",
     "category": "mern",
+    "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Redux", "Material UI", "Stripe API"],
     "links": {
       "view": "https://shoes-webapp.vercel.app/",
       "code": "https://github.com/ravindrauiet/e-commerce-frontend"
@@ -114,6 +125,7 @@
     "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
     "image": "portfolioimg",
     "category": "basicweb",
+    "tech_stack": ["HTML", "CSS", "JavaScript", "jQuery", "Lottie Animation"],
     "links": {
       "view": "https://gilded-meringue-e3583d.netlify.app/",
       "code": "https://github.com/ravindrauiet/Ravindra_Portfolio"
@@ -124,6 +136,7 @@
     "desc": "An intuitive news web app providing real-time news and conditions for locations worldwide.",
     "image": "newswebapp",
     "category": "basicweb",
+    "tech_stack": ["React", "News API", "Bootstrap", "CSS3", "JavaScript"],
     "links": {
       "view": "#",
       "code": "https://github.com/ravindrauiet/taaza_Khabar_react"
@@ -134,6 +147,7 @@
     "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
     "image": "mernwebapp",
     "category": "mern",
+    "tech_stack": ["React", "Node.js", "Express", "MongoDB", "JWT", "Redux"],
     "links": {
       "view": "https://mern-auth-w842.onrender.com/",
       "code": "https://github.com/ravindrauiet/mern-auth"
@@ -144,6 +158,7 @@
     "desc": "NoteMaster is a versatile note-taking application designed to simplify the process of creating, editing, and organizing notes.",
     "image": "crudapp",
     "category": "mern",
+    "tech_stack": ["React", "LocalStorage", "Bootstrap", "JavaScript", "CSS3"],
     "links": {
       "view": "https://ravindrauiet.github.io/Notes-App-react/",
       "code": "https://github.com/ravindrauiet/Notes-App-react"

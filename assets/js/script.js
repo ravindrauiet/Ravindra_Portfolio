@@ -89,68 +89,116 @@ async function fetchData(type = "skills") {
 }
 
 function showSkills(skills) {
-    let skillsContainer = document.getElementById("skillsContainer");
-    let skillHTML = "";
-    skills.forEach(skill => {
-        skillHTML += `
-        <div class="bar">
-              <div class="info">
-                <img src=${skill.icon} alt="skill" />
-                <span>${skill.name}</span>
-              </div>
-            </div>`
-    });
-    skillsContainer.innerHTML = skillHTML;
+    // We're no longer displaying the skills with images
+    // Instead, we're using the categorizeSkills function to display skills with icons
+    
+    // This function is kept for backward compatibility
+    // but will be replaced by categorizeSkills
+    console.log("Skills loaded and categorized");
 }
 
 function showProjects(projects) {
     let projectsContainer = document.querySelector("#work .box-container");
     let projectHTML = "";
-    projects.slice(0, 10).filter(project => project.category != "android").forEach(project => {
+    
+    // Display all projects without filtering out android
+    projects.forEach(project => {
+        // Create tech stack badges
+        let techStackHTML = '';
+        if (project.tech_stack) {
+            project.tech_stack.slice(0, 5).forEach(tech => {
+                techStackHTML += `<span class="tech-badge">${tech}</span>`;
+            });
+        }
+        
         projectHTML += `
-        <div class="box tilt">
-      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="project" />
-      <div class="content">
-        <div class="tag">
-        <h3>${project.name}</h3>
-        </div>
-        <div class="desc">
-          <p>${project.desc}</p>
-          <div class="btns">
-            <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>`
+        <div class="project-card tilt" data-category="${project.category}">
+            <div class="project-image">
+                <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="${project.name}" onerror="this.src='https://via.placeholder.com/800x500/2a2a2a/ffffff?text=${project.name}'"/>
+                <div class="project-overlay">
+                    <div class="overlay-btns">
+                        <a href="${project.links.view}" class="overlay-btn" target="_blank"><i class="fas fa-eye"></i> View</a>
+                        <a href="${project.links.code}" class="overlay-btn" target="_blank"><i class="fas fa-code"></i> Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3 class="project-title">${project.name}</h3>
+                <p class="project-description">${project.desc}</p>
+                <div class="tech-stack">
+                    ${techStackHTML}
+                    ${project.tech_stack && project.tech_stack.length > 5 ? `<span class="tech-badge more">+${project.tech_stack.length - 5} more</span>` : ''}
+                </div>
+                <div class="project-footer">
+                    <span class="project-category"><i class="fas fa-folder"></i> ${project.category.toUpperCase()}</span>
+                    <div class="project-links">
+                        <a href="${project.links.view}" title="View Live" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        <a href="${project.links.code}" title="View Code" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>`;
     });
     projectsContainer.innerHTML = projectHTML;
 
-    // <!-- tilt js effect starts -->
+    // Filter buttons functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    // Add event listeners to filter buttons
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const filter = btn.getAttribute('data-filter');
+            
+            // Show/hide projects based on filter
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Tilt effect
     VanillaTilt.init(document.querySelectorAll(".tilt"), {
         max: 15,
+        speed: 300,
+        glare: true,
+        "max-glare": 0.2,
     });
-    // <!-- tilt js effect ends -->
 
-    /* ===== SCROLL REVEAL ANIMATION ===== */
+    // Scroll reveal animation
     const srtop = ScrollReveal({
-        origin: 'top',
+        origin: 'bottom',
         distance: '80px',
         duration: 1000,
         reset: true
     });
 
-    /* SCROLL PROJECTS */
-    srtop.reveal('.work .box', { interval: 200 });
-
+    srtop.reveal('.project-card', { interval: 200 });
 }
 
-fetchData().then(data => {
-    showSkills(data);
-});
-
-fetchData("projects").then(data => {
-    showProjects(data);
+// Initialize everything when the DOM is loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Initialize Lottie animations
+    initLottieAnimations();
+    
+    // Fetch and categorize skills
+    fetchData().then(data => {
+        categorizeSkills(data);
+    });
+    
+    // Fetch and display projects
+    fetchData("projects").then(data => {
+        showProjects(data);
+    });
 });
 
 // <!-- tilt js effect starts -->
@@ -357,54 +405,77 @@ function categorizeSkills(skills) {
     });
 }
 
-// Load skills when the page loads
-fetch('./skills.json')
-    .then(response => response.json())
-    .then(skills => {
-        categorizeSkills(skills);
-    })
-    .catch(error => console.error('Error loading skills:', error));
-
 // Initialize Lottie Animations
 function initLottieAnimations() {
-    // Developer coding animation for hero section
-    const heroLottie = lottie.loadAnimation({
-        container: document.getElementById('hero-lottie-container'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'https://assets5.lottiefiles.com/packages/lf20_w51pcehl.json' // Developer animation
-    });
+    console.log("Initializing Lottie animations...");
     
-    // Skills animation
-    const skillsLottie = lottie.loadAnimation({
-        container: document.getElementById('skills-lottie-container'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'https://assets1.lottiefiles.com/packages/lf20_3ntisyac.json' // Skills animation
-    });
+    // Check if Lottie is available
+    if (typeof lottie === 'undefined') {
+        console.error("Lottie library not loaded!");
+        return;
+    }
     
-    // Services animation
-    const servicesLottie = lottie.loadAnimation({
-        container: document.getElementById('services-lottie-container'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'https://assets9.lottiefiles.com/packages/lf20_kyu7xb1v.json' // Services animation
-    });
+    // Check if containers exist
+    const projectsContainer = document.getElementById('projects-lottie-container');
+    if (!projectsContainer) {
+        console.error("Projects Lottie container not found!");
+    } else {
+        console.log("Projects container found, loading animation...");
+    }
     
-    // Contact animation
-    const contactLottie = lottie.loadAnimation({
-        container: document.getElementById('contact-lottie-container'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'https://assets2.lottiefiles.com/packages/lf20_u8o7BL.json' // Contact animation
-    });
-}
+    // Hero section lottie
+    try {
+        lottie.loadAnimation({
+            container: document.getElementById('hero-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets8.lottiefiles.com/private_files/lf30_WdTEui.json'
+        });
+        console.log("Hero Lottie loaded");
+    } catch (e) {
+        console.error("Error loading hero lottie:", e);
+    }
 
-// Initialize Lottie animations after DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initLottieAnimations();
-});
+    // Skills section lottie
+    try {
+        lottie.loadAnimation({
+            container: document.getElementById('skills-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets3.lottiefiles.com/packages/lf20_vi7vibep.json'
+        });
+        console.log("Skills Lottie loaded");
+    } catch (e) {
+        console.error("Error loading skills lottie:", e);
+    }
+
+    // Projects section lottie
+    try {
+        lottie.loadAnimation({
+            container: document.getElementById('projects-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets1.lottiefiles.com/packages/lf20_o6spyjnc.json' // Updated to a reliable project animation
+        });
+        console.log("Projects Lottie loaded");
+    } catch (e) {
+        console.error("Error loading projects lottie:", e);
+    }
+
+    // Services section lottie
+    try {
+        lottie.loadAnimation({
+            container: document.getElementById('services-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets3.lottiefiles.com/packages/lf20_QKHhrP.json'
+        });
+        console.log("Services Lottie loaded");
+    } catch (e) {
+        console.error("Error loading services lottie:", e);
+    }
+}
