@@ -301,10 +301,10 @@ srtop.reveal('.contact .container .form-group', { delay: 400 });
 // Categorize and display skills
 function categorizeSkills(skills) {
     const categories = {
-        frontend: ['ReactJS', 'HTML5', 'CSS3', 'JavaScript', 'MaterialUI', 'TailwindCSS', 'Bootstrap', 'jQuery', 'Redux'],
-        backend: ['NodeJS', 'ExpressJS', 'Python', 'C++'],
-        database: ['MongoDB', 'MySQL'],
-        other: ['Git VCS', 'GitHub', 'WordPress']
+        frontend: ['ReactJS', 'HTML5', 'CSS3', 'JavaScript', 'MaterialUI', 'TailwindCSS', 'Bootstrap', 'jQuery', 'Redux', 'React Native', 'Flutter'],
+        backend: ['NodeJS', 'ExpressJS', 'Python', 'C++', 'RESTful APIs', 'JWT', 'Socket.io'],
+        database: ['MongoDB', 'MySQL', 'Firebase'],
+        other: ['Git VCS', 'GitHub', 'WordPress', 'AWS EC2', 'AWS S3', 'CI/CD', 'GitHub Actions', 'Google Cloud', 'Docker']
     };
 
     // Technology-specific icons
@@ -326,7 +326,19 @@ function categorizeSkills(skills) {
         'MySQL': 'fas fa-server',
         'Git VCS': 'fab fa-git-alt',
         'GitHub': 'fab fa-github',
-        'WordPress': 'fab fa-wordpress'
+        'WordPress': 'fab fa-wordpress',
+        'React Native': 'fab fa-react',
+        'Flutter': 'fas fa-mobile-alt',
+        'RESTful APIs': 'fas fa-code',
+        'JWT': 'fas fa-shield-alt',
+        'Socket.io': 'fas fa-plug',
+        'Firebase': 'fas fa-fire',
+        'AWS EC2': 'fab fa-aws',
+        'AWS S3': 'fab fa-aws',
+        'CI/CD': 'fas fa-code-branch',
+        'GitHub Actions': 'fab fa-github',
+        'Google Cloud': 'fab fa-google',
+        'Docker': 'fab fa-docker'
     };
 
     // Project counts and links for each skill
@@ -348,7 +360,19 @@ function categorizeSkills(skills) {
         'MySQL': { count: 2, link: '/projects?tech=mysql' },
         'Git VCS': { count: 10, link: '/projects?tech=git' },
         'GitHub': { count: 10, link: '/projects?tech=github' },
-        'WordPress': { count: 1, link: '/projects?tech=wordpress' }
+        'WordPress': { count: 1, link: '/projects?tech=wordpress' },
+        'React Native': { count: 3, link: '/projects?tech=react-native' },
+        'Flutter': { count: 1, link: '/projects?tech=flutter' },
+        'RESTful APIs': { count: 4, link: '/projects?tech=api' },
+        'JWT': { count: 3, link: '/projects?tech=jwt' },
+        'Socket.io': { count: 2, link: '/projects?tech=socket' },
+        'Firebase': { count: 2, link: '/projects?tech=firebase' },
+        'AWS EC2': { count: 1, link: '/projects?tech=aws' },
+        'AWS S3': { count: 1, link: '/projects?tech=aws' },
+        'CI/CD': { count: 1, link: '/projects?tech=cicd' },
+        'GitHub Actions': { count: 1, link: '/projects?tech=github-actions' },
+        'Google Cloud': { count: 1, link: '/projects?tech=gcp' },
+        'Docker': { count: 1, link: '/projects?tech=docker' }
     };
 
     // Calculate max projects for percentage calculation

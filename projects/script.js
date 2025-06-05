@@ -39,64 +39,142 @@ function getProjects() {
         });
 }
 
+// Parse URL parameters
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// Map tech parameter to filter category
+function mapTechToFilter(tech) {
+    const techMap = {
+        'react': 'mern',
+        'react-native': 'android',
+        'flutter': 'android',
+        'nodejs': 'mern',
+        'express': 'mern',
+        'mongodb': 'mern',
+        'mysql': 'mern',
+        'firebase': 'mern',
+        'aws': 'aws',
+        'cicd': 'aws',
+        'github-actions': 'aws',
+        'gcp': 'aws',
+        'docker': 'aws',
+        'ai': 'ai',
+        'python': 'ai',
+        'html': 'basicweb',
+        'css': 'basicweb',
+        'javascript': 'basicweb',
+        'bootstrap': 'basicweb',
+        'tailwind': 'basicweb',
+        'materialui': 'mern'
+    };
+    
+    return techMap[tech] || 'all';
+}
 
 function showProjects(projects) {
     let projectsContainer = document.querySelector(".work .box-container");
     let projectsHTML = "";
+    
     projects.forEach(project => {
+        // Create tech stack badges
+        let techStackHTML = '';
+        if (project.tech_stack) {
+            project.tech_stack.slice(0, 5).forEach(tech => {
+                techStackHTML += `<span class="tech-badge">${tech}</span>`;
+            });
+        }
+        
         projectsHTML += `
-        <div class="grid-item ${project.category}">
-        <div class="box tilt" style="width: 380px; margin: 1rem">
-      <img draggable="false" src= "/assets/images/projects/${project.image}.png" alt="project" />
-      <div class="content">
-        <div class="tag">
-        <h3>${project.name}</h3>
-        </div>
-        <div class="desc">
-          <p>${project.desc}</p>
-          <div class="btns">
-            <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>`
+        <div class="project-card tilt" data-category="${project.category}">
+            <div class="project-image">
+                <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="${project.name}" onerror="this.src='https://via.placeholder.com/800x500/2a2a2a/ffffff?text=${project.name}'"/>
+                <div class="project-overlay">
+                    <div class="overlay-btns">
+                        <a href="${project.links.view}" class="overlay-btn" target="_blank"><i class="fas fa-eye"></i> View</a>
+                        <a href="${project.links.code}" class="overlay-btn" target="_blank"><i class="fas fa-code"></i> Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3 class="project-title">${project.name}</h3>
+                <p class="project-description">${project.desc}</p>
+                <div class="tech-stack">
+                    ${techStackHTML}
+                    ${project.tech_stack && project.tech_stack.length > 5 ? `<span class="tech-badge more">+${project.tech_stack.length - 5} more</span>` : ''}
+                </div>
+                <div class="project-footer">
+                    <span class="project-category"><i class="fas fa-folder"></i> ${project.category.toUpperCase()}</span>
+                    <div class="project-links">
+                        <a href="${project.links.view}" title="View Live" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        <a href="${project.links.code}" title="View Code" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>`;
     });
+    
     projectsContainer.innerHTML = projectsHTML;
 
-    // vanilla tilt.js
-    // VanillaTilt.init(document.querySelectorAll(".tilt"), {
-    //     max: 20,
-    // });
-    // // vanilla tilt.js  
-
-    // /* ===== SCROLL REVEAL ANIMATION ===== */
-    // const srtop = ScrollReveal({
-    //     origin: 'bottom',
-    //     distance: '80px',
-    //     duration: 1000,
-    //     reset: true
-    // });
-
-    // /* SCROLL PROJECTS */
-    // srtop.reveal('.work .box', { interval: 200 });
-
-    // isotope filter products
-    var $grid = $('.box-container').isotope({
-        itemSelector: '.grid-item',
-        layoutMode: 'fitRows',
-        masonry: {
-            columnWidth: 200
-        }
+    // Vanilla tilt.js
+    VanillaTilt.init(document.querySelectorAll(".tilt"), {
+        max: 15,
+        speed: 300,
+        glare: true,
+        "max-glare": 0.2,
     });
 
-    // filter items on button click
-    $('.button-group').on('click', 'button', function () {
-        $('.button-group').find('.is-checked').removeClass('is-checked');
-        $(this).addClass('is-checked');
-        var filterValue = $(this).attr('data-filter');
-        $grid.isotope({ filter: filterValue });
+    // Filter buttons functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    // Check if there's a tech filter in the URL
+    const techParam = getUrlParameter('tech');
+    if (techParam) {
+        const filter = mapTechToFilter(techParam);
+        
+        // Set the appropriate filter button as active
+        filterBtns.forEach(btn => {
+            if (btn.getAttribute('data-filter') === filter) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        // Show/hide projects based on filter
+        projectCards.forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    // Add event listeners to filter buttons
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const filter = btn.getAttribute('data-filter');
+            
+            // Show/hide projects based on filter
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     });
 }
 
