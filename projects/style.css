@@ -155,23 +155,25 @@ header .navbar ul li a:hover{
 }
 /* hamburger icon ends */
 
-/* work section starts */
-.work{
-  /* background: #010124; */
+/* Project header section */
+.project-header {
   background: linear-gradient(to bottom, #010136, #00003a);
   margin-top: 5rem;
-  padding-bottom: 6rem;
+  padding: 4rem 9% 2rem;
+  min-height: auto;
 }
-.work h2{
+
+.project-header h2 {
   color: #fff;
   padding: 1rem;
 }
-.work .heading span{
+
+.project-header .heading span {
   color: rgb(255, 230, 0);
 }
 
 /* Project filters */
-.work .project-filters {
+.project-header .project-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -181,7 +183,7 @@ header .navbar ul li a:hover{
   align-items: center;
 }
 
-.work .filter-btn {
+.filter-btn {
   outline: none;
   padding: 1rem 2rem;
   background: rgba(255, 255, 255, 0.1);
@@ -193,26 +195,147 @@ header .navbar ul li a:hover{
   transition: all 0.3s ease;
 }
 
-.work .filter-btn:hover {
+.filter-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
-.work .filter-btn.active {
+.filter-btn.active {
   background: #fff;
   color: #010136;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Project cards */
-.work .box-container {
+/* Category sections */
+.category-section {
+  padding: 5rem 9%;
+  position: relative;
+}
+
+.web-section {
+  background: linear-gradient(to bottom, #00003a, #010147);
+}
+
+.app-section {
+  background: linear-gradient(to bottom, #010147, #150166);
+}
+
+.ai-section {
+  background: linear-gradient(to bottom, #150166, #280178);
+}
+
+.cloud-section {
+  background: linear-gradient(to bottom, #280178, #3a0288);
+  padding-bottom: 8rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+.section-content {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  margin-bottom: 4rem;
+}
+
+.section-content.reverse {
+  flex-direction: row-reverse;
+}
+
+.text-content {
+  flex: 1;
+}
+
+.section-description {
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.skills-showcase {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.skill-icon {
+  width: 5rem;
+  height: 5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.skill-icon:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lottie-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lottie-animation {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app-lottie-container, #cloud-lottie-container, #web-lottie-container, #ai-lottie-container {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+/* Projects container */
+.projects-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
   gap: 2rem;
-  margin: 3rem 0;
 }
 
-.work .project-card {
+/* Project cards */
+.project-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 1rem;
   overflow: hidden;
@@ -223,29 +346,29 @@ header .navbar ul li a:hover{
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.work .project-card:hover {
+.project-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.work .project-image {
+.project-image {
   position: relative;
   height: 20rem;
   overflow: hidden;
 }
 
-.work .project-image img {
+.project-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: all 0.5s ease;
 }
 
-.work .project-card:hover .project-image img {
+.project-card:hover .project-image img {
   transform: scale(1.05);
 }
 
-.work .project-overlay {
+.project-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -259,16 +382,16 @@ header .navbar ul li a:hover{
   transition: all 0.3s ease;
 }
 
-.work .project-card:hover .project-overlay {
+.project-card:hover .project-overlay {
   opacity: 1;
 }
 
-.work .overlay-btns {
+.overlay-btns {
   display: flex;
   gap: 1rem;
 }
 
-.work .overlay-btn {
+.overlay-btn {
   padding: 0.8rem 1.5rem;
   background: #fff;
   color: #010136;
@@ -278,38 +401,38 @@ header .navbar ul li a:hover{
   transition: all 0.3s ease;
 }
 
-.work .overlay-btn:hover {
+.overlay-btn:hover {
   background: #010136;
   color: #fff;
 }
 
-.work .project-content {
+.project-content {
   padding: 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.work .project-title {
+.project-title {
   font-size: 2rem;
   color: #fff;
   margin-bottom: 1rem;
 }
 
-.work .project-description {
+.project-description {
   font-size: 1.4rem;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 1.5rem;
 }
 
-.work .tech-stack {
+.tech-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
   margin-bottom: 1.5rem;
 }
 
-.work .tech-badge {
+.tech-badge {
   padding: 0.5rem 1rem;
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.9);
@@ -317,12 +440,12 @@ header .navbar ul li a:hover{
   font-size: 1.2rem;
 }
 
-.work .tech-badge.more {
+.tech-badge.more {
   background: rgba(255, 230, 0, 0.2);
   color: rgb(255, 230, 0);
 }
 
-.work .project-footer {
+.project-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -331,23 +454,23 @@ header .navbar ul li a:hover{
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.work .project-category {
+.project-category {
   font-size: 1.3rem;
   color: rgba(255, 255, 255, 0.6);
 }
 
-.work .project-links {
+.project-links {
   display: flex;
   gap: 1.5rem;
 }
 
-.work .project-links a {
+.project-links a {
   color: rgba(255, 255, 255, 0.6);
   font-size: 1.8rem;
   transition: all 0.3s ease;
 }
 
-.work .project-links a:hover {
+.project-links a:hover {
   color: #fff;
   transform: translateY(-2px);
 }
@@ -356,7 +479,8 @@ header .navbar ul li a:hover{
 .backbtn{
   display: flex;
   justify-content: center;
-  margin-top: 4rem;
+  padding: 4rem 0;
+  background: linear-gradient(to bottom, #3a0288, #4a02a0);
 }
 
 .backbtn .btn {
@@ -392,19 +516,36 @@ header .navbar ul li a:hover{
 
 /* Responsive */
 @media (max-width: 980px) {
-  .work .box-container {
+  .projects-container {
     grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+  }
+  
+  .section-content {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .section-content.reverse {
+    flex-direction: column;
+  }
+  
+  .lottie-animation {
+    height: 250px;
   }
 }
 
 @media (max-width: 768px) {
-  .work .project-filters {
+  .project-header .project-filters {
     width: 100%;
   }
   
-  .work .filter-btn {
+  .filter-btn {
     padding: 0.8rem 1.5rem;
     font-size: 1.4rem;
+  }
+  
+  .section-subtitle {
+    max-width: 100%;
   }
 }
 
@@ -421,17 +562,29 @@ header .navbar ul li a:hover{
     padding: 2rem 4%;
   }
   
-  .work .box-container {
+  .category-section {
+    padding: 4rem 4%;
+  }
+  
+  .projects-container {
     grid-template-columns: 1fr;
   }
   
-  .work .project-filters {
+  .project-header .project-filters {
     gap: 0.5rem;
   }
   
-  .work .filter-btn {
+  .filter-btn {
     padding: 0.6rem 1.2rem;
     font-size: 1.3rem;
+  }
+  
+  .lottie-animation {
+    height: 200px;
+  }
+  
+  .skills-showcase {
+    justify-content: center;
   }
 }
 

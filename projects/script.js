@@ -76,11 +76,126 @@ function mapTechToFilter(tech) {
     return techMap[tech] || 'all';
 }
 
-function showProjects(projects) {
-    let projectsContainer = document.querySelector(".work .box-container");
-    let projectsHTML = "";
+// Debug function to verify container elements
+function debugLottieContainers() {
+    const containers = {
+        'web-lottie-container': document.getElementById('web-lottie-container'),
+        'ai-lottie-container': document.getElementById('ai-lottie-container'),
+        'app-lottie-container': document.getElementById('app-lottie-container'),
+        'cloud-lottie-container': document.getElementById('cloud-lottie-container')
+    };
     
-    projects.forEach(project => {
+    console.log("=== Debugging Lottie Containers ===");
+    Object.entries(containers).forEach(([name, element]) => {
+        console.log(`${name}: ${element ? 'Found ✅' : 'Missing ❌'}`);
+        if (element) {
+            console.log(`- Position: ${getComputedStyle(element).position}`);
+            console.log(`- Dimensions: ${element.offsetWidth}px × ${element.offsetHeight}px`);
+            console.log(`- Visibility: ${getComputedStyle(element).visibility}`);
+            console.log(`- Display: ${getComputedStyle(element).display}`);
+        }
+    });
+}
+
+// Initialize Lottie Animations
+function initLottieAnimations() {
+    console.log("Initializing Lottie animations...");
+    
+    // Check if Lottie is available
+    if (typeof lottie === 'undefined') {
+        console.error("Lottie library not loaded!");
+        return;
+    }
+    
+    // Debug containers before loading
+    debugLottieContainers();
+    
+    // Web Development Lottie
+    try {
+        if (!document.getElementById('web-lottie-container')) {
+            throw new Error('Web container element not found!');
+        }
+        
+        lottie.loadAnimation({
+            container: document.getElementById('web-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets1.lottiefiles.com/packages/lf20_o6spyjnc.json' // Projects animation from main site
+        });
+        console.log("Web Lottie loaded");
+    } catch (e) {
+        console.error("Error loading web lottie:", e);
+    }
+    
+    // AI Lottie
+    try {
+        if (!document.getElementById('ai-lottie-container')) {
+            throw new Error('AI container element not found!');
+        }
+        
+        lottie.loadAnimation({
+            container: document.getElementById('ai-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets8.lottiefiles.com/private_files/lf30_WdTEui.json' // Hero animation from main site
+        });
+        console.log("AI Lottie loaded");
+    } catch (e) {
+        console.error("Error loading AI lottie:", e);
+    }
+    
+    // App Development Lottie
+    try {
+        if (!document.getElementById('app-lottie-container')) {
+            throw new Error('App container element not found!');
+        }
+        
+        const appAnimation = lottie.loadAnimation({
+            container: document.getElementById('app-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets3.lottiefiles.com/datafiles/fab7172a9302d416bcdb8ac7e1c71123/data.json' // Mobile app animation
+        });
+        
+        // Add event listeners for app animation
+        appAnimation.addEventListener('data_ready', () => console.log('App animation data loaded successfully'));
+        appAnimation.addEventListener('error', (error) => console.error('App animation error:', error));
+        
+        console.log("App Lottie loaded");
+    } catch (e) {
+        console.error("Error loading App lottie:", e);
+    }
+    
+    // Cloud & DevOps Lottie
+    try {
+        if (!document.getElementById('cloud-lottie-container')) {
+            throw new Error('Cloud container element not found!');
+        }
+        
+        const cloudAnimation = lottie.loadAnimation({
+            container: document.getElementById('cloud-lottie-container'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets1.lottiefiles.com/packages/lf20_q77jpypy.json' // Cloud animation
+        });
+        
+        // Add event listeners for cloud animation
+        cloudAnimation.addEventListener('data_ready', () => console.log('Cloud animation data loaded successfully'));
+        cloudAnimation.addEventListener('error', (error) => console.error('Cloud animation error:', error));
+        
+        console.log("Cloud Lottie loaded");
+    } catch (e) {
+        console.error("Error loading Cloud lottie:", e);
+    }
+}
+
+function showProjects(projects) {
+    // Create project cards
+    function createProjectCard(project) {
         // Create tech stack badges
         let techStackHTML = '';
         if (project.tech_stack) {
@@ -89,7 +204,7 @@ function showProjects(projects) {
             });
         }
         
-        projectsHTML += `
+        return `
         <div class="project-card tilt" data-category="${project.category}">
             <div class="project-image">
                 <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="${project.name}" onerror="this.src='https://via.placeholder.com/800x500/2a2a2a/ffffff?text=${project.name}'"/>
@@ -116,19 +231,58 @@ function showProjects(projects) {
                 </div>
             </div>
         </div>`;
+    }
+    
+    // Populate each category section with relevant projects
+    const projectContainers = document.querySelectorAll('.projects-container');
+    
+    projectContainers.forEach(container => {
+        const categories = container.dataset.category.split(' ');
+        const relevantProjects = projects.filter(project => 
+            categories.includes(project.category)
+        );
+        
+        // Create HTML for projects
+        let projectsHTML = '';
+        relevantProjects.forEach(project => {
+            projectsHTML += createProjectCard(project);
+        });
+        
+        // If no projects match this category, show a message
+        if (relevantProjects.length === 0) {
+            projectsHTML = `
+            <div class="no-projects">
+                <i class="fas fa-folder-open"></i>
+                <p>No projects in this category yet.</p>
+            </div>`;
+        }
+        
+        container.innerHTML = projectsHTML;
     });
     
-    projectsContainer.innerHTML = projectsHTML;
-
-    // Vanilla tilt.js
+    // Initialize Vanilla Tilt on all project cards
     VanillaTilt.init(document.querySelectorAll(".tilt"), {
         max: 15,
         speed: 300,
         glare: true,
         "max-glare": 0.2,
     });
+    
+    // Set up scroll reveal animation
+    const srtop = ScrollReveal({
+        origin: 'bottom',
+        distance: '80px',
+        duration: 1000,
+        reset: true
+    });
+    
+    srtop.reveal('.project-card', { interval: 200 });
+    
+    // Handle filter buttons
+    setupFilters(projects);
+}
 
-    // Filter buttons functionality
+function setupFilters(projects) {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
     
@@ -146,14 +300,37 @@ function showProjects(projects) {
             }
         });
         
-        // Show/hide projects based on filter
-        projectCards.forEach(card => {
-            if (filter === 'all' || card.dataset.category === filter) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
+        // Show all sections by default
+        document.querySelectorAll('.category-section').forEach(section => {
+            section.style.display = 'block';
         });
+        
+        // If filter is specific, scroll to that section
+        if (filter !== 'all') {
+            setTimeout(() => {
+                let targetSection;
+                
+                switch(filter) {
+                    case 'basicweb':
+                    case 'mern':
+                        targetSection = document.getElementById('web-projects');
+                        break;
+                    case 'android':
+                        targetSection = document.getElementById('app-projects');
+                        break;
+                    case 'ai':
+                        targetSection = document.getElementById('ai-projects');
+                        break;
+                    case 'aws':
+                        targetSection = document.getElementById('cloud-projects');
+                        break;
+                }
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 500);
+        }
     }
     
     // Add event listeners to filter buttons
@@ -167,21 +344,71 @@ function showProjects(projects) {
             const filter = btn.getAttribute('data-filter');
             
             // Show/hide projects based on filter
-            projectCards.forEach(card => {
-                if (filter === 'all' || card.dataset.category === filter) {
+            if (filter === 'all') {
+                // Show all sections
+                document.querySelectorAll('.category-section').forEach(section => {
+                    section.style.display = 'block';
+                });
+                
+                // Show all projects
+                projectCards.forEach(card => {
                     card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+                });
+            } else {
+                // Show only relevant sections
+                document.querySelectorAll('.category-section').forEach(section => {
+                    if (section.querySelector(`.projects-container[data-category*="${filter}"]`)) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+                
+                // Show only projects matching the filter
+                projectCards.forEach(card => {
+                    if (card.dataset.category === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Scroll to the first visible section
+                setTimeout(() => {
+                    const visibleSection = document.querySelector('.category-section[style="display: block;"]');
+                    if (visibleSection) {
+                        visibleSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            }
         });
     });
 }
 
-getProjects().then(data => {
-    showProjects(data);
-})
-// fetch projects end
+// Initialize everything when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded");
+    
+    // Debug container elements
+    console.log("Checking container elements...");
+    debugLottieContainers();
+    
+    // Initialize Lottie animations
+    console.log("Starting Lottie animation initialization...");
+    initLottieAnimations();
+    
+    // Fetch and display projects
+    getProjects().then(data => {
+        showProjects(data);
+    }).catch(err => {
+        console.error("Error loading projects:", err);
+    });
+    
+    // Scroll to top button functionality
+    document.getElementById('scroll-top').addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+});
 
 /// Start of Tawk.to Live Chat
 var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();

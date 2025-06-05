@@ -7,8 +7,22 @@
     <link rel="stylesheet" href="./style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Lottie Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js" integrity="sha512-yAr4fN9WZH6hESbOwoFZGtSgOP+LSZbs/JeoDr02pOX4yUFfI++qC9YwIQXIGffhnzliykJtdWTV/v3PxSz8aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link id='favicon' rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-png">
     <title>Projects | Portfolio Ravindra Nath Jha</title>
+    <script>
+        // Check if Lottie is loaded
+        window.addEventListener('load', function() {
+            if (typeof lottie === 'undefined') {
+                console.error('Lottie library not loaded!');
+            } else {
+                console.log('Lottie library loaded successfully');
+            }
+        });
+    </script>
 </head>
 <body oncontextmenu="return true">
 
@@ -31,36 +45,150 @@
 </header>
 <!-- navbar ends -->
 
-<!-- work project section starts -->
-<section class="work" id="work">
+<!-- project header section starts -->
+<section class="project-header">
+    <h2 class="heading"><i class="fas fa-laptop-code"></i> Projects <span>Made</span></h2>
+    
+    <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="mern">MERN Stack</button>
+        <button class="filter-btn" data-filter="ai">AI Projects</button>
+        <button class="filter-btn" data-filter="basicweb">Web Projects</button>
+        <button class="filter-btn" data-filter="android">Mobile Apps</button>
+        <button class="filter-btn" data-filter="aws">AWS/Cloud</button>
+    </div>
+</section>
+<!-- project header section ends -->
 
-  <h2 class="heading"><i class="fas fa-laptop-code"></i> Projects <span>Made</span></h2>
-  
-  <div class="project-filters">
-    <button class="filter-btn active" data-filter="all">All Projects</button>
-    <button class="filter-btn" data-filter="mern">MERN Stack</button>
-    <button class="filter-btn" data-filter="ai">AI Projects</button>
-    <button class="filter-btn" data-filter="basicweb">Web Projects</button>
-    <button class="filter-btn" data-filter="android">Mobile Apps</button>
-    <button class="filter-btn" data-filter="aws">AWS/Cloud</button>
-  </div>
+<!-- web development section starts -->
+<section class="category-section web-section" id="web-projects">
+    <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-globe"></i> Web Development</h2>
+        <p class="section-subtitle">Modern websites & web applications built with cutting-edge technologies</p>
+    </div>
 
-  <div class="box-container">
-    <!-- Projects will be loaded here dynamically -->
-  </div>
+    <div class="section-content">
+        <div class="text-content">
+            <div class="skills-showcase">
+                <div class="skill-icon"><i class="fab fa-react" title="React"></i></div>
+                <div class="skill-icon"><i class="fab fa-node-js" title="Node.js"></i></div>
+                <div class="skill-icon"><i class="fab fa-js-square" title="JavaScript"></i></div>
+                <div class="skill-icon"><i class="fab fa-html5" title="HTML5"></i></div>
+                <div class="skill-icon"><i class="fab fa-css3-alt" title="CSS3"></i></div>
+                <div class="skill-icon"><i class="fab fa-bootstrap" title="Bootstrap"></i></div>
+            </div>
+            <p class="section-description">I build responsive, dynamic web applications using modern JavaScript frameworks like React, with robust backend systems powered by Node.js and Express. From e-commerce platforms to content management systems, my web solutions are designed for performance, scalability, and exceptional user experience.</p>
+        </div>
+        <div class="lottie-container">
+            <div id="web-lottie-container" class="lottie-animation"></div>
+        </div>
+    </div>
 
-  <div class="backbtn">
+    <div class="projects-container" data-category="basicweb mern">
+        <!-- Web projects will be loaded here -->
+    </div>
+</section>
+<!-- web development section ends -->
+
+<!-- app development section starts -->
+<section class="category-section app-section" id="app-projects">
+    <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-mobile-alt"></i> Mobile App Development</h2>
+        <p class="section-subtitle">Cross-platform mobile applications for Android and iOS</p>
+    </div>
+
+    <div class="section-content reverse">
+        <div class="lottie-container" style="min-height: 300px; position: relative;">
+            <!-- Direct lottie-player element for mobile app animation -->
+            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_hntzYU.json" background="transparent" speed="1" style="width: 100%; height: 300px;" loop autoplay></lottie-player>
+        </div>
+        <div class="text-content">
+            <div class="skills-showcase">
+                <div class="skill-icon"><i class="fab fa-react" title="React Native"></i></div>
+                <div class="skill-icon"><i class="fas fa-mobile-alt" title="Flutter"></i></div>
+                <div class="skill-icon"><i class="fab fa-android" title="Android"></i></div>
+                <div class="skill-icon"><i class="fab fa-apple" title="iOS"></i></div>
+                <div class="skill-icon"><i class="fas fa-fire" title="Firebase"></i></div>
+            </div>
+            <p class="section-description">I develop native-feeling mobile applications using React Native and Flutter that work seamlessly across both iOS and Android platforms. My mobile solutions feature intuitive UIs, smooth animations, and full integration with device capabilities like camera, GPS, and push notifications.</p>
+        </div>
+    </div>
+
+    <div class="projects-container" data-category="android">
+        <!-- Mobile app projects will be loaded here -->
+    </div>
+</section>
+<!-- app development section ends -->
+
+<!-- AI projects section starts -->
+<section class="category-section ai-section" id="ai-projects">
+    <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-robot"></i> AI & Machine Learning</h2>
+        <p class="section-subtitle">Intelligent solutions powered by artificial intelligence</p>
+    </div>
+
+    <div class="section-content">
+        <div class="text-content">
+            <div class="skills-showcase">
+                <div class="skill-icon"><i class="fab fa-python" title="Python"></i></div>
+                <div class="skill-icon"><i class="fas fa-brain" title="Machine Learning"></i></div>
+                <div class="skill-icon"><i class="fas fa-chart-network" title="Neural Networks"></i></div>
+                <div class="skill-icon"><i class="fab fa-google" title="Google Cloud AI"></i></div>
+            </div>
+            <p class="section-description">Leveraging the power of machine learning and AI APIs, I build intelligent applications that can analyze data, recognize patterns, and make predictions. From chatbots to recommendation systems, these solutions bring automation and smart functionality to various business processes.</p>
+        </div>
+        <div class="lottie-container">
+            <div id="ai-lottie-container" class="lottie-animation"></div>
+        </div>
+    </div>
+
+    <div class="projects-container" data-category="ai">
+        <!-- AI projects will be loaded here -->
+    </div>
+</section>
+<!-- AI projects section ends -->
+
+<!-- Cloud & DevOps section starts -->
+<section class="category-section cloud-section" id="cloud-projects">
+    <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-cloud"></i> Cloud & DevOps Solutions</h2>
+        <p class="section-subtitle">Scalable infrastructure and continuous deployment pipelines</p>
+    </div>
+
+    <div class="section-content reverse">
+      <div class="lottie-container" style="min-height: 300px; position: relative;">
+        <!-- Direct lottie-player element for mobile app animation -->
+        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_hntzYU.json" background="transparent" speed="1" style="width: 100%; height: 300px;" loop autoplay></lottie-player>
+    </div>
+        <div class="text-content">
+            <div class="skills-showcase">
+                <div class="skill-icon"><i class="fab fa-aws" title="AWS"></i></div>
+                <div class="skill-icon"><i class="fab fa-docker" title="Docker"></i></div>
+                <div class="skill-icon"><i class="fas fa-code-branch" title="CI/CD"></i></div>
+                <div class="skill-icon"><i class="fab fa-github" title="GitHub Actions"></i></div>
+                <div class="skill-icon"><i class="fab fa-google" title="Google Cloud"></i></div>
+            </div>
+            <p class="section-description">I build and deploy cloud infrastructure using AWS and Google Cloud, implementing CI/CD pipelines for automated testing and deployment. My cloud solutions focus on scalability, security, and reliability, ensuring your applications remain available and performant at all times.</p>
+        </div>
+    </div>
+
+    <div class="projects-container" data-category="aws">
+        <!-- Cloud projects will be loaded here -->
+    </div>
+</section>
+<!-- Cloud & DevOps section ends -->
+
+<!-- backbtn starts -->
+<div class="backbtn">
     <a href="/#work" class="btn">
         <i class="fas fa-arrow-left"></i>
         <span>Back to Home</span>
     </a>
-  </div>
-
-</section>
-<!-- work project section ends -->
+</div>
+<!-- backbtn ends -->
 
 <!-- scroll top btn -->
-<a href="#work" class="fas fa-angle-up" id="scroll-top"></a>
+<a href="#" class="fas fa-angle-up" id="scroll-top"></a>
 <!-- scroll back to top -->
 
 
@@ -73,9 +201,6 @@
 
 <!-- scroll reveal anim -->
 <script src="https://unpkg.com/scrollreveal"></script>
-
-<!-- isotope filter plugin cdn -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
 
