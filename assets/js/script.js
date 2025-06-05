@@ -101,9 +101,11 @@ function showProjects(projects) {
     let projectsContainer = document.querySelector("#work .box-container");
     let projectHTML = "";
     
-    // Display all projects without filtering out android
-    projects.forEach(project => {
-        // Create tech stack badges
+    // Store all projects for filtering
+    window.allProjects = projects;
+    
+    // Function to create project card HTML
+    function createProjectCard(project) {
         let techStackHTML = '';
         if (project.tech_stack) {
             project.tech_stack.slice(0, 5).forEach(tech => {
@@ -111,7 +113,7 @@ function showProjects(projects) {
             });
         }
         
-        projectHTML += `
+        return `
         <div class="project-card tilt" data-category="${project.category}">
             <div class="project-image">
                 <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="${project.name}" onerror="this.src='https://via.placeholder.com/800x500/2a2a2a/ffffff?text=${project.name}'"/>
@@ -138,12 +140,16 @@ function showProjects(projects) {
                 </div>
             </div>
         </div>`;
+    }
+
+    // Display initial 4 projects
+    projects.slice(0, 4).forEach(project => {
+        projectHTML += createProjectCard(project);
     });
     projectsContainer.innerHTML = projectHTML;
 
     // Filter buttons functionality
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
     
     // Add event listeners to filter buttons
     filterBtns.forEach(btn => {
@@ -154,19 +160,32 @@ function showProjects(projects) {
             btn.classList.add('active');
             
             const filter = btn.getAttribute('data-filter');
+            let filteredProjects = window.allProjects;
             
-            // Show/hide projects based on filter
-            projectCards.forEach(card => {
-                if (filter === 'all' || card.dataset.category === filter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+            // Filter projects based on category
+            if (filter !== 'all') {
+                filteredProjects = window.allProjects.filter(project => project.category === filter);
+            }
+            
+            // Only show first 4 of filtered projects
+            let filteredHTML = "";
+            filteredProjects.slice(0, 4).forEach(project => {
+                filteredHTML += createProjectCard(project);
+            });
+            
+            projectsContainer.innerHTML = filteredHTML;
+            
+            // Reinitialize tilt effect for new cards
+            VanillaTilt.init(document.querySelectorAll(".tilt"), {
+                max: 15,
+                speed: 300,
+                glare: true,
+                "max-glare": 0.2,
             });
         });
     });
 
-    // Tilt effect
+    // Tilt effect for initial cards
     VanillaTilt.init(document.querySelectorAll(".tilt"), {
         max: 15,
         speed: 300,
