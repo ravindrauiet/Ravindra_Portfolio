@@ -50,6 +50,26 @@
     }
   },
   {
+    "name": "Mobile Store CRM APP",
+    "desc": "A React Native (Expo) based CRM solution tailored for mobile retail stores, providing inventory management, sales tracking, and customer relationship tools.",
+    "image": "Mobile-Store-CRM",
+    "category": "android",
+    "links": {
+      "view": "#",
+      "code": "https://github.com/ravindrauiet/mobile-store"
+    }
+  },
+  {
+    "name": "Click APP",
+    "desc": "A Flutter-powered mobile application designed for efficient petrol pump management and team collaboration.",
+    "image": "ClickApp",
+    "category": "android",
+    "links": {
+      "view": "#",
+      "code": "https://github.com/ravindrauiet/"
+    }
+  },
+  {
     "name": "Freelancing Project",
     "desc": "A responsive real estate platform built as a freelance project for seamless property transactions, deployed on Hostinger.",
     "image": "realEstate",
@@ -67,6 +87,16 @@
     "links": {
       "view": "https://realtor-clone-react-lyart.vercel.app/",
       "code": "https://github.com/ravindrauiet/Property_Management_System"
+    }
+  },
+  {
+    "name": "Fika - ECommerce WebApp",
+    "desc": "A modern e-commerce web application for Fika that allows users to browse product catalogs, add items to a shopping cart, and complete secure checkouts. Built with the MERN stack, it features responsive design, user authentication, and integrated payment gateways to ensure a seamless shopping experience.",
+    "image": "fika",
+    "category": "mern",
+    "links": {
+      "view": "https://www.fika-india.com/",
+      "code": "https://github.com/ravindrauiet"
     }
   },
   {
