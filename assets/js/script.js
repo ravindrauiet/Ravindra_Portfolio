@@ -249,3 +249,43 @@ srtop.reveal('.experience .timeline .container', { interval: 400 });
 /* SCROLL CONTACT */
 srtop.reveal('.contact .container', { delay: 400 });
 srtop.reveal('.contact .container .form-group', { delay: 400 });
+
+// Categorize and display skills
+function categorizeSkills(skills) {
+    const categories = {
+        frontend: ['ReactJS', 'HTML5', 'CSS3', 'JavaScript', 'MaterialUI', 'TailwindCSS', 'Bootstrap', 'jQuery'],
+        backend: ['NodeJS', 'ExpressJS', 'Python'],
+        database: ['MongoDB', 'MySQL'],
+        other: ['Git VCS', 'GitHub', 'WordPress']
+    };
+
+    // Load skills into their respective categories
+    skills.forEach(skill => {
+        let category = 'other';
+        for (const [cat, skills] of Object.entries(categories)) {
+            if (skills.includes(skill.name)) {
+                category = cat;
+                break;
+            }
+        }
+
+        const skillElement = `
+            <div class="bar">
+                <div class="info">
+                    <img src="${skill.icon}" alt="${skill.name}"/>
+                    <span>${skill.name}</span>
+                </div>
+            </div>
+        `;
+
+        document.getElementById(`${category}Skills`).innerHTML += skillElement;
+    });
+}
+
+// Load skills when the page loads
+fetch('./skills.json')
+    .then(response => response.json())
+    .then(skills => {
+        categorizeSkills(skills);
+    })
+    .catch(error => console.error('Error loading skills:', error));

@@ -48,9 +48,14 @@
     <div class="content">
     <h2>Hi There,<br/> I'm Ravindra <span>Nath</span> Jha</h2>
     <p>i am into <span class="typing-text"></span></p>
-    <a href="#about" class="btn"><span>About Me</span>
-      <i class="fas fa-arrow-circle-down"></i>
-    </a>
+    <div class="cta-buttons">
+        <a href="#about" class="btn"><span>About Me</span>
+            <i class="fas fa-arrow-circle-down"></i>
+        </a>
+        <a href="#contact" class="btn hire-btn"><span>Hire Me</span>
+            <i class="fas fa-briefcase"></i>
+        </a>
+    </div>
     <div class="socials">
         <ul class="social-icons">
           <li><a class="linkedin" aria-label="LinkedIn" href="https://www.linkedin.com/in/ravindra-jha75/" target="_blank"><i class="fab fa-linkedin"></i></a></li> 
@@ -60,12 +65,11 @@
           <li><a class="instagram" aria-label="Instagram" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a></li>
           <!-- <li><a class="dev" aria-label="Dev" href="https://dev.to/" target="_blank"><i class="fab fa-dev"></i></a></li> -->
         </ul>
-        
-      </div>
     </div>
-<div class="image">
-    <img draggable="false" class="tilt" src="./assets/images/hero.png" alt="">
-</div>
+    </div>
+    <div class="image">
+        <img draggable="false" class="tilt" src="./assets/images/hero.png" alt="">
+    </div>
 </section>
 <!-- hero section ends -->
 
@@ -109,24 +113,161 @@
 
 <!-- skills section starts -->
 <section class="skills" id="skills">
-
     <h2 class="heading"><i class="fas fa-laptop-code"></i> Skills & <span>Abilities</span></h2>
 
     <div class="container">
-          <div class="row" id="skillsContainer">
-
-            <!-- <div class="bar">
-              <div class="info">
-                <img src="https://img.icons8.com/color/48/000000/adobe-xd.png"/>
-                <span>AdobeXD</span>
-              </div>
-            </div> -->
-
-      </div>
-</div>
+        <div class="skills-categories">
+            <div class="category">
+                <h3><i class="fas fa-code"></i> Frontend Development</h3>
+                <div class="row" id="frontendSkills">
+                    <!-- Frontend skills will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="category">
+                <h3><i class="fas fa-server"></i> Backend Development</h3>
+                <div class="row" id="backendSkills">
+                    <!-- Backend skills will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="category">
+                <h3><i class="fas fa-database"></i> Databases</h3>
+                <div class="row" id="databaseSkills">
+                    <!-- Database skills will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="category">
+                <h3><i class="fas fa-tools"></i> Tools & Others</h3>
+                <div class="row" id="otherSkills">
+                    <!-- Other skills will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- skills section ends -->
 
+<!-- freelancing services section starts -->
+<section class="services" id="services">
+    <h2 class="heading"><i class="fas fa-briefcase"></i> Freelancing <span>Services</span></h2>
+    
+    <div class="container">
+        <div class="box-container">
+            <div class="box tilt">
+                <div class="content">
+                    <div class="tag">
+                        <h3><i class="fas fa-laptop-code"></i> Web Development</h3>
+                    </div>
+                    <div class="desc">
+                        <h4>What I Build:</h4>
+                        <ul>
+                            <li>✅ Business Websites & Portfolios</li>
+                            <li>✅ E-commerce Online Stores</li>
+                            <li>✅ Admin Dashboards & CRM Systems</li>
+                            <li>✅ Custom Web Applications</li>
+                        </ul>
+                        <p><strong>Technologies:</strong> React, Node.js, MongoDB, Express (MERN Stack)</p>
+                        <div class="btns">
+                            <a href="#contact" class="btn"><i class="fas fa-handshake"></i> Hire Me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box tilt">
+                <div class="content">
+                    <div class="tag">
+                        <h3><i class="fas fa-mobile-alt"></i> Mobile App Development</h3>
+                    </div>
+                    <div class="desc">
+                        <h4>What I Build:</h4>
+                        <ul>
+                            <li>✅ Android & iOS Mobile Apps</li>
+                            <li>✅ Cross-Platform Applications</li>
+                            <li>✅ Business Management Apps</li>
+                            <li>✅ E-commerce Mobile Solutions</li>
+                        </ul>
+                        <p><strong>Technologies:</strong> React Native, Flutter, Expo</p>
+                        <div class="btns">
+                            <a href="#contact" class="btn"><i class="fas fa-handshake"></i> Hire Me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box tilt">
+                <div class="content">
+                    <div class="tag">
+                        <h3><i class="fas fa-robot"></i> AI & Smart Solutions</h3>
+                    </div>
+                    <div class="desc">
+                        <h4>What I Build:</h4>
+                        <ul>
+                            <li>✅ AI Chatbots for Customer Support</li>
+                            <li>✅ Smart Data Analysis Tools</li>
+                            <li>✅ Automated Business Processes</li>
+                            <li>✅ AI-Powered Web Features</li>
+                        </ul>
+                        <p><strong>Technologies:</strong> Python, Machine Learning, AI APIs</p>
+                        <div class="btns">
+                            <a href="#contact" class="btn"><i class="fas fa-handshake"></i> Hire Me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box tilt">
+                <div class="content">
+                    <div class="tag">
+                        <h3><i class="fas fa-shopping-cart"></i> E-commerce Solutions</h3>
+                    </div>
+                    <div class="desc">
+                        <h4>What I Build:</h4>
+                        <ul>
+                            <li>✅ Complete Online Stores</li>
+                            <li>✅ Payment Gateway Integration</li>
+                            <li>✅ Inventory Management Systems</li>
+                            <li>✅ Order Processing & Analytics</li>
+                        </ul>
+                        <p><strong>Features:</strong> Secure Payments, Mobile-Friendly, Fast Loading</p>
+                        <div class="btns">
+                            <a href="#contact" class="btn"><i class="fas fa-handshake"></i> Hire Me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="services-info">
+            <h3><i class="fas fa-star"></i> Why Choose My Services?</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-clock"></i>
+                    <h4>Fast Delivery</h4>
+                    <p>Quick turnaround time - Most projects completed within 1-4 weeks</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h4>Affordable Pricing</h4>
+                    <p>Competitive rates with flexible payment options</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-headset"></i>
+                    <h4>24/7 Support</h4>
+                    <p>Continuous support even after project completion</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Quality Guarantee</h4>
+                    <p>100% satisfaction guarantee with free revisions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- freelancing services section ends -->
 
 <!-- education section starts -->
 <section class="education" id="education">

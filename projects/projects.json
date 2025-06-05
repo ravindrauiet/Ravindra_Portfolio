@@ -91,7 +91,7 @@
   },
   {
     "name": "Fika - ECommerce WebApp",
-    "desc": "A modern e-commerce web application for Fika that allows users to browse product catalogs, add items to a shopping cart, and complete secure checkouts. Built with the MERN stack, it features responsive design, user authentication, and integrated payment gateways to ensure a seamless shopping experience.",
+    "desc": "A modern e-commerce web application for Fika that allows users to browse product catalogs, add items to a shopping cart, and complete secure checkouts. ",
     "image": "fika",
     "category": "mern",
     "links": {
