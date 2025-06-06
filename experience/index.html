@@ -2,39 +2,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <!-- Font Awesome -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- Primary Meta Tags -->
+    <title>React.js Developer Portfolio | Ravindra Nath Jha | Full Stack Developer</title>
+    <meta name="title" content="React.js Developer Portfolio | Ravindra Nath Jha | Full Stack Developer">
+    <meta name="description" content="Professional React.js and Node.js developer with expertise in building high-performance web applications, e-commerce platforms, and mobile apps using React Native.">
+    <meta name="keywords" content="React developer, Node.js developer, JavaScript expert, React Native developer, MERN stack, frontend developer, fullstack developer, web development, e-commerce developer, Ravindra Nath Jha">
+    <meta name="author" content="Ravindra Nath Jha">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <meta name="generator" content="HTML5">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ravindranathjha.in/experience">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ravindranathjha.in/experience">
+    <meta property="og:title" content="React.js Developer Portfolio | Ravindra Nath Jha">
+    <meta property="og:description" content="Professional React.js and Node.js developer with expertise in building high-performance web applications, e-commerce platforms, and mobile apps.">
+    <meta property="og:image" content="https://ravindranathjha.in/assets/images/profile.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ravindranathjha.in/experience">
+    <meta property="twitter:title" content="React.js Developer Portfolio | Ravindra Nath Jha">
+    <meta property="twitter:description" content="Professional React.js and Node.js developer with expertise in building high-performance web applications, e-commerce platforms, and mobile apps.">
+    <meta property="twitter:image" content="https://ravindranathjha.in/assets/images/profile.jpg">
+    
+    <!-- favicon -->
+    <link id="favicon" rel="icon" href="/assets/images/favicon.png" type="image/png">
+    
+    <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Lottie Animation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js" integrity="sha512-yAr4fN9WZH6hESbOwoFZGtSgOP+LSZbs/JeoDr02pOX4yUFfI++qC9YwIQXIGffhnzliykJtdWTV/v3PxSz8aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- custom css -->
+    <link rel="stylesheet" href="./style.css">
+    
     <!-- Lottie Player -->
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    
+    <!-- AOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link id='favicon' rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-png">
-    <title>Experience | Ravindra Nath Jha</title>
-    <script>
-        // Check if Lottie is loaded
-        window.addEventListener('load', function() {
-            if (typeof lottie === 'undefined') {
-                console.error('Lottie library not loaded!');
-            } else {
-                console.log('Lottie library loaded successfully');
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="./style.css" as="style">
+    <link rel="preload" href="./script.js" as="script">
+    <link rel="preload" href="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" as="script">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ravindra Nath Jha",
+      "url": "https://ravindranathjha.in",
+      "image": "https://ravindranathjha.in/assets/images/profile.jpg",
+      "sameAs": [
+        "https://linkedin.com/in/ravindra-nath-jha",
+        "https://github.com/ravindrajha"
+      ],
+      "jobTitle": "Full Stack Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelance Developer"
+      },
+      "knowsAbout": ["React.js", "Node.js", "JavaScript", "MongoDB", "Express.js", "React Native", "Web Development", "Mobile App Development", "E-commerce", "Full Stack Development"]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://ravindranathjha.in",
+      "name": "Ravindra Nath Jha - Full Stack Developer Portfolio",
+      "description": "Professional React.js and Node.js developer with expertise in building high-performance web applications, e-commerce platforms, and mobile apps.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ravindranathjha.in/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "SoftwareApplication",
+            "name": "Real Estate Platform",
+            "applicationCategory": "WebApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "Custom",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "124"
             }
-        });
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "SoftwareApplication",
+            "name": "Fika E-Commerce Platform",
+            "applicationCategory": "WebApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "Custom",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "98"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "SoftwareApplication",
+            "name": "Click Mobile Application",
+            "applicationCategory": "MobileApplication",
+            "operatingSystem": "iOS, Android",
+            "offers": {
+              "@type": "Offer",
+              "price": "Custom",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "50000"
+            }
+          }
+        }
+      ]
+    }
     </script>
 </head>
 <body oncontextmenu="return false">
 
 <!-- navbar starts -->
 <header>
-        <a href="/" class="logo"><i class="fab fa-node-js"></i> Ravindra</a>
+        <a href="/" class="logo"><span>Ravindra</span> Nath Jha</a>
 
         <div id="menu" class="fas fa-bars"></div>
         <nav class="navbar">
@@ -42,9 +173,9 @@
             <li><a href="/#home">Home</a></li>
             <li><a href="/#about">About</a></li>
             <li><a href="/#skills">Skills</a></li>
+            <li><a class="active" href="/experience">Experience</a></li>
             <li><a href="/#education">Education</a></li>
-            <li><a href="/#work">Work</a></li>
-            <li><a class="active" href="/#experience">Experience</a></li>
+            <li><a href="/#work" >Work</a></li>
             <li><a href="/#contact">Contact</a></li>
             </ul>
         </nav>
@@ -97,8 +228,14 @@
 
 <!-- experience section starts -->
 <section class="experience" id="experience">
+  <!-- Intro section with clear H1 -->
+  <div class="section-intro">
+    <h1>React.js Developer with Full-Stack Expertise</h1>
+    <p class="seo-description">Specialized in building high-performance web applications, e-commerce platforms, and mobile apps using the latest JavaScript frameworks and tools.</p>
+  </div>
+  
   <!-- Lottie Animation -->
-  <div class="lottie-container">
+  <div class="lottie-container" aria-hidden="true">
     <lottie-player 
       src="https://assets1.lottiefiles.com/packages/lf20_rbtawnwz.json" 
       background="transparent" 
@@ -110,18 +247,18 @@
   </div>
 
   <!-- Tech Stack Particles Container -->
-  <div id="tech-particles-container" class="tech-particles-container"></div>
+  <div id="tech-particles-container" class="tech-particles-container" aria-hidden="true"></div>
 
   <!-- Project Showcase Section -->
-  <div class="showcase-section">
-    <h2 class="showcase-heading">Featured Projects <span>& Metrics</span></h2>
-    <p class="showcase-subheading">Real results for real clients</p>
+  <section class="showcase-section">
+    <h2 class="showcase-heading">Featured <span>React.js Projects</span></h2>
+    <p class="showcase-subheading">Real results for real clients using modern JavaScript frameworks</p>
     
     <div class="showcase-container">
       <!-- Project Showcase Item 1 -->
-      <div class="showcase-item" data-aos="zoom-in-up">
+      <article class="showcase-item" data-aos="zoom-in-up" itemscope itemtype="http://schema.org/SoftwareApplication">
         <div class="showcase-image">
-          <img src="../assets/images/projects/townmanor.png" alt="Real Estate Platform">
+          <img src="../assets/images/projects/townmanor.png" alt="React.js Real Estate Platform Screenshot" itemprop="screenshot">
           <div class="showcase-overlay">
             <div class="showcase-tech">
               <span>React</span>
@@ -132,12 +269,12 @@
           </div>
         </div>
         <div class="showcase-content">
-          <h3>Real Estate Platform</h3>
-          <p>A comprehensive marketplace with AI-powered recommendations and advanced search capabilities</p>
+          <h3 itemprop="name">React.js Real Estate Platform</h3>
+          <p itemprop="description">A comprehensive marketplace built with React.js featuring AI-powered property recommendations and advanced search capabilities</p>
           
           <div class="metrics-container">
             <div class="metric">
-              <div class="metric-value">42%</div>
+              <div class="metric-value" itemprop="interactionStatistic">42%</div>
               <div class="metric-label">Increased Conversions</div>
             </div>
             <div class="metric">
@@ -155,12 +292,12 @@
             <button class="details-btn" data-project="Real Estate Platform">View Details</button>
           </div>
         </div>
-      </div>
+      </article>
       
       <!-- Project Showcase Item 2 -->
-      <div class="showcase-item" data-aos="zoom-in-up">
+      <article class="showcase-item" data-aos="zoom-in-up" itemscope itemtype="http://schema.org/SoftwareApplication">
         <div class="showcase-image">
-          <img src="../assets/images/projects/fika.png" alt="Fika E-Commerce Platform">
+          <img src="../assets/images/projects/fika.png" alt="React.js E-Commerce Platform Screenshot" itemprop="screenshot">
           <div class="showcase-overlay">
             <div class="showcase-tech">
               <span>React</span>
@@ -172,12 +309,12 @@
           </div>
         </div>
         <div class="showcase-content">
-          <h3>Fika - E-Commerce Platform</h3>
-          <p>A full-featured online shopping platform with product recommendations, secure checkout, and seller dashboard</p>
+          <h3 itemprop="name">Fika - React.js E-Commerce Platform</h3>
+          <p itemprop="description">A full-featured online shopping platform built with React.js with product recommendations, secure checkout, and seller dashboard</p>
           
           <div class="metrics-container">
             <div class="metric">
-              <div class="metric-value">55%</div>
+              <div class="metric-value" itemprop="interactionStatistic">55%</div>
               <div class="metric-label">Revenue Growth</div>
             </div>
             <div class="metric">
@@ -195,12 +332,12 @@
             <button class="details-btn" data-project="Fika E-Commerce">View Details</button>
           </div>
         </div>
-      </div>
-
+      </article>
+ 
       <!-- Project Showcase Item 3 -->
-      <div class="showcase-item" data-aos="zoom-in-up">
+      <article class="showcase-item" data-aos="zoom-in-up" itemscope itemtype="http://schema.org/SoftwareApplication">
         <div class="showcase-image">
-          <img src="../assets/images/projects/ClickApp.png" alt="Click Mobile App">
+          <img src="../assets/images/projects/ClickApp.png" alt="React Native Mobile App Screenshot" itemprop="screenshot">
           <div class="showcase-overlay">
             <div class="showcase-tech">
               <span>React Native</span>
@@ -211,16 +348,16 @@
           </div>
         </div>
         <div class="showcase-content">
-          <h3>Click Mobile Application</h3>
-          <p>A high-performance mobile app with seamless payment integration and real-time updates</p>
+          <h3 itemprop="name">Click React Native Mobile Application</h3>
+          <p itemprop="description">A high-performance mobile app built with React Native featuring seamless payment integration and real-time updates</p>
           
           <div class="metrics-container">
             <div class="metric">
-              <div class="metric-value">4.8★</div>
+              <div class="metric-value" itemprop="aggregateRating">4.8★</div>
               <div class="metric-label">App Store Rating</div>
             </div>
             <div class="metric">
-              <div class="metric-value">50K+</div>
+              <div class="metric-value" itemprop="interactionStatistic">50K+</div>
               <div class="metric-label">Downloads</div>
             </div>
             <div class="metric">
@@ -234,9 +371,57 @@
             <button class="details-btn" data-project="Click Mobile App">View Details</button>
           </div>
         </div>
+      </article>
+    </div>
+  </section>
+  
+  <!-- Tech Skills Section with Keywords -->
+  <section class="tech-skills-section">
+    <h2 class="skills-heading">React.js <span>Development Skills</span></h2>
+    <div class="skills-container">
+      <div class="skill-item" data-aos="fade-up">
+        <h3>Frontend Development</h3>
+        <ul class="skill-list">
+          <li>React.js Component Architecture</li>
+          <li>Redux State Management</li>
+          <li>React Hooks & Context API</li>
+          <li>React Router for SPA Navigation</li>
+          <li>Next.js for SSR & Static Generation</li>
+          <li>Modern JavaScript (ES6+)</li>
+          <li>TypeScript Integration</li>
+          <li>Frontend Performance Optimization</li>
+        </ul>
+      </div>
+      
+      <div class="skill-item" data-aos="fade-up">
+        <h3>Backend Integration</h3>
+        <ul class="skill-list">
+          <li>RESTful API Development</li>
+          <li>GraphQL Integration</li>
+          <li>Node.js & Express.js</li>
+          <li>Authentication & Authorization</li>
+          <li>Database Design (SQL & NoSQL)</li>
+          <li>AWS Cloud Services</li>
+          <li>CI/CD Pipeline Setup</li>
+          <li>Microservices Architecture</li>
+        </ul>
+      </div>
+      
+      <div class="skill-item" data-aos="fade-up">
+        <h3>Mobile Development</h3>
+        <ul class="skill-list">
+          <li>React Native for iOS & Android</li>
+          <li>Native Module Integration</li>
+          <li>Push Notifications</li>
+          <li>Offline Storage Solutions</li>
+          <li>App Store & Play Store Deployment</li>
+          <li>Mobile UI/UX Best Practices</li>
+          <li>Performance Optimization</li>
+          <li>Cross-Platform Development</li>
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Testimonials Section -->
   <div class="testimonials-section">

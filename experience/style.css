@@ -118,7 +118,7 @@ html::-webkit-scrollbar-thumb{
   width: 6rem;
   height: 6rem;
   text-align: center;
-  z-index: 1001;
+  z-index: 5;
   opacity: 0;
   transform-origin: center center;
   pointer-events: none;
@@ -1268,5 +1268,183 @@ header .navbar ul li a:hover{
   
   .download-animation {
     transform: scale(0.8);
+  }
+}
+
+/* SEO-Optimized Intro Section */
+.section-intro {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  padding: 2rem;
+}
+
+.section-intro h1 {
+  font-size: 3.5rem;
+  background: linear-gradient(135deg, #010136, #0177b5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.seo-description {
+  font-size: 1.8rem;
+  color: #555;
+  line-height: 1.6;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+/* Tech Skills Section */
+.tech-skills-section {
+  max-width: 1200px;
+  margin: 6rem auto;
+  padding: 0 2rem;
+}
+
+.skills-heading {
+  font-size: 3rem;
+  color: #2c3e50;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.skills-heading span {
+  color: #0177b5;
+}
+
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+}
+
+.skill-item {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.skill-item h3 {
+  font-size: 2rem;
+  color: #0177b5;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.skill-item h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(135deg, #010136, #0177b5);
+}
+
+.skill-list {
+  list-style: none;
+}
+
+.skill-list li {
+  font-size: 1.5rem;
+  color: #555;
+  padding: 0.8rem 0;
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.skill-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #0177b5;
+  font-weight: bold;
+}
+
+/* SEO Optimizations for Existing Elements */
+.showcase-heading, .testimonial-heading {
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.showcase-content h3, .testimonial-author h4 {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.showcase-content p, .testimonial-content p {
+  line-height: 1.8;
+}
+
+.tech-particle {
+  z-index: 5; /* Reduced from 1001 to prevent overlapping important content */
+}
+
+/* Accessibility Improvements */
+.request-btn, .details-btn, .download-btn {
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.request-btn:focus, .details-btn:focus, .download-btn:focus {
+  outline: 3px solid rgba(1, 119, 181, 0.5);
+  outline-offset: 3px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 980px) {
+  .section-intro h1 {
+    font-size: 3rem;
+  }
+  
+  .seo-description {
+    font-size: 1.6rem;
+    max-width: 90%;
+  }
+  
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-intro h1 {
+    font-size: 2.5rem;
+  }
+  
+  .seo-description {
+    font-size: 1.5rem;
+    max-width: 100%;
+  }
+  
+  .skills-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .skill-item {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .section-intro h1 {
+    font-size: 2.2rem;
+  }
+  
+  .skill-list li {
+    font-size: 1.4rem;
   }
 }

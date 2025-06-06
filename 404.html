@@ -2,110 +2,211 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/css/404.css">
-    <!-- Font Awesome -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>Page Not Found | Ravindra Nath Jha | React.js Developer</title>
+    <meta name="description" content="Sorry, the page you're looking for cannot be found. Return to Ravindra Nath Jha's portfolio of React.js and full-stack development work.">
+    <meta name="robots" content="noindex, follow">
+    
+    <!-- favicon -->
+    <link id="favicon" rel="icon" href="/assets/images/favicon.png" type="image/png">
+    
+    <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Favicon -->
-    <link id='favicon' rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-png">
-    <title>Got Lost! Page Not Found</title>
-</head>
-<body oncontextmenu="return false">
-
-<!-- navbar starts -->
-<header>
-        <a href="/" class="logo"><i class="fab fa-node-js"></i> Ravindra</a>
-
-        <div id="menu" class="fas fa-bars"></div>
-        <nav class="navbar">
-            <ul>
-            <li><a href="/#home">Home</a></li>
-            <li><a href="/#about">About</a></li>
-            <li><a href="/#skills">Skills</a></li>
-            <li><a href="/#education">Education</a></li>
-            <li><a href="/#work">Work</a></li>
-            <li><a href="/#experience">Experience</a></li>
-            <li><a href="/#contact">Contact</a></li>
-            </ul>
-        </nav>
-</header>
-<!-- navbar ends -->
-
-<!-- 404 section start -->
-<section class="page_404">
-        <div class="container">
-          <div class="wrapper">
-            <h1 class="text-center ">404</h1>
-          </div>
-          
-          <div class="msg">
-          <h3>Looks like you're lost</h3>
-          <p>The page you are looking for is not available!</p>
-           
-          <div class="backbtn">
-            <a href="/" class="btn">
-                <i class="fas fa-arrow-left"></i>
-                <span>Back to Home</span>
-          </a>
-          </div>
-
-          </div>
-        </div>
-</section>
-<!-- 404 section end -->
-
-<!-- footer section starts -->
-<section class="footer">
-
-  <div class="box-container">
-
-      <div class="box">
-          <h3>Ravindra's Portfolio</h3>
-          <p>Thank you for visiting my personal portfolio website. Connect with me over socials. <br/> <br/> Keep Rising 🚀. Connect with me over live chat!</p>
-      </div>
-
-      <div class="box">
-          <h3>quick links</h3>
-          <a href="/#home"><i class="fas fa-chevron-circle-right"></i> home</a>
-          <a href="/#about"><i class="fas fa-chevron-circle-right"></i> about</a>
-          <a href="/#skills"><i class="fas fa-chevron-circle-right"></i> skills</a>
-          <a href="/#education"><i class="fas fa-chevron-circle-right"></i> education</a>
-          <a href="/#work"><i class="fas fa-chevron-circle-right"></i> work</a>
-          <a href="/#experience"><i class="fas fa-chevron-circle-right"></i> experience</a>
-      </div>
-
-      <div class="box">
-          <h3>contact info</h3>
-          <p> <i class="fas fa-phone"></i>+91 9354156323</p>
-          <p> <i class="fas fa-envelope"></i>ravindranathjha76@gmail.com</p>
-          <p> <i class="fas fa-map-marked-alt"></i>Faridabad, India-121003</p>
-          <div class="share">
-
-            <li><a class="linkedin" aria-label="LinkedIn" href="https://www.linkedin.com/in/ravindra-jha75/" target="_blank"><i class="fab fa-linkedin"></i></a></li> 
-            <li><a class="github" aria-label="GitHub" href="https://github.com/ravindrauiet/" target="_blank"><i class="fab fa-github"></i></a></li>
-            <!-- <li><a class="twitter" aria-label="Twitter" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a></li> -->
-            <!-- <li><a class="telegram" aria-label="Telegram" href="https://t.me/" target="_blank"><i class="fab fa-telegram-plane"></i></a></li> -->
-            <li><a class="instagram" aria-label="Instagram" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+    
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #0177b5;
+            --secondary-color: #010136;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            outline: none;
+            border: none;
+            text-transform: capitalize;
+        }
+        
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: block;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .error-code {
+            font-size: 12rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 2rem;
+        }
+        
+        .error-message {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+        
+        .error-description {
+            font-size: 1.8rem;
+            color: #666;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        
+        .lottie-container {
+            width: 250px;
+            height: 250px;
+            margin-bottom: 3rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 1.7rem;
+            border-radius: 5rem;
+            margin: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sitemap-link {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-top: 2rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .sitemap-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            html {
+                font-size: 55%;
+            }
             
-          </div>
-      </div>
-  </div>
-
-  <h1 class="credit">Designed with <i class="fa fa-heart pulse"></i> by <a href="https://www.linkedin.com/in/ravindra-jha75/"> Ravindra Nath Jha</a></h1>
-
-</section>
-<!-- footer section ends -->
-
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS STARTS ==== -->
-
-<!-- jquery cdn -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
-
-<script src="/assets/js/404.js"></script>
-
-
+            .error-code {
+                font-size: 10rem;
+            }
+            
+            .lottie-container {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 450px) {
+            html {
+                font-size: 50%;
+            }
+            
+            .error-code {
+                font-size: 8rem;
+            }
+            
+            .lottie-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo"><span>Ravindra</span> Nath Jha</a>
+    </header>
+    
+    <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-message">Page Not Found</h2>
+        <p class="error-description">Sorry, the page you're looking for doesn't exist or has been moved. Please check the URL or navigate back to the homepage.</p>
+        
+        <div class="lottie-container">
+            <lottie-player 
+                src="https://assets2.lottiefiles.com/packages/lf20_aaesnvcw.json" 
+                background="transparent" 
+                speed="1" 
+                loop 
+                autoplay>
+            </lottie-player>
+        </div>
+        
+        <div class="buttons">
+            <a href="/" class="btn">Back to Home</a>
+            <a href="/experience" class="btn">View Portfolio</a>
+        </div>
+        
+        <a href="/sitemap.xml" class="sitemap-link">View Sitemap</a>
+    </div>
+    
+    <script>
+        // Redirect to homepage after 60 seconds
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 60000);
+    </script>
 </body>
 </html>
