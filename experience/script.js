@@ -15,6 +15,77 @@ $(document).ready(function(){
             document.querySelector('#scroll-top').classList.remove('active');
         }
     });
+
+    // Initialize Lottie animations if available
+    if (typeof lottie !== 'undefined') {
+        // Check for direct lottie-player elements
+        const lottiePlayers = document.querySelectorAll('lottie-player');
+        lottiePlayers.forEach(player => {
+            // Force reload if needed
+            const currentSrc = player.getAttribute('src');
+            if (currentSrc) {
+                player.load(currentSrc);
+            }
+        });
+    }
+
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: false,
+        mirror: false,
+        offset: 100
+    });
+
+    // Add tilt effect to project cards
+    VanillaTilt.init(document.querySelectorAll('.experience-card'), {
+        max: 3,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.1
+    });
+
+    // Add tilt effect to project items
+    VanillaTilt.init(document.querySelectorAll('.project-item'), {
+        max: 5,
+        speed: 400,
+        scale: 1.03,
+        transition: true,
+        glare: true,
+        "max-glare": 0.1
+    });
+
+    // Add click event to show tech details using SweetAlert2
+    $('.project-item').click(function() {
+        const tech = $(this).attr('data-tech');
+        const learning = $(this).attr('data-learning');
+        const projectName = $(this).find('h4').text();
+        
+        Swal.fire({
+            title: projectName,
+            html: `
+                <div class="project-details-modal">
+                    <div class="tech-stack">
+                        <h5>Technologies Used</h5>
+                        <p>${tech}</p>
+                    </div>
+                    <div class="learning">
+                        <h5>Key Learnings</h5>
+                        <p>${learning}</p>
+                    </div>
+                </div>
+            `,
+            confirmButtonText: 'Close',
+            confirmButtonColor: '#010136',
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        });
+    });
 });
 
 /* ===== SCROLL REVEAL ANIMATION ===== */
@@ -72,4 +143,14 @@ function(){
         document.title = "Come Back To Portfolio";
         $("#favicon").attr("href","/assets/images/favhand.png");
     }
+});
+
+// scroll top button
+let scrollTop = document.querySelector('#scroll-top');
+
+scrollTop.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 });

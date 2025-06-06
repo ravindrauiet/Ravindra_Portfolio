@@ -7,9 +7,28 @@
     <link rel="stylesheet" href="./style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Lottie Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js" integrity="sha512-yAr4fN9WZH6hESbOwoFZGtSgOP+LSZbs/JeoDr02pOX4yUFfI++qC9YwIQXIGffhnzliykJtdWTV/v3PxSz8aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link id='favicon' rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-png">
-
     <title>Experience | Ravindra Nath Jha</title>
+    <script>
+        // Check if Lottie is loaded
+        window.addEventListener('load', function() {
+            if (typeof lottie === 'undefined') {
+                console.error('Lottie library not loaded!');
+            } else {
+                console.log('Lottie library loaded successfully');
+            }
+        });
+    </script>
 </head>
 <body oncontextmenu="return false">
 
@@ -32,122 +51,220 @@
 </header>
 <!-- navbar ends -->
 
-<!-- experience section starts -->
-<section class="experience" id="experience">
-
-  <h2 class="heading"><i class="fas fa-briefcase"></i> Experience</h2>
+<!-- experience header section starts -->
+<section class="experience-header">
+  <h2 class="heading"><i class="fas fa-briefcase"></i> Professional <span>Experience</span></h2>
   <div class="quote">
       <span>every experience in your life is being orchestrated to teach you something you need to know to move forward.</span>
   </div>
+</section>
+<!-- experience header section ends -->
 
-  <div class="timeline">
+<!-- experience section starts -->
+<section class="experience" id="experience">
+  <!-- Lottie Animation -->
+  <div class="lottie-container">
+    <lottie-player 
+      src="https://assets1.lottiefiles.com/packages/lf20_rbtawnwz.json" 
+      background="transparent" 
+      speed="1" 
+      style="width: 300px; height: 300px;" 
+      loop 
+      autoplay>
+    </lottie-player>
+  </div>
 
-    <div class="container left">
-      <div class="content">
-        <div class="tag">
-          <h2>Software Engineer</h2>
+  <div class="experience-container">
+    <!-- Townmanor Technology -->
+    <div class="experience-card" data-aos="fade-right">
+      <div class="experience-header">
+        <h3>Team Lead & Senior Software Engineer</h3>
+        <span class="company">Townmanor Technology</span>
+        <!-- <span class="duration">June 2024 - Present</span> -->
+      </div>
+      <div class="projects-grid">
+        <div class="project-item" data-tech="React, Node.js, MySQl, Express, AWS, AI" data-learning="Led cross-functional teams, implemented AI-driven recommendation systems, optimized database queries for scalability">
+          <i class="fas fa-shopping-cart project-icon"></i>
+          <h4>Real-Estate Platform</h4>
+          <p>Led development of a scalable marketplace with AI-powered product recommendations using MERN stack</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React, Node.js, MongoDB, Express, AWS, AI</p>
+            <h5>Key Learnings</h5>
+            <p>Led cross-functional teams, implemented AI-driven recommendation systems, optimized database queries for scalability</p>
+          </div>
         </div>
-        <div class="desc">
-            <h3>Townmanor Technology</h3>
-            <p>June 2024 - Present</p>
+        <div class="project-item" data-tech="React, Node.js, Express.js, MySQl, AI/ML" data-learning="Integrated AI for business insights, created custom dashboards, implemented secure user roles and permissions">
+          <i class="fas fa-chart-line project-icon"></i>
+          <h4>Enterprise CRM</h4>
+          <p>Developed a custom CRM solution with sales analytics and AI-driven insights</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React, Node.js, Express.js, MySQl, AI/ML</p>
+            <h5>Key Learnings</h5>
+            <p>Integrated AI for business insights, created custom dashboards, implemented secure user roles and permissions</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="container right">
-        <div class="content">
-          <div class="tag">
-            <h2>Freelancer</h2>
-          </div>
-          <div class="desc">
-              <h3>Website Development</h3>
-              <p>April 2024 - May 2024</p>
-          </div>
-        </div>
+    <!-- Maydiv Infotech -->
+    <div class="experience-card" data-aos="fade-left">
+      <div class="experience-header">
+        <h3>Senior Software Engineer</h3>
+        <span class="company">Maydiv Infotech</span>
       </div>
-
-      <div class="container left">
-        <div class="content">
-          <div class="tag">
-            <h2>Software Developer Intern</h2>
-          </div>
-          <div class="desc">
-              <h3>Web Developer & Design| Internship</h3>
-              <p>Jan 2024 - April 2024</p>
+      <div class="projects-grid">
+        <div class="project-item" data-tech="React Native, Redux, Node.js, MongoDB, Payment Gateway" data-learning="Integrated secure payment systems, optimized app performance, implemented real-time transaction tracking">
+          <i class="fas fa-mobile-alt project-icon"></i>
+          <h4>Fastag Bajaj APP</h4>
+          <p>Developed a mobile application for managing Fastag payments and transactions</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React Native, Redux, Node.js, MongoDB, Payment Gateway</p>
+            <h5>Key Learnings</h5>
+            <p>Integrated secure payment systems, optimized app performance, implemented real-time transaction tracking</p>
           </div>
         </div>
-      </div>
-
-    <div class="container right">
-      <div class="content">
-        <div class="tag">
-          <h2>Virtual Internship</h2>
+        <div class="project-item" data-tech="React Native, Firebase, Redux, UI/UX" data-learning="Created intuitive user interfaces, implemented state management, optimized app loading time">
+          <i class="fas fa-mobile-alt project-icon"></i>
+          <h4>Click APP</h4>
+          <p>Built a user-friendly mobile application for seamless user interactions</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React Native, Firebase, Redux, UI/UX</p>
+            <h5>Key Learnings</h5>
+            <p>Created intuitive user interfaces, implemented state management, optimized app loading time</p>
+          </div>
         </div>
-        <div class="desc">
-            <h3>Microsoft |Azure Cloud</h3>
-            <p>Oct 2021 - Jan 2022</p>
+        <div class="project-item" data-tech="React, Node.js, Express, MongoDB, AWS" data-learning="Built scalable e-commerce solutions, implemented product recommendation systems, optimized search functionality">
+          <i class="fas fa-shopping-cart project-icon"></i>
+          <h4>Fika - ECommerce WebApp</h4>
+          <p>Led the development of a full-featured e-commerce platform with modern UI/UX</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React, Node.js, Express, MongoDB, AWS</p>
+            <h5>Key Learnings</h5>
+            <p>Built scalable e-commerce solutions, implemented product recommendation systems, optimized search functionality</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- <div class="container right">
-      <div class="content">
-        <div class="tag">
-          <h2>The Spark Foundation</h2>
-        </div>
-        <div class="desc">
-            <h3>Mobile Application Developer | Internship</h3>
-            <p>April 2021 - May 2021</p>
-        </div>
+    <!-- Relove -->
+    <div class="experience-card" data-aos="fade-right">
+      <div class="experience-header">
+        <h3>Team Lead</h3>
+        <span class="company">Relove</span>
       </div>
-    </div>
-
-    <div class="container left">
-      <div class="content">
-        <div class="tag">
-          <h2>Frshr Technologies</h2>
-        </div>
-        <div class="desc">
-            <h3>Wordpress Developer | Internship</h3>
-            <p>April 2021 - April 2021</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="container right">
-      <div class="content">
-        <div class="tag">
-          <h2>WonderingBlog</h2>
-        </div>
-        <div class="desc">
-            <h3>Web Development & SEO | Internship</h3>
-            <p>March 2021 - April 2021</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="container left">
-        <div class="content">
-          <div class="tag">
-            <h2>Hacktoberfest 2020</h2>
+      <div class="projects-grid">
+        <div class="project-item" data-tech="React, Node.js, Express, MongoDB, Redux" data-learning="Led development teams, implemented agile methodologies, created comprehensive web solutions">
+          <i class="fas fa-globe project-icon"></i>
+          <h4>Relove WebApp</h4>
+          <p>Led the development of a comprehensive web application with modern features</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React, Node.js, Express, MongoDB, Redux</p>
+            <h5>Key Learnings</h5>
+            <p>Led development teams, implemented agile methodologies, created comprehensive web solutions</p>
           </div>
-          <div class="desc">
-              <h3>Contributor | Open Source Program</h3>
-              <p>October 2020 - November 2020</p>
+        </div>
+        <div class="project-item" data-tech="React Native, Firebase, Redux, API Integration" data-learning="Developed cross-platform mobile solutions, implemented state management, optimized app performance">
+          <i class="fas fa-mobile-alt project-icon"></i>
+          <h4>Relove App</h4>
+          <p>Architected and developed a mobile application with cross-platform compatibility</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React Native, Firebase, Redux, API Integration</p>
+            <h5>Key Learnings</h5>
+            <p>Developed cross-platform mobile solutions, implemented state management, optimized app performance</p>
           </div>
         </div>
       </div>
+    </div>
 
-  </div> -->
+    <!-- Puja Karo -->
+    <div class="experience-card" data-aos="fade-left">
+      <div class="experience-header">
+        <h3>Full Stack Developer</h3>
+        <span class="company">Puja Karo (Startup)</span>
+      </div>
+      <div class="projects-grid">
+        <div class="project-item" data-tech="React Native, Node.js, Express, MongoDB, Payment Integration" data-learning="Developed booking systems, implemented payment gateways, created user authentication and authorization">
+          <i class="fas fa-mobile-alt project-icon"></i>
+          <h4>Puja Karo App</h4>
+          <p>Developed a comprehensive mobile application for religious services booking</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React Native, Node.js, Express, MongoDB, Payment Integration</p>
+            <h5>Key Learnings</h5>
+            <p>Developed booking systems, implemented payment gateways, created user authentication and authorization</p>
+          </div>
+        </div>
+        <div class="project-item" data-tech="React, Redux, Material UI, Chart.js, REST APIs" data-learning="Created admin dashboards, implemented data visualization, designed intuitive user interfaces">
+          <i class="fas fa-globe project-icon"></i>
+          <h4>Admin Dashboard</h4>
+          <p>Created an intuitive admin panel for service management</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>React, Redux, Material UI, Chart.js, REST APIs</p>
+            <h5>Key Learnings</h5>
+            <p>Created admin dashboards, implemented data visualization, designed intuitive user interfaces</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div class="morebtn">
+    <!-- Web Development Internship -->
+    <div class="experience-card" data-aos="fade-up">
+      <div class="experience-header">
+        <h3>Software Developer Intern</h3>
+        <span class="company">Web Development Internship</span>
+      </div>
+      <div class="projects-grid">
+        <div class="project-item" data-tech="HTML, CSS, JavaScript, React, Node.js" data-learning="Learned responsive UI development, component-based architecture, state management">
+          <i class="fas fa-code project-icon"></i>
+          <h4>Frontend Development</h4>
+          <p>Created responsive UI components using React</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>HTML, CSS, JavaScript, React, Node.js</p>
+            <h5>Key Learnings</h5>
+            <p>Learned responsive UI development, component-based architecture, state management</p>
+          </div>
+        </div>
+        <div class="project-item" data-tech="Node.js, Express, MongoDB, REST APIs" data-learning="Built RESTful APIs, implemented database connections, created middleware for authentication">
+          <i class="fas fa-server project-icon"></i>
+          <h4>Backend Integration</h4>
+          <p>Connected frontend with Node.js and Express APIs</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>Node.js, Express, MongoDB, REST APIs</p>
+            <h5>Key Learnings</h5>
+            <p>Built RESTful APIs, implemented database connections, created middleware for authentication</p>
+          </div>
+        </div>
+        <div class="project-item" data-tech="Jest, React Testing Library, Debugging Tools" data-learning="Implemented unit and integration testing, troubleshooting techniques, performance optimization">
+          <i class="fas fa-bug project-icon"></i>
+          <h4>Testing & Debugging</h4>
+          <p>Performed comprehensive testing and bug fixes</p>
+          <div class="tech-popup">
+            <h5>Tech Stack</h5>
+            <p>Jest, React Testing Library, Debugging Tools</p>
+            <h5>Key Learnings</h5>
+            <p>Implemented unit and integration testing, troubleshooting techniques, performance optimization</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backbtn" data-aos="fade-up">
     <a href="/#experience" class="btn">
         <i class="fas fa-arrow-left"></i>
         <span>Back to Home</span>
-  </a>
+    </a>
   </div>
-
-</div>
 </section>
 <!-- experience section ends -->
 
@@ -181,8 +298,6 @@
             <a href="https://www.linkedin.com/in/ravindra-jha75/" class="fab fa-linkedin" target="_blank"></a>
             <a href="https://github.com/ravindrauiet" class="fab fa-github" target="_blank"></a>
             <a href="mailto:ravindranathjha76@gmail.com" class="fas fa-envelope" target="_blank"></a>
-            <!-- <a href="https://twitter.com/" class="fab fa-twitter" target="_blank"></a> -->
-            <!-- <a href="https://t.me/" class="fab fa-telegram-plane" target="_blank"></a> -->
           </div>
       </div>
   </div>
@@ -201,8 +316,17 @@
 <!-- jquery cdn -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<!-- vanilla tilt.js links -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <!-- scroll reveal anim -->
 <script src="https://unpkg.com/scrollreveal"></script>
+
+<!-- AOS Animation -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+
 <!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
 
 <script src="./script.js"></script>
