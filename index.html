@@ -15,6 +15,59 @@
     <!-- Favicon -->
     <link id='favicon' rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-png">
     <title>Portfolio | Ravindra Nath Jha</title>
+    <!-- Added custom inline styles for project details in experience section -->
+    <style>
+        .project-details {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            border-left: 3px solid var(--main-color);
+        }
+        
+        .project-details h4 {
+            margin-bottom: 10px;
+            color: var(--main-color);
+            font-size: 1rem;
+        }
+        
+        .project-details ul {
+            list-style-type: none;
+            padding-left: 5px;
+        }
+        
+        .project-details li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .project-details i {
+            margin-right: 5px;
+            color: var(--main-color);
+        }
+        
+        .project-details strong {
+            color: #f5f5f5;
+        }
+        
+        .project-details p {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .project-details {
+                padding: 10px;
+            }
+            
+            .project-details li {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body oncontextmenu="return 1">
 
@@ -451,11 +504,17 @@
     <div class="container right">
       <div class="content">
         <div class="tag">
-          <h2>Software Engineer</h2>
+          <h2>Townmanor Technology</h2>
         </div>
         <div class="desc">
-            <h3>Townmanor Technology</h3>
-            <p>June 2024 - Present</p>
+            <h3>Team Lead & Senior Software Engineer</h3>
+            <div class="project-details">
+                <h4><i class="fas fa-project-diagram"></i> Key Projects:</h4>
+                <ul>
+                    <li><i class="fas fa-shopping-cart"></i> <strong>Real-Estate Platform:</strong> Led development of a scalable marketplace with AI-powered product recommendations using MERN stack</li>
+                    <li><i class="fas fa-chart-line"></i> <strong>Enterprise CRM:</strong> Developed a custom CRM solution with sales analytics and AI-driven insights</li>
+                </ul>
+            </div>
         </div>
       </div>
     </div>
@@ -463,63 +522,79 @@
     <div class="container left">
       <div class="content">
         <div class="tag">
-          <h2>Software Developer Intern</h2>
+          <h2>Maydiv Infotech</h2>
         </div>
         <div class="desc">
-            <h3>Web Developer & Design| Internship</h3>
-            <p>Jan 2024 - April 2024</p>
+            <h3>Senior Software Engineer</h3>
+            <div class="project-details">
+                <h4><i class="fas fa-project-diagram"></i> Key Projects:</h4>
+                <ul>
+                    <li><i class="fas fa-mobile-alt"></i> <strong>Fastag Bajaj APP:</strong> Developed a mobile application for managing Fastag payments and transactions</li>
+                    <li><i class="fas fa-mobile-alt"></i> <strong>Click APP:</strong> Built a user-friendly mobile application for seamless user interactions</li>
+                    <li><i class="fas fa-shopping-cart"></i> <strong>Fika - ECommerce WebApp:</strong> Led the development of a full-featured e-commerce platform with modern UI/UX</li>
+                </ul>
+            </div>
         </div>
       </div>
     </div>
-<!--
+    
     <div class="container right">
       <div class="content">
         <div class="tag">
-          <h2>The Spark Foundation</h2>
+          <h2>Relove</h2>
         </div>
         <div class="desc">
-            <h3>Website Developer | Internship</h3>
-            <p>May 2021 - June 2021</p>
+            <h3>Team Lead</h3>
+            <div class="project-details">
+                <h4><i class="fas fa-project-diagram"></i> Key Projects:</h4>
+                <ul>
+                    <li><i class="fas fa-globe"></i> <strong>Relove WebApp:</strong> Led the development of a comprehensive web application with modern features</li>
+                    <li><i class="fas fa-mobile-alt"></i> <strong>Relove App:</strong> Architected and developed a mobile application with cross-platform compatibility</li>
+                </ul>
+            </div>
         </div>
       </div>
     </div>
-
+    
     <div class="container left">
       <div class="content">
         <div class="tag">
-          <h2>The Spark Foundation</h2>
+          <h2>Puja Karo (Startup)</h2>
         </div>
         <div class="desc">
-            <h3>Mobile Application Developer | Internship</h3>
-            <p>April 2021 - May 2021</p>
+            <h3>Full Stack Developer</h3>
+            <div class="project-details">
+                <h4><i class="fas fa-project-diagram"></i> Key Projects:</h4>
+                <ul>
+                    <li><i class="fas fa-mobile-alt"></i> <strong>Puja Karo App:</strong> Developed a comprehensive mobile application for religious services booking</li>
+                    <li><i class="fas fa-globe"></i> <strong>Admin Dashboard:</strong> Created an intuitive admin panel for service management</li>
+                </ul>
+            </div>
         </div>
       </div>
     </div>
 
     <div class="container right">
-      <div class="content">
-        <div class="tag">
-          <h2>Frshr Technologies</h2>
+        <div class="content">
+            <div class="tag">
+                <h2>Web Development Internship</h2>
+            </div>
+            <div class="desc">
+                <h3>Software Developer Intern</h3>
+                <div class="project-details">
+                    <h4><i class="fas fa-tasks"></i> Key Responsibilities:</h4>
+                    <ul>
+                        <li><i class="fas fa-code"></i> <strong>Frontend Development:</strong> Created responsive UI components using React</li>
+                        <li><i class="fas fa-server"></i> <strong>Backend Integration:</strong> Connected frontend with Node.js and Express APIs</li>
+                        <li><i class="fas fa-bug"></i> <strong>Testing & Debugging:</strong> Performed comprehensive testing and bug fixes</li>
+                        <li><i class="fas fa-tools"></i> <strong>Technologies:</strong> HTML, CSS, JavaScript, React, Node.js</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="desc">
-            <h3>Wordpress Developer | Internship</h3>
-            <p>April 2021 - April 2021</p>
-        </div>
-      </div>
     </div>
 
-    <div class="container left">
-      <div class="content">
-        <div class="tag">
-          <h2>WonderingBlog</h2>
-        </div>
-        <div class="desc">
-            <h3>Web Development & SEO | Internship</h3>
-            <p>March 2021 - April 2021</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
+  </div>
 
   <div class="morebtn">
     <a href="/experience" class="btn"><span>View All</span>
