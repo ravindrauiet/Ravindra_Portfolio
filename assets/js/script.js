@@ -58,7 +58,7 @@ $(document).ready(function () {
 document.addEventListener('visibilitychange',
     function () {
         if (document.visibilityState === "visible") {
-            document.title = "Portfolio | Ashish Pathak";
+            document.title = "Portfolio | Ravindra Nath Jha";
             $("#favicon").attr("href", "assets/images/favicon.png");
         }
         else {
