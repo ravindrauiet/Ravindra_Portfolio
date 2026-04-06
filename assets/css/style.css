@@ -304,8 +304,34 @@ section.in-view::after {
 }
 .home .image {
   flex: 1 1 40rem;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
 }
+/* 3D Hero side with globe and DNA */
+.hero-3d-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 42rem;
+}
+#globe-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 38rem;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 30px rgba(0,242,254,0.25));
+}
+.dna-helix-wrap {
+  position: absolute;
+  right: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  filter: drop-shadow(0 0 8px rgba(0,242,254,0.4));
+}
+#dna-canvas { display: block; }
 .home .image img {
   width: 70%;
   margin-left: 6rem;
@@ -2584,4 +2610,308 @@ form .button-area {
     .modal-projects-container {
         grid-template-columns: 1fr;
     }
+}
+
+/* ==========================================
+   GAME LAUNCHER BUTTON
+========================================== */
+#game-launcher {
+  position: fixed;
+  bottom: 9rem;
+  right: 2.4rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f172a, #1e2d4a);
+  border: 2px solid rgba(0,242,254,0.4) !important;
+  z-index: 998;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0,242,254,0.2), inset 0 0 15px rgba(0,242,254,0.05);
+}
+#game-launcher:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 35px rgba(0,242,254,0.45), inset 0 0 20px rgba(0,242,254,0.1);
+  border-color: var(--accent-primary) !important;
+}
+.game-btn-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  z-index: 1;
+}
+.game-icon { font-size: 2rem; line-height: 1; }
+.game-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.05em;
+}
+.game-btn-ring {
+  position: absolute;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(0,242,254,0.3) !important;
+  animation: ringPulse 2s ease infinite;
+}
+@keyframes ringPulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  50%  { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1);   opacity: 0; }
+}
+
+/* ==========================================
+   GAME MODAL
+========================================== */
+.game-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.88);
+  backdrop-filter: blur(12px);
+  z-index: 50000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.game-modal-overlay.active { display: flex; }
+
+.game-modal-box {
+  background: linear-gradient(145deg, rgba(10,18,35,0.98), rgba(5,10,20,0.98));
+  border: 1px solid rgba(0,242,254,0.2);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 58rem;
+  box-shadow: 0 0 60px rgba(0,242,254,0.12), 0 30px 80px rgba(0,0,0,0.8);
+  overflow: hidden;
+  animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalIn {
+  from { transform: scale(0.7) translateY(40px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);      opacity: 1; }
+}
+
+/* Modal header */
+.game-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.8rem 2rem 1.2rem;
+  border-bottom: 1px solid rgba(0,242,254,0.1);
+  background: linear-gradient(90deg, rgba(0,242,254,0.05), transparent);
+}
+.game-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.game-header-icon { font-size: 2.8rem; }
+.game-modal-header h2 {
+  font-size: 2rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.3rem;
+  text-transform: none;
+}
+.game-modal-header p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  text-transform: none;
+}
+.game-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0,242,254,0.06);
+  border: 1px solid rgba(0,242,254,0.15);
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  min-width: 5.5rem;
+}
+.score-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+#score-val, #best-val {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+#game-close {
+  width: 3.5rem; height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+#game-close:hover {
+  background: rgba(255,50,50,0.15);
+  color: #ef4444;
+  border-color: rgba(255,50,50,0.3) !important;
+}
+
+/* Game selector tabs */
+.game-selector {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(0,242,254,0.1);
+}
+.game-tab {
+  flex: 1;
+  padding: 1.1rem;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border-bottom: 2px solid transparent !important;
+  transition: all 0.3s ease;
+  text-transform: none;
+}
+.game-tab:hover { color: var(--text-main); background: rgba(0,242,254,0.04); }
+.game-tab.active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary) !important;
+  background: rgba(0,242,254,0.06);
+}
+
+/* Canvas area */
+.game-canvas-wrap {
+  position: relative;
+  background: #07090f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#game-canvas {
+  display: block;
+  max-width: 100%;
+  image-rendering: pixelated;
+}
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 10, 22, 0.92);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.game-overlay-content {
+  text-align: center;
+  padding: 2.5rem;
+}
+.game-overlay-content h3 {
+  font-size: 2.8rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  text-transform: none;
+}
+.game-overlay-content p {
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  text-transform: none;
+  line-height: 1.6;
+}
+#start-game-btn {
+  padding: 1.2rem 3.5rem;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: var(--bg-dark);
+  border-radius: 5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.12em;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 25px rgba(0,242,254,0.4);
+}
+#start-game-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 40px rgba(0,242,254,0.65);
+}
+#overlay-score-msg {
+  margin-top: 1.5rem;
+  font-size: 1.4rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+  text-transform: none;
+}
+/* Controls hint */
+.game-controls-hint {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  border-top: 1px solid rgba(0,242,254,0.08);
+}
+.game-controls-hint span {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  text-transform: none;
+}
+
+/* ==========================================
+   SECTION PERSPECTIVE WRAPPER
+========================================== */
+section {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ==========================================
+   RESPONSIVE GAME / 3D
+========================================== */
+@media (max-width: 768px) {
+  .hero-3d-side { min-height: 28rem; }
+  #globe-canvas  { min-height: 26rem; }
+  .dna-helix-wrap { display: none; }
+  #game-canvas { width: 100%; height: auto; }
+  .game-modal-box { max-width: 100%; }
+  .game-selector { overflow-x: auto; }
+  .game-tab { font-size: 1.1rem; padding: 0.9rem; }
+  .game-controls-hint { flex-wrap: wrap; gap: 1rem; }
+  #game-launcher { bottom: 8rem; right: 1.5rem; width: 5.2rem; height: 5.2rem; }
+  .game-icon { font-size: 1.7rem; }
+  .game-header-right { gap: 0.8rem; }
+  .score-display { padding: 0.4rem 0.8rem; min-width: 4.5rem; }
+  #score-val, #best-val { font-size: 1.6rem; }
 }

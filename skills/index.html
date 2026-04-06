@@ -234,6 +234,10 @@
 
     <!-- Scripts -->
     <script src="./script.js"></script>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Shared AI/3D Effects -->
+    <script src="/assets/js/shared-effects.js"></script>
     <script>
         // Hamburger menu toggle
         const menu = document.getElementById('menu');
@@ -244,7 +248,6 @@
                 navbar.classList.toggle('nav-toggle');
             });
         }
-        // Close menu on link click
         document.querySelectorAll('.navbar a').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.remove('fa-times');

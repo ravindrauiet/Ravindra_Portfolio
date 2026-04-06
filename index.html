@@ -208,8 +208,11 @@
         </div>
     </div>
     </div>
-    <div class="image">
-        <!-- <img draggable="false" class="tilt" src="./assets/images/hero.png" alt=""> -->
+    <div class="image hero-3d-side">
+        <canvas id="globe-canvas"></canvas>
+        <div class="dna-helix-wrap">
+          <canvas id="dna-canvas"></canvas>
+        </div>
     </div>
 </section>
 <!-- hero section ends -->
@@ -764,10 +767,72 @@
 </section>
 <!-- footer section ends -->
 
-
 <!-- scroll top btn -->
 <a href="#home" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
-<!-- scroll back to top -->
+
+<!-- ======= GAME LAUNCHER BUTTON ======= -->
+<button id="game-launcher" title="Play Mini Game">
+  <div class="game-btn-inner">
+    <span class="game-icon">🎮</span>
+    <span class="game-label">Play</span>
+  </div>
+  <div class="game-btn-ring"></div>
+</button>
+
+<!-- ======= GAME MODAL ======= -->
+<div id="game-modal" class="game-modal-overlay" role="dialog" aria-label="Mini Game">
+  <div class="game-modal-box">
+
+    <!-- Header -->
+    <div class="game-modal-header">
+      <div class="game-header-left">
+        <span class="game-header-icon">🕹️</span>
+        <div>
+          <h2 id="game-title">Neon Snake</h2>
+          <p id="game-subtitle">Use Arrow Keys / WASD to move</p>
+        </div>
+      </div>
+      <div class="game-header-right">
+        <div class="score-display">
+          <span class="score-label">SCORE</span>
+          <span id="score-val">0</span>
+        </div>
+        <div class="score-display">
+          <span class="score-label">BEST</span>
+          <span id="best-val">0</span>
+        </div>
+        <button id="game-close" aria-label="Close">&times;</button>
+      </div>
+    </div>
+
+    <!-- Game Selector -->
+    <div class="game-selector">
+      <button class="game-tab active" data-game="snake">🐍 Neon Snake</button>
+      <button class="game-tab" data-game="invaders">🚀 Space Code</button>
+      <button class="game-tab" data-game="breakout">🧱 Block Buster</button>
+    </div>
+
+    <!-- Canvas Area -->
+    <div class="game-canvas-wrap">
+      <canvas id="game-canvas" width="500" height="420"></canvas>
+      <div id="game-overlay" class="game-overlay">
+        <div class="game-overlay-content">
+          <h3 id="overlay-title">Neon Snake</h3>
+          <p id="overlay-msg">Dodge walls. Eat glowing orbs. Level up!</p>
+          <button id="start-game-btn">START GAME</button>
+          <p id="overlay-score-msg"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls hint -->
+    <div class="game-controls-hint">
+      <span>⬆⬇⬅➡ Move</span>
+      <span>P Pause</span>
+      <span>R Restart</span>
+    </div>
+  </div>
+</div>
 
 
 <!-- ==== ALL MAJOR JAVASCRIPT CDNS STARTS ==== -->
@@ -802,6 +867,7 @@
 
 <script src="./assets/js/script.js"></script>
 <script src="./assets/js/ai-3d.js"></script>
+<script src="./assets/js/game.js"></script>
 
 </body>
 </html>
