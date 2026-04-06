@@ -297,6 +297,9 @@
         </div>
     </footer>
 
+    <!-- Games CSS -->
+    <link rel="stylesheet" href="/assets/css/games.css">
+
     <!-- ══════════════ SCRIPTS ══════════════ -->
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -304,6 +307,43 @@
     <script src="./script.js"></script>
     <!-- Shared AI/3D Effects -->
     <script src="/assets/js/shared-effects.js"></script>
+
+    <!-- ══ TECH MEMORY MATCH GAME ══ -->
+    <button class="game-launcher" id="gameLaunchBtn">
+        <span class="game-icon">🃏</span> Tech Match
+    </button>
+
+    <div class="game-overlay" id="gameOverlay">
+        <button class="game-close" id="gameClose"><i class="fas fa-times"></i></button>
+        <div class="game-title-bar">
+            <h2>🃏 Tech Memory Match</h2>
+            <p>Find all matching tech logo pairs before time runs out!</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="game-stat-bar">
+            <div class="game-stat"><div class="game-stat-value" id="mem-score">0</div><div class="game-stat-label">Score</div></div>
+            <div class="game-stat"><div class="game-stat-value" id="mem-moves">0</div><div class="game-stat-label">Moves</div></div>
+            <div class="game-stat"><div class="game-stat-value" id="mem-time">60</div><div class="game-stat-label">Seconds</div></div>
+            <div class="game-stat"><div class="game-stat-value" id="mem-pairs">0/12</div><div class="game-stat-label">Pairs</div></div>
+        </div>
+
+        <!-- Grid -->
+        <div id="memory-grid"></div>
+
+        <div style="text-align:center">
+            <button class="game-btn primary" id="mem-restart">🔄 New Game</button>
+            <button class="game-btn secondary" id="mem-close-btn">✕ Close</button>
+        </div>
+
+        <!-- Result overlay -->
+        <div class="game-result" id="mem-result" style="display:none;position:absolute;inset:0;z-index:10;background:rgba(2,6,23,0.95);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;flex-direction:column">
+            <div class="result-score" id="mem-final-score">0</div>
+            <h3 id="mem-result-title">Well Done! 🎉</h3>
+            <p id="mem-result-msg">You matched all pairs!</p>
+            <button class="game-btn primary" id="mem-play-again">🔄 Play Again</button>
+        </div>
+    </div>
 
     <script>
         // ── Hamburger ──
@@ -497,6 +537,114 @@
                 panel.style.transform = '';
             });
         });
+
+        // ══════════════════════════════════════════════
+        // 🃏 TECH MEMORY MATCH GAME
+        // ══════════════════════════════════════════════
+        (function initMemoryGame() {
+            const TECHS = [
+                { emoji: '⚛️', label: 'React' },  { emoji: '🟩', label: 'Node' },
+                { emoji: '🐍', label: 'Python' }, { emoji: '🍃', label: 'Mongo' },
+                { emoji: '🐳', label: 'Docker' }, { emoji: '🔥', label: 'Firebase' },
+                { emoji: '☁️', label: 'AWS' },    { emoji: '🎯', label: 'Flutter' },
+                { emoji: '📘', label: 'TypeScript'}, { emoji: '🐙', label: 'Git' },
+                { emoji: '🟡', label: 'JS' },     { emoji: '💾', label: 'MySQL' },
+            ];
+
+            let cards = [], flipped = [], matched = 0, moves = 0, score = 0, timer = null, timeLeft = 60, locked = false;
+
+            const grid   = document.getElementById('memory-grid');
+            const elScore = document.getElementById('mem-score');
+            const elMoves = document.getElementById('mem-moves');
+            const elTime  = document.getElementById('mem-time');
+            const elPairs = document.getElementById('mem-pairs');
+            const elResult = document.getElementById('mem-result');
+            const elFinal  = document.getElementById('mem-final-score');
+            const elTitle  = document.getElementById('mem-result-title');
+            const elMsg    = document.getElementById('mem-result-msg');
+
+            function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+            function buildGrid() {
+                grid.innerHTML = '';
+                cards = []; flipped = []; matched = 0; moves = 0; score = 0; timeLeft = 60; locked = false;
+                elScore.textContent = 0; elMoves.textContent = 0; elTime.textContent = 60; elPairs.textContent = '0/12';
+                elResult.style.display = 'none';
+                if (timer) clearInterval(timer);
+
+                const deck = shuffle([...TECHS, ...TECHS]);
+                deck.forEach((tech, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'mem-card';
+                    card.dataset.id = i;
+                    card.dataset.label = tech.label;
+                    card.innerHTML = `
+                        <div class="mem-card-inner">
+                            <div class="mem-card-front"><i class="fas fa-question"></i></div>
+                            <div class="mem-card-back">${tech.emoji}<small>${tech.label}</small></div>
+                        </div>`;
+                    card.addEventListener('click', () => flipCard(card));
+                    grid.appendChild(card);
+                    cards.push(card);
+                });
+
+                timer = setInterval(() => {
+                    timeLeft--;
+                    elTime.textContent = timeLeft;
+                    if (timeLeft <= 0) { clearInterval(timer); showResult(false); }
+                }, 1000);
+            }
+
+            function flipCard(card) {
+                if (locked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+                card.classList.add('flipped');
+                flipped.push(card);
+
+                if (flipped.length === 2) {
+                    locked = true; moves++;
+                    elMoves.textContent = moves;
+
+                    if (flipped[0].dataset.label === flipped[1].dataset.label) {
+                        // Match!
+                        flipped.forEach(c => c.classList.add('matched'));
+                        matched++;
+                        score += Math.max(10, 30 - moves);
+                        elScore.textContent = score;
+                        elPairs.textContent = `${matched}/12`;
+                        flipped = []; locked = false;
+                        if (matched === 12) { clearInterval(timer); setTimeout(() => showResult(true), 400); }
+                    } else {
+                        setTimeout(() => {
+                            flipped.forEach(c => c.classList.remove('flipped'));
+                            flipped = []; locked = false;
+                        }, 900);
+                    }
+                }
+            }
+
+            function showResult(win) {
+                elFinal.textContent = score;
+                elTitle.textContent = win ? '🎉 You Won!' : '⏰ Time\'s Up!';
+                elMsg.textContent   = win
+                    ? `Amazing! ${moves} moves in ${60 - timeLeft}s. Score: ${score}`
+                    : `You matched ${matched}/12 pairs. Try again!`;
+                elResult.style.display = 'flex';
+            }
+
+            // Open / close game overlay
+            document.getElementById('gameLaunchBtn').addEventListener('click', () => {
+                document.getElementById('gameOverlay').classList.add('open');
+                buildGrid();
+            });
+            function closeGame() {
+                document.getElementById('gameOverlay').classList.remove('open');
+                if (timer) clearInterval(timer);
+            }
+            document.getElementById('gameClose').addEventListener('click', closeGame);
+            document.getElementById('mem-close-btn').addEventListener('click', closeGame);
+            document.getElementById('mem-restart').addEventListener('click', buildGrid);
+            document.getElementById('mem-play-again').addEventListener('click', buildGrid);
+        })();
 
     </script>
 </body>

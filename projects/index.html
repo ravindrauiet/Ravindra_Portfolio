@@ -262,23 +262,50 @@
 <a href="#" class="fas fa-angle-up" id="scroll-top"></a>
 
 <!-- ══════════════ SCRIPTS ══════════════ -->
+<!-- Games CSS -->
+<link rel="stylesheet" href="/assets/css/games.css">
+
+<!-- ══ BUG BLASTER GAME ══ -->
+<button class="game-launcher" id="bugLaunchBtn">
+    <span class="game-icon">🐛</span> Bug Blaster
+</button>
+
+<div class="game-overlay" id="bugOverlay">
+    <button class="game-close" id="bugClose"><i class="fas fa-times"></i></button>
+    <div class="game-title-bar">
+        <h2>🐛 Bug Blaster</h2>
+        <p>Smash the bugs before they escape! Click fast, coder.</p>
+    </div>
+    <div class="game-stat-bar">
+        <div class="game-stat"><div class="game-stat-value" id="bug-score">0</div><div class="game-stat-label">Score</div></div>
+        <div class="game-stat"><div class="game-stat-value" id="bug-lives">❤️❤️❤️</div><div class="game-stat-label">Lives</div></div>
+        <div class="game-stat"><div class="game-stat-value" id="bug-time">30</div><div class="game-stat-label">Seconds</div></div>
+        <div class="game-stat"><div class="game-stat-value" id="bug-level">1</div><div class="game-stat-label">Level</div></div>
+    </div>
+    <div id="bug-arena">
+        <div class="arena-countdown" id="bug-countdown">3</div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem">
+        <button class="game-btn primary" id="bug-start">▶ Start Game</button>
+        <button class="game-btn secondary" id="bug-close-btn">✕ Close</button>
+    </div>
+    <div class="game-result" id="bug-result" style="display:none;position:absolute;inset:0;z-index:10;background:rgba(2,6,23,0.95);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;flex-direction:column">
+        <div class="result-score" id="bug-final-score">0</div>
+        <h3 id="bug-result-title">Game Over!</h3>
+        <p id="bug-result-msg">You squashed some bugs!</p>
+        <button class="game-btn primary" id="bug-play-again">🔄 Play Again</button>
+    </div>
+</div>
+
+<!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 <script src="https://unpkg.com/scrollreveal"></script>
-<!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- Shared AI/3D Effects -->
 <script src="/assets/js/shared-effects.js"></script>
-<!-- Page script -->
 <script src="./script.js"></script>
 
-<script>
-    // ══════════════════════════════════════════
-    // 3D DATA-STREAM HERO — PROJECTS PAGE
-    // ══════════════════════════════════════════
-    (function initProjectsHero3D() {
-        const canvas = document.getElementById('projects-hero-canvas');
-        if (!canvas || typeof THREE === 'undefined') return;
+
 
         const section = canvas.parentElement;
         const W = () => section.offsetWidth;
