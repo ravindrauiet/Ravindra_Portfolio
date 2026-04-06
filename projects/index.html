@@ -32,6 +32,11 @@
     <meta property="twitter:description" content="Explore React.js, MERN stack, and mobile app projects by Ravindra Nath Jha. Web applications, mobile apps, AI solutions, and cloud implementations.">
     <meta property="twitter:image" content="https://ravindranathjha.in/assets/images/projects/fika.png">
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="./style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -42,76 +47,8 @@
     
     <!-- Favicon -->
     <link id='favicon' rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-png">
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="./style.css" as="style">
-    <link rel="preload" href="./script.js" as="script">
-    
-    <!-- Structured Data / JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "headline": "React.js Projects Portfolio | Ravindra Nath Jha",
-      "description": "Collection of projects built with React.js, Node.js, and other modern technologies by Ravindra Nath Jha.",
-      "url": "https://ravindranathjha.in/projects",
-      "author": {
-        "@type": "Person",
-        "name": "Ravindra Nath Jha",
-        "url": "https://ravindranathjha.in"
-      },
-      "mainEntity": {
-        "@type": "ItemList",
-        "itemListElement": [
-          {
-            "@type": "SoftwareSourceCode",
-            "position": 1,
-            "name": "MERN Stack Projects",
-            "description": "Web applications built with MongoDB, Express.js, React.js, and Node.js",
-            "codeRepository": "https://github.com/ravindrauiet",
-            "programmingLanguage": ["JavaScript", "React.js", "Node.js", "MongoDB"]
-          },
-          {
-            "@type": "SoftwareSourceCode",
-            "position": 2,
-            "name": "Mobile App Development",
-            "description": "Cross-platform mobile applications built with React Native and Flutter",
-            "codeRepository": "https://github.com/ravindrauiet",
-            "programmingLanguage": ["React Native", "JavaScript", "Flutter", "Firebase"]
-          },
-          {
-            "@type": "SoftwareSourceCode",
-            "position": 3,
-            "name": "AI & Machine Learning Projects",
-            "description": "Intelligent applications with AI capabilities using OpenAI and Google Gemini APIs",
-            "codeRepository": "https://github.com/ravindrauiet",
-            "programmingLanguage": ["Python", "JavaScript", "TensorFlow"]
-          },
-          {
-            "@type": "SoftwareSourceCode",
-            "position": 4,
-            "name": "Cloud & DevOps Solutions",
-            "description": "Cloud infrastructure and deployment pipelines using AWS and Google Cloud",
-            "codeRepository": "https://github.com/ravindrauiet",
-            "programmingLanguage": ["AWS", "Docker", "CI/CD", "Cloud Services"]
-          }
-        ]
-      }
-    }
-    </script>
-    
-    <script>
-        // Check if Lottie is loaded
-        window.addEventListener('load', function() {
-            if (typeof lottie === 'undefined') {
-                console.error('Lottie library not loaded!');
-            } else {
-                console.log('Lottie library loaded successfully');
-            }
-        });
-    </script>
 </head>
-<body oncontextmenu="return true">
+<body>
 
 <!-- navbar starts -->
 <header>
@@ -122,10 +59,10 @@
             <ul>
             <li><a href="/#home">Home</a></li>
             <li><a href="/#about">About</a></li>
-            <li><a href="/#skills">Skills</a></li>
+            <li><a href="/skills">Skills</a></li>
             <li><a href="/#education">Education</a></li>
-            <li><a class="active" href="/#work">Work</a></li>
-            <li><a href="/#experience">Experience</a></li>
+            <li><a class="active" href="/projects">Work</a></li>
+            <li><a href="/experience">Experience</a></li>
             <li><a href="/#contact">Contact</a></li>
             </ul>
         </nav>

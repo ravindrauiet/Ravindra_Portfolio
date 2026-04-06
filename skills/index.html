@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- Primary Meta Tags -->
-    <title>Skills & Expertise | Ravindra Nath Jha | Full Stack Developer</title>
-    <meta name="title" content="Skills & Expertise | Ravindra Nath Jha | Full Stack Developer">
+    <title>Skills &amp; Expertise | Ravindra Nath Jha | Full Stack Developer</title>
+    <meta name="title" content="Skills &amp; Expertise | Ravindra Nath Jha | Full Stack Developer">
     <meta name="description" content="Explore Ravindra Nath Jha's technical skills in React.js, Node.js, MERN stack, mobile app development, and cloud technologies.">
     <meta name="keywords" content="React.js skills, Node.js expertise, MERN stack, full stack development, mobile app development, cloud technologies, AWS, React Native, Flutter, JavaScript">
     <meta name="author" content="Ravindra Nath Jha">
@@ -19,19 +19,24 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ravindranathjha.in/skills">
-    <meta property="og:title" content="Skills & Expertise | Ravindra Nath Jha">
+    <meta property="og:title" content="Skills &amp; Expertise | Ravindra Nath Jha">
     <meta property="og:description" content="Explore Ravindra Nath Jha's technical skills in React.js, Node.js, MERN stack, mobile app development, and cloud technologies.">
     <meta property="og:image" content="https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://ravindranathjha.in/skills">
-    <meta property="twitter:title" content="Skills & Expertise | Ravindra Nath Jha">
+    <meta property="twitter:title" content="Skills &amp; Expertise | Ravindra Nath Jha">
     <meta property="twitter:description" content="Explore Ravindra Nath Jha's technical skills in React.js, Node.js, MERN stack, mobile app development, and cloud technologies.">
     <meta property="twitter:image" content="https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg">
     
     <!-- favicon -->
     <link id="favicon" rel="icon" href="/assets/images/favicon.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -39,18 +44,12 @@
     <!-- custom css -->
     <link rel="stylesheet" href="./style.css">
     
-    <!-- Lottie Player -->
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    
-    <!-- AOS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Skills & Expertise | Ravindra Nath Jha",
+      "name": "Skills &amp; Expertise | Ravindra Nath Jha",
       "description": "Technical skills and expertise in web development, mobile app development, and cloud technologies",
       "url": "https://ravindranathjha.in/skills",
       "author": {
@@ -62,20 +61,23 @@
     </script>
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="header-content">
-            <a href="/" class="logo">Ravindra Nath Jha</a>
-            <nav class="nav-menu">
-                <a href="/">Home</a>
-                <a href="/about">About</a>
-                <a href="/skills" class="active">Skills</a>
-                <a href="/projects">Work</a>
-                <a href="/experience">Experience</a>
-                <a href="/#contact">Contact</a>
-            </nav>
-        </div>
+    <!-- navbar starts -->
+    <header>
+        <a href="/" class="logo"><i class="fab fa-node-js"></i> Ravindra</a>
+        <div id="menu" class="fas fa-bars"></div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="/#home">Home</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a class="active" href="/skills">Skills</a></li>
+                <li><a href="/#education">Education</a></li>
+                <li><a href="/projects">Work</a></li>
+                <li><a href="/experience">Experience</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
+    <!-- navbar ends -->
 
     <!-- Skills Hero Section -->
     <section class="skills-hero">
@@ -231,7 +233,24 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="./script.js"></script>
+    <script>
+        // Hamburger menu toggle
+        const menu = document.getElementById('menu');
+        const navbar = document.querySelector('.navbar');
+        if (menu) {
+            menu.addEventListener('click', () => {
+                menu.classList.toggle('fa-times');
+                navbar.classList.toggle('nav-toggle');
+            });
+        }
+        // Close menu on link click
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('fa-times');
+                navbar.classList.remove('nav-toggle');
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>
