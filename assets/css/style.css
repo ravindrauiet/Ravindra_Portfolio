@@ -252,12 +252,21 @@ header .navbar ul li a:hover::after {
   min-height: 100vh;
   align-items: center;
 }
+/* Neural Network Canvas */
+#neural-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
 .home #particles-js {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
+  z-index: 1;
 }
 .home::before {
   content: "";
@@ -266,6 +275,21 @@ header .navbar ul li a:hover::after {
   left: 0;
   height: 100%;
   width: 100%;
+}
+/* Section glow when in view */
+section.in-view::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+  animation: glowLine 2s ease infinite alternate;
+}
+@keyframes glowLine {
+  from { opacity: 0.3; box-shadow: 0 0 5px rgba(0,242,254,0.3); }
+  to   { opacity: 0.9; box-shadow: 0 0 20px rgba(0,242,254,0.7); }
 }
 .home .content {
   flex: 1 1 40rem;
