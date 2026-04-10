@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sayari & Poetry | Ravindra Nath Jha</title>
+    <meta name="description" content="Explore Sayari and Poetry by Ravindra Nath Jha.">
+    <meta name="author" content="Ravindra Nath Jha">
+    <meta name="robots" content="index, follow">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Favicon -->
+    <link id="favicon" rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-png">
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<header>
+    <a href="/" class="logo"><i class="fab fa-node-js"></i> Ravindra</a>
+    <div id="menu" class="fas fa-bars"></div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/#home">Home</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="/skills">Skills</a></li>
+            <li><a href="/#education">Education</a></li>
+            <li><a href="/projects">Work</a></li>
+            <li><a class="active" href="/sayari">Sayari</a></li>
+            <li><a href="/experience">Experience</a></li>
+            <li><a href="/#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- ══════════════ HERO SECTION ══════════════ -->
+<section class="sayari-header">
+    <div class="sayari-header-content">
+        <div class="hero-badge"><i class="fas fa-pen-nib"></i> Expressions</div>
+        <h2 class="heading">Sayari & <span>Poetry</span></h2>
+        <p class="heading-sub">A collection of my thoughts, emotions, and poetic expressions.</p>
+
+        <div class="project-filters">
+            <button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> All</button>
+            <button class="filter-btn" data-filter="sayari"><i class="fas fa-heart"></i> Sayari</button>
+            <button class="filter-btn" data-filter="poetry"><i class="fas fa-leaf"></i> Poetry</button>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════ SAYARI / POETRY CARDS ══════════════ -->
+<section class="sayari-section">
+    <div class="sayari-container" id="sayari-container">
+        <!-- Cards loaded dynamically -->
+    </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="projects-footer">
+    <div class="footer-bottom">
+        <p>Designed with <i class="fas fa-heart"></i> by <a href="https://www.linkedin.com/in/ravindra-jha75/">Ravindra Nath Jha</a></p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="./script.js"></script>
+
+</body>
+</html>
