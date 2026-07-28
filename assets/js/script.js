@@ -412,17 +412,18 @@ function categorizeSkills(skills) {
         const progressPercentage = (projectInfo.count / maxProjects) * 100;
         
         const skillElement = `
-            <div class="skill-card" title="${skill.name}">
-                <div class="skill-info">
-                    <i class="${techIcons[skill.name] || 'fas fa-code'}"></i>
-                    <span class="skill-name">${skill.name}</span>
+            <div class="skill-bento-chip" title="${skill.name}">
+                <div class="skill-chip-left">
+                    <div class="skill-icon-avatar">
+                        <i class="${techIcons[skill.name] || 'fas fa-code'}"></i>
+                    </div>
+                    <div class="skill-text-details">
+                        <span class="skill-name">${skill.name}</span>
+                        <span class="skill-projects-count">${projectInfo.count} Projects Completed</span>
+                    </div>
                 </div>
-                <div class="skill-level">
-                    <div class="skill-progress" data-width="${progressPercentage}%" data-projects="${projectInfo.count}"></div>
-                </div>
-                <a href="${projectInfo.link}" class="project-count" title="View ${projectInfo.count} projects using ${skill.name}">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>${projectInfo.count} Projects</span>
+                <a href="${projectInfo.link}" class="skill-view-btn" title="View projects using ${skill.name}">
+                    <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
         `;
