@@ -1,8 +1,16 @@
 import Projects from "@/components/Projects";
 
 export const metadata = {
-  title: "Projects | Ravindra Nath Jha Portfolio",
-  description: "Explore MERN stack, React Native mobile apps, AI solutions, and full-stack web applications developed by Ravindra Nath Jha."
+  title: "Projects & Portfolio Work",
+  description: "Featured full-stack web applications, MERN stack software, React Native mobile apps, and AI solutions developed by Ravindra Nath Jha.",
+  alternates: {
+    canonical: "https://ravindranathjha.in/projects",
+  },
+  openGraph: {
+    title: "Projects & Portfolio Work | Ravindra Nath Jha",
+    description: "Featured full-stack web applications, MERN stack software, React Native mobile apps, and AI solutions developed by Ravindra Nath Jha.",
+    url: "https://ravindranathjha.in/projects",
+  },
 };
 
 export default function ProjectsPage() {

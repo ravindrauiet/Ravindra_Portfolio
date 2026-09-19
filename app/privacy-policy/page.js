@@ -1,6 +1,9 @@
 export const metadata = {
-  title: "Privacy Policy | Ravindra Nath Jha Portfolio",
-  description: "Privacy policy and terms of use for Ravindra Nath Jha's portfolio website."
+  title: "Privacy Policy",
+  description: "Privacy policy and terms of use for Ravindra Nath Jha's portfolio website.",
+  alternates: {
+    canonical: "https://ravindranathjha.in/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {

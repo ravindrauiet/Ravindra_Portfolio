@@ -1,8 +1,16 @@
 import Experience from "@/components/Experience";
 
 export const metadata = {
-  title: "Experience & Education | Ravindra Nath Jha Portfolio",
-  description: "Career history, leadership roles, and academic background of Ravindra Nath Jha, Team Lead & Full Stack Developer Specialist."
+  title: "Experience & Professional Journey",
+  description: "Work history, leadership experience at Townmanor Technology, software engineering projects, and academic background of Ravindra Nath Jha.",
+  alternates: {
+    canonical: "https://ravindranathjha.in/experience",
+  },
+  openGraph: {
+    title: "Experience & Professional Journey | Ravindra Nath Jha",
+    description: "Work history, leadership experience at Townmanor Technology, software engineering projects, and academic background of Ravindra Nath Jha.",
+    url: "https://ravindranathjha.in/experience",
+  },
 };
 
 export default function ExperiencePage() {
