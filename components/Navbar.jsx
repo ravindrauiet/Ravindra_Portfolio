@@ -58,6 +58,15 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
+            <Link
+              className={pathname.startsWith("/notes") ? "active" : ""}
+              href="/notes"
+              onClick={() => setMenuOpen(false)}
+            >
+              Notes 📚
+            </Link>
+          </li>
+          <li>
             <Link href="/#education" onClick={() => setMenuOpen(false)}>
               Education
             </Link>
@@ -90,4 +99,3 @@ export default function Navbar() {
     </header>
   );
 }
-
