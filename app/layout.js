@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TabTitleSwitcher from "@/components/TabTitleSwitcher";
+import Script from "next/script";
 
 export const metadata = {
   title: "Portfolio | Ravindra Nath Jha",
@@ -54,6 +55,19 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" href="/assets/images/favicon.png" />
       </head>
       <body>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-580YQFGF8V"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-580YQFGF8V');
+          `}
+        </Script>
         <TabTitleSwitcher />
         <Navbar />
         <main>{children}</main>
