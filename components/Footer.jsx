@@ -7,10 +7,10 @@ export default function Footer() {
         <div className="box">
           <h3>Ravindra Nath Jha's Portfolio</h3>
           <p>
-            Thank you for visiting my personal portfolio website. Connect with me over social media platforms!
+            Thank you for visiting my personal portfolio website. Connect with me over phone, WhatsApp, or social media platforms!
             <br />
             <br />
-            Keep Rising 🚀. Connect with me over live chat!
+            Keep Rising 🚀. Connect with me over live chat or WhatsApp!
           </p>
         </div>
 
@@ -25,6 +25,9 @@ export default function Footer() {
           <Link href="/skills">
             <i className="fas fa-chevron-circle-right"></i> Skills
           </Link>
+          <Link href="/notes">
+            <i className="fas fa-chevron-circle-right"></i> Notes
+          </Link>
           <Link href="/projects">
             <i className="fas fa-chevron-circle-right"></i> Work
           </Link>
@@ -36,12 +39,28 @@ export default function Footer() {
         <div className="box">
           <h3>Contact Info</h3>
           <p>
-            <i className="fas fa-envelope"></i> ravindranathjha76@gmail.com
+            <i className="fas fa-phone-alt"></i>{" "}
+            <a href="tel:9354156323" style={{ color: "inherit", textDecoration: "none" }}>
+              +91 9354156323
+            </a>
+          </p>
+          <p>
+            <i className="fas fa-envelope"></i>{" "}
+            <a href="mailto:ravindranathjha76@gmail.com" style={{ color: "inherit", textDecoration: "none" }}>
+              ravindranathjha76@gmail.com
+            </a>
           </p>
           <p>
             <i className="fas fa-map-marked-alt"></i> Faridabad, India - 121003
           </p>
           <div className="share">
+            <a
+              href="https://wa.me/919354156323"
+              className="fab fa-whatsapp"
+              aria-label="WhatsApp"
+              target="_blank"
+              rel="noreferrer"
+            ></a>
             <a
               href="https://www.linkedin.com/in/ravindra-jha75/"
               className="fab fa-linkedin"

@@ -7,13 +7,15 @@ export default function JsonLd() {
     "url": "https://ravindranathjha.in",
     "image": "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
     "jobTitle": "Full Stack Developer & Team Lead",
+    "telephone": "+919354156323",
     "worksFor": {
       "@type": "Organization",
       "name": "Townmanor Technology"
     },
     "sameAs": [
       "https://www.linkedin.com/in/ravindra-jha75/",
-      "https://github.com/ravindrauiet"
+      "https://github.com/ravindrauiet",
+      "https://wa.me/919354156323"
     ],
     "knowsAbout": [
       "React.js",
@@ -55,6 +57,7 @@ export default function JsonLd() {
     "name": "Ravindra Nath Jha - Freelance Full Stack Development",
     "image": "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
     "url": "https://ravindranathjha.in",
+    "telephone": "+919354156323",
     "email": "ravindranathjha76@gmail.com",
     "address": {
       "@type": "PostalAddress",

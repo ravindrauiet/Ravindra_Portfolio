@@ -9,7 +9,7 @@ export default function Contact() {
     message: ""
   });
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(null); // { type: 'success' | 'error', text: string }
+  const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +53,49 @@ export default function Contact() {
       <h2 className="heading">
         <i className="fas fa-headset"></i> Get In <span>Touch</span>
       </h2>
+
+      {/* Direct Contact Callout Bar */}
+      <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap", marginBottom: "3rem" }}>
+        <a
+          href="tel:9354156323"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            padding: "0.8rem 1.6rem",
+            borderRadius: "50px",
+            background: "#2506ad",
+            color: "#fff",
+            fontWeight: "700",
+            fontSize: "1.05rem",
+            textDecoration: "none",
+            boxShadow: "0 8px 20px rgba(37, 6, 173, 0.25)"
+          }}
+        >
+          <i className="fas fa-phone-alt"></i> Call: +91 9354156323
+        </a>
+
+        <a
+          href="https://wa.me/919354156323?text=Hi%20Ravindra,%20I%20would%20like%20to%20discuss%20a%20project!"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            padding: "0.8rem 1.6rem",
+            borderRadius: "50px",
+            background: "#25D366",
+            color: "#fff",
+            fontWeight: "700",
+            fontSize: "1.05rem",
+            textDecoration: "none",
+            boxShadow: "0 8px 20px rgba(37, 211, 102, 0.3)"
+          }}
+        >
+          <i className="fab fa-whatsapp" style={{ fontSize: "1.3rem" }}></i> WhatsApp: +91 9354156323
+        </a>
+      </div>
 
       <div className="container">
         <div className="content">
@@ -145,4 +188,3 @@ export default function Contact() {
     </section>
   );
 }
-
