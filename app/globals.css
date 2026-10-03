@@ -4561,3 +4561,154 @@ a.abt-detail-value:focus-visible {
     bottom: 1.6rem;
   }
 }
+
+/* ==========================================================
+   Motion & 3D effects (driven by components/MotionEffects.jsx)
+   ========================================================== */
+
+/* 3D scroll entrance: elements swing up from a tilted-back angle */
+.reveal {
+  opacity: 0;
+  transform: perspective(1200px) rotateX(28deg) translateY(70px) scale(0.94) !important;
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms) !important;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1) !important;
+}
+
+/* 3D tilt cards: keep children in 3D space so inner layers can pop forward */
+.svc-card,
+.prj-card,
+.svc-why-card,
+.exp-card,
+.skl-card,
+.abt-photo {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.prj-card {
+  overflow: visible; /* overflow:hidden would flatten the 3D layers */
+}
+.prj-media {
+  border-radius: 1.6rem 1.6rem 0 0;
+}
+
+/* depth layers inside cards (no visible effect until the card tilts) */
+.svc-icon,
+.svc-why-icon,
+.skl-card-icon,
+.abt-photo-card {
+  transform: translateZ(70px);
+}
+.svc-card h3,
+.prj-body h3,
+.svc-why-card h4,
+.exp-card h4,
+.skl-card-header h3 {
+  transform: translateZ(45px);
+}
+.svc-highlight,
+.svc-label,
+.prj-category,
+.svc-why-label,
+.exp-card-top,
+.skl-count,
+.svc-card-footer,
+.prj-links {
+  transform: translateZ(35px);
+}
+.prj-media,
+.svc-features,
+.prj-tech,
+.skl-list,
+.exp-points {
+  transform: translateZ(20px);
+}
+
+/* soft light reflection that follows the cursor */
+.svc-card::after,
+.prj-card::after,
+.svc-why-card::after,
+.exp-card::after,
+.skl-card::after,
+.abt-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(37, 6, 173, 0.1),
+    transparent 60%
+  );
+  transform: translateZ(1px);
+  transition: opacity 0.3s ease;
+}
+.svc-card-featured::after,
+.abt-photo::after {
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.28),
+    transparent 60%
+  );
+}
+.is-tilting::after {
+  opacity: 1;
+}
+.is-tilting {
+  z-index: 5;
+  box-shadow: 0 40px 70px -20px rgba(0, 32, 87, 0.35);
+}
+
+/* about photo */
+.abt-photo {
+  border-radius: 1.6rem;
+}
+.abt-photo.is-tilting {
+  box-shadow: 0 40px 70px -24px rgba(0, 32, 87, 0.45);
+}
+
+/* hero: 3D layered banner */
+.home {
+  overflow: hidden;
+}
+.home .content {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.3s ease-out;
+}
+.home .content > * {
+  opacity: var(--hero-fade, 1);
+}
+.home .content h2 {
+  transform: translateZ(60px);
+}
+.home .content > p {
+  transform: translateZ(40px);
+}
+.home .content .cta-buttons {
+  transform: translateZ(30px);
+}
+.home .content .socials {
+  transform: translateZ(20px);
+}
+.home .hero-lottie,
+.home #particles-js {
+  will-change: transform;
+  transition: transform 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none !important;
+  }
+}

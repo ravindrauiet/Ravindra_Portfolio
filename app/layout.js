@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import TabTitleSwitcher from "@/components/TabTitleSwitcher";
 import JsonLd from "@/components/JsonLd";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import MotionEffects from "@/components/MotionEffects";
 import Script from "next/script";
 
 export const metadata = {
@@ -108,6 +109,7 @@ export default function RootLayout({ children }) {
         <main>{children}</main>
         <Footer />
         <WhatsAppButton />
+        <MotionEffects />
       </body>
     </html>
   );
