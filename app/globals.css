@@ -3124,3 +3124,552 @@ i.fa-cloudflare, .skill-bento-chip .fa-cloudflare, .tech-chip .fa-cloudflare { c
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================
+   Theme alignment: match all sections below the hero to the
+   hero banner (light grey #f7f7f7, navy #002057, indigo
+   #2506ad, orange accent #ff7b00). Hero styles are untouched.
+   ========================================================== */
+
+/* section backgrounds: alternate the hero grey with white */
+.about,
+.skills,
+.work,
+.contact .container,
+.bento-card,
+.bento-card.bento-featured,
+.bento-why-card,
+.work .box {
+  background: #ffffff;
+}
+.services,
+.experience,
+.education,
+.contact,
+.category,
+form .message textarea,
+form .field input {
+  background: #f7f7f7;
+}
+
+/* section headings: navy text with the orange accent from "Nath" */
+.heading,
+.skills .heading,
+.services .heading {
+  color: #002057;
+}
+.heading span,
+.skills .heading span,
+.services .heading span,
+.why-choose-header h3 span {
+  color: #ff7b00;
+}
+.heading i {
+  color: #2506ad;
+}
+.about .row .content h3,
+.about .row .content .tag,
+.bento-card h3,
+.bento-why-card h4,
+.category-header h3,
+.work .box .tag h3,
+.why-choose-header h3 {
+  color: #002057;
+}
+
+/* services: one indigo icon style instead of rainbow gradients */
+.bento-icon-badge.primary-badge,
+.bento-icon-badge.ai-badge,
+.bento-icon-badge.api-badge,
+.bento-icon-badge.cloud-badge,
+.bento-icon-badge.seo-badge {
+  background: #2506ad;
+}
+.category-icon-badge,
+.why-icon-badge {
+  background: rgba(37, 6, 173, 0.08);
+  color: #2506ad;
+}
+.bento-stat-chip {
+  background: rgba(255, 123, 0, 0.1);
+  color: #ff7b00;
+}
+
+/* buttons: solid indigo pill, same as the hero "Hire Me" */
+.bento-btn,
+.work .viewall .btn,
+.work .box .btns .btn,
+.resumebtn .btn,
+.morebtn .btn,
+.button-area button,
+.svc-tab-btn.active,
+.work .filter-btn.active {
+  background: #2506ad;
+  color: #fff;
+}
+.bento-btn,
+.work .viewall .btn,
+.resumebtn .btn,
+.button-area button {
+  border-radius: 4em;
+  box-shadow: 0 5px 18px rgba(48, 68, 247, 0.35);
+}
+.bento-btn:hover,
+.work .viewall .btn:hover,
+.work .box .btns .btn:hover,
+.resumebtn .btn:hover,
+.morebtn .btn:hover,
+.button-area button:hover {
+  background: #1a047e;
+}
+.message textarea:focus ~ i,
+.field input:focus ~ i {
+  color: #2506ad;
+}
+
+/* experience timeline: white cards with navy text and orange markers */
+.experience .timeline::after {
+  background: #002057;
+}
+.experience .content {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 32, 87, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 32, 87, 0.06);
+}
+.experience .content .tag h2,
+.experience .content .desc h3 {
+  color: #002057;
+}
+.experience .content .desc,
+.experience .content .desc li {
+  color: #333;
+}
+.experience .left::before {
+  border-color: transparent transparent transparent #ffffff;
+}
+.experience .right::before {
+  border-color: transparent #ffffff transparent transparent;
+}
+.experience .container::after {
+  border-color: #ff7b00;
+  color: #002057;
+}
+@media screen and (max-width: 600px) {
+  .experience .container::before {
+    border-color: transparent #ffffff transparent transparent;
+  }
+}
+
+/* footer & scroll-top: hero orange instead of yellow */
+.footer {
+  background: #002057;
+}
+.footer .box-container .box p i,
+.footer .box-container .box a:hover,
+.footer .box-container .box .share a:hover,
+.footer .credit a {
+  color: #ff7b00;
+}
+#scroll-top {
+  background: #ff7b00;
+}
+
+/* scrollbar in theme colours */
+html::-webkit-scrollbar-track {
+  background: #ececec;
+}
+html::-webkit-scrollbar-thumb {
+  background: #2506ad;
+}
+
+/* ==========================================================
+   Freelancing Services section (home page, .svc-*)
+   Navy #002057 · Indigo #2506ad · Orange #ff7b00 · Grey #f7f7f7
+   ========================================================== */
+.services {
+  min-height: auto;
+  padding: 9rem 9%;
+  background: #f7f7f7;
+}
+.services .svc-wrap {
+  max-width: 124rem;
+  margin: 0 auto;
+}
+.svc-header {
+  text-align: center;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+.svc-eyebrow {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: #ff7b00;
+}
+.services .svc-header .heading {
+  margin: 0.8rem 0 1.2rem;
+  font-size: 3.8rem;
+  color: #002057;
+}
+.services .svc-header .heading span {
+  color: #ff7b00;
+}
+.svc-subheading {
+  font-size: 1.7rem;
+  line-height: 1.7;
+  color: #5b6178;
+  text-transform: none;
+}
+
+/* filter tabs */
+.svc-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 3.6rem auto 4rem;
+}
+.svc-tab {
+  padding: 1rem 2rem;
+  border-radius: 5rem;
+  border: 1px solid #e3e5ec;
+  background: #fff;
+  color: #3b4160;
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.svc-tab:hover {
+  border-color: #2506ad;
+  color: #2506ad;
+}
+.svc-tab.is-active {
+  background: #2506ad;
+  border-color: #2506ad;
+  color: #fff;
+}
+.svc-tab:focus-visible,
+.svc-btn:focus-visible,
+.svc-link:focus-visible {
+  outline: 2px solid #2506ad;
+  outline-offset: 3px;
+}
+
+/* cards */
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+}
+.svc-card {
+  display: flex;
+  flex-direction: column;
+  padding: 3.2rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  border: 1px solid #e8e9f0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.svc-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(37, 6, 173, 0.25);
+  box-shadow: 0 18px 40px rgba(0, 32, 87, 0.08);
+}
+.svc-card * {
+  text-transform: none;
+}
+.svc-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.4rem;
+}
+.svc-icon {
+  display: grid;
+  place-items: center;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 1.4rem;
+  background: rgba(37, 6, 173, 0.06);
+  border: 1px solid rgba(37, 6, 173, 0.12);
+  color: #2506ad;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.svc-card:hover .svc-icon {
+  background: #2506ad;
+  border-color: #2506ad;
+  color: #fff;
+}
+.svc-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase !important;
+  color: #8a8fa3;
+}
+.svc-highlight {
+  padding: 0.5rem 1.2rem;
+  border-radius: 5rem;
+  background: #ff7b00;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.svc-card h3 {
+  font-size: 2rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #002057;
+}
+.svc-summary {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: #5b6178;
+}
+.svc-features {
+  display: grid;
+  gap: 1rem;
+  margin: 2.2rem 0;
+  list-style: none;
+}
+.svc-features li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: #2b3150;
+}
+.svc-features i {
+  font-size: 1.1rem;
+  color: #2506ad;
+}
+.svc-stack {
+  margin-top: auto;
+  padding-top: 1.8rem;
+  border-top: 1px solid #eef0f4;
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #5b6178;
+}
+.svc-stack span {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase !important;
+  color: #8a8fa3;
+}
+.svc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+.svc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2506ad;
+}
+.svc-link i,
+.svc-btn i {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+.svc-link:hover i,
+.svc-btn:hover i {
+  transform: translateX(4px);
+}
+.svc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.3rem 2.6rem;
+  border-radius: 4em;
+  background: #fff;
+  color: #002057;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.svc-btn:hover {
+  background: #ff7b00;
+  color: #fff;
+}
+.svc-guarantee {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.svc-guarantee i {
+  margin-right: 0.4rem;
+  color: inherit !important;
+}
+
+/* featured card: navy, spans two columns, features in two columns */
+.svc-card-featured {
+  grid-column: span 2;
+  background: #002057;
+  border-color: #002057;
+}
+.svc-card-featured:hover {
+  border-color: #002057;
+  box-shadow: 0 22px 44px rgba(0, 32, 87, 0.25);
+}
+.svc-card-featured .svc-icon,
+.svc-card-featured:hover .svc-icon {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ff7b00;
+}
+.svc-card-featured h3 {
+  font-size: 2.6rem;
+  color: #fff;
+}
+.svc-card-featured .svc-summary {
+  max-width: 62rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+.svc-card-featured .svc-features {
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  column-gap: 3.2rem;
+}
+.svc-card-featured .svc-features li {
+  color: #fff;
+}
+.svc-card-featured .svc-features i {
+  color: #ff7b00;
+}
+.svc-card-featured .svc-stack {
+  border-top-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.75);
+}
+.svc-card-featured .svc-stack span,
+.svc-card-featured .svc-guarantee {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* why choose */
+.svc-why {
+  margin-top: 8rem;
+}
+.svc-why-header {
+  text-align: center;
+  max-width: 64rem;
+  margin: 0 auto 3.6rem;
+}
+.svc-why-header h3 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #002057;
+}
+.svc-why-header h3 span {
+  color: #ff7b00;
+}
+.svc-why-header p {
+  margin-top: 1rem;
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: #5b6178;
+  text-transform: none;
+}
+.svc-why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.4rem;
+}
+.svc-why-card {
+  padding: 2.8rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  border: 1px solid #e8e9f0;
+  border-top: 3px solid #2506ad;
+}
+.svc-why-card * {
+  text-transform: none;
+}
+.svc-why-icon {
+  display: grid;
+  place-items: center;
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 1.2rem;
+  background: rgba(37, 6, 173, 0.06);
+  border: 1px solid rgba(37, 6, 173, 0.12);
+  color: #2506ad;
+}
+.svc-why-label {
+  display: block;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase !important;
+  color: #ff7b00;
+}
+.svc-why-card h4 {
+  margin-top: 0.6rem;
+  font-size: 1.7rem;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #002057;
+}
+.svc-why-card p {
+  margin-top: 0.8rem;
+  font-size: 1.4rem;
+  line-height: 1.65;
+  color: #5b6178;
+}
+
+@media screen and (max-width: 1024px) {
+  .svc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .svc-why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .svc-card-featured .svc-features {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+@media screen and (max-width: 700px) {
+  .services {
+    padding: 7rem 1.6rem;
+  }
+  .services .svc-header .heading {
+    font-size: 3rem;
+  }
+  .svc-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+    scrollbar-width: none;
+  }
+  .svc-tab {
+    flex-shrink: 0;
+  }
+  .svc-grid,
+  .svc-why-grid {
+    grid-template-columns: 1fr;
+  }
+  .svc-card-featured {
+    grid-column: span 1;
+  }
+  .svc-card-featured .svc-features {
+    grid-template-columns: 1fr;
+  }
+  .svc-card {
+    padding: 2.6rem;
+  }
+}

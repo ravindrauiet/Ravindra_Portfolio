@@ -1,6 +1,25 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import {
+  MonitorSmartphone,
+  BrainCircuit,
+  ServerCog,
+  CloudCog,
+  TrendingUp,
+  Rocket,
+  Clock,
+  ShieldCheck,
+  Handshake
+} from "lucide-react";
+
+const serviceIcons = {
+  "web-mobile": MonitorSmartphone,
+  ai: BrainCircuit,
+  backend: ServerCog,
+  cloud: CloudCog,
+  seo: TrendingUp
+};
 
 export default function Services() {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -118,6 +137,42 @@ export default function Services() {
     }
   ];
 
+  const tabs = [
+    { id: "all", label: "All Services" },
+    { id: "web-mobile", label: "Web & Mobile" },
+    { id: "ai", label: "AI & Smart" },
+    { id: "backend", label: "API & Backend" },
+    { id: "cloud", label: "Cloud & DevOps" },
+    { id: "seo", label: "SEO & Analytics" }
+  ];
+
+  const reasons = [
+    {
+      Icon: Rocket,
+      label: "Top Quality",
+      title: "Expert Full-Stack Development",
+      text: "Clean, maintainable code architecture engineered with modern web and mobile frameworks."
+    },
+    {
+      Icon: Clock,
+      label: "On-Time",
+      title: "Agile & Timely Delivery",
+      text: "Milestone-driven progress with regular updates and fast, predictable project turnaround times."
+    },
+    {
+      Icon: ShieldCheck,
+      label: "Tested",
+      title: "Rigorous Quality Assurance",
+      text: "Comprehensive automated testing, continuous monitoring, and free post-launch support."
+    },
+    {
+      Icon: Handshake,
+      label: "5.0 ★ Rating",
+      title: "100% Client Satisfaction",
+      text: "Transparent communication, full code ownership, and dedicated post-deployment support."
+    }
+  ];
+
   const filteredServices =
     activeFilter === "all"
       ? services
@@ -125,153 +180,105 @@ export default function Services() {
 
   return (
     <section className="services" id="services">
-      <div className="services-header-tag">
-        <i className="fas fa-sparkles"></i> PROFESSIONAL SERVICES
-      </div>
-      <h2 className="heading">
-        <i className="fas fa-briefcase"></i> Freelancing <span>Services</span>
-      </h2>
-      <p className="services-sub-heading">
-        End-to-end web, mobile, AI & cloud solutions engineered for startups & modern enterprises.
-      </p>
+      <div className="svc-wrap">
+        <div className="svc-header">
+          <span className="svc-eyebrow">Professional Services</span>
+          <h2 className="heading">
+            Freelancing <span>Services</span>
+          </h2>
+          <p className="svc-subheading">
+            End-to-end web, mobile, AI &amp; cloud solutions engineered for startups &amp; modern enterprises.
+          </p>
+        </div>
 
-      <div className="container">
         {/* Filter Tabs */}
-        <div className="service-category-tabs">
-          {[
-            { id: "all", label: "All Services", icon: "fas fa-th-large" },
-            { id: "web-mobile", label: "Web & Mobile", icon: "fas fa-laptop-code" },
-            { id: "ai", label: "AI & Smart", icon: "fas fa-robot" },
-            { id: "backend", label: "API & Backend", icon: "fas fa-plug" },
-            { id: "cloud", label: "Cloud & DevOps", icon: "fas fa-cloud" },
-            { id: "seo", label: "SEO & Analytics", icon: "fas fa-search" }
-          ].map((tab) => (
+        <div className="svc-tabs" role="toolbar" aria-label="Filter services">
+          {tabs.map((tab) => (
             <button
               key={tab.id}
-              className={`svc-tab-btn ${activeFilter === tab.id ? "active" : ""}`}
+              type="button"
+              className={`svc-tab ${activeFilter === tab.id ? "is-active" : ""}`}
+              aria-pressed={activeFilter === tab.id}
               onClick={() => setActiveFilter(tab.id)}
             >
-              <i className={tab.icon}></i> {tab.label}
+              {tab.label}
             </button>
           ))}
         </div>
 
-        {/* Bento Grid */}
-        <div className="bento-services-grid">
-          {filteredServices.map((svc) => (
-            <div
-              key={svc.id}
-              className={`bento-card ${svc.featured ? "bento-featured" : ""}`}
-            >
-              <div className="bento-card-top">
-                <div className={`bento-icon-badge ${svc.badgeType}`}>
-                  <i className={svc.iconClass}></i>
-                </div>
-                <div className="bento-meta-tags">
-                  {svc.statTag && (
-                    <span className="bento-stat-chip">
-                      <i className="fas fa-crown"></i> {svc.statTag}
-                    </span>
-                  )}
-                  <span className="bento-tag-pill">{svc.pillTag}</span>
-                </div>
-              </div>
-
-              <div className="bento-card-body">
-                <h3>{svc.title}</h3>
-                <p className="bento-summary">{svc.summary}</p>
-
-                <div className="bento-feature-pills">
-                  {svc.features.map((feat, idx) => (
-                    <span key={idx} className="pill-badge">
-                      <i className={feat.icon}></i> {feat.label}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="bento-tech-stack">
-                  {svc.techStack.map((tech, idx) => (
-                    <span key={idx} className="tech-chip">
-                      <i className={tech.icon}></i> {tech.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bento-card-footer">
-                <Link href="#contact" className={svc.featured ? "bento-btn" : "bento-link"}>
-                  {svc.featured ? (
-                    <>
-                      <i className="fas fa-paper-plane"></i> Start a Project{" "}
-                      <i className="fas fa-arrow-right"></i>
-                    </>
+        {/* Service Cards */}
+        <div className="svc-grid">
+          {filteredServices.map((svc) => {
+            const ServiceIcon = serviceIcons[svc.id];
+            return (
+              <article
+                key={svc.id}
+                className={`svc-card ${svc.featured ? "svc-card-featured" : ""}`}
+              >
+                <div className="svc-card-top">
+                  <div className="svc-icon">
+                    <ServiceIcon size={26} strokeWidth={1.75} aria-hidden="true" />
+                  </div>
+                  {svc.statTag ? (
+                    <span className="svc-highlight">{svc.statTag}</span>
                   ) : (
-                    <>
-                      Hire Me <i className="fas fa-arrow-right"></i>
-                    </>
+                    <span className="svc-label">{svc.pillTag}</span>
                   )}
-                </Link>
-                {svc.guarantee && (
-                  <span className="bento-guarantee-tag">
-                    <i className="fas fa-shield-alt"></i> {svc.guarantee}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+                </div>
+  
+                <h3>{svc.title}</h3>
+                <p className="svc-summary">{svc.summary}</p>
+  
+                <ul className="svc-features">
+                  {svc.features.map((feat) => (
+                    <li key={feat.label}>
+                      <i className="fas fa-check"></i> {feat.label}
+                    </li>
+                  ))}
+                </ul>
+  
+                <p className="svc-stack">
+                  <span>Stack</span>
+                  {svc.techStack.map((tech) => tech.label).join(" · ")}
+                </p>
+  
+                <div className="svc-card-footer">
+                  <Link href="#contact" className={svc.featured ? "svc-btn" : "svc-link"}>
+                    {svc.featured ? "Start a Project" : "Hire Me"}{" "}
+                    <i className="fas fa-arrow-right"></i>
+                  </Link>
+                  {svc.guarantee && (
+                    <span className="svc-guarantee">
+                      <i className="fas fa-shield-alt"></i> {svc.guarantee}
+                    </span>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {/* Why Choose My Services */}
-        <div className="services-info">
-          <div className="why-choose-header">
+        <div className="svc-why">
+          <div className="svc-why-header">
             <h3>
-              <i className="fas fa-star"></i> Why Choose <span>My Services?</span>
+              Why Choose <span>My Services?</span>
             </h3>
-            <p className="why-choose-subtitle">
+            <p>
               Delivering high-performance, scalable, and secure digital solutions tailored to your business goals.
             </p>
           </div>
-          <div className="bento-why-grid">
-            <div className="bento-why-card">
-              <div className="why-card-top">
-                <div className="why-icon-badge">
-                  <i className="fas fa-rocket"></i>
+          <div className="svc-why-grid">
+            {reasons.map((r) => (
+              <div key={r.title} className="svc-why-card">
+                <div className="svc-why-icon">
+                  <r.Icon size={22} strokeWidth={1.75} aria-hidden="true" />
                 </div>
-                <span className="why-stat-badge">Top Quality</span>
+                <span className="svc-why-label">{r.label}</span>
+                <h4>{r.title}</h4>
+                <p>{r.text}</p>
               </div>
-              <h4>Expert Full-Stack Development</h4>
-              <p>Clean, maintainable code architecture engineered with modern web and mobile frameworks.</p>
-            </div>
-            <div className="bento-why-card">
-              <div className="why-card-top">
-                <div className="why-icon-badge">
-                  <i className="fas fa-clock"></i>
-                </div>
-                <span className="why-stat-badge">On-Time</span>
-              </div>
-              <h4>Agile & Timely Delivery</h4>
-              <p>Milestone-driven progress with regular updates and fast, predictable project turnaround times.</p>
-            </div>
-            <div className="bento-why-card">
-              <div className="why-card-top">
-                <div className="why-icon-badge">
-                  <i className="fas fa-shield-alt"></i>
-                </div>
-                <span className="why-stat-badge">Tested</span>
-              </div>
-              <h4>Rigorous Quality Assurance</h4>
-              <p>Comprehensive automated testing, continuous monitoring, and free post-launch support.</p>
-            </div>
-            <div className="bento-why-card">
-              <div className="why-card-top">
-                <div className="why-icon-badge">
-                  <i className="fas fa-handshake"></i>
-                </div>
-                <span className="why-stat-badge">5.0 ★ Rating</span>
-              </div>
-              <h4>100% Client Satisfaction</h4>
-              <p>Transparent communication, full code ownership, and dedicated post-deployment support.</p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
