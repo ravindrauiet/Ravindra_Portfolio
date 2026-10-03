@@ -1,95 +1,91 @@
-"use client";
-import Link from "next/link";
+import { PanelsTopLeft, Server, Database, Smartphone } from "lucide-react";
+
+const skillCategories = [
+  {
+    title: "Frontend Development",
+    Icon: PanelsTopLeft,
+    skills: [
+      { name: "ReactJS", icon: "fab fa-react", projects: 5 },
+      { name: "HTML5", icon: "fab fa-html5", projects: 12 },
+      { name: "CSS3", icon: "fab fa-css3-alt", projects: 12 },
+      { name: "JavaScript", icon: "fab fa-js-square", projects: 15 },
+      { name: "TailwindCSS", icon: "fas fa-wind", projects: 4 },
+      { name: "Bootstrap", icon: "fab fa-bootstrap", projects: 8 },
+      { name: "MaterialUI", icon: "fas fa-palette", projects: 6 }
+    ]
+  },
+  {
+    title: "Backend Development",
+    Icon: Server,
+    skills: [
+      { name: "NodeJS", icon: "fab fa-node-js", projects: 10 },
+      { name: "ExpressJS", icon: "fab fa-node", projects: 10 },
+      { name: "Python", icon: "fab fa-python", projects: 6 },
+      { name: "PHP", icon: "fab fa-php", projects: 4 },
+      { name: "RESTful APIs", icon: "fas fa-code", projects: 12 },
+      { name: "JWT Auth", icon: "fas fa-shield-alt", projects: 8 }
+    ]
+  },
+  {
+    title: "Databases & Cloud",
+    Icon: Database,
+    skills: [
+      { name: "MongoDB", icon: "fas fa-database", projects: 10 },
+      { name: "MySQL", icon: "fas fa-server", projects: 5 },
+      { name: "Firebase", icon: "fas fa-fire", projects: 7 },
+      { name: "AWS EC2 / S3", icon: "fab fa-aws", projects: 6 }
+    ]
+  },
+  {
+    title: "Mobile & Tools",
+    Icon: Smartphone,
+    skills: [
+      { name: "React Native", icon: "fab fa-react", projects: 6 },
+      { name: "Flutter", icon: "fas fa-mobile-alt", projects: 3 },
+      { name: "Git & GitHub", icon: "fab fa-github", projects: 20 },
+      { name: "Docker", icon: "fab fa-docker", projects: 4 }
+    ]
+  }
+];
 
 export default function Skills() {
-  const skillCategories = [
-    {
-      title: "Frontend Development",
-      icon: "fas fa-code",
-      skills: [
-        { name: "ReactJS", icon: "fab fa-react", projects: 5, link: "/projects?tech=react" },
-        { name: "HTML5", icon: "fab fa-html5", projects: 12, link: "/projects?tech=html5" },
-        { name: "CSS3", icon: "fab fa-css3-alt", projects: 12, link: "/projects?tech=css3" },
-        { name: "JavaScript", icon: "fab fa-js-square", projects: 15, link: "/projects?tech=javascript" },
-        { name: "TailwindCSS", icon: "fas fa-wind", projects: 4, link: "/projects?tech=tailwind" },
-        { name: "Bootstrap", icon: "fab fa-bootstrap", projects: 8, link: "/projects?tech=bootstrap" },
-        { name: "MaterialUI", icon: "fas fa-palette", projects: 6, link: "/projects?tech=mui" }
-      ]
-    },
-    {
-      title: "Backend Development",
-      icon: "fas fa-server",
-      skills: [
-        { name: "NodeJS", icon: "fab fa-node-js", projects: 10, link: "/projects?tech=nodejs" },
-        { name: "ExpressJS", icon: "fab fa-node", projects: 10, link: "/projects?tech=express" },
-        { name: "Python", icon: "fab fa-python", projects: 6, link: "/projects?tech=python" },
-        { name: "PHP", icon: "fab fa-php", projects: 4, link: "/projects?tech=php" },
-        { name: "RESTful APIs", icon: "fas fa-code", projects: 12, link: "/projects?tech=api" },
-        { name: "JWT Auth", icon: "fas fa-shield-alt", projects: 8, link: "/projects?tech=jwt" }
-      ]
-    },
-    {
-      title: "Databases & Cloud",
-      icon: "fas fa-database",
-      skills: [
-        { name: "MongoDB", icon: "fas fa-database", projects: 10, link: "/projects?tech=mongodb" },
-        { name: "MySQL", icon: "fas fa-server", projects: 5, link: "/projects?tech=mysql" },
-        { name: "Firebase", icon: "fas fa-fire", projects: 7, link: "/projects?tech=firebase" },
-        { name: "AWS EC2 / S3", icon: "fab fa-aws", projects: 6, link: "/projects?tech=aws" }
-      ]
-    },
-    {
-      title: "Mobile & Tools",
-      icon: "fas fa-tools",
-      skills: [
-        { name: "React Native", icon: "fab fa-react", projects: 6, link: "/projects?tech=react-native" },
-        { name: "Flutter", icon: "fas fa-mobile-alt", projects: 3, link: "/projects?tech=flutter" },
-        { name: "Git & GitHub", icon: "fab fa-github", projects: 20, link: "/projects?tech=git" },
-        { name: "Docker", icon: "fab fa-docker", projects: 4, link: "/projects?tech=docker" }
-      ]
-    }
-  ];
-
   return (
     <section className="skills" id="skills">
-      <h2 className="heading">
-        <i className="fas fa-laptop-code"></i> Skills & <span>Abilities</span>
-      </h2>
+      <div className="skl-wrap">
+        <div className="skl-header">
+          <span className="svc-eyebrow">Tech Stack</span>
+          <h2 className="heading">
+            Skills &amp; <span>Abilities</span>
+          </h2>
+          <p className="skl-subheading">
+            The languages, frameworks and platforms I use to design, build and ship production software.
+          </p>
+        </div>
 
-      <div className="container">
-        <div className="skills-categories">
-          {skillCategories.map((cat, idx) => (
-            <div key={idx} className="category">
-              <div className="category-header">
-                <div className="category-icon-badge">
-                  <i className={cat.icon}></i>
+        <div className="skl-grid">
+          {skillCategories.map(({ title, Icon, skills }) => (
+            <div key={title} className="skl-card">
+              <div className="skl-card-header">
+                <div className="skl-card-icon">
+                  <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
                 </div>
-                <h3>{cat.title}</h3>
+                <h3>{title}</h3>
+                <span className="skl-count">{skills.length} skills</span>
               </div>
-              <div className="skills-grid">
-                {cat.skills.map((skill, sIdx) => (
-                  <div key={sIdx} className="skill-bento-chip" title={skill.name}>
-                    <div className="skill-chip-left">
-                      <div className="skill-icon-avatar">
-                        <i className={skill.icon}></i>
-                      </div>
-                      <div className="skill-text-details">
-                        <span className="skill-name">{skill.name}</span>
-                        <span className="skill-projects-count">
-                          {skill.projects} Projects Completed
-                        </span>
-                      </div>
-                    </div>
-                    <Link
-                      href={skill.link}
-                      className="skill-view-btn"
-                      title={`View projects using ${skill.name}`}
-                    >
-                      <i className="fas fa-arrow-right"></i>
-                    </Link>
-                  </div>
+
+              <ul className="skl-list">
+                {skills.map((skill) => (
+                  <li key={skill.name} className="skl-item">
+                    <span className="skl-icon">
+                      <i className={skill.icon} aria-hidden="true"></i>
+                    </span>
+                    <span className="skl-text">
+                      <span className="skl-name">{skill.name}</span>
+                      <span className="skl-projects">{skill.projects} projects</span>
+                    </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>

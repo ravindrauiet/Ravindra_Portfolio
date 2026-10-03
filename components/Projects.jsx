@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight, CodeXml, ArrowRight } from "lucide-react";
 
 const projectData = [
   {
@@ -71,6 +73,21 @@ const projectData = [
   }
 ];
 
+const filters = [
+  { id: "all", label: "All Projects" },
+  { id: "mern", label: "MERN Stack" },
+  { id: "ai", label: "AI & Smart" },
+  { id: "android", label: "Mobile Apps" }
+];
+
+const categoryLabels = {
+  mern: "MERN Stack",
+  ai: "AI Product",
+  android: "Mobile App"
+};
+
+const MAX_TECH = 4;
+
 export default function Projects() {
   const [filter, setFilter] = useState("all");
 
@@ -81,94 +98,86 @@ export default function Projects() {
 
   return (
     <section className="work" id="work">
-      <h2 className="heading">
-        <i className="fas fa-laptop-code"></i> Projects <span>Made</span>
-      </h2>
+      <div className="prj-wrap">
+        <div className="prj-header">
+          <span className="svc-eyebrow">Portfolio</span>
+          <h2 className="heading">
+            Projects <span>Made</span>
+          </h2>
+          <p className="prj-subheading">
+            A selection of web platforms, AI products and mobile apps I&apos;ve designed, built and shipped.
+          </p>
+        </div>
 
-      <div className="project-filters">
-        <button
-          className={`filter-btn ${filter === "all" ? "active" : ""}`}
-          onClick={() => setFilter("all")}
-        >
-          All Projects
-        </button>
-        <button
-          className={`filter-btn ${filter === "mern" ? "active" : ""}`}
-          onClick={() => setFilter("mern")}
-        >
-          MERN Stack
-        </button>
-        <button
-          className={`filter-btn ${filter === "ai" ? "active" : ""}`}
-          onClick={() => setFilter("ai")}
-        >
-          AI & Smart
-        </button>
-        <button
-          className={`filter-btn ${filter === "android" ? "active" : ""}`}
-          onClick={() => setFilter("android")}
-        >
-          Mobile Apps
-        </button>
-      </div>
+        <div className="svc-tabs" role="toolbar" aria-label="Filter projects">
+          {filters.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className={`svc-tab ${filter === f.id ? "is-active" : ""}`}
+              aria-pressed={filter === f.id}
+              onClick={() => setFilter(f.id)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
 
-      <div className="box-container">
-        {filteredProjects.map((project, idx) => (
-          <div key={idx} className="box tilt">
-            <img
-              draggable="false"
-              src={`/assets/images/projects/${project.image}`}
-              alt={project.name}
-              onError={(e) => {
-                e.currentTarget.src = "/assets/images/Ravindraprofile.jpeg";
-              }}
-            />
-            <div className="content">
-              <div className="tag">
-                <h3>{project.name}</h3>
-              </div>
-              <div className="desc">
-                <p>{project.desc}</p>
-                <div className="tech-stack">
-                  {project.tech_stack.map((t, i) => (
-                    <span key={i} className="tech-badge">
-                      {t}
-                    </span>
-                  ))}
+        <div className="prj-grid">
+          {filteredProjects.map((project) => {
+            const isMobile = project.category === "android";
+            const hasDemo = project.links.view && project.links.view !== "#";
+            const extraTech = project.tech_stack.length - MAX_TECH;
+
+            return (
+              <article key={project.name} className="prj-card">
+                <div className={`prj-media ${isMobile ? "prj-media-mobile" : ""}`}>
+                  <div className="prj-media-frame">
+                    <Image
+                      src={`/assets/images/projects/${project.image}`}
+                      alt={`${project.name} screenshot`}
+                      fill
+                      sizes={isMobile ? "200px" : "(max-width: 700px) 100vw, (max-width: 1024px) 50vw, 400px"}
+                      draggable={false}
+                    />
+                  </div>
                 </div>
-                <div className="btns">
-                  {project.links.view && project.links.view !== "#" && (
-                    <a
-                      href={project.links.view}
-                      className="btn"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <i className="fas fa-eye"></i> View
-                    </a>
-                  )}
-                  {project.links.code && (
-                    <a
-                      href={project.links.code}
-                      className="btn"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Code <i className="fas fa-code"></i>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
 
-      <div className="viewall">
-        <Link href="/projects" className="btn">
-          <span>View All Projects</span>
-          <i className="fas fa-arrow-right"></i>
-        </Link>
+                <div className="prj-body">
+                  <span className="prj-category">{categoryLabels[project.category]}</span>
+                  <h3>{project.name}</h3>
+                  <p className="prj-desc">{project.desc}</p>
+
+                  <ul className="prj-tech">
+                    {project.tech_stack.slice(0, MAX_TECH).map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                    {extraTech > 0 && <li className="prj-tech-more">+{extraTech}</li>}
+                  </ul>
+
+                  <div className="prj-links">
+                    {hasDemo && (
+                      <a href={project.links.view} target="_blank" rel="noreferrer" className="prj-link-primary">
+                        Live Demo <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
+                      </a>
+                    )}
+                    {project.links.code && (
+                      <a href={project.links.code} target="_blank" rel="noreferrer" className="prj-link">
+                        <CodeXml size={16} strokeWidth={2} aria-hidden="true" /> Source Code
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="prj-viewall">
+          <Link href="/projects" className="prj-viewall-btn">
+            View All Projects <ArrowRight size={18} strokeWidth={2} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );
