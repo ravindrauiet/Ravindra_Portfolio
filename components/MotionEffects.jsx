@@ -11,7 +11,9 @@ const TILT_TARGETS = [
   { selector: ".svc-why-card", max: 14 },
   { selector: ".exp-card", max: 6 },
   { selector: ".skl-card", max: 6 },
-  { selector: ".abt-photo", max: 15 }
+  { selector: ".abt-photo", max: 15 },
+  { selector: ".nts-card", max: 10 },
+  { selector: ".nts-visual", max: 14 }
 ];
 const TILT_SELECTOR = TILT_TARGETS.map((t) => t.selector).join(", ");
 
@@ -37,7 +39,10 @@ const REVEAL_SELECTOR = [
   ".exp-resume",
   ".contact .heading",
   ".contact .container",
-  ".footer .box"
+  ".footer .box",
+  ".nts-hero-text",
+  ".nts-visual",
+  ".nts-card"
 ].join(", ");
 
 export default function MotionEffects() {
