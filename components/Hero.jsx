@@ -73,6 +73,10 @@ export default function Hero() {
       });
     }
 
+    // Listen on the whole hero section: the .content block sits above the
+    // canvas, so events never reach the canvas or #particles-js directly.
+    const section = canvas.closest("section");
+    const maxParticles = particlesCount + 40;
     let mouseX = -1000;
     let mouseY = -1000;
     const handleMouseMove = (e) => {
@@ -80,7 +84,30 @@ export default function Hero() {
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
     };
-    canvas.parentElement.addEventListener("mousemove", handleMouseMove);
+    const handleMouseLeave = () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    };
+    // Click on empty space spawns a few new particles at the cursor
+    const handleClick = (e) => {
+      if (e.target.closest("a, button")) return;
+      const rect = canvas.getBoundingClientRect();
+      for (let i = 0; i < 4; i++) {
+        particles.push({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2,
+          radius: Math.random() * 2 + 1.5
+        });
+      }
+      if (particles.length > maxParticles) {
+        particles.splice(particlesCount, particles.length - maxParticles);
+      }
+    };
+    section.addEventListener("mousemove", handleMouseMove);
+    section.addEventListener("mouseleave", handleMouseLeave);
+    section.addEventListener("click", handleClick);
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
@@ -101,6 +128,21 @@ export default function Hero() {
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
+        }
+      }
+
+      // Grab effect: link the cursor to nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        const dx = particles[i].x - mouseX;
+        const dy = particles[i].y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 180) {
+          ctx.beginPath();
+          ctx.moveTo(mouseX, mouseY);
+          ctx.lineTo(particles[i].x, particles[i].y);
+          ctx.strokeStyle = `rgba(37, 6, 173, ${(1 - dist / 180) * 0.5})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
         }
       }
 
@@ -157,9 +199,9 @@ export default function Hero() {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
-      if (canvas.parentElement) {
-        canvas.parentElement.removeEventListener("mousemove", handleMouseMove);
-      }
+      section.removeEventListener("mousemove", handleMouseMove);
+      section.removeEventListener("mouseleave", handleMouseLeave);
+      section.removeEventListener("click", handleClick);
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
