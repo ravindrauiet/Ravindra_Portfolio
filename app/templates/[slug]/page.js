@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
   if (!template) return {};
 
   const category = getCategory(template.category);
-  const tech = template.js ? "HTML, CSS & JavaScript" : "HTML & CSS";
+  const tech = template.module ? "Three.js" : template.js ? "HTML, CSS & JavaScript" : "HTML & CSS";
   const title = `${template.name} — Free ${tech} Code + AI Prompt`;
   const description = `${template.description} Free ${category.singular.toLowerCase()} with live preview, full source code and step-by-step build guide.`.slice(0, 300);
 
@@ -143,7 +143,11 @@ export default async function TemplateDetailPage({ params }) {
           <section className="lib-block">
             <h2>The code</h2>
             <p className="lib-block-intro">
-              {`Plain ${template.js ? "HTML, CSS and JavaScript" : "HTML and CSS"} with no dependencies. Copy a single`}{" "}
+              {`Plain ${template.js ? "HTML, CSS and JavaScript" : "HTML and CSS"}${
+                template.dependencies
+                  ? `. Uses ${template.dependencies}, so there is nothing to install`
+                  : " with no dependencies"
+              }. Copy a single`}{" "}
               file, or choose &quot;Full file&quot; for a complete page you can save as <code>index.html</code> and open in a
               browser.
             </p>

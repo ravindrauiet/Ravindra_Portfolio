@@ -6460,3 +6460,24 @@ a.abt-detail-value:focus-visible {
   height: 300%;
   transform: scale(0.3334);
 }
+
+/* 3D scenes are centred objects: render at 2x and scale down so they fill the card */
+.lib-thumb-scenes iframe {
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+}
+
+/* Oversize preview iframes by 1% so sub-pixel rounding never leaves a sliver at the card edge */
+.lib-thumb iframe {
+  width: 404%;
+  height: 404%;
+}
+.lib-thumb-components iframe {
+  width: 303%;
+  height: 303%;
+}
+.lib-thumb-scenes iframe {
+  width: 202%;
+  height: 202%;
+}

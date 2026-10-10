@@ -4,14 +4,14 @@ import TemplateGallery from "@/components/library/TemplateGallery";
 import { CATEGORIES, buildDocument, getAllTemplates, getCategory } from "@/lib/templates";
 
 export const metadata = {
-  title: "Free UI Templates: Gradients, Backgrounds, Sections & Components",
+  title: "Free UI Templates: 3D Scenes, Gradients, Backgrounds, Sections & Components",
   description:
-    "A free library of copy-paste UI templates with live previews: CSS gradients, animated backgrounds, landing-page sections and components. Every template includes the full code and the AI prompt to build it.",
+    "A free library of copy-paste UI templates with live previews: interactive 3D scenes (CSS 3D, canvas and Three.js), CSS gradients, animated backgrounds, landing-page sections and components. Every template includes the full code and the AI prompt to build it.",
   alternates: { canonical: "https://ravindranathjha.in/templates" },
   openGraph: {
     title: "Free UI Templates with Code & AI Prompts | Ravindra Nath Jha",
     description:
-      "Gradients, backgrounds, sections and components with live previews, full source code and the AI prompt to recreate each one.",
+      "3D scenes, gradients, backgrounds, sections and components with live previews, full source code and the AI prompt to recreate each one.",
     url: "https://ravindranathjha.in/templates",
   },
 };
@@ -25,7 +25,7 @@ const HOW_IT_WORKS = [
   {
     Icon: Copy,
     title: "Copy the code",
-    text: "Every template is plain HTML and CSS you can paste into any project, with a one-click copy button.",
+    text: "Every template is plain HTML, CSS and JavaScript you can paste into any project, with a one-click copy button.",
   },
   {
     Icon: Code2,
@@ -58,7 +58,7 @@ export default function TemplatesPage() {
             Templates you can <span>copy, paste and learn from</span>
           </h1>
           <p className="lib-sub">
-            {templates.length} gradients, backgrounds, sections and components. Each one has a live preview, the
+            {templates.length} 3D scenes, gradients, backgrounds, sections and components. Each one has a live preview, the
             complete code, the AI prompt that builds it and a step-by-step explanation of how it works.
           </p>
           <ul className="lib-hero-stats">
