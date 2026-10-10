@@ -15,7 +15,8 @@ const TILT_TARGETS = [
   { selector: ".nts-card", max: 10 },
   { selector: ".nts-visual", max: 14 },
   { selector: ".pl-stage", max: 12 },
-  { selector: ".pl-card", max: 5 }
+  { selector: ".pl-card", max: 5 },
+  { selector: ".crs-visual", max: 12 }
 ];
 const TILT_SELECTOR = TILT_TARGETS.map((t) => t.selector).join(", ");
 
@@ -56,7 +57,10 @@ const REVEAL_SELECTOR = [
   ".pl-step",
   ".pl-feature",
   ".pl-card",
-  ".pl-faq details"
+  ".pl-faq details",
+  ".crs-hero",
+  ".crs-card",
+  ".crs-other"
 ].join(", ");
 
 export default function MotionEffects() {

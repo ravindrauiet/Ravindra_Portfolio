@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, ChevronRight, Clock, ListChecks, UserRound } from "lucide-react";
+import { LectureCode, LectureProse } from "@/components/notes/LectureContent";
+import LectureToc, { ReadingProgress } from "@/components/notes/LectureToc";
 import { getTechStack, getLecture, getAllTechStacks } from "@/lib/notesData";
+
+const SITE = "https://ravindranathjha.in";
 
 export async function generateStaticParams() {
   const stacks = getAllTechStacks();
@@ -33,10 +38,20 @@ function anchorOf(heading) {
     .replace(/(^-|-$)/g, "");
 }
 
+// "3. Try, Catch & Finally" -> "Try, Catch & Finally"
+const plainHeading = (heading) => heading.replace(/^\d+\.\s*/, "");
+
 // Keep meta descriptions within the length search engines display
 function metaDescription(summary) {
   if (summary.length <= 300) return summary;
   return summary.slice(0, 297).replace(/\s+\S*$/, "") + "...";
+}
+
+// "2026-10-04" -> "4 Oct 2026"
+function formatDate(value) {
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 }
 
 // Prevents "</script>" inside content from breaking out of the JSON-LD tag
@@ -57,12 +72,12 @@ export async function generateMetadata({ params }) {
     title: pageTitle,
     description: pageDesc,
     alternates: {
-      canonical: `https://ravindranathjha.in/notes/${stack.slug}/${lecture.slug}`,
+      canonical: `${SITE}/notes/${stack.slug}/${lecture.slug}`,
     },
     openGraph: {
       title: pageTitle,
       description: pageDesc,
-      url: `https://ravindranathjha.in/notes/${stack.slug}/${lecture.slug}`,
+      url: `${SITE}/notes/${stack.slug}/${lecture.slug}`,
       type: "article",
       publishedTime: lecture.date,
       authors: ["Ravindra Nath Jha"],
@@ -71,34 +86,8 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title: pageTitle,
       description: pageDesc,
-    }
+    },
   };
-}
-
-function renderFormattedContent(text) {
-  if (!text) return null;
-  
-  const paragraphs = text.split("\n");
-  
-  return paragraphs.map((para, idx) => {
-    if (!para.trim()) return null;
-    
-    // Parse **bold** syntax
-    const parts = para.split(/(\*\*.*?\*\*)/g);
-    
-    const formattedLine = parts.map((part, pIdx) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
-        return <strong key={pIdx} style={{ color: "#002057", fontWeight: 700 }}>{part.slice(2, -2)}</strong>;
-      }
-      return part;
-    });
-
-    return (
-      <p key={idx} style={{ marginBottom: "0.8rem", color: "#334155", fontSize: "1.05rem", lineHeight: "1.8" }}>
-        {formattedLine}
-      </p>
-    );
-  });
 }
 
 export default async function LectureDetailPage({ params }) {
@@ -110,291 +99,165 @@ export default async function LectureDetailPage({ params }) {
     notFound();
   }
 
+  const total = stack.lectures.length;
   const lectureIndex = stack.lectures.findIndex((l) => l.slug === lecture.slug);
   const prevLecture = lectureIndex > 0 ? stack.lectures[lectureIndex - 1] : null;
-  const nextLecture = lectureIndex < stack.lectures.length - 1 ? stack.lectures[lectureIndex + 1] : null;
+  const nextLecture = lectureIndex < total - 1 ? stack.lectures[lectureIndex + 1] : null;
+  const topic = topicOf(lecture.title);
+  const url = `${SITE}/notes/${stack.slug}/${lecture.slug}`;
+
+  const tocItems = lecture.sections.map((section) => ({
+    id: anchorOf(section.heading),
+    label: plainHeading(section.heading),
+  }));
+
+  const meta = [
+    { Icon: Clock, text: lecture.readTime },
+    { Icon: BarChart3, text: lecture.difficulty },
+    { Icon: ListChecks, text: `${lecture.sections.length} topics` },
+    { Icon: CalendarDays, text: formatDate(lecture.date) },
+    { Icon: UserRound, text: "Ravindra Nath Jha" },
+  ];
 
   // TechArticle JSON-LD Schema for Google Search Rich Snippets
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": lecture.title,
-    "description": lecture.summary,
-    "author": {
-      "@type": "Person",
-      "name": "Ravindra Nath Jha",
-      "url": "https://ravindranathjha.in"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Ravindra Nath Jha"
-    },
-    "datePublished": lecture.date,
-    "proficiencyLevel": lecture.difficulty,
-    "dependencies": stack.name,
-    "url": `https://ravindranathjha.in/notes/${stack.slug}/${lecture.slug}`
+    headline: lecture.title,
+    description: lecture.summary,
+    author: { "@type": "Person", name: "Ravindra Nath Jha", url: SITE },
+    publisher: { "@type": "Person", name: "Ravindra Nath Jha" },
+    datePublished: lecture.date,
+    proficiencyLevel: lecture.difficulty,
+    dependencies: stack.name,
+    url,
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://ravindranathjha.in"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Notes",
-        "item": "https://ravindranathjha.in/notes"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": stack.name,
-        "item": `https://ravindranathjha.in/notes/${stack.slug}`
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "name": lecture.title,
-        "item": `https://ravindranathjha.in/notes/${stack.slug}/${lecture.slug}`
-      }
-    ]
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+      { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE}/notes` },
+      { "@type": "ListItem", position: 3, name: stack.name, item: `${SITE}/notes/${stack.slug}` },
+      { "@type": "ListItem", position: 4, name: lecture.title, item: url },
+    ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
 
-      <article className="container notes-lecture" style={{ paddingTop: "7.5rem", paddingBottom: "4rem", maxWidth: "960px", margin: "0 auto", paddingLeft: "1.2rem", paddingRight: "1.2rem" }}>
-        {/* Navigation Breadcrumb */}
-        <div style={{ marginBottom: "1.5rem" }}>
-          <Link
-            href={`/notes/${stack.slug}`}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "#2506ad",
-              fontWeight: "700",
-              textDecoration: "none",
-              fontSize: "0.95rem",
-              background: "#f1f5f9",
-              padding: "0.5rem 1.2rem",
-              borderRadius: "50px",
-              border: "1px solid #cbd5e1"
-            }}
-          >
-            <i className="fas fa-arrow-left"></i> Back to {stack.name} Lectures
-          </Link>
-        </div>
+      <ReadingProgress />
 
-        {/* Hero Banner Card for Lecture */}
-        <div
-          className="lecture-banner-card"
-          style={{
-            background: "linear-gradient(135deg, #002057 0%, #0f172a 100%)",
-            borderRadius: "20px",
-            padding: "2rem 1.8rem",
-            color: "#fff",
-            marginBottom: "2rem",
-            boxShadow: "0 15px 30px rgba(0,0,0,0.12)"
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "1rem", flexWrap: "wrap" }}>
-            <span style={{ background: "#ff7b00", color: "#fff", padding: "0.25rem 0.8rem", borderRadius: "50px", fontSize: "0.8rem", fontWeight: "700" }}>
-              Lecture #{lecture.number}
-            </span>
-            <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", padding: "0.25rem 0.8rem", borderRadius: "50px", fontSize: "0.8rem", fontWeight: "600" }}>
-              {stack.name}
-            </span>
-            <span style={{ color: "#cbd5e1", fontSize: "0.85rem" }}>⏱️ {lecture.readTime}</span>
-            <span style={{ color: "#cbd5e1", fontSize: "0.85rem" }}>📊 {lecture.difficulty}</span>
-          </div>
+      <article className="lib-page pl-page lec-page">
+        <div className="pl-glow" aria-hidden="true" />
 
-          <h1 style={{ fontSize: "2.2rem", color: "#ffffff", fontWeight: "800", lineHeight: "1.3", marginBottom: "1rem" }}>
-            {lecture.title}
-          </h1>
-
-          <p style={{ fontSize: "1.05rem", color: "#cbd5e1", lineHeight: "1.7", maxWidth: "840px", marginBottom: "0" }}>
-            {lecture.summary}
-          </p>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid rgba(255,255,255,0.1)", fontSize: "0.9rem", color: "#94a3b8" }}>
-            <span>Author: <strong style={{ color: "#fff" }}>Ravindra Nath Jha</strong></span>
-            <span>•</span>
-            <span>Published: <strong style={{ color: "#fff" }}>{lecture.date}</strong></span>
-          </div>
-        </div>
-
-        {/* Table of contents: anchor links to every section */}
-        <nav
-          aria-label="Table of contents"
-          style={{
-            background: "#ffffff",
-            border: "1px solid #e2e8f0",
-            borderRadius: "18px",
-            padding: "1.5rem 1.8rem",
-            marginBottom: "1.8rem"
-          }}
-        >
-          <p style={{ fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#ff7b00", marginBottom: "0.8rem" }}>
-            In this lecture
-          </p>
-          <ol style={{ columns: lecture.sections.length > 8 ? 2 : 1, columnGap: "2rem", paddingLeft: "1.2rem", margin: 0 }}>
-            {lecture.sections.map((section, idx) => (
-              <li key={idx} style={{ marginBottom: "0.4rem", fontSize: "0.95rem", lineHeight: 1.5, breakInside: "avoid" }}>
-                <a href={`#${anchorOf(section.heading)}`} style={{ color: "#002057", textDecoration: "none", fontWeight: 600 }}>
-                  {section.heading.replace(/^\d+\.\s*/, "")}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-
-        {/* Lecture Content Sections — Uses div wrapper to prevent global section min-height:100vh rule */}
-        <main style={{ display: "flex", flexDirection: "column", gap: "1.8rem" }}>
-          {lecture.sections.map((section, idx) => (
-            <div
-              key={idx}
-              className="lecture-section-card"
-              style={{
-                background: "#ffffff",
-                padding: "1.8rem",
-                borderRadius: "18px",
-                border: "1px solid #e2e8f0",
-                boxShadow: "0 6px 20px rgba(0,0,0,0.03)"
-              }}
-            >
-              <h2
-                id={anchorOf(section.heading)}
-                style={{ fontSize: "1.6rem", color: "#002057", fontWeight: "700", marginBottom: "1rem", borderBottom: "2px solid #f1f5f9", paddingBottom: "0.5rem", scrollMarginTop: "7rem" }}
-              >
-                {section.heading}
-              </h2>
-
-              <div style={{ marginBottom: section.codeSnippet ? "1.2rem" : "0" }}>
-                {renderFormattedContent(section.content)}
-              </div>
-
-              {section.codeSnippet && (
-                <div style={{ marginTop: "1.2rem" }}>
-                  <div
-                    style={{
-                      background: "#1e293b",
-                      color: "#94a3b8",
-                      padding: "0.6rem 1.2rem",
-                      borderTopLeftRadius: "10px",
-                      borderTopRightRadius: "10px",
-                      fontSize: "0.85rem",
-                      fontWeight: "600",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center"
-                    }}
-                  >
-                    <span>💻 Practical Code Example</span>
-                    <span style={{ background: "#334155", color: "#cbd5e1", padding: "0.2rem 0.6rem", borderRadius: "4px", fontSize: "0.75rem" }}>
-                      {stack.slug}
-                    </span>
-                  </div>
-                  <pre
-                    style={{
-                      background: "#0f172a",
-                      color: "#f8fafc",
-                      padding: "1.2rem",
-                      borderBottomLeftRadius: "10px",
-                      borderBottomRightRadius: "10px",
-                      overflowX: "auto",
-                      fontSize: "0.9rem",
-                      fontFamily: "Consolas, Monaco, 'Andale Mono', monospace",
-                      lineHeight: "1.6",
-                      margin: "0"
-                    }}
-                  >
-                    <code>{section.codeSnippet}</code>
-                  </pre>
-                </div>
-              )}
-            </div>
-          ))}
-        </main>
-
-        {/* Previous / next lecture: keeps readers in the course and links every page to its neighbours */}
-        {(prevLecture || nextLecture) && (
-          <nav aria-label="Lecture navigation" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "3rem" }}>
-            {prevLecture ? (
-              <Link
-                href={`/notes/${stack.slug}/${prevLecture.slug}`}
-                style={{ display: "block", padding: "1.2rem 1.4rem", borderRadius: "16px", border: "1px solid #e2e8f0", background: "#fff", textDecoration: "none" }}
-              >
-                <span style={{ display: "block", fontSize: "0.8rem", color: "#64748b", marginBottom: "0.3rem" }}>← Previous lecture</span>
-                <span style={{ fontWeight: 700, color: "#002057", fontSize: "1rem" }}>{topicOf(prevLecture.title)}</span>
-              </Link>
-            ) : <span />}
-            {nextLecture && (
-              <Link
-                href={`/notes/${stack.slug}/${nextLecture.slug}`}
-                style={{ display: "block", padding: "1.2rem 1.4rem", borderRadius: "16px", border: "1px solid #e2e8f0", background: "#fff", textDecoration: "none", textAlign: "right" }}
-              >
-                <span style={{ display: "block", fontSize: "0.8rem", color: "#64748b", marginBottom: "0.3rem" }}>Next lecture →</span>
-                <span style={{ fontWeight: 700, color: "#002057", fontSize: "1rem" }}>{topicOf(nextLecture.title)}</span>
-              </Link>
-            )}
+        <div className="lib-wrap">
+          <nav className="lib-crumbs" aria-label="Breadcrumb">
+            <Link href="/notes">Notes</Link>
+            <ChevronRight size={14} aria-hidden="true" />
+            <Link href={`/notes/${stack.slug}`}>{stack.name}</Link>
+            <ChevronRight size={14} aria-hidden="true" />
+            <span aria-current="page">Lecture {lecture.number}</span>
           </nav>
-        )}
 
-        {/* Footer Navigation */}
-        <footer style={{ marginTop: "2rem", paddingTop: "1.5rem", borderTop: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-          <Link
-            href={`/notes/${stack.slug}`}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.8rem 1.5rem",
-              borderRadius: "50px",
-              background: "#f1f5f9",
-              color: "#002057",
-              fontWeight: "700",
-              textDecoration: "none",
-              border: "1px solid #cbd5e1",
-              fontSize: "0.95rem"
-            }}
-          >
-            <i className="fas fa-arrow-left"></i> All {stack.name} Lectures
-          </Link>
+          {/* Hero */}
+          <div className="lec-hero">
+            <div className="lec-hero-top">
+              <span className="lec-hero-icon" aria-hidden="true">
+                <i className={stack.icon} style={{ color: stack.iconColor }} />
+              </span>
+              <div className="lec-hero-course">
+                <span>
+                  {stack.name} course · Lecture {lecture.number} of {total}
+                </span>
+                <div className="lec-hero-bar" aria-hidden="true">
+                  <i style={{ width: `${Math.round(((lectureIndex + 1) / total) * 100)}%` }} />
+                </div>
+              </div>
+            </div>
+            <h1>{topic}</h1>
+            <p className="lec-hero-summary">{lecture.summary}</p>
+            <ul className="lec-hero-meta">
+              {meta.map(({ Icon, text }) => (
+                <li key={text}>
+                  <Icon size={15} strokeWidth={2} aria-hidden="true" />
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          <Link
-            href="/notes"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.8rem 1.5rem",
-              borderRadius: "50px",
-              background: "#2506ad",
-              color: "#fff",
-              fontWeight: "700",
-              textDecoration: "none",
-              boxShadow: "0 8px 20px rgba(37, 6, 173, 0.25)",
-              fontSize: "0.95rem"
-            }}
-          >
-            Explore Other Tech Stacks <i className="fas fa-arrow-right"></i>
-          </Link>
-        </footer>
+          <div className="lec-layout">
+            {/* Table of contents */}
+            <aside className="lec-side">
+              <details className="lec-toc" open>
+                <summary>
+                  In this lecture <ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                </summary>
+                <nav aria-label="Table of contents">
+                  <LectureToc items={tocItems} />
+                </nav>
+              </details>
+            </aside>
+
+            {/* Lecture content. Sections are divs: the global CSS gives every <section> a full-screen height */}
+            <div className="lec-body">
+              {lecture.sections.map((section, index) => (
+                <div key={index} className="lec-section">
+                  <h2 id={anchorOf(section.heading)}>
+                    <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                    {plainHeading(section.heading)}
+                  </h2>
+                  <LectureProse text={section.content} stackSlug={stack.slug} />
+                  {section.codeSnippet ? <LectureCode code={section.codeSnippet} stackSlug={stack.slug} /> : null}
+                </div>
+              ))}
+
+              {/* Previous / next lecture: keeps readers in the course and links every page to its neighbours */}
+              {(prevLecture || nextLecture) && (
+                <nav className="lec-nav" aria-label="Lecture navigation">
+                  {prevLecture ? (
+                    <Link href={`/notes/${stack.slug}/${prevLecture.slug}`} className="lec-nav-card">
+                      <span>
+                        <ArrowLeft size={16} strokeWidth={2.2} aria-hidden="true" /> Previous · Lecture {prevLecture.number}
+                      </span>
+                      <strong>{topicOf(prevLecture.title)}</strong>
+                    </Link>
+                  ) : (
+                    <span />
+                  )}
+                  {nextLecture ? (
+                    <Link href={`/notes/${stack.slug}/${nextLecture.slug}`} className="lec-nav-card lec-nav-next">
+                      <span>
+                        Next · Lecture {nextLecture.number} <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                      </span>
+                      <strong>{topicOf(nextLecture.title)}</strong>
+                    </Link>
+                  ) : (
+                    <Link href={`/notes/${stack.slug}`} className="lec-nav-card lec-nav-next">
+                      <span>
+                        Course complete <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                      </span>
+                      <strong>Back to all {stack.name} lectures</strong>
+                    </Link>
+                  )}
+                </nav>
+              )}
+
+              <div className="lec-foot">
+                <Link href={`/notes/${stack.slug}`}>
+                  <ArrowLeft size={16} strokeWidth={2.2} aria-hidden="true" /> All {stack.name} lectures
+                </Link>
+                <Link href="/notes">
+                  Explore other courses <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </article>
     </>
   );
