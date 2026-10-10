@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Nimbus AI — AI startup landing page preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #fff; background: #05060f; overflow-x: hidden; }
+  .aurora { position: absolute; inset: 0 0 auto 0; height: 900px; overflow: hidden; }
+  .aurora i { position: absolute; border-radius: 50%; filter: blur(120px); opacity: .6; }
+  .a1 { width: 620px; height: 620px; background: #7c3aed; left: -80px; top: -160px; }
+  .a2 { width: 560px; height: 560px; background: #06b6d4; right: -60px; top: 80px; }
+  .a3 { width: 420px; height: 420px; background: #2506ad; left: 40%; top: 380px; }
+  nav, section { position: relative; }
+  nav { display: flex; align-items: center; gap: 34px; padding: 26px 80px; }
+  .logo { font-weight: 800; font-size: 22px; display: flex; gap: 10px; align-items: center; }
+  .logo i { width: 24px; height: 24px; border-radius: 50%; background: conic-gradient(#7c3aed, #06b6d4, #7c3aed); }
+  nav span { color: #b6bdd8; font-size: 15px; } nav .sp { margin-left: auto; }
+  .btn { padding: 13px 24px; border-radius: 999px; background: #fff; color: #05060f; font-weight: 700; font-size: 15px; display: inline-block; }
+  .ghost { background: rgba(255, 255, 255, .06); color: #fff; border: 1px solid rgba(255, 255, 255, .22); }
+  .hero { text-align: center; padding: 62px 40px 0; }
+  .pill { display: inline-block; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .06); font-size: 14px; color: #d6dbf2; }
+  h1 { font-size: 76px; line-height: 1.03; letter-spacing: -3px; font-weight: 800; margin: 24px auto 0; max-width: 900px; }
+  h1 b { background: linear-gradient(90deg, #a78bfa, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { color: #b6bdd8; font-size: 20px; max-width: 600px; margin: 22px auto 0; line-height: 1.55; }
+  .cta { display: flex; gap: 14px; justify-content: center; margin-top: 32px; }
+  .chat { width: 820px; margin: 56px auto 0; text-align: left; border-radius: 22px; background: rgba(15, 18, 40, .72); border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 40px 90px rgba(0, 0, 0, .55); padding: 26px; }
+  .msg { padding: 15px 18px; border-radius: 14px; font-size: 15.5px; line-height: 1.55; max-width: 82%; }
+  .me { margin-left: auto; background: #7c3aed; }
+  .ai { margin-top: 14px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); color: #dfe4f7; }
+  .ai small { display: block; margin-top: 10px; color: #22d3ee; font-family: "JetBrains Mono", monospace; font-size: 12.5px; }
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 72px 80px 90px; }
+  .cap { padding: 26px; border-radius: 18px; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .1); }
+  .cap em { font-style: normal; font-size: 26px; } .cap h3 { margin-top: 14px; font-size: 19px; } .cap p { margin-top: 7px; color: #a3abc8; font-size: 14.5px; line-height: 1.55; }
+  body { min-height: 1400px; display: flex; flex-direction: column; } body > :last-child { flex: 1; }
+</style>
+</head>
+<body>
+<div class="aurora"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+<nav><div class="logo"><i></i>Nimbus AI</div><span class="sp">Docs</span><span>Pricing</span><span>Blog</span><div class="btn">Get API key</div></nav>
+<section class="hero">
+  <span class="pill">✦ Now in public beta</span>
+  <h1>Ask your documents <b>anything</b></h1>
+  <p>One API to summarise, search and cite answers from every file your team owns.</p>
+  <div class="cta"><span class="btn">Start building</span><span class="btn ghost">Read the docs</span></div>
+  <div class="chat">
+    <div class="msg me">What changed in the refund policy between v2 and v3?</div>
+    <div class="msg ai">The refund window was extended from 7 to 14 days, and digital goods are now eligible if unused. Shipping fees remain non-refundable.<small>↳ cited: refund-policy-v3.pdf · page 2</small></div>
+  </div>
+</section>
+<section class="caps">
+  <div class="cap"><em>📝</em><h3>Summarise</h3><p>Turn 200-page reports into one clear paragraph.</p></div>
+  <div class="cap"><em>🔎</em><h3>Search</h3><p>Semantic search that understands meaning, not keywords.</p></div>
+  <div class="cap"><em>📌</em><h3>Cite sources</h3><p>Every answer links back to the exact page.</p></div>
+</section>
+</body>
+</html>

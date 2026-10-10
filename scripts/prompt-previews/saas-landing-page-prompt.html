@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Flowboard — SaaS landing page preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #002057; background: #fff; }
+  nav { display: flex; align-items: center; gap: 36px; padding: 22px 72px; border-bottom: 1px solid #eef0f6; }
+  .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+  .logo i { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #2506ad, #ff7b00); }
+  nav span { color: #4b5175; font-weight: 500; font-size: 15px; }
+  nav .sp { margin-left: auto; }
+  .btn { padding: 12px 22px; border-radius: 999px; background: #2506ad; color: #fff; font-weight: 700; font-size: 15px; }
+  .ghost { background: transparent; color: #002057; border: 1.5px solid #cfd3e6; }
+  .hero { text-align: center; padding: 70px 40px 0; background: radial-gradient(circle at 50% 0, #eef2ff 0, #fff 62%); }
+  .pill { display: inline-block; padding: 7px 16px; border-radius: 999px; border: 1px solid #c7d2fe; color: #2506ad; font-weight: 600; font-size: 14px; background: #fff; }
+  h1 { font-size: 68px; line-height: 1.04; letter-spacing: -2.5px; font-weight: 800; margin: 22px auto 0; max-width: 820px; }
+  h1 b { color: #ff7b00; }
+  .hero p { font-size: 20px; color: #5b6178; max-width: 600px; margin: 20px auto 0; line-height: 1.55; }
+  .cta { display: flex; justify-content: center; gap: 14px; margin-top: 30px; }
+  .cta .btn { padding: 16px 30px; font-size: 16px; box-shadow: 0 12px 26px rgba(37, 6, 173, .3); }
+  .cta .ghost { box-shadow: none; }
+  .shot { width: 1000px; margin: 54px auto 0; border-radius: 18px 18px 0 0; border: 1px solid #e3e6f2; border-bottom: 0; background: #f7f8fc; box-shadow: 0 40px 80px rgba(0, 32, 87, .16); overflow: hidden; }
+  .bar { display: flex; gap: 7px; padding: 14px 18px; background: #fff; border-bottom: 1px solid #eceef6; }
+  .bar i { width: 11px; height: 11px; border-radius: 50%; background: #dfe2ee; }
+  .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 22px; text-align: left; }
+  .col h4 { font-size: 13px; color: #6b7190; margin-bottom: 12px; display: flex; justify-content: space-between; }
+  .card { background: #fff; border: 1px solid #e6e8f2; border-radius: 12px; padding: 14px; margin-bottom: 10px; font-size: 13px; font-weight: 600; }
+  .card small { display: block; margin-top: 10px; font-weight: 500; color: #8a8fa3; }
+  .tag { display: inline-block; height: 6px; width: 44px; border-radius: 4px; margin-bottom: 9px; background: #2506ad; }
+  .tag.o { background: #ff7b00; } .tag.g { background: #10b981; } .tag.p { background: #a855f7; }
+  .logos { display: flex; justify-content: center; gap: 56px; padding: 40px 0; color: #a3a8bd; font-weight: 800; font-size: 20px; letter-spacing: 1px; border-top: 1px solid #eef0f6; }
+  .feat { padding: 56px 72px 80px; background: #f7f7fb; }
+  .feat h2 { text-align: center; font-size: 38px; letter-spacing: -1px; margin-bottom: 36px; }
+  .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; max-width: 1100px; margin: 0 auto; }
+  .f { background: #fff; border: 1px solid #e6e8f2; border-radius: 18px; padding: 28px; }
+  .f.dark { background: #002057; color: #fff; }
+  .f em { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: #eef0ff; font-style: normal; font-size: 22px; margin-bottom: 16px; }
+  .f h3 { font-size: 20px; } .f p { margin-top: 8px; color: #5b6178; line-height: 1.55; font-size: 15px; }
+  .f.dark p { color: rgba(255, 255, 255, .75); } .f.dark h3 { font-size: 26px; margin-top: 60px; }
+  body { min-height: 1400px; display: flex; flex-direction: column; } body > :last-child { flex: 1; }
+</style>
+</head>
+<body>
+<nav><div class="logo"><i></i>Flowboard</div><span>Product</span><span>Solutions</span><span>Pricing</span><span>Docs</span><span class="sp">Log in</span><div class="btn">Start free</div></nav>
+<section class="hero">
+  <span class="pill">New · AI sprint planning is here →</span>
+  <h1>Ship projects <b>twice as fast</b></h1>
+  <p>One calm workspace for tasks, docs and deadlines. Loved by 12,000+ small teams.</p>
+  <div class="cta"><div class="btn">Start free trial</div><div class="btn ghost">Watch demo</div></div>
+  <div class="shot">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="board">
+      <div class="col"><h4>Backlog <span>4</span></h4><div class="card"><span class="tag p"></span><br />Design onboarding flow<small>Due Fri · Ananya</small></div><div class="card"><span class="tag"></span><br />Pricing page copy<small>Due Mon · Rohit</small></div></div>
+      <div class="col"><h4>In progress <span>3</span></h4><div class="card"><span class="tag o"></span><br />Stripe integration<small>Due today · Meera</small></div><div class="card"><span class="tag g"></span><br />Mobile nav polish<small>Due Wed · Arjun</small></div></div>
+      <div class="col"><h4>Review <span>2</span></h4><div class="card"><span class="tag"></span><br />Dashboard charts<small>2 comments · Kavya</small></div><div class="card"><span class="tag p"></span><br />Email templates<small>1 comment · Dev</small></div></div>
+      <div class="col"><h4>Done <span>9</span></h4><div class="card"><span class="tag g"></span><br />Auth with Google<small>Shipped · Sana</small></div><div class="card"><span class="tag o"></span><br />Landing page v2<small>Shipped · Rohit</small></div></div>
+    </div>
+  </div>
+</section>
+<div class="logos"><span>NORTHWIND</span><span>ACME</span><span>LUMEN</span><span>KITE</span><span>ORBIT</span><span>PIXELCO</span></div>
+<section class="feat">
+  <h2>Everything your team needs</h2>
+  <div class="grid">
+    <div class="f dark"><h3>Realtime collaboration</h3><p>See every change as it happens. Comments, cursors and history are built in.</p></div>
+    <div class="f"><em>⚡</em><h3>Fast by default</h3><p>Every page loads in under a second.</p></div>
+    <div class="f"><em>🔒</em><h3>Secure</h3><p>SSO, audit logs and encryption at rest.</p></div>
+  </div>
+</section>
+</body>
+</html>

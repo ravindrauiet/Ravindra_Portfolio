@@ -13,7 +13,9 @@ const TILT_TARGETS = [
   { selector: ".skl-card", max: 6 },
   { selector: ".abt-photo", max: 15 },
   { selector: ".nts-card", max: 10 },
-  { selector: ".nts-visual", max: 14 }
+  { selector: ".nts-visual", max: 14 },
+  { selector: ".pl-stage", max: 12 },
+  { selector: ".pl-card", max: 5 }
 ];
 const TILT_SELECTOR = TILT_TARGETS.map((t) => t.selector).join(", ");
 
@@ -46,7 +48,15 @@ const REVEAL_SELECTOR = [
   ".lib-hero",
   ".lib-card",
   ".lib-how-card",
-  ".lib-banner"
+  ".lib-banner",
+  ".pl-hero-text",
+  ".pl-stage",
+  ".pl-stats",
+  ".pl-head",
+  ".pl-step",
+  ".pl-feature",
+  ".pl-card",
+  ".pl-faq details"
 ].join(", ");
 
 export default function MotionEffects() {

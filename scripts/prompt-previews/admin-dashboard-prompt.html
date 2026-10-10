@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Admin dashboard preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #0f172a; background: #f6f7fb; min-height: 1400px; display: grid; grid-template-columns: 240px 1fr; }
+  aside { background: #0f172a; color: #cbd5e1; padding: 26px 18px; }
+  .logo { color: #fff; font-weight: 800; font-size: 21px; padding: 0 10px 26px; display: flex; gap: 10px; align-items: center; } .logo i { width: 28px; height: 28px; border-radius: 8px; background: #2506ad; }
+  aside small { display: block; padding: 18px 12px 8px; color: #64748b; font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+  .nav { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 14.5px; }
+  .nav.on { background: #2506ad; color: #fff; }
+  main { padding: 26px 34px; }
+  .top { display: flex; align-items: center; gap: 18px; } .top h1 { font-size: 26px; letter-spacing: -.5px; margin-right: auto; }
+  .srch { padding: 11px 16px; width: 280px; border-radius: 10px; background: #fff; border: 1px solid #e5e7ef; color: #94a3b8; font-size: 14px; }
+  .av { width: 40px; height: 40px; border-radius: 50%; background: #2506ad; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 24px; }
+  .card { background: #fff; border: 1px solid #e5e7ef; border-radius: 14px; padding: 20px; }
+  .card small { color: #64748b; font-weight: 600; font-size: 13px; } .card b { display: block; font-size: 28px; margin-top: 8px; letter-spacing: -.5px; }
+  .up { color: #10b981; font-size: 13px; font-weight: 700; } .down { color: #ef4444; font-size: 13px; font-weight: 700; }
+  .wide { margin-top: 18px; } .wide header { display: flex; justify-content: space-between; align-items: center; } .wide h2 { font-size: 17px; }
+  .legend { display: flex; gap: 16px; color: #64748b; font-size: 13px; } .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  svg { width: 100%; height: 300px; margin-top: 14px; display: block; }
+  .cols { display: grid; grid-template-columns: 1.6fr 1fr; gap: 18px; margin-top: 18px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; } th { text-align: left; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 10px 8px; border-bottom: 1px solid #eef0f5; }
+  td { padding: 14px 8px; border-bottom: 1px solid #f1f3f8; font-weight: 500; }
+  .st { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; } .paid { background: #dcfce7; color: #15803d; } .pend { background: #fef3c7; color: #b45309; } .ref { background: #fee2e2; color: #b91c1c; }
+  .prod { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 14px; font-weight: 600; } .prod em { font-style: normal; width: 40px; height: 40px; border-radius: 10px; background: #f1f5f9; display: grid; place-items: center; font-size: 20px; }
+  .bar { flex: 1; height: 8px; border-radius: 6px; background: #eef0f5; overflow: hidden; margin-top: 6px; } .bar i { display: block; height: 100%; background: #2506ad; border-radius: 6px; }
+</style>
+</head>
+<body>
+<aside>
+  <div class="logo"><i></i>Shopdesk</div>
+  <small>Main</small><div class="nav on">📊 Dashboard</div><div class="nav">🧾 Orders</div><div class="nav">📦 Products</div><div class="nav">👥 Customers</div>
+  <small>Insights</small><div class="nav">📈 Analytics</div><div class="nav">🎯 Campaigns</div>
+  <small>System</small><div class="nav">⚙️ Settings</div>
+</aside>
+<main>
+  <div class="top"><h1>Dashboard</h1><div class="srch">🔍 &nbsp;Search orders, customers…</div><span>🔔</span><div class="av">RJ</div></div>
+  <div class="kpis">
+    <div class="card"><small>Revenue</small><b>₹18,42,300</b><span class="up">▲ 12.4% vs last month</span></div>
+    <div class="card"><small>Orders</small><b>3,284</b><span class="up">▲ 8.1%</span></div>
+    <div class="card"><small>Customers</small><b>12,907</b><span class="up">▲ 3.6%</span></div>
+    <div class="card"><small>Conversion</small><b>3.42%</b><span class="down">▼ 0.4%</span></div>
+  </div>
+  <div class="card wide">
+    <header><h2>Revenue overview</h2><div class="legend"><span><i style="background:#2506ad"></i>This year</span><span><i style="background:#cbd5e1"></i>Last year</span></div></header>
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none">
+      <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2506ad" stop-opacity=".28" /><stop offset="1" stop-color="#2506ad" stop-opacity="0" /></linearGradient></defs>
+      <g stroke="#eef0f5"><line x1="0" y1="60" x2="1000" y2="60" /><line x1="0" y1="130" x2="1000" y2="130" /><line x1="0" y1="200" x2="1000" y2="200" /><line x1="0" y1="270" x2="1000" y2="270" /></g>
+      <path d="M0,230 C90,220 150,190 230,200 S400,150 480,170 S640,120 730,140 S900,90 1000,110" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="8 8" />
+      <path d="M0,210 C80,180 150,160 230,170 S380,90 480,110 S640,60 730,80 S900,20 1000,40 L1000,300 L0,300 Z" fill="url(#g)" />
+      <path d="M0,210 C80,180 150,160 230,170 S380,90 480,110 S640,60 730,80 S900,20 1000,40" fill="none" stroke="#2506ad" stroke-width="4" />
+    </svg>
+  </div>
+  <div class="cols">
+    <div class="card"><h2 style="font-size:17px">Recent orders</h2>
+      <table><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr>
+        <tr><td>#10482</td><td>Ananya Sharma</td><td>₹4,299</td><td><span class="st paid">Paid</span></td></tr>
+        <tr><td>#10481</td><td>Rohit Kumar</td><td>₹12,999</td><td><span class="st pend">Pending</span></td></tr>
+        <tr><td>#10480</td><td>Meera Patel</td><td>₹2,150</td><td><span class="st paid">Paid</span></td></tr>
+        <tr><td>#10479</td><td>Arjun Singh</td><td>₹8,740</td><td><span class="st ref">Refunded</span></td></tr>
+        <tr><td>#10478</td><td>Kavya Nair</td><td>₹1,899</td><td><span class="st paid">Paid</span></td></tr>
+      </table>
+    </div>
+    <div class="card"><h2 style="font-size:17px">Top products</h2>
+      <div class="prod"><em>🎧</em><div style="flex:1">Aura Pro Headphones<div class="bar"><i style="width:88%"></i></div></div><span>842</span></div>
+      <div class="prod"><em>⌚</em><div style="flex:1">Pulse Watch<div class="bar"><i style="width:64%"></i></div></div><span>611</span></div>
+      <div class="prod"><em>🔊</em><div style="flex:1">Mini Speaker<div class="bar"><i style="width:47%"></i></div></div><span>450</span></div>
+      <div class="prod"><em>🎵</em><div style="flex:1">Aura Buds 2<div class="bar"><i style="width:35%"></i></div></div><span>338</span></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

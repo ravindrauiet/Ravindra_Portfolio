@@ -1,17 +1,21 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Search, ArrowRight } from "lucide-react";
-import PromptPreview from "./PromptPreview";
+import { ArrowUpRight, Search } from "lucide-react";
+import CopyButton from "./CopyButton";
 
-// items: [{ slug, name, industry, tone, layout, palette, stack, description, sectionCount }]
+// items: [{ slug, name, industry, tone, palette, stack, description, sectionCount, prompt }]
 export default function PromptGallery({ items, industries }) {
   const [industry, setIndustry] = useState("all");
   const [query, setQuery] = useState("");
 
   const available = useMemo(
-    () => industries.filter((name) => items.some((item) => item.industry === name)),
+    () =>
+      industries
+        .map((name) => ({ name, count: items.filter((item) => item.industry === name).length }))
+        .filter((entry) => entry.count > 0),
     [industries, items]
   );
 
@@ -30,45 +34,42 @@ export default function PromptGallery({ items, industries }) {
 
   return (
     <div className="lib-gallery">
-      <div className="lib-toolbar">
-        <div className="lib-tabs" role="toolbar" aria-label="Filter by industry">
+      <div className="pl-filter">
+        <label className="pl-search">
+          <Search size={20} strokeWidth={2} aria-hidden="true" />
+          <span className="lib-sr-only">Search prompts</span>
+          <input
+            type="search"
+            placeholder="Search for a website: portfolio, restaurant, dashboard…"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <span className="pl-search-count" aria-live="polite">
+            {visible.length} of {items.length}
+          </span>
+        </label>
+        <div className="pl-chips" role="toolbar" aria-label="Filter by industry">
           <button
             type="button"
-            className={`lib-tab ${industry === "all" ? "is-active" : ""}`}
+            className={`pl-chip ${industry === "all" ? "is-active" : ""}`}
             aria-pressed={industry === "all"}
             onClick={() => setIndustry("all")}
           >
             All <span>{items.length}</span>
           </button>
-          {available.map((name) => (
+          {available.map(({ name, count }) => (
             <button
               key={name}
               type="button"
-              className={`lib-tab ${industry === name ? "is-active" : ""}`}
+              className={`pl-chip ${industry === name ? "is-active" : ""}`}
               aria-pressed={industry === name}
               onClick={() => setIndustry(name)}
             >
-              {name}
+              {name} <span>{count}</span>
             </button>
           ))}
         </div>
-        <div className="lib-filters">
-          <label className="lib-search">
-            <Search size={16} strokeWidth={2} aria-hidden="true" />
-            <span className="lib-sr-only">Search prompts</span>
-            <input
-              type="search"
-              placeholder="Search prompts"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </label>
-        </div>
       </div>
-
-      <p className="lib-count" aria-live="polite">
-        Showing {visible.length} of {items.length} prompts
-      </p>
 
       {visible.length === 0 ? (
         <div className="lib-empty">
@@ -84,26 +85,51 @@ export default function PromptGallery({ items, industries }) {
           </button>
         </div>
       ) : (
-        <div className="lib-grid">
+        <div className="lib-grid pl-grid">
           {visible.map((item) => (
-            <Link key={item.slug} href={`/prompts/${item.slug}`} className="lib-card">
-              <div className="lib-thumb lib-thumb-prompt">
-                <PromptPreview palette={item.palette} layout={item.layout} tone={item.tone} />
-              </div>
-              <div className="lib-card-body">
-                <div className="lib-card-row">
-                  <h3>{item.name}</h3>
-                  <span className={`lib-tone lib-tone-${item.tone}`}>{item.tone}</span>
+            <article key={item.slug} className="pl-card">
+              <div className="pl-card-media">
+                <div className="pl-win-bar" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <span>{item.slug.replace(/-prompt$/, "")}.com</span>
                 </div>
-                <p className="lib-card-desc">{item.description}</p>
-                <p className="lib-card-meta">
-                  {item.industry} · {item.sectionCount} sections
-                  <span className="lib-card-go">
-                    View prompt <ArrowRight size={15} strokeWidth={2} aria-hidden="true" />
+                <div className="pl-card-shot">
+                  <Image
+                    src={`/assets/images/prompts/${item.slug}-full.png`}
+                    alt={`${item.name} built from this AI prompt`}
+                    fill
+                    sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  />
+                  <span className="pl-card-view" aria-hidden="true">
+                    View prompt <ArrowUpRight size={15} strokeWidth={2.2} />
                   </span>
-                </p>
+                </div>
               </div>
-            </Link>
+              <div className="pl-card-body">
+                <span className="pl-card-industry">{item.industry}</span>
+                <h3>
+                  <Link href={`/prompts/${item.slug}`} className="pl-card-link">
+                    {item.name}
+                  </Link>
+                </h3>
+                <p className="pl-card-desc">{item.description}</p>
+                <ul className="pl-card-chips">
+                  <li>{item.stack}</li>
+                  <li>{item.sectionCount} sections</li>
+                  <li>{item.tone === "dark" ? "Dark theme" : "Light theme"}</li>
+                </ul>
+                <div className="pl-card-foot">
+                  <span className="pl-card-palette" aria-label="Colour palette">
+                    {item.palette.map((color) => (
+                      <i key={color} style={{ background: color }} />
+                    ))}
+                  </span>
+                  <CopyButton text={item.prompt} label="Copy prompt" copiedLabel="Copied" className="pl-card-copy" />
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       )}

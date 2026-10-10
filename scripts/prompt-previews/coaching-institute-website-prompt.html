@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CodeCraft Academy — coaching institute preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #0f172a; background: #f8fafc; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 72px; background: #fff; border-bottom: 1px solid #e8edf5; font-size: 15px; font-weight: 500; }
+  .logo { font-weight: 800; font-size: 22px; margin-right: auto; display: flex; gap: 10px; align-items: center; } .logo i { width: 30px; height: 30px; border-radius: 9px; background: #2563eb; display: grid; place-items: center; color: #fff; font-style: normal; font-size: 15px; }
+  nav span { color: #475569; }
+  .btn { padding: 13px 22px; border-radius: 12px; background: #2563eb; color: #fff; font-weight: 700; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; padding: 54px 72px 60px; background: radial-gradient(circle at 10% 0, #dbeafe 0, #f8fafc 55%); }
+  .pill { display: inline-block; padding: 7px 14px; border-radius: 999px; background: #ffedd5; color: #c2410c; font-weight: 700; font-size: 13.5px; }
+  h1 { font-size: 60px; line-height: 1.08; letter-spacing: -2px; margin-top: 18px; } h1 b { color: #2563eb; }
+  .hero ul { list-style: none; padding: 0; margin-top: 24px; display: grid; gap: 12px; font-size: 17.5px; color: #334155; }
+  .hero li::before { content: "✓"; display: inline-grid; place-items: center; width: 24px; height: 24px; margin-right: 12px; border-radius: 50%; background: #dcfce7; color: #16a34a; font-weight: 800; font-size: 13px; }
+  .rate { margin-top: 28px; color: #475569; font-size: 15px; } .rate b { color: #f97316; }
+  .form { background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 30px; box-shadow: 0 30px 60px rgba(15, 23, 42, .1); }
+  .form h3 { font-size: 23px; } .form p { color: #64748b; margin-top: 6px; font-size: 14.5px; }
+  .in { margin-top: 14px; padding: 15px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; color: #94a3b8; font-size: 15px; }
+  .form .btn { width: 100%; text-align: center; margin-top: 16px; background: #f97316; padding: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); background: #0f172a; color: #fff; text-align: center; padding: 30px 72px; }
+  .stats b { display: block; font-size: 34px; } .stats span { color: #94a3b8; font-size: 14px; }
+  .courses { padding: 50px 72px 80px; } .courses h2 { font-size: 36px; letter-spacing: -1px; margin-bottom: 26px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .c { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; }
+  .c em { font-style: normal; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: #eff6ff; font-size: 28px; }
+  .c h3 { font-size: 21px; margin-top: 16px; } .c p { color: #64748b; margin-top: 6px; font-size: 14.5px; }
+  .c .row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid #eef2f7; }
+  .c strong { font-size: 20px; } .c .go { color: #2563eb; font-weight: 700; font-size: 14.5px; }
+</style>
+</head>
+<body>
+<nav><div class="logo"><i>&lt;/&gt;</i>CodeCraft Academy</div><span>Courses</span><span>Faculty</span><span>Results</span><span>📞 98765 43210</span><span class="btn">Book free demo</span></nav>
+<section class="hero">
+  <div>
+    <span class="pill">🎓 New batch starts 1 November</span>
+    <h1>Become a <b>job-ready developer</b> in 6 months</h1>
+    <ul><li>Live classes with industry mentors</li><li>8 real projects for your portfolio</li><li>Mock interviews and placement support</li></ul>
+    <p class="rate"><b>★★★★★</b> &nbsp;4.9 rated by 3,200+ students</p>
+  </div>
+  <div class="form"><h3>Book a free demo class</h3><p>We'll call you within 24 hours.</p><div class="in">Full name</div><div class="in">Phone number</div><div class="in">Select course ▾</div><div class="btn">Book free demo</div></div>
+</section>
+<div class="stats"><div><b>12,000+</b><span>Students trained</span></div><div><b>350+</b><span>Hiring partners</span></div><div><b>4.9/5</b><span>Average rating</span></div><div><b>8 yrs</b><span>Teaching experience</span></div></div>
+<section class="courses">
+  <h2>Popular courses</h2>
+  <div class="grid">
+    <div class="c"><em>⚛️</em><h3>Full Stack MERN</h3><p>6 months · Online + Offline</p><div class="row"><strong>₹45,000</strong><span class="go">Enquire →</span></div></div>
+    <div class="c"><em>🐍</em><h3>Python &amp; Data Science</h3><p>5 months · Online</p><div class="row"><strong>₹38,000</strong><span class="go">Enquire →</span></div></div>
+    <div class="c"><em>🤖</em><h3>AI Engineering</h3><p>4 months · Online</p><div class="row"><strong>₹52,000</strong><span class="go">Enquire →</span></div></div>
+  </div>
+</section>
+</body>
+</html>

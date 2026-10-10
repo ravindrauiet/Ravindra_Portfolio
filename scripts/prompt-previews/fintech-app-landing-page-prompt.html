@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Paisa — fintech app landing page preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #ecfdf5; background: #022c22; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 34px; padding: 26px 80px; font-size: 15px; }
+  .logo { font-weight: 800; font-size: 24px; margin-right: auto; } .logo b { color: #34d399; }
+  nav span { color: #a7d7c5; }
+  .btn { padding: 13px 24px; border-radius: 999px; background: #34d399; color: #022c22; font-weight: 800; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; padding: 30px 80px 60px; position: relative; }
+  .hero::after { content: ""; position: absolute; right: 120px; top: 60px; width: 420px; height: 420px; border-radius: 50%; background: #10b981; filter: blur(130px); opacity: .45; }
+  .pill { display: inline-block; padding: 7px 15px; border-radius: 999px; background: rgba(52, 211, 153, .14); color: #6ee7b7; font-weight: 600; font-size: 14px; }
+  h1 { font-size: 72px; line-height: 1.04; letter-spacing: -2.5px; margin-top: 20px; } h1 b { color: #fbbf24; }
+  .hero p { color: #a7d7c5; font-size: 19.5px; line-height: 1.6; margin-top: 20px; max-width: 500px; }
+  .stores { display: flex; gap: 12px; margin-top: 32px; }
+  .store { padding: 13px 22px; border-radius: 14px; background: #ecfdf5; color: #022c22; font-weight: 700; font-size: 15px; }
+  .store.d { background: transparent; color: #ecfdf5; border: 1.5px solid rgba(236, 253, 245, .35); }
+  .rate { margin-top: 26px; color: #a7d7c5; font-size: 14.5px; } .rate b { color: #fbbf24; }
+  .phone { position: relative; z-index: 1; width: 320px; height: 600px; margin-left: auto; margin-right: 40px; border-radius: 46px; background: #03130f; border: 10px solid #0b3b2e; padding: 26px 20px; box-shadow: 0 50px 90px rgba(0, 0, 0, .5); }
+  .phone small { color: #7fb8a3; font-size: 13px; } .bal { font-size: 38px; font-weight: 800; margin-top: 4px; }
+  .up { color: #34d399; font-size: 13px; font-weight: 700; margin-top: 4px; }
+  .chart { display: flex; align-items: flex-end; gap: 9px; height: 130px; margin: 22px 0; }
+  .chart i { flex: 1; border-radius: 8px 8px 3px 3px; background: #0f5c45; } .chart .on { background: linear-gradient(#fbbf24, #34d399); }
+  .tx { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; background: #06241c; margin-bottom: 9px; font-size: 14px; font-weight: 600; }
+  .tx em { font-style: normal; width: 36px; height: 36px; border-radius: 10px; background: #0b3b2e; display: grid; place-items: center; }
+  .tx span { margin-left: auto; color: #fca5a5; } .tx .g { color: #34d399; }
+  .trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 46px 80px 80px; background: #03231b; border-top: 1px solid rgba(52, 211, 153, .15); }
+  .t { padding: 26px; border-radius: 20px; background: rgba(236, 253, 245, .04); border: 1px solid rgba(52, 211, 153, .16); }
+  .t em { font-style: normal; font-size: 28px; } .t h3 { margin-top: 14px; font-size: 20px; } .t p { color: #a7d7c5; margin-top: 8px; line-height: 1.55; font-size: 15px; }
+</style>
+</head>
+<body>
+<nav><div class="logo">paisa<b>.</b></div><span>Features</span><span>Security</span><span>FAQ</span><span class="btn">Download app</span></nav>
+<section class="hero">
+  <div>
+    <span class="pill">Trusted by 2 lakh+ savers</span>
+    <h1>Know where every <b>rupee</b> goes</h1>
+    <p>Track spending automatically, set goals and save without thinking about it.</p>
+    <div class="stores"><span class="store"> App Store</span><span class="store d">▶ Google Play</span></div>
+    <p class="rate"><b>★★★★★</b> &nbsp;4.8 on both stores</p>
+  </div>
+  <div class="phone">
+    <small>Total balance</small><div class="bal">₹1,84,250</div><div class="up">▲ ₹12,400 saved this month</div>
+    <div class="chart"><i style="height:45%"></i><i style="height:62%"></i><i style="height:50%"></i><i style="height:78%"></i><i class="on" style="height:100%"></i><i style="height:66%"></i><i style="height:84%"></i></div>
+    <div class="tx"><em>🛒</em>Groceries<span>− ₹1,240</span></div>
+    <div class="tx"><em>💼</em>Salary<span class="g">+ ₹85,000</span></div>
+    <div class="tx"><em>☕</em>Coffee<span>− ₹180</span></div>
+  </div>
+</section>
+<section class="trust">
+  <div class="t"><em>🔐</em><h3>Bank-grade security</h3><p>256-bit encryption and biometric login on every device.</p></div>
+  <div class="t"><em>🏦</em><h3>Regulated partner bank</h3><p>Your money is held with a licensed banking partner.</p></div>
+  <div class="t"><em>💸</em><h3>No hidden fees</h3><p>Free forever for personal use. No minimum balance.</p></div>
+</section>
+</body>
+</html>

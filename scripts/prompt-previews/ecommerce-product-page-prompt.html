@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Aura Pro — e-commerce product page preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #111827; background: #fff; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 28px; padding: 20px 64px; border-bottom: 1px solid #eef0f4; }
+  .logo { font-weight: 800; font-size: 22px; letter-spacing: -.5px; }
+  .search { flex: 1; max-width: 460px; margin: 0 auto; padding: 12px 18px; border-radius: 999px; background: #f3f4f6; color: #9ca3af; font-size: 14.5px; }
+  .cart { position: relative; font-size: 22px; } .cart b { position: absolute; top: -8px; right: -10px; background: #2506ad; color: #fff; font-size: 11px; width: 19px; height: 19px; border-radius: 50%; display: grid; place-items: center; }
+  .crumbs { padding: 18px 64px 0; color: #9ca3af; font-size: 13.5px; }
+  .main { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; padding: 22px 64px 50px; }
+  .big { height: 500px; border-radius: 24px; background: radial-gradient(circle at 50% 40%, #eef2ff, #e0e7ff 70%); display: grid; place-items: center; font-size: 250px; }
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; }
+  .thumbs div { height: 96px; border-radius: 14px; background: #f3f4f6; display: grid; place-items: center; font-size: 40px; border: 2px solid transparent; }
+  .thumbs .on { border-color: #2506ad; background: #eef2ff; }
+  .tag { color: #2506ad; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+  h1 { font-size: 42px; letter-spacing: -1.2px; line-height: 1.12; margin-top: 10px; }
+  .stars { margin-top: 12px; color: #6b7280; font-size: 14.5px; } .stars b { color: #f59e0b; letter-spacing: 2px; }
+  .price { margin-top: 20px; font-size: 38px; font-weight: 800; } .price s { font-size: 20px; color: #9ca3af; font-weight: 500; margin-left: 10px; } .price span { font-size: 15px; color: #059669; margin-left: 10px; font-weight: 700; }
+  .desc { color: #4b5563; line-height: 1.65; margin-top: 16px; font-size: 16px; }
+  .label { margin-top: 24px; font-weight: 700; font-size: 14px; }
+  .sw { display: flex; gap: 12px; margin-top: 10px; } .sw i { width: 38px; height: 38px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1.5px #d1d5db; }
+  .sw .on { box-shadow: 0 0 0 2.5px #2506ad; }
+  .buy { display: flex; gap: 12px; margin-top: 26px; align-items: center; }
+  .qty { display: flex; align-items: center; gap: 18px; padding: 14px 20px; border: 1.5px solid #d1d5db; border-radius: 999px; font-weight: 700; }
+  .btn { flex: 1; text-align: center; padding: 17px; border-radius: 999px; background: #2506ad; color: #fff; font-weight: 700; }
+  .btn.d { background: #111827; }
+  .perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+  .perks div { padding: 14px; border-radius: 14px; background: #f9fafb; border: 1px solid #eef0f4; font-size: 13.5px; font-weight: 600; text-align: center; }
+  .rel { background: #f9fafb; padding: 44px 64px 70px; } .rel h2 { font-size: 28px; letter-spacing: -.6px; margin-bottom: 22px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .item { background: #fff; border: 1px solid #eef0f4; border-radius: 18px; padding: 16px; } .item div { height: 150px; border-radius: 12px; background: #f3f4f6; display: grid; place-items: center; font-size: 70px; }
+  .item h3 { font-size: 16px; margin-top: 14px; } .item p { font-weight: 800; margin-top: 4px; }
+</style>
+</head>
+<body>
+<nav><div class="logo">AURA</div><div class="search">🔍 &nbsp;Search headphones, speakers…</div><span>👤</span><span class="cart">🛒<b>2</b></span></nav>
+<p class="crumbs">Home / Audio / Headphones / Aura Pro Wireless</p>
+<section class="main">
+  <div><div class="big">🎧</div><div class="thumbs"><div class="on">🎧</div><div>🎚️</div><div>🔋</div><div>💼</div></div></div>
+  <div>
+    <span class="tag">Bestseller</span>
+    <h1>Aura Pro Wireless Headphones</h1>
+    <p class="stars"><b>★★★★★</b> &nbsp;4.7 · 1,284 reviews</p>
+    <p class="price">₹12,999 <s>₹15,999</s><span>19% off</span></p>
+    <p class="desc">Adaptive noise cancelling, 40-hour battery and studio-grade sound in a 250 g frame.</p>
+    <p class="label">Colour: Midnight</p>
+    <div class="sw"><i class="on" style="background:#111827"></i><i style="background:#e5e7eb"></i><i style="background:#2506ad"></i></div>
+    <div class="buy"><div class="qty"><span>−</span><span>1</span><span>+</span></div><div class="btn">Add to cart</div><div class="btn d">Buy now</div></div>
+    <div class="perks"><div>🚚 Free delivery</div><div>↩️ 7-day returns</div><div>🛡️ 1-year warranty</div></div>
+  </div>
+</section>
+<section class="rel">
+  <h2>You may also like</h2>
+  <div class="grid">
+    <div class="item"><div>🔊</div><h3>Aura Mini Speaker</h3><p>₹4,499</p></div>
+    <div class="item"><div>🎙️</div><h3>Studio Mic One</h3><p>₹8,999</p></div>
+    <div class="item"><div>⌚</div><h3>Pulse Watch</h3><p>₹9,499</p></div>
+    <div class="item"><div>🎵</div><h3>Aura Buds 2</h3><p>₹6,999</p></div>
+  </div>
+</section>
+</body>
+</html>

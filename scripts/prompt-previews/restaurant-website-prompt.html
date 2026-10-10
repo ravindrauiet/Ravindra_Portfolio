@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Saffron Table — restaurant website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #3b2a20; background: #fffaf3; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  h1, h2, h3, .logo { font-family: "Playfair Display", Georgia, serif; }
+  nav { display: flex; align-items: center; gap: 36px; padding: 24px 72px; font-size: 15px; font-weight: 500; }
+  .logo { font-size: 26px; font-weight: 800; margin-right: auto; } .logo b { color: #b45309; }
+  .btn { padding: 13px 24px; border-radius: 999px; background: #b45309; color: #fff; font-weight: 700; display: inline-block; }
+  .ghost { background: transparent; color: #3b2a20; border: 1.5px solid #c9b8a5; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; padding: 34px 72px 60px; }
+  .eyebrow { color: #166534; font-weight: 700; letter-spacing: 3px; font-size: 13px; text-transform: uppercase; }
+  h1 { font-size: 74px; line-height: 1.04; letter-spacing: -1.5px; margin-top: 14px; } h1 i { color: #b45309; }
+  .hero p { font-size: 19px; line-height: 1.65; color: #6b574a; margin-top: 20px; max-width: 470px; }
+  .cta { display: flex; gap: 14px; margin-top: 30px; }
+  .rating { margin-top: 30px; font-size: 15px; color: #6b574a; } .rating b { color: #b45309; letter-spacing: 2px; }
+  .plates { position: relative; height: 480px; }
+  .plate { position: absolute; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff 0 52%, #f1e4d3 53% 62%, #fff 63%); box-shadow: 0 30px 50px rgba(59, 42, 32, .22); display: grid; place-items: center; }
+  .p1 { width: 360px; height: 360px; right: 70px; top: 30px; font-size: 170px; }
+  .p2 { width: 190px; height: 190px; left: 10px; bottom: 10px; font-size: 86px; }
+  .p3 { width: 150px; height: 150px; right: 0; bottom: 0; font-size: 66px; }
+  .menu { background: #fff; border-top: 1px solid #efe3d3; padding: 56px 72px 80px; }
+  .menu h2 { font-size: 44px; text-align: center; }
+  .tabs { display: flex; justify-content: center; gap: 10px; margin: 24px 0 34px; }
+  .tabs span { padding: 10px 20px; border-radius: 999px; border: 1px solid #e6d8c6; font-weight: 600; font-size: 14.5px; }
+  .tabs .on { background: #3b2a20; color: #fff; border-color: #3b2a20; }
+  .list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 60px; max-width: 1000px; margin: 0 auto; }
+  .dish { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px dashed #e2d2be; }
+  .dish em { font-style: normal; font-size: 38px; }
+  .dish h3 { font-size: 21px; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #16a34a; display: inline-block; } .dot.n { background: #dc2626; }
+  .dish p { color: #7a6657; font-size: 14.5px; margin-top: 4px; }
+  .dish strong { margin-left: auto; color: #b45309; font-size: 19px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<nav><div class="logo">Saffron <b>Table</b></div><span>Menu</span><span>Gallery</span><span>Reviews</span><span>Contact</span><span class="btn">Book a table</span></nav>
+<section class="hero">
+  <div>
+    <span class="eyebrow">Modern Indian · New Delhi</span>
+    <h1>Slow-cooked food, <i>warm</i> company.</h1>
+    <p>Family recipes from across India, cooked over charcoal and served the way they were meant to be shared.</p>
+    <div class="cta"><span class="btn">Book a table</span><span class="btn ghost">View menu</span></div>
+    <p class="rating"><b>★★★★★</b> &nbsp;4.8 from 2,300+ diners</p>
+  </div>
+  <div class="plates"><div class="plate p1">🍛</div><div class="plate p2">🫓</div><div class="plate p3">🍮</div></div>
+</section>
+<section class="menu">
+  <h2>From our kitchen</h2>
+  <div class="tabs"><span>Starters</span><span class="on">Mains</span><span>Breads</span><span>Desserts</span><span>Drinks</span></div>
+  <div class="list">
+    <div class="dish"><em>🍛</em><div><h3>Dal Makhani <span class="dot"></span></h3><p>Black lentils simmered overnight with butter.</p></div><strong>₹420</strong></div>
+    <div class="dish"><em>🍗</em><div><h3>Butter Chicken <span class="dot n"></span></h3><p>Charcoal-grilled chicken in tomato gravy.</p></div><strong>₹560</strong></div>
+    <div class="dish"><em>🧀</em><div><h3>Paneer Tikka Masala <span class="dot"></span></h3><p>Smoked cottage cheese, bell peppers.</p></div><strong>₹480</strong></div>
+    <div class="dish"><em>🍚</em><div><h3>Hyderabadi Biryani <span class="dot n"></span></h3><p>Dum-cooked rice with saffron and lamb.</p></div><strong>₹640</strong></div>
+  </div>
+</section>
+</body>
+</html>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
-import PromptPreview from "@/components/library/PromptPreview";
+import Image from "next/image";
 import { getAllPrompts, getPrompt, getRelatedPrompts } from "@/lib/prompts";
 
 const SITE = "https://ravindranathjha.in";
@@ -31,6 +31,18 @@ export async function generateMetadata({ params }) {
       description,
       url: `${SITE}/prompts/${prompt.slug}`,
       type: "article",
+      images: [
+        {
+          url: `${SITE}/assets/images/prompts/${prompt.slug}.png`,
+          width: 1280,
+          height: 800,
+          alt: `${prompt.name} built from this AI prompt`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: [`${SITE}/assets/images/prompts/${prompt.slug}.png`],
     },
   };
 }
@@ -135,8 +147,23 @@ export default async function PromptDetailPage({ params }) {
 
           <div className="lib-prompt-overview">
             <div className="lib-prompt-mock">
-              <PromptPreview palette={prompt.palette} layout={prompt.layout} tone={prompt.tone} />
-              <p>Layout sketch using this prompt&apos;s colour palette. Your generated site will be fully detailed.</p>
+              <figure className="lib-shot">
+                <div className="lib-shot-bar" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <span>{`your-${prompt.slug.replace(/-prompt$/, "")}.com`}</span>
+                </div>
+                <Image
+                  src={`/assets/images/prompts/${prompt.slug}-full.png`}
+                  alt={`Preview of the ${prompt.name.toLowerCase()} this AI prompt builds`}
+                  width={1280}
+                  height={1040}
+                  sizes="(max-width: 1100px) 100vw, 55vw"
+                  preload
+                />
+              </figure>
+              <p>Example of the website this prompt builds. Your result will use your own name, text and images.</p>
             </div>
             <dl className="lib-facts">
               <div>
@@ -231,7 +258,12 @@ export default async function PromptDetailPage({ params }) {
               {related.map((item) => (
                 <Link key={item.slug} href={`/prompts/${item.slug}`} className="lib-card">
                   <div className="lib-thumb lib-thumb-prompt">
-                    <PromptPreview palette={item.palette} layout={item.layout} tone={item.tone} />
+                    <Image
+                      src={`/assets/images/prompts/${item.slug}.png`}
+                      alt={`${item.name} built from this AI prompt`}
+                      fill
+                      sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                    />
                   </div>
                   <div className="lib-card-body">
                     <div className="lib-card-row">
