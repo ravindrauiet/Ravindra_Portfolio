@@ -15,8 +15,8 @@ export async function generateMetadata({ params }) {
   if (!stack) return {};
 
   return {
-    title: `${stack.name} Notes & Lectures`,
-    description: `Complete lecture series and tutorials for ${stack.name}. ${stack.description}`,
+    title: `${stack.name} Course Notes & Tutorials (${stack.lectures.length} ${stack.lectures.length === 1 ? "Lecture" : "Lectures"})`,
+    description: `Free ${stack.name} course with ${stack.lectures.length} detailed ${stack.lectures.length === 1 ? "lecture" : "lectures"}, code examples, interview questions and hands-on exercises. ${stack.description}`,
     alternates: {
       canonical: `https://ravindranathjha.in/notes/${stack.slug}`,
     },
@@ -37,7 +37,7 @@ export default async function TechStackPage({ params }) {
   }
 
   return (
-    <section className="container" style={{ paddingTop: "8rem", paddingBottom: "6rem", maxWidth: "1100px", margin: "0 auto" }}>
+    <section className="container notes-track" style={{ paddingTop: "8rem", paddingBottom: "6rem", maxWidth: "1100px", margin: "0 auto" }}>
       <div style={{ marginBottom: "2rem" }}>
         <Link href="/notes" style={{ color: "#2506ad", fontWeight: "700", textDecoration: "none", fontSize: "1rem" }}>
           <i className="fas fa-arrow-left" style={{ marginRight: "6px" }}></i> Back to All Notes

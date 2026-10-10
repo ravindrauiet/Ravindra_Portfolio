@@ -5140,3 +5140,11 @@ a.abt-detail-value:focus-visible {
 .nts-visual.is-tilting {
   box-shadow: none;
 }
+
+/* Notes track + lecture pages are real prose and code: never auto-capitalise them */
+.notes-track,
+.notes-track *,
+.notes-lecture,
+.notes-lecture * {
+  text-transform: none;
+}

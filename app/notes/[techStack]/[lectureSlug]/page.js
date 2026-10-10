@@ -18,6 +18,30 @@ export async function generateStaticParams() {
   return params;
 }
 
+// "Complete Java Course — Lecture 7: Exception Handling" -> "Exception Handling"
+function topicOf(title) {
+  const match = title.match(/Lecture \d+:\s*(.+)$/);
+  return match ? match[1].trim() : title;
+}
+
+// Section heading -> URL anchor, e.g. "3. Try, Catch & Finally" -> "try-catch-finally"
+function anchorOf(heading) {
+  return heading
+    .toLowerCase()
+    .replace(/^\d+\.\s*/, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+// Keep meta descriptions within the length search engines display
+function metaDescription(summary) {
+  if (summary.length <= 300) return summary;
+  return summary.slice(0, 297).replace(/\s+\S*$/, "") + "...";
+}
+
+// Prevents "</script>" inside content from breaking out of the JSON-LD tag
+const jsonLd = (data) => JSON.stringify(data).replace(/</g, "\\u003c");
+
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const stack = getTechStack(resolvedParams.techStack);
@@ -25,8 +49,9 @@ export async function generateMetadata({ params }) {
 
   if (!stack || !lecture) return {};
 
-  const pageTitle = `${lecture.title} | ${stack.name} Lecture #${lecture.number}`;
-  const pageDesc = `${lecture.summary} Detailed masterclass tutorial & code examples for ${stack.name} by Ravindra Nath Jha.`;
+  // Keyword-first title; the root layout template appends "| Ravindra Nath Jha"
+  const pageTitle = `${topicOf(lecture.title)} — ${stack.name} Course Lecture ${lecture.number}`;
+  const pageDesc = metaDescription(lecture.summary);
 
   return {
     title: pageTitle,
@@ -85,6 +110,10 @@ export default async function LectureDetailPage({ params }) {
     notFound();
   }
 
+  const lectureIndex = stack.lectures.findIndex((l) => l.slug === lecture.slug);
+  const prevLecture = lectureIndex > 0 ? stack.lectures[lectureIndex - 1] : null;
+  const nextLecture = lectureIndex < stack.lectures.length - 1 ? stack.lectures[lectureIndex + 1] : null;
+
   // TechArticle JSON-LD Schema for Google Search Rich Snippets
   const articleSchema = {
     "@context": "https://schema.org",
@@ -141,14 +170,14 @@ export default async function LectureDetailPage({ params }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
 
-      <article className="container" style={{ paddingTop: "7.5rem", paddingBottom: "4rem", maxWidth: "960px", margin: "0 auto", paddingLeft: "1.2rem", paddingRight: "1.2rem" }}>
+      <article className="container notes-lecture" style={{ paddingTop: "7.5rem", paddingBottom: "4rem", maxWidth: "960px", margin: "0 auto", paddingLeft: "1.2rem", paddingRight: "1.2rem" }}>
         {/* Navigation Breadcrumb */}
         <div style={{ marginBottom: "1.5rem" }}>
           <Link
@@ -209,6 +238,31 @@ export default async function LectureDetailPage({ params }) {
           </div>
         </div>
 
+        {/* Table of contents: anchor links to every section */}
+        <nav
+          aria-label="Table of contents"
+          style={{
+            background: "#ffffff",
+            border: "1px solid #e2e8f0",
+            borderRadius: "18px",
+            padding: "1.5rem 1.8rem",
+            marginBottom: "1.8rem"
+          }}
+        >
+          <p style={{ fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#ff7b00", marginBottom: "0.8rem" }}>
+            In this lecture
+          </p>
+          <ol style={{ columns: lecture.sections.length > 8 ? 2 : 1, columnGap: "2rem", paddingLeft: "1.2rem", margin: 0 }}>
+            {lecture.sections.map((section, idx) => (
+              <li key={idx} style={{ marginBottom: "0.4rem", fontSize: "0.95rem", lineHeight: 1.5, breakInside: "avoid" }}>
+                <a href={`#${anchorOf(section.heading)}`} style={{ color: "#002057", textDecoration: "none", fontWeight: 600 }}>
+                  {section.heading.replace(/^\d+\.\s*/, "")}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
         {/* Lecture Content Sections — Uses div wrapper to prevent global section min-height:100vh rule */}
         <main style={{ display: "flex", flexDirection: "column", gap: "1.8rem" }}>
           {lecture.sections.map((section, idx) => (
@@ -223,7 +277,10 @@ export default async function LectureDetailPage({ params }) {
                 boxShadow: "0 6px 20px rgba(0,0,0,0.03)"
               }}
             >
-              <h2 style={{ fontSize: "1.6rem", color: "#002057", fontWeight: "700", marginBottom: "1rem", borderBottom: "2px solid #f1f5f9", paddingBottom: "0.5rem" }}>
+              <h2
+                id={anchorOf(section.heading)}
+                style={{ fontSize: "1.6rem", color: "#002057", fontWeight: "700", marginBottom: "1rem", borderBottom: "2px solid #f1f5f9", paddingBottom: "0.5rem", scrollMarginTop: "7rem" }}
+              >
                 {section.heading}
               </h2>
 
@@ -274,8 +331,32 @@ export default async function LectureDetailPage({ params }) {
           ))}
         </main>
 
+        {/* Previous / next lecture: keeps readers in the course and links every page to its neighbours */}
+        {(prevLecture || nextLecture) && (
+          <nav aria-label="Lecture navigation" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "3rem" }}>
+            {prevLecture ? (
+              <Link
+                href={`/notes/${stack.slug}/${prevLecture.slug}`}
+                style={{ display: "block", padding: "1.2rem 1.4rem", borderRadius: "16px", border: "1px solid #e2e8f0", background: "#fff", textDecoration: "none" }}
+              >
+                <span style={{ display: "block", fontSize: "0.8rem", color: "#64748b", marginBottom: "0.3rem" }}>← Previous lecture</span>
+                <span style={{ fontWeight: 700, color: "#002057", fontSize: "1rem" }}>{topicOf(prevLecture.title)}</span>
+              </Link>
+            ) : <span />}
+            {nextLecture && (
+              <Link
+                href={`/notes/${stack.slug}/${nextLecture.slug}`}
+                style={{ display: "block", padding: "1.2rem 1.4rem", borderRadius: "16px", border: "1px solid #e2e8f0", background: "#fff", textDecoration: "none", textAlign: "right" }}
+              >
+                <span style={{ display: "block", fontSize: "0.8rem", color: "#64748b", marginBottom: "0.3rem" }}>Next lecture →</span>
+                <span style={{ fontWeight: 700, color: "#002057", fontSize: "1rem" }}>{topicOf(nextLecture.title)}</span>
+              </Link>
+            )}
+          </nav>
+        )}
+
         {/* Footer Navigation */}
-        <footer style={{ marginTop: "3rem", paddingTop: "1.5rem", borderTop: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+        <footer style={{ marginTop: "2rem", paddingTop: "1.5rem", borderTop: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
           <Link
             href={`/notes/${stack.slug}`}
             style={{
