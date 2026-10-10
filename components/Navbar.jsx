@@ -67,6 +67,24 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
+            <Link
+              className={pathname.startsWith("/templates") ? "active" : ""}
+              href="/templates"
+              onClick={() => setMenuOpen(false)}
+            >
+              Templates
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={pathname.startsWith("/prompts") ? "active" : ""}
+              href="/prompts"
+              onClick={() => setMenuOpen(false)}
+            >
+              Prompts
+            </Link>
+          </li>
+          <li>
             <Link href="/#education" onClick={() => setMenuOpen(false)}>
               Education
             </Link>

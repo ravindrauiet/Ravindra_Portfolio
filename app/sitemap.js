@@ -1,4 +1,6 @@
 import { getAllTechStacks } from "@/lib/notesData";
+import { getAllTemplates } from "@/lib/templates";
+import { getAllPrompts } from "@/lib/prompts";
 
 export default function sitemap() {
   const baseUrl = "https://ravindranathjha.in";
@@ -63,5 +65,22 @@ export default function sitemap() {
     }
   }
 
-  return [...staticRoutes, ...notesRoutes];
+  const libraryRoutes = [
+    { url: `${baseUrl}/templates`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/prompts`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    ...getAllTemplates().map((template) => ({
+      url: `${baseUrl}/templates/${template.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    })),
+    ...getAllPrompts().map((prompt) => ({
+      url: `${baseUrl}/prompts/${prompt.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    })),
+  ];
+
+  return [...staticRoutes, ...notesRoutes, ...libraryRoutes];
 }

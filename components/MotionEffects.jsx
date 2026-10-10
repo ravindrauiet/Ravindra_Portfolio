@@ -42,7 +42,11 @@ const REVEAL_SELECTOR = [
   ".footer .box",
   ".nts-hero-text",
   ".nts-visual",
-  ".nts-card"
+  ".nts-card",
+  ".lib-hero",
+  ".lib-card",
+  ".lib-how-card",
+  ".lib-banner"
 ].join(", ");
 
 export default function MotionEffects() {

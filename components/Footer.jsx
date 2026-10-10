@@ -28,6 +28,12 @@ export default function Footer() {
           <Link href="/notes">
             <i className="fas fa-chevron-circle-right"></i> Notes
           </Link>
+          <Link href="/templates">
+            <i className="fas fa-chevron-circle-right"></i> Templates
+          </Link>
+          <Link href="/prompts">
+            <i className="fas fa-chevron-circle-right"></i> Prompts
+          </Link>
           <Link href="/projects">
             <i className="fas fa-chevron-circle-right"></i> Work
           </Link>
