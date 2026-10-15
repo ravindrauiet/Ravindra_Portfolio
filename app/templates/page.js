@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Check, ChevronDown, Code2, Copy, Sparkles, Wand2 } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
+import ParallaxShowcase from "@/components/library/ParallaxShowcase";
 import TemplateGallery from "@/components/library/TemplateGallery";
+import { PARALLAX_DEMOS } from "@/lib/demos";
 import { CATEGORIES, buildDocument, getAllTemplates, getCategory, getTemplate } from "@/lib/templates";
 
 const SITE = "https://ravindranathjha.in";
@@ -267,6 +269,8 @@ export default function TemplatesPage() {
             </div>
           </div>
         </div>
+
+        <ParallaxShowcase demos={PARALLAX_DEMOS} />
 
         {/* Gallery */}
         <div className="pl-section" id="template-gallery">

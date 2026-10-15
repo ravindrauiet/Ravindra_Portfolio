@@ -1,14 +1,14 @@
 import Skills from "@/components/Skills";
 
 export const metadata = {
-  title: "Skills & Technical Stack",
-  description: "Explore the technical skill matrix of Ravindra Nath Jha: React.js, Next.js, Node.js, Express, MongoDB, Python, React Native, AWS, and REST APIs.",
+  title: "Skills: Full Stack, React, Next.js, Node.js & AI",
+  description: "Technical skills of Ravindra Nath Jha (M.Tech AI, IIT Jodhpur): React.js, Next.js, Node.js, Express, MongoDB, Python, React Native, AWS, REST APIs, machine learning, LLMs and generative AI.",
   alternates: {
     canonical: "https://ravindranathjha.in/skills",
   },
   openGraph: {
-    title: "Skills & Technical Stack | Ravindra Nath Jha",
-    description: "Explore the technical skill matrix of Ravindra Nath Jha: React.js, Next.js, Node.js, Express, MongoDB, Python, React Native, AWS, and REST APIs.",
+    title: "Skills: Full Stack & AI | Ravindra Nath Jha",
+    description: "Technical skills of Ravindra Nath Jha (M.Tech AI, IIT Jodhpur): React.js, Next.js, Node.js, Express, MongoDB, Python, React Native, AWS, REST APIs, machine learning, LLMs and generative AI.",
     url: "https://ravindranathjha.in/skills",
   },
 };
@@ -16,7 +16,7 @@ export const metadata = {
 export default function SkillsPage() {
   return (
     <div style={{ paddingTop: "6rem" }}>
-      <Skills />
+      <Skills asPage />
     </div>
   );
 }

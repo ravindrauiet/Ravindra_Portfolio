@@ -5,7 +5,7 @@ export default function Footer() {
     <section className="footer">
       <div className="box-container">
         <div className="box">
-          <h3>Ravindra Nath Jha's Portfolio</h3>
+          <h3>Ravindra Nath Jha&apos;s Portfolio</h3>
           <p>
             Thank you for visiting my personal portfolio website. Connect with me over phone, WhatsApp, or social media platforms!
             <br />
@@ -92,10 +92,10 @@ export default function Footer() {
         </div>
       </div>
 
-      <h1 className="credit">
+      <p className="credit">
         Designed with <i className="fa fa-heart pulse"></i> by{" "}
         <a href="https://www.linkedin.com/in/ravindra-jha75/">Ravindra Nath Jha</a>
-      </h1>
+      </p>
     </section>
   );
 }

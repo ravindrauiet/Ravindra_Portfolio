@@ -8,7 +8,8 @@ export default function Hero() {
     "frontend development",
     "backend development",
     "MERN Stack Specialist",
-    "Machine Learning"
+    "Machine Learning",
+    "Artificial Intelligence"
   ];
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
@@ -216,10 +217,10 @@ export default function Hero() {
       </div>
 
       <div className="content">
-        <h2>
+        <h1>
           Hi There,
           <br /> I'm Ravindra <span style={{ color: "#ff7b00", fontWeight: 800 }}>Nath</span> Jha
-        </h2>
+        </h1>
         <p style={{ fontSize: "2.5rem", color: "#000", fontWeight: 600, padding: "1rem 0" }}>
           I Am Into{" "}
           <span className="typing-text" style={{ color: "rgb(148, 8, 8)", fontWeight: 600 }}>

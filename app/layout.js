@@ -10,26 +10,38 @@ import Script from "next/script";
 export const metadata = {
   metadataBase: new URL("https://ravindranathjha.in"),
   title: {
-    default: "Ravindra Nath Jha | Full Stack Developer | React.js & MERN Specialist",
+    default: "Ravindra Nath Jha | Full Stack Developer & AI Engineer | M.Tech AI, IIT Jodhpur",
     template: "%s | Ravindra Nath Jha"
   },
   description:
-    "Official portfolio of Ravindra Nath Jha — Full Stack Developer & Team Lead specializing in React.js, Next.js, Node.js, Express, MongoDB, and React Native mobile app development. Available for freelance projects & full-stack development roles.",
+    "Official portfolio of Ravindra Nath Jha, Full Stack Developer, AI Engineer and Team Lead with an M.Tech in Artificial Intelligence from IIT Jodhpur. React.js, Next.js, Node.js, MongoDB, React Native, Python, LLM and Generative AI apps. Free coding notes, UI templates and AI prompts.",
   keywords: [
     "Ravindra Nath Jha",
+    "Ravindra Jha",
+    "Ravindra Nath Jha IIT Jodhpur",
+    "Ravindra Nath Jha M.Tech AI",
     "Ravindra Nath Jha Portfolio",
+    "Ravindra Nath Jha Full Stack Developer",
+    "M.Tech Artificial Intelligence IIT Jodhpur",
+    "IIT Jodhpur AI",
+    "AI Engineer India",
+    "Generative AI Developer",
+    "LLM Application Developer",
+    "Machine Learning Engineer",
     "Full Stack Developer",
+    "Full Stack Developer Faridabad",
     "React.js Developer India",
+    "Next.js Developer",
     "MERN Stack Developer",
     "Node.js Backend Developer",
-    "Next.js App Router Specialist",
     "React Native Mobile Developer",
-    "JavaScript Expert",
+    "Python Developer",
     "Freelance Web Developer India",
     "Townmanor Technology Team Lead",
-    "Python Developer",
-    "REST API Integration",
-    "Web Development Services"
+    "Free React Notes",
+    "Free Next.js Course",
+    "Free UI Templates",
+    "AI Website Prompts"
   ],
   authors: [{ name: "Ravindra Nath Jha", url: "https://ravindranathjha.in" }],
   creator: "Ravindra Nath Jha",
@@ -60,23 +72,23 @@ export const metadata = {
     locale: "en_US",
     url: "https://ravindranathjha.in",
     siteName: "Ravindra Nath Jha Portfolio",
-    title: "Ravindra Nath Jha | Full Stack Developer & React Specialist",
+    title: "Ravindra Nath Jha | Full Stack Developer & AI Engineer (M.Tech AI, IIT Jodhpur)",
     description:
-      "Full Stack Developer & Team Lead specializing in React.js, Next.js, Node.js, and mobile app development. Explore projects, skills, and freelance services.",
+      "Full Stack Developer, AI Engineer and Team Lead with an M.Tech in Artificial Intelligence from IIT Jodhpur. React.js, Next.js, Node.js, React Native and Generative AI. Projects, skills, free notes and templates.",
     images: [
       {
         url: "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
         width: 1200,
         height: 630,
-        alt: "Ravindra Nath Jha - Full Stack Developer",
+        alt: "Ravindra Nath Jha - Full Stack Developer & AI Engineer, M.Tech AI IIT Jodhpur",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ravindra Nath Jha | Full Stack Developer",
+    title: "Ravindra Nath Jha | Full Stack Developer & AI Engineer",
     description:
-      "Full Stack Developer & Team Lead specializing in React.js, Node.js, and mobile app development.",
+      "Full Stack Developer & AI Engineer with an M.Tech in Artificial Intelligence from IIT Jodhpur. React.js, Next.js, Node.js and Generative AI.",
     images: ["https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg"],
   },
 };

@@ -6,7 +6,39 @@ export default function JsonLd() {
     "alternateName": "Ravindra Jha",
     "url": "https://ravindranathjha.in",
     "image": "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
-    "jobTitle": "Full Stack Developer & Team Lead",
+    "jobTitle": "Full Stack Developer, AI Engineer & Team Lead",
+    "description": "Full Stack Developer, AI Engineer and Team Lead with an M.Tech in Artificial Intelligence from the Indian Institute of Technology (IIT) Jodhpur.",
+    "alumniOf": [
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Indian Institute of Technology Jodhpur",
+        "alternateName": ["IIT Jodhpur", "IITJ"],
+        "url": "https://www.iitj.ac.in",
+        "sameAs": "https://en.wikipedia.org/wiki/Indian_Institute_of_Technology_Jodhpur"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "University Institute of Engineering and Technology, Maharshi Dayanand University",
+        "alternateName": ["UIET MDU Rohtak"],
+        "url": "https://mdu.ac.in"
+      }
+    ],
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Master of Technology (M.Tech) in Artificial Intelligence",
+        "credentialCategory": "degree",
+        "educationalLevel": "Postgraduate",
+        "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Indian Institute of Technology Jodhpur" }
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Bachelor of Technology (B.Tech) in Computer Science Engineering",
+        "credentialCategory": "degree",
+        "educationalLevel": "Undergraduate",
+        "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Maharshi Dayanand University" }
+      }
+    ],
     "telephone": "+919354156323",
     "worksFor": {
       "@type": "Organization",
@@ -28,7 +60,13 @@ export default function JsonLd() {
       "MERN Stack",
       "Python",
       "AWS Cloud Deployment",
-      "REST APIs"
+      "REST APIs",
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Deep Learning",
+      "Large Language Models",
+      "Generative AI",
+      "Prompt Engineering"
     ],
     "address": {
       "@type": "PostalAddress",
@@ -48,7 +86,7 @@ export default function JsonLd() {
       "@type": "Person",
       "name": "Ravindra Nath Jha"
     },
-    "description": "Official portfolio of Ravindra Nath Jha showcasing Full Stack Web & Mobile Apps, Freelancing Services, Skills, and Work Experience."
+    "description": "Official portfolio of Ravindra Nath Jha (M.Tech AI, IIT Jodhpur) showcasing full stack web and mobile apps, AI projects, freelancing services, free coding notes, UI templates and AI prompts."
   };
 
   const serviceSchema = {
@@ -79,15 +117,15 @@ export default function JsonLd() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema).replace(/</g, "\\u003c") }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema).replace(/</g, "\\u003c") }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema).replace(/</g, "\\u003c") }}
       />
     </>
   );

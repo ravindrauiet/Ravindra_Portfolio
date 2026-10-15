@@ -1,14 +1,14 @@
 import Experience from "@/components/Experience";
 
 export const metadata = {
-  title: "Experience & Professional Journey",
-  description: "Work history, leadership experience at Townmanor Technology, software engineering projects, and academic background of Ravindra Nath Jha.",
+  title: "Experience & Education: Team Lead, M.Tech AI from IIT Jodhpur",
+  description: "Career and education of Ravindra Nath Jha: Team Lead at Townmanor Technology, Senior Software Engineer, M.Tech in Artificial Intelligence from IIT Jodhpur and B.Tech in Computer Science from UIET, MDU.",
   alternates: {
     canonical: "https://ravindranathjha.in/experience",
   },
   openGraph: {
-    title: "Experience & Professional Journey | Ravindra Nath Jha",
-    description: "Work history, leadership experience at Townmanor Technology, software engineering projects, and academic background of Ravindra Nath Jha.",
+    title: "Experience & Education | Ravindra Nath Jha, M.Tech AI IIT Jodhpur",
+    description: "Career and education of Ravindra Nath Jha: Team Lead at Townmanor Technology, Senior Software Engineer, M.Tech in Artificial Intelligence from IIT Jodhpur and B.Tech in Computer Science from UIET, MDU.",
     url: "https://ravindranathjha.in/experience",
   },
 };
@@ -16,7 +16,7 @@ export const metadata = {
 export default function ExperiencePage() {
   return (
     <div style={{ paddingTop: "6rem" }}>
-      <Experience />
+      <Experience asPage />
     </div>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Clock, ListChecks, Search } from "lucide-react";
+import { ArrowRight, Check, Clock, ListChecks, Search } from "lucide-react";
+import { useCompleted } from "./progress";
 
 const LEVELS = ["Beginner", "Intermediate", "Advanced"];
 
@@ -13,6 +14,7 @@ const levelKey = (difficulty) => difficulty.split(" ")[0].toLowerCase();
 export default function LectureList({ stackSlug, lectures }) {
   const [level, setLevel] = useState("all");
   const [query, setQuery] = useState("");
+  const { completed } = useCompleted(stackSlug);
 
   const levels = useMemo(
     () =>
@@ -108,12 +110,19 @@ export default function LectureList({ stackSlug, lectures }) {
             ) : null}
             <div className="crs-grid">
               {group.lectures.map((lecture) => (
-                <article key={lecture.slug} className="crs-card">
+                <article key={lecture.slug} className={`crs-card ${completed.has(lecture.slug) ? "is-done" : ""}`}>
                   <span className="crs-num" aria-hidden="true">
-                    {String(lecture.number).padStart(2, "0")}
+                    {completed.has(lecture.slug) ? (
+                      <Check size={22} strokeWidth={3} />
+                    ) : (
+                      String(lecture.number).padStart(2, "0")
+                    )}
                   </span>
                   <div className="crs-card-body">
-                    <span className="crs-card-kicker">Lecture {lecture.number}</span>
+                    <span className="crs-card-kicker">
+                      Lecture {lecture.number}
+                      {completed.has(lecture.slug) ? <em className="crs-card-done">Completed</em> : null}
+                    </span>
                     <h4>
                       <Link href={`/notes/${stackSlug}/${lecture.slug}`} className="crs-card-link">
                         {lecture.topic}

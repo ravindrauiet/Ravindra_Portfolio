@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Northweave — Autumn/Winter '26 Clothing Collection (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax clothing store website demo: layered hero, scroll-speed product grid, pinned horizontal lookbook and image reveals, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-clothing/index.html" />
+<meta property="og:title" content="Northweave — Parallax Clothing Website Demo" />
+<meta property="og:description" content="Layered parallax hero, staggered product grid, pinned horizontal lookbook and scroll reveals in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-clothing/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #17110d;
+    --ink-2: #221a14;
+    --cream: #f3ebe0;
+    --sand: #e6d8c5;
+    --rust: #c4532a;
+    --rust-2: #e0703f;
+    --olive: #6b6a45;
+    --muted: #a8998a;
+    --serif: "Bodoni Moda", Georgia, serif;
+    --sans: Manrope, system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--ink); color: var(--cream); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase; color: var(--rust-2); }
+  .serif { font-family: var(--serif); }
+  [data-speed], [data-depth], .px-img img { will-change: transform; }
+
+  /* grain overlay ties the photos together */
+  body::after { content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background .4s, backdrop-filter .4s, padding .4s; padding: 26px 0; }
+  .nav.is-solid { background: rgba(23, 17, 13, .78); backdrop-filter: blur(14px); padding: 16px 0; }
+  .nav .wrap { display: flex; align-items: center; gap: 40px; }
+  .logo { font-family: var(--serif); font-size: 26px; font-weight: 700; letter-spacing: .14em; margin-right: auto; }
+  .logo span { color: var(--rust-2); }
+  .nav-links { display: flex; gap: 34px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .nav-links a { position: relative; opacity: .85; }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -6px; height: 1px; background: var(--rust-2); transition: right .35s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { right: 0; }
+  .bag { display: flex; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 99px; border: 1px solid rgba(243, 235, 224, .25); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: background .3s, color .3s; }
+  .bag b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--rust); font-size: 11px; color: #fff; }
+  .bag:hover { background: var(--cream); color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; display: flex; align-items: center; padding: 130px 0 80px; }
+  .hero-bg-word { position: absolute; left: 50%; top: 50%; translate: -50% -50%; font-family: var(--serif); font-weight: 800; font-size: clamp(160px, 30vw, 460px); line-height: .8; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(243, 235, 224, .12); white-space: nowrap; pointer-events: none; }
+  .hero-glow { position: absolute; right: -10%; top: 10%; width: 60vw; height: 60vw; border-radius: 50%; background: radial-gradient(circle, rgba(196, 83, 42, .35), transparent 60%); filter: blur(30px); pointer-events: none; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1fr 1.05fr; gap: 40px; align-items: center; }
+  .hero-text h1 { margin: 22px 0 26px; font-family: var(--serif); font-weight: 500; font-size: clamp(54px, 7.4vw, 112px); line-height: .95; letter-spacing: -.02em; }
+  .hero-text h1 em { font-style: italic; color: var(--rust-2); }
+  .hero-text p { max-width: 430px; font-size: 17px; line-height: 1.75; color: var(--sand); opacity: .85; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 38px; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; padding: 17px 30px; border-radius: 99px; font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; transition: transform .3s, background .3s, color .3s; }
+  .btn-fill { background: var(--rust); color: #fff; box-shadow: 0 18px 40px -12px rgba(196, 83, 42, .7); }
+  .btn-fill:hover { background: var(--rust-2); transform: translateY(-3px); }
+  .btn-line { border: 1px solid rgba(243, 235, 224, .3); }
+  .btn-line:hover { background: var(--cream); color: var(--ink); }
+  .btn svg { width: 16px; height: 16px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(4px); }
+  .hero-meta { display: flex; gap: 42px; margin-top: 54px; }
+  .hero-meta b { display: block; font-family: var(--serif); font-size: 34px; font-weight: 500; }
+  .hero-meta span { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  .hero-stage { position: relative; height: min(78vh, 720px); }
+  .layer { position: absolute; }
+  .arch { left: 18%; top: 4%; width: 60%; height: 88%; border-radius: 999px 999px 24px 24px; overflow: hidden; box-shadow: 0 60px 120px -30px rgba(0, 0, 0, .8); }
+  .arch img, .tile img { width: 100%; height: 100%; object-fit: cover; }
+  .arch img { object-position: 55% 30%; scale: 1.15; }
+  .tile { overflow: hidden; border-radius: 18px; box-shadow: 0 40px 80px -24px rgba(0, 0, 0, .75); }
+  .tile-a { left: 0; top: 10%; width: 30%; aspect-ratio: 3 / 4; }
+  .tile-a img { object-position: 60% 50%; }
+  .tile-b { right: 0; bottom: 6%; width: 34%; aspect-ratio: 4 / 5; }
+  .tile-b img { object-position: 30% 40%; }
+  .tag { display: flex; align-items: center; gap: 12px; padding: 12px 18px 12px 12px; border-radius: 99px; background: rgba(243, 235, 224, .94); color: var(--ink); font-size: 13px; font-weight: 700; box-shadow: 0 20px 40px -12px rgba(0, 0, 0, .6); }
+  .tag i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--rust); color: #fff; font-style: normal; font-size: 15px; }
+  .tag small { display: block; font-size: 11px; font-weight: 600; color: #7a6a5c; }
+  .tag-a { right: 6%; top: 8%; }
+  .tag-b { left: 4%; bottom: 10%; }
+  .scroll-cue { position: absolute; left: 50%; bottom: 28px; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+  .scroll-cue i { width: 1px; height: 46px; background: linear-gradient(var(--rust-2), transparent); animation: cue 2s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- marquee ---------- */
+  .marquee { position: relative; z-index: 2; overflow: hidden; background: var(--rust); color: #fff; padding: 20px 0; rotate: -2deg; margin: 0 -2vw; }
+  .marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+  .marquee span { display: flex; align-items: center; gap: 40px; padding-right: 40px; font-family: var(--serif); font-size: 30px; font-style: italic; white-space: nowrap; }
+  .marquee span::after { content: "✦"; font-style: normal; font-size: 18px; opacity: .8; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ---------- statement ---------- */
+  .statement { position: relative; padding: 200px 0 180px; }
+  .statement p { max-width: 980px; margin: 0 auto; text-align: center; font-family: var(--serif); font-size: clamp(32px, 4.4vw, 62px); line-height: 1.18; letter-spacing: -.01em; }
+  .statement p .w { opacity: .14; transition: opacity .25s; }
+  .statement p .w.on { opacity: 1; }
+  .statement p em { color: var(--rust-2); }
+  .float { position: absolute; overflow: hidden; border-radius: 16px; box-shadow: 0 40px 80px -24px rgba(0, 0, 0, .7); }
+  .float img { width: 100%; height: 100%; object-fit: cover; }
+  .float-a { left: 3%; top: 60px; width: 15vw; max-width: 220px; aspect-ratio: 3 / 4; }
+  .float-b { right: 4%; bottom: 40px; width: 17vw; max-width: 250px; aspect-ratio: 4 / 5; }
+
+  /* ---------- products ---------- */
+  .shop { padding: 40px 0 140px; }
+  .shop-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 60px; }
+  .shop-head h2 { margin-top: 14px; font-family: var(--serif); font-weight: 500; font-size: clamp(42px, 5vw, 76px); line-height: 1; }
+  .shop-head h2 em { color: var(--rust-2); }
+  .filters { display: flex; gap: 8px; }
+  .filters button { padding: 11px 20px; border-radius: 99px; border: 1px solid rgba(243, 235, 224, .2); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; transition: background .3s, color .3s; }
+  .filters button.on, .filters button:hover { background: var(--cream); color: var(--ink); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; align-items: start; }
+  .col { display: grid; gap: 34px; }
+  .col-mid { margin-top: 120px; }
+  .product { position: relative; }
+  .product .px-img { position: relative; border-radius: 18px; aspect-ratio: 4 / 5; }
+  .badge { position: absolute; left: 16px; top: 16px; z-index: 2; padding: 7px 13px; border-radius: 99px; background: var(--cream); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .badge.rust { background: var(--rust); color: #fff; }
+  .quick { position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2; padding: 15px; border-radius: 99px; background: rgba(23, 17, 13, .85); backdrop-filter: blur(8px); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; text-align: center; opacity: 0; transform: translateY(14px); transition: opacity .35s, transform .35s, background .3s; }
+  .product:hover .quick { opacity: 1; transform: translateY(0); }
+  .quick:hover { background: var(--rust); }
+  .quick.added { background: #3f7d4f; opacity: 1; transform: none; }
+  .product-info { display: flex; justify-content: space-between; gap: 20px; margin-top: 18px; }
+  .product-info h3 { font-family: var(--serif); font-size: 24px; font-weight: 500; }
+  .product-info p { margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .product-info strong { font-size: 17px; font-weight: 700; white-space: nowrap; }
+  .product-info del { display: block; font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; }
+  .swatches { display: flex; gap: 6px; margin-top: 10px; }
+  .swatches i { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 2px var(--ink), 0 0 0 3px rgba(243, 235, 224, .25); }
+
+  /* inner-image parallax: the photo is taller than its frame and slides inside it */
+  .px-img { overflow: hidden; }
+  .px-img img { width: 100%; height: 124%; margin-top: -12%; object-fit: cover; transition: scale .8s cubic-bezier(.2, .7, .2, 1); }
+  .product:hover .px-img img { scale: 1.06; }
+
+  /* ---------- full-bleed banner ---------- */
+  .banner { position: relative; height: 110vh; overflow: hidden; display: grid; place-items: center; text-align: center; }
+  .banner-bg { position: absolute; inset: -20% 0; }
+  .banner-bg img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) brightness(.55); }
+  .banner::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(23, 17, 13, .85) 100%); }
+  .banner-text { position: relative; z-index: 1; padding: 0 24px; }
+  .banner-text h2 { margin: 20px 0 30px; font-family: var(--serif); font-weight: 500; font-size: clamp(54px, 9vw, 150px); line-height: .92; letter-spacing: -.03em; }
+  .banner-text h2 em { color: var(--rust-2); }
+
+  /* ---------- pinned horizontal lookbook ---------- */
+  .look { position: relative; }
+  .look-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .look-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 44px; }
+  .look-head h2 { margin-top: 12px; font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 5vw, 72px); line-height: 1; }
+  .look-progress { width: 220px; height: 2px; background: rgba(243, 235, 224, .15); }
+  .look-progress i { display: block; height: 100%; width: 0; background: var(--rust-2); }
+  .look-track { display: flex; gap: 34px; padding-left: max(32px, calc((100vw - 1240px) / 2)); width: max-content; }
+  .look-card { position: relative; width: clamp(260px, 26vw, 380px); flex-shrink: 0; }
+  .look-card:nth-child(even) { margin-top: 70px; }
+  .look-card .px-img { border-radius: 20px; aspect-ratio: 3 / 4; }
+  .look-card .px-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(23, 17, 13, .45), transparent 32%); pointer-events: none; }
+  .look-card span { position: absolute; left: 18px; top: 16px; z-index: 2; font-family: var(--serif); font-size: 64px; font-style: italic; line-height: 1; color: rgba(243, 235, 224, .9); text-shadow: 0 6px 24px rgba(0, 0, 0, .5); }
+  .look-card h3 { margin-top: 18px; font-family: var(--serif); font-size: 26px; font-weight: 500; }
+  .look-card p { margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .look-end { width: clamp(260px, 26vw, 380px); flex-shrink: 0; display: grid; place-items: center; text-align: center; border: 1px dashed rgba(243, 235, 224, .25); border-radius: 20px; aspect-ratio: 3 / 4; padding: 30px; }
+  .look-end h3 { font-family: var(--serif); font-size: 34px; font-weight: 500; margin-bottom: 22px; }
+
+  /* ---------- story with clip reveal ---------- */
+  .story { padding: 160px 0; }
+  .story .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: center; }
+  .reveal-img { position: relative; height: 640px; border-radius: 24px; overflow: hidden; clip-path: inset(12% 18% 12% 18% round 24px); }
+  .reveal-img img { width: 100%; height: 120%; object-fit: cover; }
+  .story-text h2 { margin: 16px 0 26px; font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 4.6vw, 66px); line-height: 1.02; }
+  .story-text h2 em { color: var(--rust-2); }
+  .story-text > p { font-size: 17px; line-height: 1.8; color: var(--sand); opacity: .85; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; padding-top: 34px; border-top: 1px solid rgba(243, 235, 224, .14); }
+  .stats b { display: block; font-family: var(--serif); font-size: 44px; font-weight: 500; color: var(--cream); }
+  .stats span { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+  /* ---------- collections ---------- */
+  .collections { padding: 40px 0 160px; }
+  .collections h2 { margin: 14px 0 54px; font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 5vw, 72px); line-height: 1; }
+  .col-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 26px; }
+  .col-card { position: relative; display: block; border-radius: 22px; overflow: hidden; height: 600px; }
+  .col-card .px-img { position: absolute; inset: 0; }
+  .col-card .px-img img { height: 130%; margin-top: -15%; }
+  .col-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 40%, rgba(23, 17, 13, .88)); }
+  .col-card .col-meta { position: absolute; left: 30px; right: 30px; bottom: 30px; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between; }
+  .col-card h3 { font-family: var(--serif); font-size: 44px; font-weight: 500; line-height: 1; }
+  .col-card p { margin-top: 8px; font-size: 13px; color: var(--sand); }
+  .col-card i { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: var(--cream); color: var(--ink); font-style: normal; font-size: 20px; transition: background .3s, color .3s, transform .3s; }
+  .col-card:hover i { background: var(--rust); color: #fff; transform: rotate(-45deg); }
+  .col-card:hover .px-img img { scale: 1.06; }
+
+  /* ---------- newsletter + footer ---------- */
+  .news { padding: 120px 0; text-align: center; background: var(--ink-2); border-top: 1px solid rgba(243, 235, 224, .08); }
+  .news h2 { margin: 16px 0 16px; font-family: var(--serif); font-weight: 500; font-size: clamp(38px, 5vw, 70px); }
+  .news h2 em { color: var(--rust-2); }
+  .news p { color: var(--muted); font-size: 16px; }
+  .news form { display: flex; gap: 10px; max-width: 520px; margin: 36px auto 0; padding: 8px; border-radius: 99px; background: rgba(243, 235, 224, .06); border: 1px solid rgba(243, 235, 224, .14); }
+  .news input { flex: 1; min-width: 0; padding: 0 20px; background: none; border: 0; outline: 0; color: var(--cream); font: 500 15px var(--sans); }
+  .news input::placeholder { color: var(--muted); }
+  .news .msg { min-height: 24px; margin-top: 16px; font-size: 14px; color: var(--rust-2); }
+  footer { position: relative; overflow: hidden; padding: 90px 0 40px; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 40px; }
+  .foot-grid h4 { margin-bottom: 18px; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+  .foot-grid a { display: block; margin-bottom: 10px; font-size: 15px; opacity: .85; }
+  .foot-grid a:hover { color: var(--rust-2); opacity: 1; }
+  .foot-grid p { max-width: 300px; margin-top: 16px; font-size: 14px; line-height: 1.7; color: var(--muted); }
+  .giant { margin-top: 80px; font-family: var(--serif); font-weight: 800; font-size: 22vw; line-height: .78; letter-spacing: -.04em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(243, 235, 224, .2); }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; margin-top: 30px; font-size: 13px; color: var(--muted); }
+
+  /* demo badge linking back to the portfolio */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(243, 235, 224, .95); color: var(--ink); font-size: 12px; font-weight: 700; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .6); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--cream); font-size: 13px; }
+
+  :focus-visible { outline: 2px solid var(--rust-2); outline-offset: 3px; }
+
+  @media (max-width: 1000px) {
+    .nav-links { display: none; }
+    .hero .wrap, .story .wrap { grid-template-columns: 1fr; }
+    .hero-stage { height: 560px; margin-top: 20px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .col-mid { margin-top: 0; }
+    .col-grid { grid-template-columns: 1fr; }
+    .col-card { height: 440px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .shop-head { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 640px) {
+    .wrap { width: calc(100% - 36px); }
+    .hero-stage { height: 440px; }
+    .hero-meta { gap: 26px; }
+    .grid { grid-template-columns: 1fr; }
+    .float { display: none; }
+    .statement { padding: 130px 0; }
+    .reveal-img { height: 440px; }
+    .look-head { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .stats b { font-size: 34px; }
+    .bag span { display: none; }
+    .nav .wrap { gap: 16px; }
+    .logo { font-size: 20px; letter-spacing: .1em; }
+    .bag { padding: 9px 12px; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .marquee-track, .scroll-cue i { animation: none; }
+    .statement p .w { opacity: 1; }
+    .reveal-img { clip-path: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">NORTH<span>·</span>WEAVE</a>
+    <div class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#story">Our story</a>
+      <a href="#collections">Collections</a>
+    </div>
+    <a href="#shop" class="bag" aria-label="Shopping bag"><span>Bag</span><b id="bag-count">0</b></a>
+  </div>
+</nav>
+
+<!-- HERO: four depth layers move at different speeds on scroll and with the mouse -->
+<header class="hero" id="top">
+  <div class="hero-glow" data-speed="0.15"></div>
+  <div class="hero-bg-word" data-speed="0.35">AW26</div>
+  <div class="wrap">
+    <div class="hero-text" data-speed="-0.12">
+      <span class="eyebrow">Autumn / Winter '26 collection</span>
+      <h1>Wear the <em>season</em>, not the trend.</h1>
+      <p>Hand-knit wool, waxed cotton and soft leather in the colours of falling leaves. Made slowly in Jaipur, made to last for years.</p>
+      <div class="cta-row">
+        <a href="#shop" class="btn btn-fill">Shop the collection
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#lookbook" class="btn btn-line">View lookbook</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>48</b><span>New pieces</span></div>
+        <div><b>100%</b><span>Natural fibres</span></div>
+        <div><b>4.9★</b><span>12k reviews</span></div>
+      </div>
+    </div>
+
+    <div class="hero-stage" aria-hidden="true">
+      <div class="layer arch" data-speed="0.08" data-depth="18"><img src="img/orange-jacket.jpg" alt="" /></div>
+      <div class="layer tile tile-a" data-speed="0.28" data-depth="40"><img src="img/knit.jpg" alt="" /></div>
+      <div class="layer tile tile-b" data-speed="-0.18" data-depth="32"><img src="img/collar.jpg" alt="" /></div>
+      <div class="layer tag tag-a" data-speed="0.45" data-depth="60"><i>✦</i><div>New season<small>48 pieces just landed</small></div></div>
+      <div class="layer tag tag-b" data-speed="-0.35" data-depth="70"><i>₹</i><div>Rust Trail Puffer<small>₹6,999 · free shipping</small></div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><i></i>Scroll</div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Free shipping over ₹2,999</span><span>New autumn arrivals</span><span>Hand-knit in Jaipur</span><span>30-day easy returns</span><span>Natural fibres only</span>
+    <span>Free shipping over ₹2,999</span><span>New autumn arrivals</span><span>Hand-knit in Jaipur</span><span>30-day easy returns</span><span>Natural fibres only</span>
+  </div>
+</div>
+
+<!-- STATEMENT: words light up as you scroll; side photos drift at their own speed -->
+<section class="statement">
+  <div class="float float-a" data-speed="0.3"><img src="img/puffer.jpg" alt="Rust waterproof puffer jacket detail" loading="lazy" /></div>
+  <div class="float float-b" data-speed="-0.25"><img src="img/vest.jpg" alt="Model in a shearling vest against a brick wall" loading="lazy" /></div>
+  <div class="wrap">
+    <p data-words>We make fewer clothes, <em>better</em>. Every piece is cut from natural fibres, finished by hand and designed to look better on its <em>hundredth</em> wear than its first.</p>
+  </div>
+</section>
+
+<!-- PRODUCTS: the middle column scrolls at a different speed from the outer two -->
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="shop-head">
+      <div>
+        <span class="eyebrow">New arrivals</span>
+        <h2>Pieces for <em>colder</em> days</h2>
+      </div>
+      <div class="filters" role="toolbar" aria-label="Filter products">
+        <button class="on" type="button">All</button><button type="button">Knitwear</button><button type="button">Outerwear</button><button type="button">Shirts</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col" data-speed="0.06">
+        <article class="product">
+          <div class="px-img"><span class="badge rust">Bestseller</span><img src="img/knit.jpg" alt="Ember cable-knit sweater in rust wool" loading="lazy" /><button class="quick" type="button">Add to bag</button></div>
+          <div class="product-info"><div><h3>Ember Cable Knit</h3><p>Merino wool · Rust</p><div class="swatches"><i style="background:#c4532a"></i><i style="background:#e6d8c5"></i><i style="background:#3b3a2a"></i></div></div><strong>₹3,499</strong></div>
+        </article>
+        <article class="product">
+          <div class="px-img"><img src="img/flannel.jpg" alt="Heritage plaid flannel shirt laid flat with leather shoes" loading="lazy" /><button class="quick" type="button">Add to bag</button></div>
+          <div class="product-info"><div><h3>Heritage Flannel</h3><p>Brushed cotton · Plum check</p><div class="swatches"><i style="background:#5b3a5e"></i><i style="background:#2f4a6b"></i></div></div><strong>₹2,299</strong></div>
+        </article>
+      </div>
+      <div class="col col-mid" data-speed="-0.1">
+        <article class="product">
+          <div class="px-img"><span class="badge">New</span><img src="img/puffer.jpg" alt="Rust Trail waterproof puffer jacket" loading="lazy" /><button class="quick" type="button">Add to bag</button></div>
+          <div class="product-info"><div><h3>Rust Trail Puffer</h3><p>Recycled down · Waterproof</p><div class="swatches"><i style="background:#c4532a"></i><i style="background:#17110d"></i></div></div><strong>₹6,999</strong></div>
+        </article>
+        <article class="product">
+          <div class="px-img"><img src="img/polo.jpg" alt="Model wearing a cream ribbed knit polo with stripe trim" loading="lazy" /><button class="quick" type="button">Add to bag</button></div>
+          <div class="product-info"><div><h3>Riviera Knit Polo</h3><p>Organic cotton · Cream</p><div class="swatches"><i style="background:#f3ebe0"></i><i style="background:#2f4a6b"></i></div></div><strong>₹1,899</strong></div>
+        </article>
+      </div>
+      <div class="col" data-speed="0.06">
+        <article class="product">
+          <div class="px-img"><span class="badge rust">−20%</span><img src="img/vest.jpg" alt="Model in a shearling-trim suede vest" loading="lazy" /><button class="quick" type="button">Add to bag</button></div>
+          <div class="product-info"><div><h3>Shearling Vest</h3><p>Suede · Tan</p><div class="swatches"><i style="background:#a26a3a"></i><i style="background:#e6d8c5"></i></div></div><strong>₹4,599<del>₹5,749</del></strong></div>
+        </article>
+        <article class="product">
+          <div class="px-img"><img src="img/leather.jpg" alt="Quilted leather moto jackets on a rail" loading="lazy" /><button class="quick" type="button">Add to bag</button></div>
+          <div class="product-info"><div><h3>Moto Leather Jacket</h3><p>Vegetable-tanned leather</p><div class="swatches"><i style="background:#2a1d17"></i><i style="background:#8a2e22"></i><i style="background:#d8d2c8"></i></div></div><strong>₹8,999</strong></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER: the background photo moves at half the scroll speed -->
+<section class="banner">
+  <div class="banner-bg" data-speed="0.4"><img src="img/rack.jpg" alt="" loading="lazy" /></div>
+  <div class="banner-text" data-speed="-0.12">
+    <span class="eyebrow">The slow fashion promise</span>
+    <h2>Crafted slowly.<br /><em>Worn</em> for years.</h2>
+    <a href="#story" class="btn btn-fill">Read our story</a>
+  </div>
+</section>
+
+<!-- LOOKBOOK: vertical scroll moves this row sideways while the section stays pinned -->
+<section class="look" id="lookbook">
+  <div class="look-sticky">
+    <div class="wrap look-head">
+      <div><span class="eyebrow">Lookbook AW26</span><h2>Six ways to wear autumn</h2></div>
+      <div class="look-progress" aria-hidden="true"><i id="look-bar"></i></div>
+    </div>
+    <div class="look-track" id="look-track">
+      <article class="look-card"><div class="px-img"><img src="img/green-dress.jpg" alt="Model twirling an emerald silk dress in a sunlit alley" loading="lazy" /></div><span>01</span><h3>Emerald Hour</h3><p>Silk maxi dress · ₹5,299</p></article>
+      <article class="look-card"><div class="px-img"><img src="img/hero.jpg" alt="Model in a camel wool coat and wide trousers on a city street" loading="lazy" /></div><span>02</span><h3>City Camel</h3><p>Wool overcoat · ₹9,499</p></article>
+      <article class="look-card"><div class="px-img"><img src="img/dress.jpg" alt="Model in a grey knit dress and over-the-knee boots" loading="lazy" /></div><span>03</span><h3>Knit &amp; Boots</h3><p>Ribbed knit dress · ₹3,999</p></article>
+      <article class="look-card"><div class="px-img"><img src="img/scarf.jpg" alt="Model in a checked blazer and chunky scarf" loading="lazy" /></div><span>04</span><h3>Checked Out</h3><p>Wool blazer &amp; scarf · ₹7,199</p></article>
+      <article class="look-card"><div class="px-img"><img src="img/mountain.jpg" alt="Model in a striped sweater facing pine-covered mountains" loading="lazy" /></div><span>05</span><h3>Trail Stripes</h3><p>Breton knit · ₹2,899</p></article>
+      <article class="look-card"><div class="px-img"><img src="img/road.jpg" alt="Person in a yellow rain jacket above a winding mountain road" loading="lazy" /></div><span>06</span><h3>Yellow Weather</h3><p>Rain shell · ₹4,999</p></article>
+      <div class="look-end"><div><h3>See the full collection</h3><a href="#shop" class="btn btn-line">Shop now</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY: the photo opens from a small window to full size as it scrolls in -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="reveal-img" id="reveal"><img src="img/store.jpg" alt="Inside the Northweave store with clothes on hanging rails" loading="lazy" data-speed="0.12" /></div>
+    <div class="story-text">
+      <span class="eyebrow">Our story</span>
+      <h2>Made in Jaipur, <em>since 2012</em>.</h2>
+      <p>Northweave started as a two-loom workshop in the old city. Today forty artisans knit, cut and finish every piece by hand, using wool from Himalayan co-operatives and dyes made from madder root, indigo and walnut.</p>
+      <div class="stats">
+        <div><b data-count="40">0</b><span>Artisans</span></div>
+        <div><b data-count="12">0</b><span>Years</span></div>
+        <div><b data-count="96">0</b><span>% repeat buyers</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="collections" id="collections">
+  <div class="wrap">
+    <span class="eyebrow">Shop by collection</span>
+    <h2>Find your fit</h2>
+    <div class="col-grid">
+      <a href="#shop" class="col-card"><div class="px-img"><img src="img/collar.jpg" alt="Woman in a camel coat with a shearling collar" loading="lazy" /></div><div class="col-meta"><div><h3>Women</h3><p>124 pieces</p></div><i>→</i></div></a>
+      <a href="#shop" class="col-card"><div class="px-img"><img src="img/denim.jpg" alt="Man in a black leather jacket against a graffiti wall" loading="lazy" /></div><div class="col-meta"><div><h3>Men</h3><p>98 pieces</p></div><i>→</i></div></a>
+      <a href="#shop" class="col-card"><div class="px-img"><img src="img/road.jpg" alt="Hiker in a yellow rain jacket overlooking a mountain road" loading="lazy" /></div><div class="col-meta"><div><h3>Outdoor</h3><p>42 pieces</p></div><i>→</i></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="news">
+  <div class="wrap">
+    <span class="eyebrow">The Northweave letter</span>
+    <h2>10% off your <em>first</em> order</h2>
+    <p>New drops, care guides and stories from the workshop. Once a month, never more.</p>
+    <form id="news-form">
+      <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
+      <input id="email" type="email" required placeholder="Your email address" />
+      <button class="btn btn-fill" type="submit">Subscribe</button>
+    </form>
+    <p class="msg" id="news-msg" role="status"></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo">NORTH<span>·</span>WEAVE</a><p>Slow, natural-fibre clothing made by hand in Jaipur. A design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Shop</h4><a href="#shop">New arrivals</a><a href="#shop">Knitwear</a><a href="#shop">Outerwear</a><a href="#shop">Sale</a></div>
+      <div><h4>Help</h4><a href="#top">Shipping</a><a href="#top">Returns</a><a href="#top">Size guide</a><a href="#top">Contact</a></div>
+      <div><h4>Follow</h4><a href="#top">Instagram</a><a href="#top">Pinterest</a><a href="#top">YouTube</a></div>
+    </div>
+    <div class="giant" data-marquee aria-hidden="true">NORTHWEAVE · AW26 · NORTHWEAVE</div>
+    <div class="foot-bottom"><span>© 2026 Northweave (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+  const vh = () => window.innerHeight;
+
+  // Nav turns solid after the hero starts scrolling away
+  const nav = document.getElementById("nav");
+
+  // Statement: wrap every word so it can light up individually
+  const words = [];
+  document.querySelectorAll("[data-words]").forEach((p) => {
+    const walk = (node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part.trim()) { frag.append(part); return; }
+            const span = document.createElement("span");
+            span.className = "w";
+            span.textContent = part;
+            words.push(span);
+            frag.append(span);
+          });
+          child.replaceWith(frag);
+        } else {
+          walk(child);
+        }
+      });
+    };
+    walk(p);
+  });
+  const statement = document.querySelector(".statement");
+
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+  const look = document.getElementById("lookbook");
+  const track = document.getElementById("look-track");
+  const lookBar = document.getElementById("look-bar");
+  const reveal = document.getElementById("reveal");
+  const giant = document.querySelector("[data-marquee]");
+  const depthEls = [...document.querySelectorAll("[data-depth]")];
+  const hero = document.querySelector(".hero");
+
+  // The pinned lookbook needs enough height to scroll the whole row sideways
+  const sizeLook = () => {
+    const distance = Math.max(0, track.scrollWidth - window.innerWidth + 64);
+    look.style.height = `${vh() + distance}px`;
+    return distance;
+  };
+  let lookDistance = sizeLook();
+
+  let mouseX = 0, mouseY = 0, frame = null;
+
+  const render = () => {
+    frame = null;
+    const h = vh();
+    nav.classList.toggle("is-solid", window.scrollY > 60);
+
+    if (!reduce) {
+      // 1. Layers with data-speed: offset by their distance from the middle of the screen
+      for (const el of speedEls) {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -h || r.top > h * 2) continue;
+        // Hero layers start at rest and drift as the page scrolls; elsewhere they are
+        // offset by their distance from the middle of the screen
+        const offset = el.closest(".hero")
+          ? window.scrollY * Number(el.dataset.speed)
+          : (r.top + r.height / 2 - h / 2) * Number(el.dataset.speed);
+        const depth = el.dataset.depth ? Number(el.dataset.depth) : 0;
+        el.style.transform = `translate3d(${(mouseX * depth).toFixed(1)}px, ${(offset + mouseY * depth).toFixed(1)}px, 0)`;
+      }
+
+      // 2. Photos slide inside their frames
+      for (const img of innerImgs) {
+        if (img.closest("[data-speed]") && img.hasAttribute("data-speed")) continue;
+        const frameEl = img.parentElement;
+        const r = frameEl.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > h) continue;
+        const progress = (r.top + r.height) / (h + r.height); // 1 entering, 0 leaving
+        img.style.transform = `translate3d(0, ${((progress - 0.5) * 18).toFixed(2)}%, 0)`;
+      }
+    }
+
+    // 3. Statement words light up from the first to the last as the block crosses the screen
+    if (statement) {
+      const r = statement.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (h * 0.75 - r.top) / (r.height * 0.75)));
+      const lit = reduce ? words.length : Math.round(progress * words.length);
+      words.forEach((w, i) => w.classList.toggle("on", i < lit));
+    }
+
+    // 4. Pinned lookbook: vertical progress through the section moves the row sideways
+    const lr = look.getBoundingClientRect();
+    const lp = Math.min(1, Math.max(0, -lr.top / Math.max(1, lookDistance)));
+    track.style.transform = `translate3d(${(-lp * lookDistance).toFixed(1)}px, 0, 0)`;
+    lookBar.style.width = `${(lp * 100).toFixed(1)}%`;
+
+    // 5. Story photo opens from a small window to full size
+    if (!reduce && reveal) {
+      const r = reveal.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (h - r.top) / (h * 0.8)));
+      const y = 12 * (1 - p), x = 18 * (1 - p);
+      reveal.style.clipPath = `inset(${y}% ${x}% ${y}% ${x}% round 24px)`;
+    }
+
+    // 6. Giant footer word slides sideways
+    if (!reduce && giant) {
+      const r = giant.getBoundingClientRect();
+      const p = (h - r.top) / (h + r.height);
+      giant.style.transform = `translate3d(${(-p * 30).toFixed(2)}%, 0, 0)`;
+    }
+  };
+
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", () => { lookDistance = sizeLook(); schedule(); });
+  window.addEventListener("load", () => { lookDistance = sizeLook(); schedule(); });
+
+  // Hero layers also respond to the mouse, deeper layers moving further
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * -1;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * -1;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  render();
+
+  // Count-up numbers when the story stats appear
+  const counters = document.querySelectorAll("[data-count]");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      const end = Number(entry.target.dataset.count);
+      if (reduce) { entry.target.textContent = end; return; }
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / 1400);
+        entry.target.textContent = Math.round(end * (1 - Math.pow(1 - t, 3)));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach((el) => io.observe(el));
+
+  // Small working interactions so the demo feels like a real store
+  let bag = 0;
+  const bagCount = document.getElementById("bag-count");
+  document.querySelectorAll(".quick").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      bag += 1;
+      bagCount.textContent = bag;
+      btn.textContent = "Added ✓";
+      btn.classList.add("added");
+      setTimeout(() => { btn.textContent = "Add to bag"; btn.classList.remove("added"); }, 1600);
+    });
+  });
+  document.querySelectorAll(".filters button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filters button").forEach((b) => b.classList.toggle("on", b === btn));
+    });
+  });
+  document.getElementById("news-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    document.getElementById("news-msg").textContent = "Thanks! Your 10% code is on its way (demo only, nothing was sent).";
+    e.target.reset();
+  });
+})();
+</script>
+</body>
+</html>

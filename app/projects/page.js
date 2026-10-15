@@ -1,14 +1,14 @@
 import Projects from "@/components/Projects";
 
 export const metadata = {
-  title: "Projects & Portfolio Work",
-  description: "Featured full-stack web applications, MERN stack software, React Native mobile apps, and AI solutions developed by Ravindra Nath Jha.",
+  title: "Projects: Full Stack Web, Mobile & AI Apps",
+  description: "Featured projects by Ravindra Nath Jha, Full Stack Developer and AI Engineer (M.Tech AI, IIT Jodhpur): MERN stack web apps, React Native mobile apps and AI-powered products using OpenAI and Gemini.",
   alternates: {
     canonical: "https://ravindranathjha.in/projects",
   },
   openGraph: {
-    title: "Projects & Portfolio Work | Ravindra Nath Jha",
-    description: "Featured full-stack web applications, MERN stack software, React Native mobile apps, and AI solutions developed by Ravindra Nath Jha.",
+    title: "Projects: Web, Mobile & AI Apps | Ravindra Nath Jha",
+    description: "Featured projects by Ravindra Nath Jha, Full Stack Developer and AI Engineer (M.Tech AI, IIT Jodhpur): MERN stack web apps, React Native mobile apps and AI-powered products using OpenAI and Gemini.",
     url: "https://ravindranathjha.in/projects",
   },
 };
@@ -16,7 +16,7 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <div style={{ paddingTop: "6rem" }}>
-      <Projects />
+      <Projects asPage />
     </div>
   );
 }

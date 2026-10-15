@@ -59,7 +59,7 @@ export default function About() {
 
           <div className="abt-content">
             <h3>I&apos;m Ravindra Nath Jha</h3>
-            <p className="abt-role">Team Lead &amp; Full Stack Development Specialist</p>
+            <p className="abt-role">Team Lead &amp; Full Stack Developer · M.Tech AI, IIT Jodhpur</p>
 
             <div className="abt-bio">
               <p>
@@ -74,6 +74,11 @@ export default function About() {
                 CRM systems with integrated AI capabilities using OpenAI and Gemini APIs, deployed on AWS (EC2,
                 Lambda, S3), Firebase and Azure, with a focus on scalable, high-performance applications that
                 drive business growth.
+              </p>
+              <p>
+                I hold an M.Tech in Artificial Intelligence from the Indian Institute of Technology (IIT) Jodhpur,
+                which grounds my work in machine learning, deep learning and large language models, and a B.Tech in
+                Computer Science Engineering from UIET, Maharshi Dayanand University.
               </p>
             </div>
 

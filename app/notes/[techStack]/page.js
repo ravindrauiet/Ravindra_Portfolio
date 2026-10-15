@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, BookOpen, ChevronRight, Clock, GraduationCap, Sparkles } from "lucide-react";
+import CourseProgress from "@/components/notes/CourseProgress";
 import LectureList from "@/components/notes/LectureList";
 import { getTechStack, getAllTechStacks } from "@/lib/notesData";
 
@@ -147,6 +148,10 @@ export default async function TechStackPage({ params }) {
                 See all {lectures.length} lectures
               </a>
             </div>
+            <CourseProgress
+              stackSlug={stack.slug}
+              lectures={lectures.map(({ slug, number, topic }) => ({ slug, number, topic }))}
+            />
             <ul className="crs-stats">
               {stats.map(({ Icon, value, label }) => (
                 <li key={label}>

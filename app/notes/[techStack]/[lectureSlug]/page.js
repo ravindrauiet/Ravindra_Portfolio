@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, ChevronRight, Clock, ListChecks, UserRound } from "lucide-react";
 import { LectureCode, LectureProse } from "@/components/notes/LectureContent";
 import LectureToc, { ReadingProgress } from "@/components/notes/LectureToc";
+import { LectureBehaviour, LectureFinish, LectureProgressCard } from "@/components/notes/LectureActions";
 import { getTechStack, getLecture, getAllTechStacks } from "@/lib/notesData";
 
 const SITE = "https://ravindranathjha.in";
@@ -150,6 +151,12 @@ export default async function LectureDetailPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
 
       <ReadingProgress />
+      <LectureBehaviour
+        stackSlug={stack.slug}
+        lectureSlug={lecture.slug}
+        prevHref={prevLecture ? `/notes/${stack.slug}/${prevLecture.slug}` : null}
+        nextHref={nextLecture ? `/notes/${stack.slug}/${nextLecture.slug}` : null}
+      />
 
       <article className="lib-page pl-page lec-page">
         <div className="pl-glow" aria-hidden="true" />
@@ -201,6 +208,11 @@ export default async function LectureDetailPage({ params }) {
                   <LectureToc items={tocItems} />
                 </nav>
               </details>
+              <LectureProgressCard
+                stackSlug={stack.slug}
+                lectureSlug={lecture.slug}
+                lectureSlugs={stack.lectures.map((item) => item.slug)}
+              />
             </aside>
 
             {/* Lecture content. Sections are divs: the global CSS gives every <section> a full-screen height */}
@@ -215,6 +227,14 @@ export default async function LectureDetailPage({ params }) {
                   {section.codeSnippet ? <LectureCode code={section.codeSnippet} stackSlug={stack.slug} /> : null}
                 </div>
               ))}
+
+              <LectureFinish
+                stackSlug={stack.slug}
+                lectureSlug={lecture.slug}
+                title={topic}
+                url={url}
+                nextHref={nextLecture ? `/notes/${stack.slug}/${nextLecture.slug}` : null}
+              />
 
               {/* Previous / next lecture: keeps readers in the course and links every page to its neighbours */}
               {(prevLecture || nextLecture) && (

@@ -60,7 +60,9 @@ const REVEAL_SELECTOR = [
   ".pl-faq details",
   ".crs-hero",
   ".crs-card",
-  ".crs-other"
+  ".crs-other",
+  ".pxs-card",
+  ".pxs-mini"
 ].join(", ");
 
 export default function MotionEffects() {

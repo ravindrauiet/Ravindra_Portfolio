@@ -48,15 +48,17 @@ const skillCategories = [
   }
 ];
 
-export default function Skills() {
+// asPage: rendered on its own route, so the section title becomes the page's main heading
+export default function Skills({ asPage = false }) {
+  const Heading = asPage ? "h1" : "h2";
   return (
     <section className="skills" id="skills">
       <div className="skl-wrap">
         <div className="skl-header">
           <span className="svc-eyebrow">Tech Stack</span>
-          <h2 className="heading">
+          <Heading className="heading">
             Skills &amp; <span>Abilities</span>
-          </h2>
+          </Heading>
           <p className="skl-subheading">
             The languages, frameworks and platforms I use to design, build and ship production software.
           </p>

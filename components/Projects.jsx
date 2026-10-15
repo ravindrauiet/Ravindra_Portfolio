@@ -88,7 +88,9 @@ const categoryLabels = {
 
 const MAX_TECH = 4;
 
-export default function Projects() {
+// asPage: rendered on its own route, so the section title becomes the page's main heading
+export default function Projects({ asPage = false }) {
+  const Heading = asPage ? "h1" : "h2";
   const [filter, setFilter] = useState("all");
 
   const filteredProjects =
@@ -101,9 +103,9 @@ export default function Projects() {
       <div className="prj-wrap">
         <div className="prj-header">
           <span className="svc-eyebrow">Portfolio</span>
-          <h2 className="heading">
+          <Heading className="heading">
             Projects <span>Made</span>
-          </h2>
+          </Heading>
           <p className="prj-subheading">
             A selection of web platforms, AI products and mobile apps I&apos;ve designed, built and shipped.
           </p>

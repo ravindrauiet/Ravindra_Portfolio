@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aurora One — Wireless Noise-Cancelling Headphones (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax product launch website demo for premium wireless headphones: depth hero, pinned feature storytelling, count-up specs, multi-speed gallery and a colour picker, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-audio/index.html" />
+<meta property="og:title" content="Aurora One — Parallax Product Launch Demo" />
+<meta property="og:description" content="Depth hero, pinned feature storytelling, scroll-speed marquee, multi-speed gallery and a live colour picker in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-audio/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #050507;
+    --bg-2: #0c0c12;
+    --bg-3: #13131c;
+    --text: #f5f5f7;
+    --muted: #9a9aa8;
+    --line: rgba(255, 255, 255, .09);
+    --a: #8b5cf6;
+    --b: #22d3ee;
+    --grad: linear-gradient(100deg, var(--a), var(--b));
+    --display: Sora, system-ui, sans-serif;
+    --sans: Inter, system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+  .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h2.title { font-family: var(--display); font-weight: 600; font-size: clamp(36px, 4.6vw, 64px); line-height: 1.04; letter-spacing: -.035em; }
+  .lead { font-size: 17px; line-height: 1.7; color: var(--muted); }
+  [data-speed], [data-depth], .px-img img, .product-hero { will-change: transform; }
+
+  /* Product photos are shot on white: inverting them and using a screen blend turns the white
+     backdrop black, so the headphones read as a silver render floating on the dark page. */
+  .render { filter: invert(1); mix-blend-mode: screen; }
+
+  /* ---------- scroll progress + nav ---------- */
+  .progress { position: fixed; inset: 0 0 auto 0; z-index: 70; height: 2px; background: var(--grad); transform-origin: left; transform: scaleX(0); }
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; padding: 22px 0; transition: background .4s, padding .4s, border-color .4s; border-bottom: 1px solid transparent; }
+  .nav.is-solid { background: rgba(5, 5, 7, .72); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); padding: 14px 0; border-bottom-color: var(--line); }
+  .nav .wrap { display: flex; align-items: center; gap: 40px; }
+  .logo { display: flex; align-items: center; gap: 10px; margin-right: auto; font-family: var(--display); font-size: 18px; font-weight: 600; letter-spacing: .02em; }
+  .logo i { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(from 200deg, var(--a), var(--b), var(--a)); box-shadow: 0 0 18px rgba(139, 92, 246, .6); position: relative; }
+  .logo i::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--bg); }
+  .logo span { color: var(--muted); font-weight: 400; }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; color: #c8c8d2; }
+  .nav-links a:hover { color: #fff; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 28px; border-radius: 99px; font-size: 14px; font-weight: 600; transition: transform .3s, background .3s, color .3s, box-shadow .3s; white-space: nowrap; }
+  .btn-sm { padding: 10px 20px; font-size: 13px; }
+  .btn-fill { background: var(--text); color: #08080c; }
+  .btn-fill:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -10px rgba(139, 92, 246, .7); }
+  .btn-grad { background: var(--grad); color: #07070b; box-shadow: 0 18px 50px -16px rgba(34, 211, 238, .6); }
+  .btn-grad:hover { transform: translateY(-2px); }
+  .btn-line { border: 1px solid rgba(255, 255, 255, .22); }
+  .btn-line:hover { background: rgba(255, 255, 255, .08); }
+  .btn svg { width: 16px; height: 16px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(3px); }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; height: 100vh; height: 100svh; min-height: 700px; overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; }
+  .orb-a { width: 46vw; height: 46vw; left: 8%; top: 4%; background: radial-gradient(circle, rgba(139, 92, 246, .55), transparent 65%); }
+  .orb-b { width: 34vw; height: 34vw; right: 6%; top: 30%; background: radial-gradient(circle, rgba(34, 211, 238, .38), transparent 65%); }
+  .orb-c { width: 18vw; height: 18vw; left: 46%; bottom: 4%; background: radial-gradient(circle, rgba(167, 139, 250, .45), transparent 70%); filter: blur(40px); }
+  .hero-top { position: absolute; left: 0; right: 0; top: 112px; text-align: center; }
+  .hero-top .eyebrow { color: #c9c4ff; }
+  .hero-name { position: absolute; left: 50%; top: 46%; translate: -50% -50%; font-family: var(--display); font-weight: 800; font-size: clamp(120px, 21vw, 340px); line-height: .8; letter-spacing: -.06em; white-space: nowrap; pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .02) 85%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .product-hero { position: absolute; left: 50%; top: 47%; width: min(860px, 66vw); margin-left: calc(min(860px, 66vw) / -2); aspect-ratio: 3 / 2; translate: 0 -50%; transform-origin: 50% 55%; }
+  .hero-bottom { position: absolute; left: 0; right: 0; bottom: 96px; }
+  .hero-bottom .wrap { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+  .hero-bottom h1 { font-family: var(--display); font-weight: 600; font-size: clamp(40px, 4.8vw, 72px); line-height: 1; letter-spacing: -.045em; }
+  .hero-side { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; text-align: right; }
+  .hero-side p { max-width: 340px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+  .hero-side p b { color: var(--text); font-weight: 600; }
+  .hero-side .row { display: flex; gap: 10px; }
+
+  /* ---------- pinned feature storytelling ---------- */
+  .features { position: relative; height: 440vh; }
+  .feat-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--bg); }
+  .feat-head { position: absolute; left: 0; right: 0; top: 96px; z-index: 3; }
+  .feat-head .wrap { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; }
+  .feat-head h2 { margin-top: 10px; font-size: clamp(30px, 3.4vw, 46px); }
+  .steps { display: flex; align-items: center; gap: 14px; font-family: var(--display); font-size: 14px; color: var(--muted); }
+  .steps b { color: var(--text); font-weight: 600; min-width: 2ch; }
+  .steps .bar { width: 160px; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .steps .bar i { display: block; height: 100%; width: 100%; background: var(--grad); transform-origin: left; transform: scaleX(0); }
+  .feat-stage { position: absolute; inset: 0; }
+  .feat-glow { position: absolute; left: 50%; top: 54%; width: 46vw; height: 46vw; max-width: 700px; max-height: 700px; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle, rgba(139, 92, 246, .32), rgba(34, 211, 238, .1) 45%, transparent 68%); }
+  .ring { position: absolute; left: 50%; top: 54%; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .08); translate: -50% -50%; }
+  .ring-1 { width: 380px; height: 380px; }
+  .ring-2 { width: 560px; height: 560px; border-color: rgba(167, 139, 250, .12); }
+  .ring-3 { width: 760px; height: 760px; border-color: rgba(34, 211, 238, .08); }
+  .feat-img { position: absolute; left: 50%; top: 54%; width: min(720px, 54vw); aspect-ratio: 3 / 2; translate: -50% -50%; }
+  .callout { position: absolute; z-index: 2; display: flex; align-items: center; opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .callout.on { opacity: .42; transform: none; }
+  .callout.current { opacity: 1; }
+  .callout .card { width: 300px; padding: 22px 24px; border-radius: 20px; background: rgba(19, 19, 28, .72); border: 1px solid rgba(255, 255, 255, .1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .callout .num { font-family: var(--display); font-size: 12px; font-weight: 600; letter-spacing: .2em; color: var(--muted); }
+  .callout h3 { margin: 8px 0 8px; font-family: var(--display); font-size: 20px; font-weight: 600; letter-spacing: -.02em; }
+  .callout p { font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .callout .metric { display: block; margin-top: 14px; font-family: var(--display); font-size: 30px; font-weight: 600; letter-spacing: -.03em; }
+  .callout .ln { position: relative; width: 110px; height: 1px; background: linear-gradient(90deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, .1)); transform-origin: left; transform: scaleX(0); transition: transform .7s .15s cubic-bezier(.2, .7, .2, 1); }
+  .callout .ln::after { content: ""; position: absolute; right: -5px; top: -5px; width: 11px; height: 11px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 5px rgba(255, 255, 255, .12), 0 0 22px var(--b); }
+  .callout.flip { flex-direction: row-reverse; }
+  .callout.flip .ln { transform-origin: right; background: linear-gradient(270deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, .1)); }
+  .callout.flip .ln::after { right: auto; left: -5px; }
+  .callout.on .ln { transform: scaleX(1); }
+  .c1 { left: max(32px, calc(50% - 620px)); top: 26%; }
+  .c2 { right: max(32px, calc(50% - 620px)); top: 30%; }
+  .c3 { left: max(32px, calc(50% - 620px)); bottom: 7%; }
+  .c4 { right: max(32px, calc(50% - 620px)); bottom: 9%; }
+
+  /* ---------- spec band + scroll marquee ---------- */
+  .specs { position: relative; padding: 150px 0 30px; background: linear-gradient(180deg, var(--bg), var(--bg-2)); }
+  .specs-head { text-align: center; max-width: 720px; margin: 0 auto 70px; }
+  .specs-head h2 { margin: 14px 0 18px; }
+  .spec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
+  .spec { padding: 46px 34px 40px; background: var(--bg-2); }
+  .spec .big { display: flex; align-items: baseline; gap: 6px; font-family: var(--display); font-weight: 600; letter-spacing: -.05em; }
+  .spec .big b { font-size: clamp(56px, 6vw, 92px); font-weight: 600; line-height: 1; }
+  .spec .big small { font-size: 26px; font-weight: 500; color: var(--muted); letter-spacing: -.02em; }
+  .spec p { margin-top: 14px; font-size: 15px; line-height: 1.55; color: var(--muted); }
+  .spec p strong { display: block; margin-bottom: 4px; color: var(--text); font-weight: 600; }
+  .marquee { padding: 110px 0 0; overflow: hidden; }
+  .mq-row { display: flex; width: max-content; white-space: nowrap; font-family: var(--display); font-weight: 700; font-size: clamp(56px, 8vw, 128px); letter-spacing: -.05em; line-height: 1.12; }
+  .mq-row span { padding-right: .5em; }
+  .mq-row span:nth-child(odd) { color: rgba(255, 255, 255, .13); }
+  .mq-row span:nth-child(even) { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .mq-row.alt span:nth-child(even) { color: rgba(255, 255, 255, .13); background: none; }
+  .mq-row.alt span:nth-child(odd) { color: #e9e9f0; }
+
+  /* inner-image parallax: the photo is taller than its frame and slides inside it */
+  .px-img { position: relative; overflow: hidden; }
+  .px-img img { width: 100%; height: 124%; margin-top: -12%; object-fit: cover; }
+
+  /* ---------- lifestyle gallery ---------- */
+  .life { padding: 110px 0 90px; background: var(--bg-2); }
+  .life-head { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 70px; }
+  .life-head h2 { margin-top: 14px; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+  .g-col { display: grid; gap: 28px; }
+  .g-col:nth-child(2) { margin-top: 110px; }
+  .g-col:nth-child(3) { margin-top: 40px; }
+  .tile { position: relative; border-radius: 22px; overflow: hidden; background: var(--bg-3); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .8); }
+  .tile .px-img { height: 100%; }
+  .tile.tall { aspect-ratio: 4 / 5; }
+  .tile.square { aspect-ratio: 1 / 1; }
+  .tile.wide { aspect-ratio: 4 / 3; }
+  .tile.portrait { aspect-ratio: 3 / 4; }
+  .tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, rgba(5, 5, 7, .75)); pointer-events: none; }
+  .tile figcaption { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 1; font-size: 14px; font-weight: 600; }
+  .tile figcaption small { display: block; margin-top: 3px; font-size: 12px; font-weight: 500; color: #c8c8d2; }
+
+  /* ---------- material banner ---------- */
+  .material { position: relative; height: 100vh; min-height: 640px; overflow: hidden; display: flex; align-items: center; }
+  .material-bg { position: absolute; inset: -22% 0; }
+  .material-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; filter: brightness(.55) saturate(.7); }
+  .material::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5, 5, 7, .92) 18%, rgba(5, 5, 7, .2) 70%), linear-gradient(transparent 70%, var(--bg)); }
+  .material .wrap { position: relative; z-index: 1; }
+  .material h2 { margin: 16px 0 22px; max-width: 640px; font-size: clamp(40px, 5.4vw, 80px); }
+  .material .lead { max-width: 470px; color: #b9b9c6; }
+  .mat-list { display: flex; flex-wrap: wrap; gap: 44px; margin-top: 44px; }
+  .mat-list b { display: block; font-family: var(--display); font-size: 22px; font-weight: 600; }
+  .mat-list span { font-size: 13px; color: var(--muted); }
+
+  /* ---------- colour picker ---------- */
+  .colours { position: relative; padding: 140px 0; overflow: hidden; }
+  .colours .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 60px; align-items: center; }
+  .v-stage { position: relative; aspect-ratio: 1 / 1; }
+  .v-disc { position: absolute; inset: 9%; border-radius: 50%; background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--v) 34%, transparent), transparent 66%); transition: background .6s; }
+  .v-ring { position: absolute; inset: 14%; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--v) 30%, transparent); transition: border-color .6s; }
+  .v-img { position: absolute; left: -6%; right: -6%; top: 0; bottom: 0; display: flex; align-items: center; }
+  .v-img img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; transition: filter .6s; }
+  .v-info h2 { margin: 14px 0 16px; }
+  .price { display: flex; align-items: baseline; gap: 14px; margin-top: 30px; font-family: var(--display); }
+  .price b { font-size: 40px; font-weight: 600; letter-spacing: -.03em; }
+  .price span { font-size: 14px; color: var(--muted); font-family: var(--sans); }
+  .swatch-label { margin-top: 30px; font-size: 14px; color: var(--muted); }
+  .swatch-label b { color: var(--text); font-weight: 600; }
+  .swatches { display: flex; gap: 14px; margin-top: 14px; }
+  .swatch { width: 44px; height: 44px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25), 0 0 0 3px var(--bg), 0 0 0 4px transparent; transition: box-shadow .3s, transform .3s; }
+  .swatch:hover { transform: scale(1.06); }
+  .swatch[aria-pressed="true"] { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25), 0 0 0 3px var(--bg), 0 0 0 5px #fff; }
+  .order-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+  .order-msg { min-height: 48px; margin-top: 18px; font-size: 14px; line-height: 1.6; color: #c9c4ff; }
+  .perks { display: grid; gap: 12px; margin-top: 18px; padding-top: 26px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .perks div { display: flex; gap: 12px; align-items: center; }
+  .perks svg { width: 18px; height: 18px; flex-shrink: 0; stroke: #c9c4ff; }
+
+  /* ---------- compare + box ---------- */
+  .compare { padding: 40px 0 130px; }
+  .compare-head { text-align: center; margin-bottom: 60px; }
+  .compare-head h2 { margin-top: 14px; }
+  .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 980px; margin: 0 auto; }
+  .cmp { padding: 40px 38px; border-radius: 28px; background: var(--bg-2); border: 1px solid var(--line); }
+  .cmp.hl { background: linear-gradient(var(--bg-2), var(--bg-2)) padding-box, linear-gradient(140deg, rgba(139, 92, 246, .7), rgba(34, 211, 238, .5)) border-box; border: 1px solid transparent; }
+  .cmp .tag { display: inline-block; padding: 6px 12px; border-radius: 99px; background: rgba(255, 255, 255, .07); font-size: 12px; font-weight: 600; color: #c9c4ff; }
+  .cmp h3 { margin: 18px 0 4px; font-family: var(--display); font-size: 30px; font-weight: 600; letter-spacing: -.03em; }
+  .cmp .p { font-size: 15px; color: var(--muted); }
+  .cmp ul { list-style: none; margin-top: 28px; }
+  .cmp li { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .cmp li span { color: var(--muted); }
+  .cmp li b { font-weight: 600; text-align: right; }
+  .cmp li b.no { color: #6d6d7a; font-weight: 500; }
+  .box { max-width: 980px; margin: 24px auto 0; padding: 38px; border-radius: 28px; background: var(--bg-2); border: 1px solid var(--line); }
+  .box h3 { font-family: var(--display); font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+  .box-items { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 26px; }
+  .box-items div { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px 10px; border-radius: 18px; background: rgba(255, 255, 255, .03); text-align: center; font-size: 13px; line-height: 1.4; color: #c8c8d2; }
+  .box-items svg { width: 34px; height: 34px; stroke: #e9e9f0; }
+
+  /* ---------- reviews + faq ---------- */
+  .reviews { padding: 120px 0; background: var(--bg-2); }
+  .rev-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 56px; }
+  .rev-head h2 { margin-top: 14px; }
+  .rating { text-align: right; }
+  .rating b { display: block; font-family: var(--display); font-size: 54px; font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+  .rating span { font-size: 13px; color: var(--muted); }
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+  .rev { padding: 34px 32px; border-radius: 24px; background: var(--bg-3); border: 1px solid var(--line); }
+  .rev:nth-child(2) { margin-top: 50px; }
+  .stars { letter-spacing: .2em; color: #c9c4ff; font-size: 14px; }
+  .rev blockquote { margin: 18px 0 26px; font-family: var(--display); font-size: 19px; font-weight: 400; line-height: 1.5; letter-spacing: -.01em; }
+  .who { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
+  .who i { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, .08); font-style: normal; font-size: 13px; color: #c9c4ff; }
+  .who small { display: block; font-weight: 500; color: var(--muted); font-size: 12px; }
+  .faq { padding: 130px 0; }
+  .faq .wrap { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; }
+  .faq h2 { margin-top: 14px; }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-child { border-top: 1px solid var(--line); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 26px 0; cursor: pointer; list-style: none; font-family: var(--display); font-size: 19px; font-weight: 500; letter-spacing: -.01em; }
+  summary::-webkit-details-marker { display: none; }
+  summary i { position: relative; width: 14px; height: 14px; flex-shrink: 0; }
+  summary i::before, summary i::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; background: var(--text); transition: transform .3s; }
+  summary i::after { transform: rotate(90deg); }
+  details[open] summary i::after { transform: rotate(0); }
+  details p { padding: 0 40px 26px 0; font-size: 15px; line-height: 1.7; color: var(--muted); }
+
+  /* ---------- final cta + footer ---------- */
+  .final { position: relative; padding: 140px 0 120px; text-align: center; overflow: hidden; }
+  .final .orb { left: 50%; top: 50%; width: 60vw; height: 30vw; translate: -50% -50%; background: radial-gradient(ellipse, rgba(139, 92, 246, .35), rgba(34, 211, 238, .12) 45%, transparent 70%); }
+  .final h2 { position: relative; font-size: clamp(44px, 7vw, 108px); }
+  .final p { position: relative; margin: 20px auto 36px; max-width: 520px; }
+  .final .btn { position: relative; }
+  footer { position: relative; overflow: hidden; padding: 80px 0 96px; border-top: 1px solid var(--line); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 40px; }
+  .foot-grid h4 { margin-bottom: 18px; font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+  .foot-grid a:not(.logo) { display: block; margin-bottom: 10px; font-size: 15px; color: #c8c8d2; }
+  .foot-grid a:not(.logo):hover { color: #fff; }
+  .foot-grid p { max-width: 300px; margin-top: 16px; font-size: 14px; line-height: 1.7; color: var(--muted); }
+  .giant { margin-top: 70px; font-family: var(--display); font-weight: 800; font-size: min(18vw, 250px); line-height: .8; letter-spacing: -.07em; white-space: nowrap; text-align: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, 0) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; margin-top: 30px; font-size: 13px; color: var(--muted); }
+
+  /* demo badge linking back to the portfolio */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(245, 245, 247, .95); color: #08080c; font-size: 12px; font-weight: 600; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .7); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #08080c; color: #fff; font-size: 13px; }
+
+  :focus-visible { outline: 2px solid var(--b); outline-offset: 3px; }
+
+  @media (max-width: 1100px) {
+    .callout .card { width: 260px; }
+    .callout .ln { width: 60px; }
+  }
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hero-bottom .wrap { flex-direction: column; align-items: flex-start; gap: 22px; }
+    .hero-side { align-items: flex-start; text-align: left; }
+    .product-hero { width: 96vw; margin-left: -48vw; top: 42%; }
+    .hero-name { top: 40%; font-size: 30vw; }
+    .feat-head { top: 84px; }
+    .feat-head .wrap { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .feat-img { width: 110vw; top: 46%; }
+    .feat-glow { width: 90vw; height: 90vw; top: 46%; }
+    .ring { top: 46%; }
+    .ring-1 { width: 260px; height: 260px; } .ring-2 { width: 380px; height: 380px; } .ring-3 { width: 520px; height: 520px; }
+    .callout, .callout.flip { left: 18px; right: 18px; top: auto; bottom: 64px; justify-content: center; }
+    .callout .ln { display: none; }
+    .callout .card { width: 100%; max-width: 440px; }
+    .callout.on { opacity: 0; transform: translateY(24px); }
+    .callout.current { opacity: 1; transform: none; }
+    .spec-grid { grid-template-columns: 1fr 1fr; }
+    .life-head, .colours .wrap, .faq .wrap { grid-template-columns: 1fr; gap: 30px; }
+    .gallery { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .g-col { gap: 16px; }
+    .g-col:nth-child(2) { margin-top: 60px; }
+    .g-col:nth-child(3) { display: none; }
+    .v-stage { max-width: 520px; width: 100%; margin: 0 auto; }
+    .rev-grid { grid-template-columns: 1fr; }
+    .rev:nth-child(2) { margin-top: 0; }
+    .box-items { grid-template-columns: repeat(3, 1fr); }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .wrap { width: calc(100% - 36px); }
+    .nav .wrap { gap: 16px; }
+    .hero { min-height: 640px; }
+    .hero-top { top: 96px; }
+    .product-hero { width: 128vw; margin-left: -64vw; top: 40%; }
+    .hero-name { top: 39%; }
+    .callout, .callout.flip { bottom: 92px; }
+    .price { flex-wrap: wrap; }
+    .box-items div:last-child { grid-column: 1 / -1; }
+    .hero-bottom { bottom: 84px; }
+    .hero-side .row { flex-wrap: wrap; }
+    .hero-side .btn { padding: 13px 22px; }
+    .feat-head h2 { font-size: 26px; }
+    .steps .bar { width: 110px; }
+    .callout .card { padding: 18px 20px; }
+    .callout h3 { font-size: 18px; }
+    .callout .metric { font-size: 24px; margin-top: 10px; }
+    .specs { padding: 110px 0 90px; }
+    .spec { padding: 30px 20px 26px; }
+    .spec .big b { font-size: 48px; }
+    .spec .big small { font-size: 18px; }
+    .spec p { font-size: 13px; }
+    .marquee { padding-top: 70px; }
+    .life, .reviews { padding: 100px 0; }
+    .tile figcaption { left: 12px; right: 12px; bottom: 10px; font-size: 12px; }
+    .tile figcaption small { display: none; }
+    .material { min-height: 560px; }
+    .material::after { background: linear-gradient(rgba(5, 5, 7, .55), rgba(5, 5, 7, .9)); }
+    .mat-list { gap: 26px; }
+    .colours { padding: 100px 0; }
+    .cmp-grid { grid-template-columns: 1fr; }
+    .cmp { padding: 30px 24px; }
+    .box { padding: 28px 20px; }
+    .box-items { grid-template-columns: repeat(2, 1fr); }
+    .rev-head { flex-direction: column; align-items: flex-start; }
+    .rating { text-align: left; }
+    .faq { padding: 100px 0; }
+    details p { padding-right: 0; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+
+  /* Reduced motion: the pinned story becomes a normal stacked section */
+  .features.static { height: auto; padding: 120px 0 40px; overflow: hidden; }
+  .features.static .feat-sticky { position: relative; height: auto; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; gap: 24px; padding: 0 18px; }
+  .features.static .feat-head, .features.static .feat-stage { position: relative; inset: auto; top: auto; grid-column: 1 / -1; }
+  .features.static .feat-stage { height: 460px; }
+  .features.static .steps { display: none; }
+  .features.static .callout { position: relative; inset: auto; opacity: 1; transform: none; align-items: stretch; }
+  .features.static .callout .card { width: 100%; }
+  .features.static .callout .ln { display: none; }
+  @media (max-width: 700px) { .features.static .feat-sticky { grid-template-columns: minmax(0, 1fr); } .features.static .feat-stage { height: 300px; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .callout, .callout .ln, .v-img img, .v-disc { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo"><i></i>Aurora <span>Audio</span></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#specs">Specs</a>
+      <a href="#lifestyle">Lifestyle</a>
+      <a href="#colours">Colours</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#colours" class="btn btn-fill btn-sm">Pre-order</a>
+  </div>
+</nav>
+
+<!-- HERO: glow orbs, the giant name and the product sit at different depths -->
+<header class="hero" id="top">
+  <div class="orb orb-a" data-speed="0.12" data-depth="30"></div>
+  <div class="orb orb-b" data-speed="0.32" data-depth="60"></div>
+  <div class="orb orb-c" data-speed="-0.1" data-depth="45"></div>
+  <div class="hero-name" data-speed="0.5" data-depth="14" aria-hidden="true">AURORA</div>
+  <div class="hero-top" data-speed="0.25"><span class="eyebrow">Introducing Aurora One</span></div>
+  <img class="product-hero render" id="product-hero" src="img/product-front.jpg" alt="Aurora One wireless headphones in Frost, front view" />
+  <div class="hero-bottom" data-speed="-0.08">
+    <div class="wrap">
+      <h1>Silence,<br /><span class="grad">sculpted.</span></h1>
+      <div class="hero-side">
+        <p>Adaptive noise cancelling, spatial audio and <b>40 hours</b> of battery in a 250 g frame. From <b>₹24,990</b>.</p>
+        <div class="row">
+          <a href="#colours" class="btn btn-grad">Pre-order now</a>
+          <a href="#features" class="btn btn-line">Explore features
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURES: the stage pins while four callouts arrive one by one and the product moves to each -->
+<section class="features" id="features">
+  <div class="feat-sticky">
+    <div class="feat-head">
+      <div class="wrap">
+        <div><span class="eyebrow">Every detail, tuned</span><h2 class="title">Four reasons to put them on.</h2></div>
+        <div class="steps" aria-hidden="true"><b id="step-num">01</b><div class="bar"><i id="step-bar"></i></div><span>04</span></div>
+      </div>
+    </div>
+    <div class="feat-stage" aria-hidden="true">
+      <div class="feat-glow"></div>
+      <div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div>
+      <img class="feat-img render" id="feat-img" src="img/product-side.jpg" alt="" />
+    </div>
+    <div class="callout c1"><div class="card"><span class="num">01</span><h3>Adaptive noise cancelling</h3><p>Nine microphones read the room 50,000 times a second and cancel engines, traffic and chatter.</p><span class="metric grad">Up to 32 dB</span></div><div class="ln"></div></div>
+    <div class="callout c2 flip"><div class="card"><span class="num">02</span><h3>40-hour battery</h3><p>A week of commutes on one charge. Five minutes on USB-C gives you four more hours.</p><span class="metric grad">40 h · 5 min = 4 h</span></div><div class="ln"></div></div>
+    <div class="callout c3"><div class="card"><span class="num">03</span><h3>Spatial audio</h3><p>Head tracking keeps the stage in front of you, so films and live albums feel like a room.</p><span class="metric grad">360° sound</span></div><div class="ln"></div></div>
+    <div class="callout c4 flip"><div class="card"><span class="num">04</span><h3>All-day comfort</h3><p>Memory-foam cushions and a floating headband spread the weight. You forget they are on.</p><span class="metric grad">Only 250 g</span></div><div class="ln"></div></div>
+  </div>
+</section>
+
+<!-- SPECS: numbers count up, then two rows of words slide in opposite directions with the scroll -->
+<section class="specs" id="specs">
+  <div class="wrap">
+    <div class="specs-head">
+      <span class="eyebrow">By the numbers</span>
+      <h2 class="title">Big on sound. <span class="grad">Light on you.</span></h2>
+      <p class="lead">Custom 40 mm drivers, a new noise engine and a battery that outlasts your week.</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="big"><b data-count="40">0</b><small>h</small></div><p><strong>Battery life</strong>With noise cancelling on.</p></div>
+      <div class="spec"><div class="big"><b data-count="32">0</b><small>dB</small></div><p><strong>Less noise</strong>Measured across 20 Hz–2 kHz.</p></div>
+      <div class="spec"><div class="big"><b data-count="9">0</b><small>mics</small></div><p><strong>Beamforming array</strong>Crisp calls, even outdoors.</p></div>
+      <div class="spec"><div class="big"><b data-count="250">0</b><small>g</small></div><p><strong>Total weight</strong>Aluminium and memory foam.</p></div>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-row" data-mq="-0.55"><span>Adaptive ANC</span><span>Spatial audio</span><span>40-hour battery</span><span>Hi-Res wireless</span><span>Adaptive ANC</span><span>Spatial audio</span><span>40-hour battery</span><span>Hi-Res wireless</span><span>Adaptive ANC</span><span>Spatial audio</span></div>
+    <div class="mq-row alt" data-mq="0.45"><span>Multipoint</span><span>USB-C fast charge</span><span>Memory foam</span><span>Transparency mode</span><span>Multipoint</span><span>USB-C fast charge</span><span>Memory foam</span><span>Transparency mode</span><span>Multipoint</span><span>USB-C fast charge</span></div>
+  </div>
+</section>
+
+<!-- LIFESTYLE: every tile drifts at its own speed while its photo slides inside the frame -->
+<section class="life" id="lifestyle">
+  <div class="wrap">
+    <div class="life-head">
+      <div><span class="eyebrow">Made for real life</span><h2 class="title">Wherever the day<br />takes you.</h2></div>
+      <p class="lead">From the morning train to a late-night walk home, Aurora One switches between silence and the world around you with one tap on the ear cup.</p>
+    </div>
+    <div class="gallery">
+      <div class="g-col">
+        <figure class="tile tall" data-speed="0.03"><div class="px-img"><img src="img/man-smiling.jpg" alt="Smiling man wearing white over-ear headphones while checking his phone" loading="lazy" /></div><figcaption>The morning call<small>Multipoint keeps phone and laptop paired</small></figcaption></figure>
+        <figure class="tile square" data-speed="0.09"><div class="px-img"><img src="img/commute-platform.jpg" alt="Man with headphones waiting on a metro platform" loading="lazy" /></div><figcaption>Platform four<small>Trains fade to a whisper</small></figcaption></figure>
+      </div>
+      <div class="g-col" data-speed="-0.09">
+        <figure class="tile portrait" data-speed="0.02"><div class="px-img"><img src="img/woman-brick.jpg" alt="Woman wearing headphones leaning against a white brick wall" loading="lazy" /></div><figcaption>Deep focus<small>Spatial audio for long sessions</small></figcaption></figure>
+        <figure class="tile wide" data-speed="0.06"><div class="px-img"><img src="img/night-street.jpg" alt="Man wearing headphones walking through a city at night" loading="lazy" /></div><figcaption>After hours<small>Transparency mode on the street</small></figcaption></figure>
+      </div>
+      <div class="g-col">
+        <figure class="tile square" data-speed="0.06"><div class="px-img"><img src="img/woman-neck.jpg" alt="Woman with dark headphones resting around her neck" loading="lazy" /></div><figcaption>Always within reach<small>Auto-pause when lifted off</small></figcaption></figure>
+        <figure class="tile tall" data-speed="0.12"><div class="px-img"><img src="img/road-walk.jpg" alt="Woman holding white headphones while walking along a road" loading="lazy" /></div><figcaption>The long way home<small>40 hours, no charger needed</small></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATERIAL: full-bleed photo moving at a slower speed than the page -->
+<section class="material">
+  <div class="material-bg" data-speed="0.18"><img src="img/studio-dark.jpg" alt="" loading="lazy" /></div>
+  <div class="wrap" data-speed="-0.06">
+    <span class="eyebrow">Design</span>
+    <h2 class="title">Aluminium. Memory foam. <span class="grad">Nothing extra.</span></h2>
+    <p class="lead">A single piece of brushed aluminium forms the yoke. The cushions are wrapped in soft protein leather and replace in seconds, so your Aurora One lasts for years.</p>
+    <div class="mat-list">
+      <div><b>Fold-flat</b><span>Slim travel case</span></div>
+      <div><b>Replaceable</b><span>Magnetic cushions</span></div>
+      <div><b>IPX4</b><span>Sweat resistant</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOURS: swatches recolour the accent glow and tint the product with CSS filters -->
+<section class="colours" id="colours">
+  <div class="wrap">
+    <div class="v-stage" id="v-stage" style="--v: #b9c2d6">
+      <div class="v-disc" data-speed="0.08"></div>
+      <div class="v-ring" data-speed="-0.05"></div>
+      <div class="v-img"><img class="render" id="v-img" src="img/product-front.jpg" alt="Aurora One headphones in the selected colour" loading="lazy" /></div>
+    </div>
+    <div class="v-info">
+      <span class="eyebrow">Choose your finish</span>
+      <h2 class="title">Four finishes.<br />One sound.</h2>
+      <p class="lead">Every colour is anodised, not painted, so it keeps its shine.</p>
+      <p class="swatch-label">Colour: <b id="v-name">Frost</b></p>
+      <div class="swatches" role="group" aria-label="Choose a colour">
+        <button class="swatch" type="button" aria-pressed="true" aria-label="Frost" style="--c:#e6e8ee" data-name="Frost" data-glow="#b9c2d6" data-filter="invert(1)"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Graphite" style="--c:#3a3b44" data-name="Graphite" data-glow="#6b7280" data-filter="invert(1) brightness(.5) contrast(1.25)"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Aurora Violet" style="--c:#8b5cf6" data-name="Aurora Violet" data-glow="#8b5cf6" data-filter="invert(1) sepia(1) saturate(3.2) hue-rotate(228deg) brightness(.92)"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Glacier Blue" style="--c:#38bdf8" data-name="Glacier Blue" data-glow="#22d3ee" data-filter="invert(1) sepia(1) saturate(3.4) hue-rotate(160deg) brightness(.95)"></button>
+      </div>
+      <div class="price"><b>₹24,990</b><span>or ₹2,083/month, no-cost EMI</span></div>
+      <div class="order-row">
+        <button class="btn btn-grad" type="button" id="order-btn">Pre-order Aurora One</button>
+        <a href="#compare" class="btn btn-line">Compare models</a>
+      </div>
+      <p class="order-msg" id="order-msg" role="status"></p>
+      <div class="perks">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg>Free delivery from 12 November</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Two-year warranty included</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE + WHAT'S IN THE BOX -->
+<section class="compare" id="compare">
+  <div class="wrap">
+    <div class="compare-head"><span class="eyebrow">Compare</span><h2 class="title">Which Aurora is yours?</h2></div>
+    <div class="cmp-grid">
+      <div class="cmp hl">
+        <span class="tag">New</span>
+        <h3>Aurora One</h3><p class="p">₹24,990</p>
+        <ul>
+          <li><span>Noise cancelling</span><b>Adaptive, 32 dB</b></li>
+          <li><span>Battery</span><b>40 hours</b></li>
+          <li><span>Spatial audio</span><b>With head tracking</b></li>
+          <li><span>Microphones</span><b>9</b></li>
+          <li><span>Build</span><b>Aluminium, 250 g</b></li>
+          <li><span>Travel case</span><b>Hard shell</b></li>
+        </ul>
+      </div>
+      <div class="cmp">
+        <span class="tag">Everyday</span>
+        <h3>Aurora Lite</h3><p class="p">₹12,990</p>
+        <ul>
+          <li><span>Noise cancelling</span><b>Standard, 24 dB</b></li>
+          <li><span>Battery</span><b>30 hours</b></li>
+          <li><span>Spatial audio</span><b class="no">Not included</b></li>
+          <li><span>Microphones</span><b>4</b></li>
+          <li><span>Build</span><b>Polycarbonate, 230 g</b></li>
+          <li><span>Travel case</span><b>Soft pouch</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box">
+      <h3>What's in the box</h3>
+      <div class="box-items">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>Aurora One headphones</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="7"/><path d="M3 12h18"/></svg>Hard-shell travel case</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="6" rx="1.5"/><path d="M12 8v6a4 4 0 0 1-4 4H6"/><rect x="3" y="16" width="3" height="4" rx="1"/></svg>USB-C charging cable</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v5M10 7h4v4h-4zM12 11v4a5 5 0 0 0 5 5h3"/></svg>3.5 mm audio cable</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-6-3 9-6-2-3 4v-5l9-6"/></svg>Flight adapter</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="wrap">
+    <div class="rev-head">
+      <div><span class="eyebrow">Early listeners</span><h2 class="title">Heard it first.</h2></div>
+      <div class="rating"><b>4.8</b><span>Average from 1,240 beta testers</span></div>
+    </div>
+    <div class="rev-grid">
+      <article class="rev"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“I wore them on a twelve-hour flight to Toronto and still had battery for the drive home. The cabin just disappeared.”</blockquote><div class="who"><i>AR</i><div>Ananya Rao<small>Product designer, Bengaluru</small></div></div></article>
+      <article class="rev"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“Spatial audio on live albums is the closest thing to a front-row seat. Bass is tight, never muddy.”</blockquote><div class="who"><i>KM</i><div>Kabir Mehta<small>Music producer, Mumbai</small></div></div></article>
+      <article class="rev"><div class="stars" aria-label="4 out of 5 stars">★★★★☆</div><blockquote>“Light enough that I forget they're on during a full workday. Calls sound clear even on a busy road.”</blockquote><div class="who"><i>SN</i><div>Sara Nair<small>Engineer, Pune</small></div></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div><span class="eyebrow">FAQ</span><h2 class="title">Good questions.</h2><p class="lead" style="margin-top:18px">Anything else? Our audio team answers within a day.</p></div>
+    <div>
+      <details open><summary>When will my pre-order ship?<i></i></summary><p>Pre-orders placed before 10 November ship on launch day, 12 November, with free delivery across India.</p></details>
+      <details><summary>Can I connect two devices at once?<i></i></summary><p>Yes. Multipoint keeps Aurora One paired with your phone and laptop together and switches to whichever starts playing.</p></details>
+      <details><summary>Do they work with wired audio?<i></i></summary><p>Yes, the included 3.5 mm cable works even when the battery is empty, perfect for in-flight entertainment.</p></details>
+      <details><summary>Are the ear cushions replaceable?<i></i></summary><p>The cushions attach magnetically. Replacement pairs cost ₹1,490 and swap in under ten seconds.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="orb" aria-hidden="true"></div>
+  <h2 class="title">Hear only <span class="grad">what matters.</span></h2>
+  <p class="lead">Aurora One. ₹24,990. Shipping 12 November.</p>
+  <a href="#colours" class="btn btn-fill">Pre-order now</a>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo"><i></i>Aurora <span>Audio</span></a><p>Premium wireless audio, tuned for real life. A product launch design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Product</h4><a href="#features">Features</a><a href="#specs">Specs</a><a href="#compare">Compare</a><a href="#colours">Colours</a></div>
+      <div><h4>Support</h4><a href="#faq">FAQ</a><a href="#top">Warranty</a><a href="#top">Shipping</a><a href="#top">Contact</a></div>
+      <div><h4>Follow</h4><a href="#top">Instagram</a><a href="#top">YouTube</a><a href="#top">X</a></div>
+    </div>
+    <div class="giant" data-speed="-0.12" aria-hidden="true">AURORA</div>
+    <div class="foot-bottom"><span>© 2026 Aurora Audio (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const ease = (t) => t * t * (3 - 2 * t);
+
+  const nav = document.getElementById("nav");
+  const progressBar = document.getElementById("progress");
+  const hero = document.querySelector(".hero");
+  const product = document.getElementById("product-hero");
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+  const features = document.getElementById("features");
+  const featImg = document.getElementById("feat-img");
+  const callouts = [...document.querySelectorAll(".callout")];
+  const stepNum = document.getElementById("step-num");
+  const stepBar = document.getElementById("step-bar");
+  const rings = [...document.querySelectorAll(".ring")];
+  const rows = [...document.querySelectorAll("[data-mq]")];
+
+  if (reduce) features.classList.add("static");
+
+  // Where the product sits for each feature: x/y in % of its own size, scale, rotation
+  const shots = [
+    { at: 0.0, x: 0, y: 4, s: 0.9, r: 0 },
+    { at: 0.14, x: 8, y: 0, s: 1.12, r: -8 },   // noise cancelling: push in on the cup
+    { at: 0.39, x: -8, y: 2, s: 1.04, r: 6 },   // battery
+    { at: 0.64, x: 6, y: -4, s: 1.2, r: -4 },   // spatial audio
+    { at: 0.9, x: 0, y: 0, s: 0.96, r: 0 },     // comfort: whole product
+  ];
+  const thresholds = [0.1, 0.35, 0.6, 0.85];
+
+  let mouseX = 0, mouseY = 0, frame = null, lastY = window.scrollY, velocity = 0;
+
+  const render = () => {
+    frame = null;
+    const h = window.innerHeight;
+    const y = window.scrollY;
+    nav.classList.toggle("is-solid", y > 60);
+    const max = document.documentElement.scrollHeight - h;
+    progressBar.style.transform = `scaleX(${max > 0 ? (y / max).toFixed(4) : 0})`;
+
+    if (!reduce) {
+      // 1. data-speed layers: hero layers drift with scrollY, the rest by distance from screen centre
+      for (const el of speedEls) {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -h || r.top > h * 2) continue;
+        const inHero = el.closest(".hero");
+        const offset = inHero ? y * Number(el.dataset.speed) : (r.top + r.height / 2 - h / 2) * Number(el.dataset.speed);
+        const depth = el.dataset.depth ? Number(el.dataset.depth) : 0;
+        el.style.transform = `translate3d(${(mouseX * depth).toFixed(1)}px, ${(offset + mouseY * depth).toFixed(1)}px, 0)`;
+      }
+
+      // 2. Hero product: shrinks, tilts and sinks slowly as you scroll; tilts towards the mouse
+      if (y < h * 1.5) {
+        const p = clamp(y / h);
+        product.style.transform =
+          `translate3d(${(mouseX * 24).toFixed(1)}px, ${(y * 0.22 + mouseY * 18).toFixed(1)}px, 0) perspective(1100px) ` +
+          `rotateX(${(mouseY * -12).toFixed(2)}deg) rotateY(${(mouseX * 18).toFixed(2)}deg) rotate(${(-p * 9).toFixed(2)}deg) scale(${(1 - p * 0.24).toFixed(3)})`;
+        product.style.opacity = (1 - clamp((p - 0.55) / 0.45) * 0.8).toFixed(3);
+      }
+
+      // 3. Photos slide inside their frames
+      for (const img of innerImgs) {
+        const r = img.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > h) continue;
+        const pr = (r.top + r.height) / (h + r.height);
+        img.style.transform = `translate3d(0, ${((pr - 0.5) * 18).toFixed(2)}%, 0)`;
+      }
+
+      // 4. Marquee rows follow scroll position, and lean a little with scroll speed
+      velocity = lerp(velocity, y - lastY, 0.18);
+      for (const row of rows) {
+        const r = row.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > h + 200) continue;
+        const sp = Number(row.dataset.mq);
+        const base = -row.scrollWidth * 0.3;
+        row.style.transform = `translate3d(${(base + (r.top - h) * sp).toFixed(1)}px, 0, 0) skewX(${clamp(-velocity * 0.25, -8, 8).toFixed(2)}deg)`;
+      }
+
+      // 5. Pinned features: progress through the section picks the step and moves the product
+      const fr = features.getBoundingClientRect();
+      const fp = clamp(-fr.top / Math.max(1, fr.height - h));
+      let i = 0;
+      while (i < shots.length - 2 && fp > shots[i + 1].at) i++;
+      const a = shots[i], b = shots[i + 1];
+      const t = ease(clamp((fp - a.at) / (b.at - a.at)));
+      featImg.style.transform = `translate(${lerp(a.x, b.x, t).toFixed(2)}%, ${lerp(a.y, b.y, t).toFixed(2)}%) rotate(${lerp(a.r, b.r, t).toFixed(2)}deg) scale(${lerp(a.s, b.s, t).toFixed(3)})`;
+      rings.forEach((ring, k) => {
+        const pulse = 0.82 + fp * 0.4 + Math.sin(fp * Math.PI * 4 + k) * 0.04;
+        ring.style.transform = `scale(${pulse.toFixed(3)})`;
+      });
+      let step = -1;
+      thresholds.forEach((th, k) => { if (fp >= th) step = k; });
+      callouts.forEach((c, k) => {
+        c.classList.toggle("on", k <= step);
+        c.classList.toggle("current", k === step);
+      });
+      stepNum.textContent = String(Math.max(1, step + 1)).padStart(2, "0");
+      stepBar.style.transform = `scaleX(${clamp((fp - 0.05) / 0.82).toFixed(3)})`;
+    }
+
+    lastY = y;
+    // keep animating until the marquee lean settles
+    if (!reduce && Math.abs(velocity) > 0.2) schedule();
+  };
+
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+
+  // Hero depth: orbs and name shift with the mouse, the product tilts towards it
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX / window.innerWidth - 0.5;
+      mouseY = e.clientY / window.innerHeight - 0.5;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  render();
+
+  // Count-up spec numbers when they come into view
+  const counters = document.querySelectorAll("[data-count]");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      const end = Number(entry.target.dataset.count);
+      if (reduce) { entry.target.textContent = end; return; }
+      const start = performance.now();
+      const tick = (now) => {
+        const k = Math.min(1, (now - start) / 1600);
+        entry.target.textContent = Math.round(end * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach((el) => io.observe(el));
+
+  // Colour picker: recolour the glow and tint the product
+  const stage = document.getElementById("v-stage");
+  const vImg = document.getElementById("v-img");
+  const vName = document.getElementById("v-name");
+  const swatches = document.querySelectorAll(".swatch");
+  let colour = "Frost";
+  swatches.forEach((sw) => {
+    sw.addEventListener("click", () => {
+      swatches.forEach((s) => s.setAttribute("aria-pressed", String(s === sw)));
+      colour = sw.dataset.name;
+      vName.textContent = colour;
+      vImg.style.filter = sw.dataset.filter;
+      stage.style.setProperty("--v", sw.dataset.glow);
+      document.getElementById("order-msg").textContent = "";
+    });
+  });
+  document.getElementById("order-btn").addEventListener("click", () => {
+    document.getElementById("order-msg").textContent =
+      `Aurora One in ${colour} is reserved for you at ₹24,990. This is a design demo, so no order was placed and nothing was charged.`;
+  });
+})();
+</script>
+</body>
+</html>

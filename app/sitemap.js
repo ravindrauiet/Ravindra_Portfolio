@@ -1,6 +1,7 @@
 import { getAllTechStacks } from "@/lib/notesData";
 import { getAllTemplates } from "@/lib/templates";
 import { getAllPrompts } from "@/lib/prompts";
+import { PARALLAX_DEMOS } from "@/lib/demos";
 
 export default function sitemap() {
   const baseUrl = "https://ravindranathjha.in";
@@ -82,5 +83,12 @@ export default function sitemap() {
     })),
   ];
 
-  return [...staticRoutes, ...notesRoutes, ...libraryRoutes];
+  const demoRoutes = PARALLAX_DEMOS.map((demo) => ({
+    url: `${baseUrl}${demo.href}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...notesRoutes, ...libraryRoutes, ...demoRoutes];
 }

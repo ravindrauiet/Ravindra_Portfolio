@@ -42,7 +42,13 @@ const experiences = [
   }
 ];
 
+// period and score are optional: a card leaves out whichever is missing
 const education = [
+  {
+    degree: "Master of Technology (M.Tech) - Artificial Intelligence",
+    institution: "Indian Institute of Technology (IIT) Jodhpur",
+    score: "Postgraduate specialisation in AI & Machine Learning"
+  },
   {
     degree: "Bachelor of Technology (B.Tech) - Computer Science Engineering",
     institution: "UIET, Maharshi Dayanand University",
@@ -54,15 +60,17 @@ const education = [
 const resumeUrl =
   "https://drive.google.com/file/d/1PGb6PrPcNRpGS68vi10P8psISD2H-Wx2/view?usp=sharing";
 
-export default function Experience() {
+// asPage: rendered on its own route, so the section title becomes the page's main heading
+export default function Experience({ asPage = false }) {
+  const Heading = asPage ? "h1" : "h2";
   return (
     <section className="experience" id="experience">
       <div className="exp-wrap">
         <div className="exp-header">
           <span className="svc-eyebrow">Career Journey</span>
-          <h2 className="heading">
+          <Heading className="heading">
             Experience &amp; <span>Education</span>
-          </h2>
+          </Heading>
           <p className="exp-subheading">
             Where I&apos;ve worked, what I&apos;ve led, and the foundation behind it.
           </p>
@@ -123,16 +131,20 @@ export default function Experience() {
 
             {education.map((edu) => (
               <div key={edu.degree} className="exp-card edu-card">
-                <span className="exp-period">
-                  <CalendarDays size={14} strokeWidth={2} aria-hidden="true" />
-                  {edu.period}
-                </span>
+                {edu.period ? (
+                  <span className="exp-period">
+                    <CalendarDays size={14} strokeWidth={2} aria-hidden="true" />
+                    {edu.period}
+                  </span>
+                ) : null}
                 <h4>{edu.degree}</h4>
                 <p className="edu-institution">{edu.institution}</p>
-                <span className="edu-score">
-                  <Award size={16} strokeWidth={2} aria-hidden="true" />
-                  {edu.score}
-                </span>
+                {edu.score ? (
+                  <span className="edu-score">
+                    <Award size={16} strokeWidth={2} aria-hidden="true" />
+                    {edu.score}
+                  </span>
+                ) : null}
               </div>
             ))}
 

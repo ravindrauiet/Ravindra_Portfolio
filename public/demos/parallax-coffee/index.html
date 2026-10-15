@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ember &amp; Bean — Specialty Coffee Roastery &amp; Café, Bengaluru (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax coffee shop website demo: floating beans in the hero, a scroll-driven farm-to-cup story, sideways-moving drink strips and a split headline, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-coffee/index.html" />
+<meta property="og:title" content="Ember &amp; Bean — Parallax Coffee Shop Website Demo" />
+<meta property="og:description" content="Floating-bean hero, sticky farm-to-cup scrollytelling, sideways drink strips and split-text headlines in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-coffee/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --oat: #f6efe6;
+    --oat-2: #ede2d3;
+    --paper: #fcf8f2;
+    --bean: #2a1a12;
+    --bean-2: #4b3427;
+    --caramel: #b85c27;
+    --caramel-dk: #9a4818;
+    --caramel-lt: #e19a5f;
+    --sage: #6f7d5c;
+    --sage-lt: #a9b493;
+    --muted: #6f5a4b;
+    --line: rgba(42, 26, 18, .14);
+    --serif: Fraunces, Georgia, serif;
+    --sans: "DM Sans", system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--oat); color: var(--bean); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, select, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--caramel-dk); }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: currentColor; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; font-variation-settings: "SOFT" 60; }
+  h1 em, h2 em { font-style: italic; color: var(--caramel); }
+  section { overflow-x: clip; }
+  [data-speed], [data-depth], .px-img img, .spin, .split-line, .strip-track { will-change: transform; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; padding: 24px 0; transition: background .4s, padding .4s, box-shadow .4s; }
+  .nav.is-solid { background: rgba(246, 239, 230, .86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 14px 0; box-shadow: 0 1px 0 var(--line); }
+  .nav .wrap { display: flex; align-items: center; gap: 40px; }
+  .logo { display: flex; align-items: center; gap: 10px; margin-right: auto; font-family: var(--serif); font-size: 25px; font-weight: 600; letter-spacing: -.01em; }
+  .logo em { font-style: italic; font-weight: 400; color: var(--caramel); }
+  .logo svg { width: 22px; height: 30px; color: var(--caramel); }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 600; }
+  .nav-links a { position: relative; opacity: .8; transition: opacity .3s; }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -6px; height: 1.5px; background: var(--caramel); transition: right .35s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { right: 0; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 28px; border-radius: 99px; font-size: 14px; font-weight: 700; letter-spacing: .02em; transition: transform .3s, background .3s, color .3s, box-shadow .3s; }
+  .btn svg { width: 16px; height: 16px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(4px); }
+  .btn-fill { background: var(--bean); color: var(--paper); box-shadow: 0 16px 34px -14px rgba(42, 26, 18, .6); }
+  .btn-fill:hover { background: var(--caramel); transform: translateY(-2px); }
+  .btn-line { border: 1.5px solid rgba(42, 26, 18, .25); }
+  .btn-line:hover { background: var(--bean); color: var(--paper); border-color: var(--bean); }
+  .btn-sm { padding: 11px 20px; font-size: 13px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 130px 0 90px; overflow: hidden; }
+  .hero-warm { position: absolute; right: -12%; top: -8%; width: 70vw; height: 70vw; border-radius: 50%; background: radial-gradient(circle, rgba(225, 154, 95, .32), rgba(225, 154, 95, 0) 62%); pointer-events: none; }
+  .hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .hero-text h1 { margin: 24px 0 26px; font-size: clamp(52px, 6.6vw, 100px); line-height: .98; letter-spacing: -.025em; }
+  .hero-text p { max-width: 450px; font-size: 18px; line-height: 1.7; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+  .hero-meta { display: flex; gap: 44px; margin-top: 52px; padding-top: 30px; border-top: 1px solid var(--line); max-width: 470px; }
+  .hero-meta b { display: block; font-family: var(--serif); font-size: 34px; font-weight: 500; }
+  .hero-meta span { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  .hero-stage { position: relative; height: min(76vh, 640px); }
+  .layer { position: absolute; }
+  .hero-ring { left: 3%; top: -3%; width: 98%; aspect-ratio: 1; border-radius: 50%; border: 1.5px dashed rgba(184, 92, 39, .35); }
+  .hero-circle { left: 9%; top: 3%; width: 86%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; box-shadow: 0 50px 100px -40px rgba(42, 26, 18, .55); }
+  .hero-circle img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; scale: 1.12; }
+  .hero-tile { left: -2%; bottom: -2%; width: 36%; aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; border: 8px solid var(--paper); box-shadow: 0 30px 60px -24px rgba(42, 26, 18, .5); }
+  .hero-tile img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; }
+  .hero-badge { right: 0; top: -2%; width: 150px; height: 150px; }
+  .spin { width: 100%; height: 100%; border-radius: 50%; background: var(--paper); box-shadow: 0 24px 50px -20px rgba(42, 26, 18, .45); }
+  .spin text { font: 700 12.5px var(--sans); letter-spacing: .1em; fill: var(--bean); }
+  .badge-core { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+  .badge-core span { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: var(--caramel); color: var(--paper); font-family: var(--serif); font-size: 30px; font-style: italic; line-height: 1; padding-bottom: 4px; }
+  .hero-tag { right: -2%; bottom: 10%; display: flex; align-items: center; gap: 14px; padding: 12px 20px 12px 12px; border-radius: 99px; background: var(--paper); box-shadow: 0 24px 50px -20px rgba(42, 26, 18, .45); font-size: 14px; font-weight: 700; }
+  .hero-tag i { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--sage); color: var(--paper); }
+  .hero-tag i svg { width: 18px; height: 18px; }
+  .hero-tag small { display: block; margin-top: 2px; font-size: 12px; font-weight: 500; color: var(--muted); }
+
+  /* floating beans and leaves */
+  .fl { position: absolute; z-index: 1; pointer-events: none; }
+  .fl svg { display: block; width: 100%; height: 100%; }
+  .fl.bean { color: var(--bean-2); }
+  .fl.bean.light { color: var(--caramel); }
+  .fl.leaf { color: var(--sage); }
+  .fl.leaf.light { color: var(--sage-lt); }
+  .fl.soft { opacity: .55; filter: blur(1.5px); }
+
+  .scroll-cue { position: absolute; left: 50%; bottom: 26px; translate: -50% 0; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+  .scroll-cue i { width: 1.5px; height: 44px; background: linear-gradient(var(--caramel), transparent); animation: cue 2s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- split headline ---------- */
+  .split { padding: 150px 0 120px; }
+  .split h2 { font-size: clamp(46px, 7.6vw, 122px); line-height: 1; letter-spacing: -.035em; }
+  .split-line { display: block; white-space: nowrap; }
+  .split-line.r { text-align: right; }
+  .split-intro { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; margin-top: 70px; }
+  .split-intro > p { font-family: var(--serif); font-size: 26px; line-height: 1.4; font-weight: 400; }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; }
+  .feature b { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 18px; border-radius: 50%; border: 1.5px solid var(--line); font-family: var(--serif); font-size: 17px; font-weight: 600; font-style: italic; color: var(--caramel); }
+  .feature h3 { font-size: 22px; margin-bottom: 8px; }
+  .feature p { font-size: 15px; line-height: 1.65; color: var(--muted); }
+
+  /* ---------- farm to cup scrollytelling ---------- */
+  .farm { padding: 60px 0 120px; }
+  .farm-head { max-width: 760px; margin-bottom: 70px; }
+  .farm-head h2 { margin-top: 18px; font-size: clamp(40px, 5vw, 72px); line-height: 1.02; letter-spacing: -.02em; }
+  .scrolly { display: grid; grid-template-columns: 1.05fr .95fr; gap: 90px; align-items: start; }
+  .sticky { position: sticky; top: 13vh; height: 74vh; border-radius: 30px; overflow: hidden; background: var(--bean); box-shadow: 0 50px 100px -50px rgba(42, 26, 18, .6); }
+  .s-img { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
+  .s-img img { width: 100%; height: 100%; object-fit: cover; scale: 1.1; transition: scale 1.6s cubic-bezier(.2, .7, .2, 1); }
+  .s-img.on { opacity: 1; }
+  .s-img.on img { scale: 1; }
+  .sticky::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, rgba(30, 18, 12, .75)); pointer-events: none; }
+  .s-meta { position: absolute; left: 28px; right: 28px; bottom: 26px; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; color: var(--paper); }
+  .s-count { font-family: var(--serif); font-size: 64px; font-weight: 400; font-style: italic; line-height: .9; }
+  .s-count small { font-size: 22px; font-style: normal; opacity: .7; }
+  .s-label { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; text-align: right; }
+  .s-bars { display: flex; gap: 6px; margin-top: 12px; justify-content: flex-end; }
+  .s-bars i { width: 34px; height: 3px; border-radius: 3px; background: rgba(252, 248, 242, .3); transition: background .4s; }
+  .s-bars i.on { background: var(--caramel-lt); }
+  .step { min-height: 78vh; display: flex; align-items: center; opacity: .28; transition: opacity .5s; }
+  .step.on { opacity: 1; }
+  .step .num { font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--caramel); }
+  .step h3 { margin: 12px 0 18px; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -.015em; }
+  .step p { font-size: 17px; line-height: 1.75; color: var(--muted); max-width: 470px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .facts span { padding: 8px 15px; border-radius: 99px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; }
+
+  /* ---------- café band ---------- */
+  .band { position: relative; height: 96vh; min-height: 560px; overflow: hidden; display: grid; place-items: center; text-align: center; color: var(--paper); }
+  .band-bg { position: absolute; inset: -22% 0; }
+  .band-bg img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.9); }
+  .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(36, 22, 14, .45), rgba(36, 22, 14, .72)); }
+  .band-text { position: relative; z-index: 1; padding: 0 24px; max-width: 900px; }
+  .band-text .eyebrow { color: var(--caramel-lt); }
+  .band-text h2 { margin: 22px 0 22px; font-size: clamp(50px, 8vw, 128px); line-height: .95; letter-spacing: -.03em; }
+  .band-text h2 em { color: var(--caramel-lt); }
+  .band-text p { font-size: 18px; line-height: 1.7; opacity: .9; margin-bottom: 34px; }
+  .btn-light { background: var(--paper); color: var(--bean); }
+  .btn-light:hover { background: var(--caramel-lt); transform: translateY(-2px); }
+
+  /* ---------- menu ---------- */
+  .menu { padding: 150px 0 60px; }
+  .menu-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 56px; }
+  .menu-head h2 { margin-top: 16px; font-size: clamp(42px, 5vw, 74px); line-height: 1; letter-spacing: -.02em; }
+  .menu-head p { max-width: 380px; font-size: 16px; line-height: 1.7; color: var(--muted); }
+  .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .menu-card { padding: 30px 26px 26px; border-radius: 24px; background: var(--paper); border: 1px solid var(--line); }
+  .menu-card header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .menu-card h3 { font-size: 28px; }
+  .menu-card header svg { width: 30px; height: 30px; color: var(--caramel); }
+  .menu-card > p { margin-bottom: 20px; font-size: 13px; color: var(--muted); }
+  .menu-card ul { list-style: none; display: grid; gap: 14px; }
+  .menu-card li { display: flex; align-items: baseline; gap: 8px; font-size: 15px; font-weight: 600; }
+  .menu-card li small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+  .menu-card li::after { content: ""; order: 1; flex: 1; min-width: 14px; border-bottom: 1.5px dotted rgba(42, 26, 18, .25); translate: 0 -4px; }
+  .menu-card li span { order: 0; }
+  .menu-card li b { order: 2; font-weight: 700; color: var(--caramel-dk); white-space: nowrap; }
+
+  /* sideways strips driven by vertical scroll */
+  .strips { padding: 90px 0 110px; display: grid; gap: 22px; }
+  .strip-track { display: flex; gap: 22px; width: max-content; }
+  .sc { position: relative; width: clamp(240px, 23vw, 330px); flex-shrink: 0; aspect-ratio: 4 / 3; border-radius: 22px; }
+  .sc span { position: absolute; left: 14px; bottom: 14px; z-index: 2; padding: 9px 15px; border-radius: 99px; background: rgba(252, 248, 242, .94); font-size: 13px; font-weight: 700; box-shadow: 0 10px 24px -10px rgba(42, 26, 18, .5); }
+  .sc span b { color: var(--caramel-dk); margin-left: 6px; }
+
+  /* inner-image parallax: the photo is taller than its frame and slides inside it */
+  .px-img { position: relative; overflow: hidden; }
+  .px-img img { width: 100%; height: 124%; margin-top: -12%; object-fit: cover; }
+
+  /* ---------- press / reviews ---------- */
+  .press { padding: 40px 0 150px; }
+  .press-head { text-align: center; margin-bottom: 64px; }
+  .press-head h2 { margin-top: 16px; font-size: clamp(40px, 5vw, 70px); line-height: 1; letter-spacing: -.02em; }
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: start; }
+  .quote { padding: 38px 34px 32px; border-radius: 26px; background: var(--paper); border: 1px solid var(--line); }
+  .quote:nth-child(2) { margin-top: 70px; background: var(--bean); color: var(--paper); border-color: var(--bean); }
+  .quote .mark { font-family: var(--serif); font-size: 80px; line-height: .6; height: 40px; color: var(--caramel); }
+  .quote:nth-child(2) .mark { color: var(--caramel-lt); }
+  .quote blockquote { margin: 14px 0 28px; font-family: var(--serif); font-size: 22px; line-height: 1.45; }
+  .quote footer { display: flex; align-items: center; gap: 14px; font-size: 14px; font-weight: 700; }
+  .quote footer small { display: block; font-size: 12.5px; font-weight: 500; color: var(--muted); }
+  .quote:nth-child(2) footer small { color: rgba(252, 248, 242, .65); }
+  .avatar { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--oat-2); color: var(--bean); font-family: var(--serif); font-size: 18px; font-weight: 600; }
+  .stars { display: flex; gap: 3px; margin-top: 4px; color: var(--caramel); }
+  .stars svg { width: 13px; height: 13px; }
+  .quote:nth-child(2) .stars { color: var(--caramel-lt); }
+
+  /* ---------- visit ---------- */
+  .visit { padding: 40px 0 150px; }
+  .visit .wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 90px; align-items: center; }
+  .visit-media { position: relative; }
+  .visit-main { height: 600px; border-radius: 30px; }
+  .visit-float { position: absolute; right: -40px; bottom: -50px; width: 42%; aspect-ratio: 1; border-radius: 50%; border: 10px solid var(--oat); box-shadow: 0 30px 60px -24px rgba(42, 26, 18, .5); }
+  .visit h2 { margin: 18px 0 22px; font-size: clamp(40px, 4.6vw, 66px); line-height: 1.02; letter-spacing: -.02em; }
+  .visit address { font-style: normal; font-size: 17px; line-height: 1.7; color: var(--muted); }
+  .visit address b { color: var(--bean); }
+  .open-now { display: inline-flex; align-items: center; gap: 10px; margin: 30px 0 16px; padding: 8px 16px; border-radius: 99px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 700; }
+  .open-now i { width: 9px; height: 9px; border-radius: 50%; background: var(--sage); box-shadow: 0 0 0 4px rgba(111, 125, 92, .2); }
+  .open-now.closed i { background: var(--caramel); box-shadow: 0 0 0 4px rgba(184, 92, 39, .2); }
+  .hours { list-style: none; max-width: 440px; }
+  .hours li { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .hours li b { font-weight: 700; }
+  .hours li.today { color: var(--caramel-dk); font-weight: 700; }
+  .visit .cta-row { margin-top: 32px; }
+
+  /* ---------- order ---------- */
+  .order { position: relative; padding: 140px 0; background: var(--bean); color: var(--paper); overflow: hidden; }
+  .order .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .order .eyebrow { color: var(--caramel-lt); }
+  .order h2 { margin: 18px 0 22px; font-size: clamp(42px, 5.4vw, 80px); line-height: 1; letter-spacing: -.025em; }
+  .order h2 em { color: var(--caramel-lt); }
+  .order-text p { font-size: 17px; line-height: 1.75; color: rgba(252, 248, 242, .75); max-width: 460px; }
+  .perks { display: grid; gap: 12px; margin-top: 30px; list-style: none; }
+  .perks li { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; }
+  .perks svg { width: 20px; height: 20px; color: var(--sage-lt); flex-shrink: 0; }
+  .order-card { padding: 38px; border-radius: 28px; background: var(--paper); color: var(--bean); box-shadow: 0 50px 100px -40px rgba(0, 0, 0, .7); }
+  .order-card h3 { font-size: 30px; margin-bottom: 6px; }
+  .order-card > p.sub { font-size: 14px; color: var(--muted); margin-bottom: 26px; }
+  .blends { display: grid; gap: 10px; margin-bottom: 18px; border: 0; }
+  .blends legend, .field label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .blend { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; border: 1.5px solid var(--line); cursor: pointer; transition: border-color .3s, background .3s; }
+  .blend:has(input:checked) { border-color: var(--caramel); background: #fbefe4; }
+  .blend input { accent-color: var(--caramel); width: 18px; height: 18px; }
+  .blend div { flex: 1; font-size: 15px; font-weight: 700; }
+  .blend small { display: block; font-size: 12.5px; font-weight: 500; color: var(--muted); }
+  .blend b { font-size: 15px; color: var(--caramel-dk); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .field select, .field input { width: 100%; padding: 13px 14px; border-radius: 14px; border: 1.5px solid var(--line); background: #fff; font-size: 15px; outline: 0; }
+  .field select:focus, .field input:focus { border-color: var(--caramel); }
+  .order-card .btn { width: 100%; }
+  .order .msg { min-height: 22px; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--sage); text-align: center; }
+  .order .fl.bean { color: #6b4a36; }
+  .order .fl.bean.light { color: var(--caramel); }
+
+  /* ---------- footer ---------- */
+  .site-foot { padding: 90px 0 96px; background: var(--oat-2); }
+  .foot-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px; }
+  .foot-grid h4 { margin-bottom: 18px; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .foot-grid a:not(.logo), .foot-grid li { display: block; margin-bottom: 10px; font-size: 15px; }
+  .foot-grid ul { list-style: none; }
+  .foot-grid a:not(.logo):hover { color: var(--caramel); }
+  .foot-grid p { max-width: 320px; margin-top: 16px; font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+  .foot-word { margin-top: 70px; font-family: var(--serif); font-weight: 600; font-size: clamp(48px, 15vw, 230px); line-height: .85; letter-spacing: -.045em; white-space: nowrap; color: var(--bean); opacity: .08; }
+  .foot-word em { font-weight: 400; }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  /* demo badge linking back to the portfolio */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: var(--paper); color: var(--bean); border: 1px solid var(--line); font-size: 12px; font-weight: 700; box-shadow: 0 16px 36px -12px rgba(42, 26, 18, .55); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bean); color: var(--paper); font-size: 13px; }
+
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  :focus-visible { outline: 2px solid var(--caramel); outline-offset: 3px; }
+
+  @media (max-width: 1080px) {
+    .nav-links { display: none; }
+    .hero .wrap, .visit .wrap, .order .wrap { grid-template-columns: 1fr; }
+    .hero-stage { width: min(560px, 100%); height: 540px; margin: 30px auto 0; }
+    .split-intro { grid-template-columns: 1fr; gap: 40px; }
+    .menu-grid { grid-template-columns: repeat(2, 1fr); }
+    .menu-head { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .quotes { grid-template-columns: 1fr; max-width: 620px; margin: 0 auto; }
+    .quote:nth-child(2) { margin-top: 0; }
+    .visit .wrap { gap: 90px; }
+    .visit-float { right: 10px; }
+    .order .wrap { gap: 50px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .scrolly { gap: 50px; }
+  }
+  @media (max-width: 760px) {
+    .wrap { width: calc(100% - 36px); }
+    .nav { padding: 16px 0; }
+    .nav .wrap { gap: 14px; }
+    .logo { font-size: 21px; }
+    .hero { padding: 110px 0 80px; }
+    .hero-meta { gap: 24px; }
+    .hero-meta b { font-size: 28px; }
+    .hero-stage { height: 400px; }
+    .hero-badge { width: 112px; height: 112px; right: 0; }
+    .hero .fl, .order .fl { display: none; }
+    .spin text { font-size: 12px; }
+    .badge-core span { width: 44px; height: 44px; }
+    .hero-tag { right: 0; bottom: 6%; font-size: 13px; }
+    .split { padding: 110px 0 80px; }
+    .split-line { white-space: normal; }
+    .features { grid-template-columns: 1fr; gap: 28px; }
+    .split-intro > p { font-size: 22px; }
+    /* scrollytelling: the image panel sticks at the top, steps scroll underneath it */
+    .scrolly { grid-template-columns: 1fr; gap: 0; }
+    .sticky { top: 72px; height: 38vh; z-index: 3; border-radius: 22px; }
+    .step { min-height: 58vh; padding: 24px 0; }
+    .step h3 { margin: 8px 0 12px; }
+    .step p { font-size: 16px; line-height: 1.65; }
+    .facts { margin-top: 18px; }
+    .s-count { font-size: 46px; }
+    .band { height: 80vh; }
+    .menu { padding-top: 110px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .strips { padding: 60px 0 110px; gap: 14px; }
+    .strip-track { gap: 14px; }
+    .sc { width: 220px; border-radius: 18px; }
+    .visit-main { height: 420px; }
+    .visit-float { right: -6px; bottom: -40px; width: 44%; border-width: 7px; }
+    .order { padding: 100px 0; }
+    .order-card { padding: 26px 20px; }
+    .field-row { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .foot-grid > div:first-child { grid-column: 1 / -1; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+    .nav-extra { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-cue i { animation: none; }
+    .s-img, .s-img img, .step { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- reusable bean + leaf drawings for the floating hero elements -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bean" viewBox="0 0 40 56">
+    <ellipse cx="20" cy="28" rx="18" ry="26" fill="currentColor" />
+    <path d="M21 4c-8 9 6 17-1 24s-7 14 1 24" fill="none" stroke="#fcf8f2" stroke-opacity=".35" stroke-width="2.6" stroke-linecap="round" />
+  </symbol>
+  <symbol id="leaf" viewBox="0 0 60 100">
+    <path d="M30 2C58 30 60 68 30 98 0 68 2 30 30 2z" fill="currentColor" />
+    <path d="M30 14v78M30 40l-12-10M30 40l12-10M30 60l-14-11M30 60l14-11M30 78l-11-9M30 78l11-9" fill="none" stroke="#fcf8f2" stroke-opacity=".4" stroke-width="2" stroke-linecap="round" />
+  </symbol>
+</svg>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo"><svg viewBox="0 0 40 56" aria-hidden="true"><use href="#bean" /></svg>Ember <em>&amp;</em> Bean</a>
+    <div class="nav-links">
+      <a href="#story">Our story</a>
+      <a href="#menu">Menu</a>
+      <a href="#cafe">The café</a>
+      <a href="#visit">Visit</a>
+    </div>
+    <a href="#order" class="btn btn-fill btn-sm order-btn-nav"><span>Order<span class="nav-extra"> online</span></span></a>
+  </div>
+</nav>
+
+<!-- HERO: photo, badge, tag and floating beans sit at different depths (scroll + mouse) -->
+<header class="hero" id="top">
+  <div class="hero-warm" data-speed="0.12"></div>
+
+  <div class="fl bean soft" style="left:4%;top:16%;width:30px;height:42px;rotate:-24deg" data-speed="0.55" data-depth="70" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl leaf light" style="left:42%;top:13%;width:34px;height:56px;rotate:38deg" data-speed="0.3" data-depth="44" aria-hidden="true"><svg><use href="#leaf" /></svg></div>
+  <div class="fl bean light" style="left:46%;top:58%;width:22px;height:31px;rotate:52deg" data-speed="-0.25" data-depth="56" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl bean" style="left:37%;bottom:9%;width:36px;height:50px;rotate:18deg" data-speed="0.45" data-depth="80" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl bean soft" style="right:3%;top:18%;width:44px;height:62px;rotate:-40deg" data-speed="0.7" data-depth="96" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl leaf" style="right:5%;bottom:10%;width:46px;height:76px;rotate:-28deg" data-speed="-0.35" data-depth="64" aria-hidden="true"><svg><use href="#leaf" /></svg></div>
+  <div class="fl bean light" style="right:42%;top:24%;width:18px;height:25px;rotate:-8deg" data-speed="0.2" data-depth="30" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl bean" style="left:9%;bottom:7%;width:20px;height:28px;rotate:70deg" data-speed="0.38" data-depth="40" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+
+  <div class="wrap">
+    <div class="hero-text" data-speed="-0.08">
+      <span class="eyebrow">Specialty roastery &amp; café · Bengaluru</span>
+      <h1>Coffee worth <em>slowing down</em> for.</h1>
+      <p>We roast single-estate beans from the hills of Chikmagalur every morning, then brew them with care in our sunlit Indiranagar café.</p>
+      <div class="cta-row">
+        <a href="#menu" class="btn btn-fill">See the menu
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#order" class="btn btn-line">Order fresh beans</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>11</b><span>Partner estates</span></div>
+        <div><b>6 am</b><span>Daily roast</span></div>
+        <div><b>4.8</b><span>2,400 reviews</span></div>
+      </div>
+    </div>
+
+    <div class="hero-stage" aria-hidden="true">
+      <div class="layer hero-ring" data-speed="0.18" data-depth="10"></div>
+      <div class="layer hero-circle" data-speed="0.06" data-depth="18"><img src="img/hero-pour.jpg" alt="" /></div>
+      <div class="layer hero-tile" data-speed="-0.16" data-depth="38"><img src="img/flat-white.jpg" alt="" /></div>
+      <div class="layer hero-badge" data-speed="0.26" data-depth="52">
+        <svg class="spin" viewBox="0 0 160 160">
+          <defs><path id="circ" d="M80 80m-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0" /></defs>
+          <text><textPath href="#circ" textLength="362" lengthAdjust="spacing">FRESHLY ROASTED · SINCE 2015 · FRESHLY ROASTED · SINCE 2015 ·</textPath></text>
+        </svg>
+        <div class="badge-core"><span>&amp;</span></div>
+      </div>
+      <div class="layer hero-tag" data-speed="-0.3" data-depth="66">
+        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></i>
+        <div>Today's roast<small>Attikan Estate · light-medium</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><i></i>Scroll</div>
+</header>
+
+<!-- SPLIT HEADLINE: the two halves slide in from opposite sides as the block enters -->
+<section class="split" id="split">
+  <div class="wrap">
+    <h2 aria-label="Roasted at dawn, poured all day.">
+      <span class="split-line l" data-dir="-1" aria-hidden="true">Roasted at dawn,</span>
+      <span class="split-line r" data-dir="1" aria-hidden="true"><em>poured</em> all day.</span>
+    </h2>
+    <div class="split-intro">
+      <p>Every bag we sell was green coffee a week ago. We buy direct, roast in small batches and serve it while it still tastes of the hillside.</p>
+      <div class="features">
+        <div class="feature"><b>i</b><h3>Single estate</h3><p>Traceable lots from eleven farms we visit every harvest.</p></div>
+        <div class="feature"><b>ii</b><h3>12 kg roaster</h3><p>Small batches, profiled by hand for each bean.</p></div>
+        <div class="feature"><b>iii</b><h3>Brewed to order</h3><p>Weighed, timed and tasted before it leaves the bar.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FARM TO CUP: the photo panel sticks while the steps scroll past and swap it -->
+<section class="farm" id="story">
+  <div class="wrap">
+    <div class="farm-head">
+      <span class="eyebrow">Farm to cup</span>
+      <h2>From a shaded hillside in <em>Chikmagalur</em> to your table.</h2>
+    </div>
+    <div class="scrolly">
+      <div class="sticky" id="sticky">
+        <div class="s-img on"><img src="img/cherries.jpg" alt="Hands holding freshly picked red coffee cherries" loading="lazy" /></div>
+        <div class="s-img"><img src="img/green-beans.jpg" alt="A hand sorting dried green coffee beans in a basket" loading="lazy" /></div>
+        <div class="s-img"><img src="img/roasting.jpg" alt="Coffee beans turning in a roasting drum" loading="lazy" /></div>
+        <div class="s-img"><img src="img/cappuccino.jpg" alt="Barista holding a cappuccino with rosetta latte art" loading="lazy" /></div>
+        <div class="s-meta">
+          <div class="s-count"><span id="s-num">01</span> <small>/ 04</small></div>
+          <div><div class="s-label" id="s-label">Harvest</div><div class="s-bars" id="s-bars"><i class="on"></i><i></i><i></i><i></i></div></div>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="step on" data-label="Harvest">
+          <div><span class="num">01 · Harvest</span>
+            <h3>Picked ripe, one cherry at a time.</h3>
+            <p>Our partner farmers in the Baba Budangiri hills grow arabica under silver oak and pepper vines. Only fully red cherries are picked, by hand, over several passes.</p>
+            <div class="facts"><span>1,450 m altitude</span><span>Shade grown</span><span>Hand picked</span></div></div>
+        </article>
+        <article class="step" data-label="Process">
+          <div><span class="num">02 · Process</span>
+            <h3>Washed, sun-dried and sorted.</h3>
+            <p>The cherries are pulped, fermented and dried on raised beds for up to three weeks, then the green beans are sorted by eye before they travel to Bengaluru.</p>
+            <div class="facts"><span>Washed &amp; natural lots</span><span>21-day drying</span></div></div>
+        </article>
+        <article class="step" data-label="Roast">
+          <div><span class="num">03 · Roast</span>
+            <h3>Roasted at six, every morning.</h3>
+            <p>Each lot gets its own roast profile on our 12 kg drum roaster. We cup every batch before it is bagged, and nothing sits on the shelf for more than three weeks.</p>
+            <div class="facts"><span>12 kg batches</span><span>Cupped daily</span><span>Roast date on every bag</span></div></div>
+        </article>
+        <article class="step" data-label="Pour">
+          <div><span class="num">04 · Pour</span>
+            <h3>Poured for you, just so.</h3>
+            <p>At the bar, every shot is weighed and timed and every pour-over is brewed to order, so the cup in your hands tastes exactly as the farmer intended.</p>
+            <div class="facts"><span>18 g in · 36 g out</span><span>Oat &amp; almond milk</span></div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAFÉ BAND: the interior photo moves at a slower speed than the page -->
+<section class="band" id="cafe">
+  <div class="band-bg" data-speed="0.4"><img src="img/cafe-interior.jpg" alt="" loading="lazy" /></div>
+  <div class="band-text" data-speed="-0.1">
+    <span class="eyebrow">The café</span>
+    <h2>A slow corner of <em>Indiranagar</em>.</h2>
+    <p>Forty seats, tall windows, good music and no rush. Bring a book, bring a friend, stay for a second cup.</p>
+    <a href="#visit" class="btn btn-light">Plan your visit</a>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <div><span class="eyebrow">Menu</span><h2>Today at the <em>bar</em></h2></div>
+      <p>All espresso drinks use our Morning Ember blend. Oat or almond milk at no extra cost. Prices include taxes.</p>
+    </div>
+    <div class="menu-grid">
+      <article class="menu-card">
+        <header><h3>Espresso</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1.5 1 1.5 1 3M12 3c0 1.5 1 1.5 1 3"/></svg></header>
+        <p>Double shot, 18 g · Morning Ember</p>
+        <ul>
+          <li><span>Espresso</span><b>₹160</b></li>
+          <li><span>Cortado</span><b>₹220</b></li>
+          <li><span>Flat white</span><b>₹240</b></li>
+          <li><span>Cappuccino</span><b>₹240</b></li>
+          <li><span>Ember mocha<small>with 70% Kerala cacao</small></span><b>₹280</b></li>
+        </ul>
+      </article>
+      <article class="menu-card">
+        <header><h3>Pour-over</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14l-5 8h-4L5 4Z"/><path d="M10 12v2M14 12v2"/><path d="M7 14h10l-1 6H8l-1-6Z"/></svg></header>
+        <p>Single estate, brewed to order</p>
+        <ul>
+          <li><span>V60 · Attikan Estate</span><b>₹300</b></li>
+          <li><span>Aeropress · Baba Budan</span><b>₹280</b></li>
+          <li><span>Chemex for two</span><b>₹520</b></li>
+          <li><span>Filter kaapi<small>the Bengaluru classic</small></span><b>₹140</b></li>
+        </ul>
+      </article>
+      <article class="menu-card">
+        <header><h3>Cold brew</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h12l-1.5 14h-9L6 6Z"/><path d="M14 2l-1 4"/><path d="M9 11h3v3H9zM13 14h2.5v2.5H13z"/></svg></header>
+        <p>Steeped 18 hours, served over ice</p>
+        <ul>
+          <li><span>Classic cold brew</span><b>₹260</b></li>
+          <li><span>Jaggery cold brew</span><b>₹280</b></li>
+          <li><span>Iced oat latte</span><b>₹290</b></li>
+          <li><span>Cold brew tonic<small>with orange peel</small></span><b>₹300</b></li>
+        </ul>
+      </article>
+      <article class="menu-card">
+        <header><h3>Bakes</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c0-5 4-9 9-9s9 4 9 9l-3 3H6l-3-3Z"/><path d="M9 7.5 10 18M15 7.5 14 18"/></svg></header>
+        <p>Baked in-house before we open</p>
+        <ul>
+          <li><span>Butter croissant</span><b>₹180</b></li>
+          <li><span>Cardamom bun</span><b>₹160</b></li>
+          <li><span>Banana walnut loaf</span><b>₹150</b></li>
+          <li><span>Almond financier<small>gluten free</small></span><b>₹130</b></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+
+  <!-- STRIPS: vertical scroll moves the two rows sideways in opposite directions -->
+  <div class="strips" aria-label="Drinks and bakes from the menu">
+    <div class="strip-track" data-strip="-1">
+      <figure class="sc px-img"><img src="img/espresso.jpg" alt="Espresso pouring from a portafilter" loading="lazy" /><span>Espresso<b>₹160</b></span></figure>
+      <figure class="sc px-img"><img src="img/cortado.jpg" alt="Cortado in a glass with a spoon" loading="lazy" /><span>Cortado<b>₹220</b></span></figure>
+      <figure class="sc px-img"><img src="img/flat-white.jpg" alt="Flat white with leaf latte art" loading="lazy" /><span>Flat white<b>₹240</b></span></figure>
+      <figure class="sc px-img"><img src="img/pour-over.jpg" alt="Pour-over coffee being brewed from a white kettle" loading="lazy" /><span>V60 pour-over<b>₹300</b></span></figure>
+      <figure class="sc px-img"><img src="img/cappuccino.jpg" alt="Cappuccino with rosetta art" loading="lazy" /><span>Cappuccino<b>₹240</b></span></figure>
+      <figure class="sc px-img"><img src="img/hero-pour.jpg" alt="Barista pouring from a copper kettle" loading="lazy" /><span>Chemex for two<b>₹520</b></span></figure>
+      <figure class="sc px-img"><img src="img/espresso.jpg" alt="" loading="lazy" /><span>Ember mocha<b>₹280</b></span></figure>
+    </div>
+    <div class="strip-track" data-strip="1">
+      <figure class="sc px-img"><img src="img/cold-brew.jpg" alt="Iced cold brew in a tall glass" loading="lazy" /><span>Cold brew<b>₹260</b></span></figure>
+      <figure class="sc px-img"><img src="img/croissants.jpg" alt="Butter croissants on a baking tray" loading="lazy" /><span>Butter croissant<b>₹180</b></span></figure>
+      <figure class="sc px-img"><img src="img/iced-latte.jpg" alt="Iced latte with a straw" loading="lazy" /><span>Iced oat latte<b>₹290</b></span></figure>
+      <figure class="sc px-img"><img src="img/cortado.jpg" alt="" loading="lazy" /><span>Filter kaapi<b>₹140</b></span></figure>
+      <figure class="sc px-img"><img src="img/cold-brew.jpg" alt="" loading="lazy" /><span>Jaggery cold brew<b>₹280</b></span></figure>
+      <figure class="sc px-img"><img src="img/croissants.jpg" alt="" loading="lazy" /><span>Cardamom bun<b>₹160</b></span></figure>
+      <figure class="sc px-img"><img src="img/iced-latte.jpg" alt="" loading="lazy" /><span>Cold brew tonic<b>₹300</b></span></figure>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS: the middle card drifts at a different speed -->
+<section class="press" id="reviews">
+  <div class="wrap">
+    <div class="press-head"><span class="eyebrow">Kind words</span><h2>Our regulars say it <em>best</em></h2></div>
+    <div class="quotes">
+      <figure class="quote" data-speed="0.05">
+        <div class="mark">&ldquo;</div>
+        <blockquote>The V60 here changed how I think about coffee. Bright, clean, and they always tell you which farm it came from.</blockquote>
+        <footer><span class="avatar">A</span><div>Ananya K.<small>Regular since 2018</small><div class="stars" aria-label="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg></div></div></footer>
+      </figure>
+      <figure class="quote" data-speed="-0.08">
+        <div class="mark">&ldquo;</div>
+        <blockquote>My whole team works from the long table on Fridays. The cardamom buns sell out by eleven, so come early.</blockquote>
+        <footer><span class="avatar">R</span><div>Rahul M.<small>Product designer, Indiranagar</small><div class="stars" aria-label="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg></div></div></footer>
+      </figure>
+      <figure class="quote" data-speed="0.05">
+        <div class="mark">&ldquo;</div>
+        <blockquote>I order the Hillside beans every fortnight. They arrive two days after roasting and my morning filter has never tasted better.</blockquote>
+        <footer><span class="avatar">S</span><div>Sneha P.<small>Bean subscriber</small><div class="stars" aria-label="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg></div></div></footer>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="visit-media">
+      <div class="visit-main px-img"><img src="img/cafe-counter.jpg" alt="Café counter with a chalk menu board and bicycles by the wall" loading="lazy" /></div>
+      <div class="visit-float px-img" data-speed="-0.12"><img src="img/flat-white.jpg" alt="Flat white with latte art" loading="lazy" /></div>
+    </div>
+    <div>
+      <span class="eyebrow">Visit us</span>
+      <h2>Come in, <em>stay</em> a while.</h2>
+      <address><b>Ember &amp; Bean Roastery Café</b><br />14, 7th Cross, HAL 2nd Stage<br />Indiranagar, Bengaluru 560038</address>
+      <div class="open-now" id="open-now"><i></i><span>Open daily from 7 am</span></div>
+      <ul class="hours" id="hours">
+        <li data-days="1,2,3,4,5"><span>Monday – Friday</span><b>7:00 am – 9:00 pm</b></li>
+        <li data-days="6"><span>Saturday</span><b>7:30 am – 10:00 pm</b></li>
+        <li data-days="0"><span>Sunday</span><b>8:00 am – 8:00 pm</b></li>
+      </ul>
+      <div class="cta-row">
+        <a href="#visit" class="btn btn-fill">Get directions
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#visit" class="btn btn-line">Book a brew class</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER: beans drift past at their own speeds behind the form -->
+<section class="order" id="order">
+  <div class="fl bean light" style="left:4%;top:14%;width:34px;height:48px;rotate:-30deg" data-speed="0.35" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl bean" style="left:44%;top:8%;width:24px;height:34px;rotate:40deg" data-speed="-0.25" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl bean soft" style="left:38%;bottom:12%;width:46px;height:64px;rotate:12deg" data-speed="0.5" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="fl leaf" style="right:3%;bottom:8%;width:40px;height:66px;rotate:-24deg" data-speed="-0.3" aria-hidden="true"><svg><use href="#leaf" /></svg></div>
+  <div class="fl bean light soft" style="right:6%;top:10%;width:28px;height:40px;rotate:64deg" data-speed="0.22" aria-hidden="true"><svg><use href="#bean" /></svg></div>
+  <div class="wrap">
+    <div class="order-text">
+      <span class="eyebrow">Order online</span>
+      <h2>Fresh beans, <em>at your door</em>.</h2>
+      <p>Roasted on Monday, delivered by Wednesday anywhere in Bengaluru. Choose a coffee, tell us how you brew, and we will grind it to match.</p>
+      <ul class="perks">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Free delivery on orders over ₹999</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Roast date printed on every bag</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pause or skip a subscription any time</li>
+      </ul>
+    </div>
+    <form class="order-card" id="order-form">
+      <h3>Build your bag</h3>
+      <p class="sub">250 g bags · roasted to order</p>
+      <fieldset class="blends">
+        <legend>Choose a coffee</legend>
+        <label class="blend"><input type="radio" name="blend" value="Morning Ember" checked /><div>Morning Ember<small>Medium · cocoa, jaggery, almond</small></div><b>₹650</b></label>
+        <label class="blend"><input type="radio" name="blend" value="Hillside Single Estate" /><div>Hillside Single Estate<small>Light · orange, honey, black tea</small></div><b>₹780</b></label>
+        <label class="blend"><input type="radio" name="blend" value="Dark Kiln" /><div>Dark Kiln<small>Dark · molasses, spice, smoke</small></div><b>₹620</b></label>
+      </fieldset>
+      <div class="field-row">
+        <div class="field"><label for="grind">Grind</label>
+          <select id="grind"><option>Whole bean</option><option>Espresso</option><option>Filter / V60</option><option>French press</option><option>South Indian filter</option></select></div>
+        <div class="field"><label for="pin">Pincode</label>
+          <input id="pin" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required placeholder="560038" /></div>
+      </div>
+      <button class="btn btn-fill" type="submit">Order online
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="msg" id="order-msg" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo"><svg viewBox="0 0 40 56" aria-hidden="true"><use href="#bean" /></svg>Ember <em>&amp;</em> Bean</a><p>Specialty coffee roasted daily in Bengaluru. A fictional café and a design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Café</h4><a href="#menu">Menu</a><a href="#story">Our story</a><a href="#visit">Visit</a><a href="#visit">Brew classes</a></div>
+      <div><h4>Shop</h4><a href="#order">Coffee beans</a><a href="#order">Subscriptions</a><a href="#order">Gift cards</a><a href="#order">Wholesale</a></div>
+      <div><h4>Hello</h4><ul><li>hello@emberandbean.example</li><li>Instagram</li><li>Indiranagar, Bengaluru</li></ul></div>
+    </div>
+    <div class="foot-word" aria-hidden="true">Ember <em>&amp;</em> Bean</div>
+    <div class="foot-bottom"><span>© 2026 Ember &amp; Bean (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+
+  const nav = document.getElementById("nav");
+  const hero = document.querySelector(".hero");
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+  const spin = document.querySelector(".spin");
+  const splitLines = [...document.querySelectorAll(".split-line")];
+  const splitH = document.querySelector(".split h2");
+  const strips = [...document.querySelectorAll("[data-strip]")];
+  const stripBox = document.querySelector(".strips");
+  const steps = [...document.querySelectorAll(".step")];
+  const sImgs = [...document.querySelectorAll(".s-img")];
+  const sBars = [...document.querySelectorAll("#s-bars i")];
+  const sNum = document.getElementById("s-num");
+  const sLabel = document.getElementById("s-label");
+  const sticky = document.getElementById("sticky");
+  const mobile = window.matchMedia("(max-width: 760px)");
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+
+  let mouseX = 0, mouseY = 0, frame = null, active = -1;
+
+  const setStep = (i) => {
+    if (i === active) return;
+    active = i;
+    steps.forEach((s, n) => s.classList.toggle("on", n === i));
+    sImgs.forEach((s, n) => s.classList.toggle("on", n === i));
+    sBars.forEach((s, n) => s.classList.toggle("on", n <= i));
+    sNum.textContent = String(i + 1).padStart(2, "0");
+    sLabel.textContent = steps[i].dataset.label;
+  };
+
+  const render = () => {
+    frame = null;
+    const h = window.innerHeight;
+    const w = window.innerWidth;
+    nav.classList.toggle("is-solid", window.scrollY > 60);
+
+    if (!reduce) {
+      // 1. data-speed layers. Hero layers start at rest and drift with scrollY;
+      //    everywhere else they are offset by their distance from the middle of the screen
+      for (const el of speedEls) {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -h || r.top > h * 2) continue;
+        const inHero = el.closest(".hero");
+        const offset = inHero
+          ? window.scrollY * Number(el.dataset.speed) * (mobile.matches ? 0.4 : 1)
+          : (r.top + r.height / 2 - h / 2) * Number(el.dataset.speed);
+        const depth = inHero && el.dataset.depth ? Number(el.dataset.depth) : 0;
+        el.style.transform = `translate3d(${(mouseX * depth).toFixed(1)}px, ${(offset + mouseY * depth).toFixed(1)}px, 0)`;
+      }
+
+      // 2. The circular badge spins as the page scrolls
+      if (spin) spin.style.transform = `rotate(${(window.scrollY * 0.3).toFixed(1)}deg)`;
+
+      // 3. Photos slide inside their frames
+      for (const img of innerImgs) {
+        const r = img.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > h) continue;
+        const progress = (r.top + r.height) / (h + r.height); // 1 entering, 0 leaving
+        img.style.transform = `translate3d(0, ${((progress - 0.5) * 18).toFixed(2)}%, 0)`;
+      }
+
+      // 4. Split headline: the halves slide in from opposite sides as it enters
+      const sr = splitH.getBoundingClientRect();
+      const sp = clamp((h - sr.top) / (h * 0.75));
+      const ease = 1 - Math.pow(1 - sp, 3);
+      for (const line of splitLines) {
+        const dir = Number(line.dataset.dir);
+        line.style.transform = `translate3d(${(dir * (1 - ease) * w * 0.45).toFixed(1)}px, 0, 0)`;
+        line.style.opacity = (0.15 + ease * 0.85).toFixed(3);
+      }
+
+      // 5. Menu strips: vertical scroll position moves the rows sideways, in opposite directions
+      const br = stripBox.getBoundingClientRect();
+      if (br.bottom > 0 && br.top < h) {
+        const p = clamp((h - br.top) / (h + br.height));
+        for (const track of strips) {
+          const range = Math.max(0, track.scrollWidth - w);
+          const x = Number(track.dataset.strip) < 0 ? -p * range : -(1 - p) * range;
+          track.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+        }
+      }
+    }
+
+    // 6. Farm-to-cup: the step nearest the reading line becomes active and swaps the photo
+    const line = mobile.matches ? (sticky.getBoundingClientRect().bottom + h) / 2 : h / 2;
+    let best = 0, bestDist = Infinity;
+    steps.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const d = Math.abs(r.top + r.height / 2 - line);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    setStep(best);
+  };
+
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+
+  // Hero layers also follow the mouse, deeper layers moving further
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * -1;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * -1;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  render();
+
+  // Opening hours: highlight today and show whether the café is open right now
+  const now = new Date();
+  const day = now.getDay();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const times = { 0: [480, 1200], 6: [450, 1320] };
+  const [open, close] = times[day] || [420, 1260];
+  document.querySelectorAll("#hours li").forEach((li) => {
+    if (li.dataset.days.split(",").map(Number).includes(day)) li.classList.add("today");
+  });
+  const badge = document.getElementById("open-now");
+  const fmt = (m) => { const hr = Math.floor(m / 60), mm = m % 60; return `${((hr + 11) % 12) + 1}${mm ? ":" + String(mm).padStart(2, "0") : ""} ${hr < 12 ? "am" : "pm"}`; };
+  if (mins >= close) {
+    badge.classList.add("closed");
+    badge.querySelector("span").textContent = "Closed now · see you tomorrow";
+  } else if (mins >= open) {
+    badge.querySelector("span").textContent = `Open now · until ${fmt(close)}`;
+  } else {
+    badge.classList.add("closed");
+    badge.querySelector("span").textContent = `Closed now · opens ${fmt(open)}`;
+  }
+
+  // Order form (demo only)
+  document.getElementById("order-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const blend = e.target.querySelector("input[name=blend]:checked").value;
+    const grind = document.getElementById("grind").value.toLowerCase();
+    document.getElementById("order-msg").textContent = `${blend}, ${grind}: added to your order. This is a demo, so nothing was charged or sent.`;
+  });
+})();
+</script>
+</body>
+</html>
