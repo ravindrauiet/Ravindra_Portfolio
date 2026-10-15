@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zafraan — Modern Indian Tasting Menu, Mumbai (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax restaurant website demo: a rotating plate hero with floating spices, image-filled lettering, a sticky seven-course tasting menu and a velocity-tilting dish row, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-restaurant/index.html" />
+<meta property="og:title" content="Zafraan — Parallax Restaurant Website Demo" />
+<meta property="og:description" content="Rotating plate hero, spice layers at different depths, photo-filled lettering and a sticky tasting menu in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-restaurant/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --night: #160b17;
+    --plum: #211121;
+    --plum-2: #2d1830;
+    --plum-3: #3b2140;
+    --saffron: #e3a43b;
+    --saffron-2: #f3c873;
+    --ivory: #f5ecdc;
+    --mauve: #bba5b6;
+    --line: rgba(227, 164, 59, .28);
+    --serif: "Cormorant Garamond", "Times New Roman", serif;
+    --sans: Jost, system-ui, sans-serif;
+    --rot: 0deg;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { background: var(--night); color: var(--ivory); font-family: var(--sans); font-weight: 400; -webkit-font-smoothing: antialiased; overflow-x: clip; font-variant-numeric: lining-nums; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1220px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--saffron); }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: currentColor; opacity: .7; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; }
+  em { font-style: italic; color: var(--saffron-2); }
+  [data-speed], [data-depth], .px-img img { will-change: transform; }
+
+  /* ornament: line, diamond, line */
+  .orn { display: flex; align-items: center; justify-content: center; gap: 14px; color: var(--saffron); }
+  .orn::before, .orn::after { content: ""; width: 70px; height: 1px; background: linear-gradient(90deg, transparent, currentColor); }
+  .orn::after { transform: scaleX(-1); }
+  .orn i { width: 7px; height: 7px; border: 1px solid currentColor; rotate: 45deg; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 50; padding: 24px 0; transition: background .4s, padding .4s, box-shadow .4s; }
+  .nav.is-solid { background: rgba(22, 11, 23, .82); backdrop-filter: blur(14px); padding: 14px 0; box-shadow: 0 1px 0 rgba(227, 164, 59, .14); }
+  .nav .wrap { display: flex; align-items: center; gap: 44px; }
+  .logo { display: flex; align-items: center; gap: 12px; margin-right: auto; font-family: var(--serif); font-size: 26px; font-weight: 600; letter-spacing: .3em; }
+  .logo svg { width: 30px; height: 30px; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 36px; font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; }
+  .nav-links a { opacity: .78; transition: opacity .3s, color .3s; }
+  .nav-links a:hover { opacity: 1; color: var(--saffron-2); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 30px; border-radius: 2px; font-size: 12px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; transition: background .3s, color .3s, border-color .3s, transform .3s; }
+  .btn-gold { background: var(--saffron); color: var(--night); }
+  .btn-gold:hover { background: var(--saffron-2); transform: translateY(-2px); }
+  .btn-line { border: 1px solid rgba(245, 236, 220, .32); }
+  .btn-line:hover { border-color: var(--saffron); color: var(--saffron-2); }
+  .btn svg { width: 15px; height: 15px; }
+  .nav .btn { padding: 12px 22px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 140px 0 90px; overflow: hidden;
+    background: radial-gradient(ellipse 60% 70% at 72% 48%, #3a1d3c 0%, transparent 70%), var(--night); }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1fr 1.08fr; gap: 30px; align-items: center; }
+  .hero-text { position: relative; z-index: 3; }
+  .hero-text h1 { margin: 26px 0 26px; font-size: clamp(50px, 6.4vw, 98px); line-height: .98; letter-spacing: -.01em; }
+  .hero-text p { max-width: 440px; font-size: 17px; font-weight: 300; line-height: 1.8; color: var(--mauve); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
+  .hero-meta { display: flex; gap: 46px; margin-top: 56px; padding-top: 28px; border-top: 1px solid rgba(245, 236, 220, .12); max-width: 480px; }
+  .hero-meta b { display: block; font-family: var(--serif); font-size: 34px; font-weight: 500; color: var(--ivory); }
+  .hero-meta span { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--mauve); }
+
+  .stage { position: relative; aspect-ratio: 1; width: min(100%, 640px); justify-self: center; }
+  .layer { position: absolute; }
+  .halo { inset: -8%; border-radius: 50%; background: radial-gradient(circle, rgba(227, 164, 59, .22), transparent 62%); }
+  .rings { inset: 2%; }
+  .rings svg { width: 100%; height: 100%; transform: rotate(calc(var(--rot) * -.6)); }
+  .plate { inset: 13%; border-radius: 50%; box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .85), 0 0 0 10px rgba(245, 236, 220, .05), 0 0 0 11px rgba(227, 164, 59, .35); }
+  .plate-spin { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; transform: rotate(var(--rot)); }
+  .plate-spin img { width: 100%; height: 100%; object-fit: cover; scale: 1.04; }
+  .spice svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .5)); }
+  .spice.anise-a { left: 1%; top: 6%; width: 15%; }
+  .spice.anise-a svg { transform: rotate(calc(var(--rot) * 1.4 + 12deg)); }
+  .spice.anise-b { right: 4%; bottom: 3%; width: 10%; }
+  .spice.anise-b svg { transform: rotate(calc(var(--rot) * -1.8)); }
+  .spice.chilli { right: -2%; top: 14%; width: 22%; }
+  .spice.chilli svg { transform: rotate(calc(-28deg + var(--rot) * .5)); }
+  .spice.pod-a { left: 6%; bottom: 14%; width: 6%; }
+  .spice.pod-a svg { transform: rotate(calc(35deg + var(--rot) * 1.2)); }
+  .spice.pod-b { left: 46%; top: -2%; width: 5%; }
+  .spice.pod-b svg { transform: rotate(calc(-50deg + var(--rot) * -1)); }
+  .spice.leaf { left: -4%; top: 44%; width: 11%; }
+  .spice.leaf svg { transform: rotate(calc(-60deg + var(--rot) * .8)); }
+  .spice.strands { right: 14%; top: 2%; width: 12%; }
+  .note { right: -2%; bottom: 16%; display: flex; align-items: center; gap: 14px; padding: 14px 20px 14px 14px; border-radius: 4px; background: rgba(22, 11, 23, .78); border: 1px solid var(--line); backdrop-filter: blur(10px); box-shadow: 0 24px 50px -16px rgba(0, 0, 0, .7); }
+  .note b { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--saffron); font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--saffron-2); }
+  .note div { font-family: var(--serif); font-size: 19px; line-height: 1.15; }
+  .note small { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--mauve); }
+  .scroll-cue { position: absolute; left: 50%; bottom: 26px; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 10px; letter-spacing: .34em; text-transform: uppercase; color: var(--mauve); }
+  .scroll-cue i { width: 1px; height: 44px; background: linear-gradient(var(--saffron), transparent); animation: cue 2.2s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- press strip ---------- */
+  .press { position: relative; z-index: 2; padding: 46px 0; background: var(--plum); border-block: 1px solid rgba(227, 164, 59, .16); }
+  .press-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; }
+  .press-row div { display: grid; gap: 8px; justify-items: center; }
+  .press-row svg { width: 26px; height: 26px; color: var(--saffron); }
+  .press-row b { font-family: var(--serif); font-size: 22px; font-weight: 500; line-height: 1.15; }
+  .press-row span { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--mauve); }
+
+  /* ---------- photo-filled word ---------- */
+  .fill { position: relative; padding: 150px 0 130px; text-align: center; overflow: hidden; }
+  .fill-word { display: block; margin: 34px 0 30px; font-family: var(--serif); font-weight: 700; font-size: clamp(80px, 16.5vw, 270px); line-height: .82; letter-spacing: -.01em;
+    color: transparent; background: url("img/chillies-fill.jpg") 0 60% / 125% auto no-repeat, var(--saffron); -webkit-background-clip: text; background-clip: text; -webkit-text-stroke: 1px rgba(243, 200, 115, .35); white-space: nowrap; }
+  .fill-sub { font-family: var(--serif); font-style: italic; font-size: clamp(24px, 2.6vw, 34px); color: var(--ivory); }
+  .fill-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; max-width: 860px; margin: 54px auto 0; text-align: left; font-size: 16px; font-weight: 300; line-height: 1.85; color: var(--mauve); }
+  .fill-cols p:first-child::first-letter { float: left; margin: 6px 12px 0 0; font-family: var(--serif); font-size: 64px; line-height: .8; color: var(--saffron); }
+
+  /* ---------- tasting menu ---------- */
+  .menu { position: relative; padding: 110px 0 120px; background: linear-gradient(var(--night), var(--plum) 18%, var(--plum) 82%, var(--night)); }
+  .menu-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 70px; }
+  .menu-head h2 { margin-top: 18px; max-width: 640px; font-size: clamp(40px, 4.8vw, 70px); line-height: 1.02; }
+  .price { flex-shrink: 0; padding: 22px 28px; border: 1px solid var(--line); border-radius: 4px; text-align: right; }
+  .price b { display: block; font-family: var(--serif); font-size: 44px; font-weight: 500; line-height: 1; color: var(--saffron-2); }
+  .price span { display: block; margin-top: 8px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mauve); }
+  .menu-grid { display: grid; grid-template-columns: .78fr 1.22fr; gap: 70px; align-items: start; }
+  .menu-side { position: sticky; top: 16vh; display: grid; grid-template-columns: auto 1fr; gap: 34px; min-height: 440px; }
+  .rail { position: relative; width: 1px; background: rgba(245, 236, 220, .14); }
+  .rail-fill { position: absolute; inset: 0; background: linear-gradient(var(--saffron-2), var(--saffron)); transform-origin: top; transform: scaleY(var(--p, 0)); }
+  .rail-dots { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+  .rail-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--plum); border: 1px solid rgba(245, 236, 220, .35); transition: background .35s, border-color .35s, scale .35s; }
+  .rail-dots i.on { background: var(--saffron); border-color: var(--saffron); scale: 1.25; }
+  .cur-stack { position: relative; }
+  .cur { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(26px); transition: opacity .5s, transform .6s cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
+  .cur.on { opacity: 1; transform: none; }
+  .cur-num { display: block; font-family: var(--serif); font-size: clamp(120px, 13vw, 200px); font-weight: 400; line-height: .8; color: transparent; -webkit-text-stroke: 1px var(--saffron); }
+  .cur-kicker { display: block; margin: 30px 0 10px; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--saffron); }
+  .cur h3 { font-size: clamp(34px, 3.4vw, 50px); line-height: 1.02; }
+  .cur p { margin-top: 12px; font-size: 14px; letter-spacing: .08em; color: var(--mauve); }
+  .cur-count { position: absolute; left: 0; bottom: 0; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--mauve); }
+  .cur-count b { color: var(--ivory); font-weight: 500; }
+
+  .courses { display: grid; gap: 120px; }
+  .course { display: grid; gap: 30px; }
+  .course .px-img { position: relative; aspect-ratio: 4 / 3; border-radius: 4px; }
+  .course .px-img::after { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(245, 236, 220, .32); border-radius: 2px; pointer-events: none; }
+  .course-text { display: grid; grid-template-columns: 1fr auto; gap: 8px 30px; }
+  .course-text .k { grid-column: 1 / -1; font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--saffron); }
+  .course-text h3 { font-size: 36px; line-height: 1.05; }
+  .course-text .region { align-self: end; font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--mauve); }
+  .course-text p { grid-column: 1 / -1; max-width: 560px; font-size: 16px; font-weight: 300; line-height: 1.8; color: var(--mauve); }
+  .course-text .pair { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: .06em; color: var(--ivory); }
+  .course-text .pair svg { width: 18px; height: 18px; color: var(--saffron); flex-shrink: 0; }
+
+  /* inner-image parallax: the photo is taller than its frame and slides inside it */
+  .px-img { overflow: hidden; }
+  .px-img img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; object-fit: cover; }
+
+  /* ---------- chef ---------- */
+  .chef { position: relative; padding: 170px 0 150px; }
+  .chef .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
+  .chef-photos { position: relative; height: 680px; }
+  .chef-a { left: 0; top: 0; width: 72%; height: 76%; border-radius: 4px; box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .8); }
+  .chef-b { right: 0; bottom: 0; width: 52%; height: 46%; border-radius: 4px; box-shadow: 0 40px 80px -24px rgba(0, 0, 0, .85); outline: 10px solid var(--night); }
+  .chef-a.px-img, .chef-b.px-img { position: absolute; }
+  .chef-a img { object-position: 50% 50%; }
+  .seal { left: 58%; top: 6%; width: 130px; height: 130px; }
+  .seal svg { width: 100%; height: 100%; transform: rotate(calc(var(--rot) * 1.5)); }
+  .chef-text h2 { margin: 20px 0 26px; font-size: clamp(42px, 4.6vw, 66px); line-height: 1.02; }
+  .chef-text > p { font-size: 17px; font-weight: 300; line-height: 1.85; color: var(--mauve); }
+  .chef-text > p + p { margin-top: 16px; }
+  blockquote { position: relative; margin-top: 44px; padding: 34px 80px 0 0; border-top: 1px solid rgba(245, 236, 220, .12); font-family: var(--serif); font-style: italic; font-size: clamp(26px, 2.5vw, 36px); line-height: 1.25; color: var(--ivory); }
+  blockquote::before { content: "\201C"; position: absolute; right: 0; top: -6px; font-size: 150px; line-height: 1; color: var(--saffron); opacity: .5; }
+  blockquote cite { display: block; margin-top: 18px; font-family: var(--sans); font-style: normal; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--saffron); }
+
+  /* ---------- dining room band ---------- */
+  .band { position: relative; height: 96vh; min-height: 560px; overflow: hidden; display: grid; place-items: center; text-align: center; }
+  .band-bg { position: absolute; inset: -22% 0; }
+  .band-bg img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.8) brightness(.62); }
+  .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--night), rgba(22, 11, 23, .25) 30%, rgba(22, 11, 23, .3) 70%, var(--night)), radial-gradient(ellipse at center, transparent 30%, rgba(22, 11, 23, .7)); }
+  .band-text { position: relative; z-index: 1; padding: 0 24px; }
+  .band-text h2 { margin: 24px 0 22px; font-size: clamp(56px, 9vw, 150px); line-height: .9; }
+  .band-text p { max-width: 520px; margin: 0 auto; font-size: 17px; font-weight: 300; line-height: 1.8; color: var(--ivory); opacity: .9; }
+
+  /* ---------- velocity tilt row ---------- */
+  .sig { position: relative; padding: 140px 0 160px; overflow: hidden; }
+  .sig-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 60px; }
+  .sig-head h2 { margin-top: 18px; font-size: clamp(40px, 4.8vw, 70px); line-height: 1.02; }
+  .sig-head p { max-width: 340px; font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--mauve); }
+  .sig-viewport { perspective: 1200px; }
+  .sig-track { display: flex; gap: 30px; width: max-content; padding-left: max(32px, calc((100vw - 1220px) / 2)); transform-style: preserve-3d; }
+  .dish { width: clamp(240px, 22vw, 320px); flex-shrink: 0; transform-origin: 50% 50%; }
+  .dish-img { position: relative; aspect-ratio: 3 / 4; border-radius: 4px; overflow: hidden; box-shadow: 0 34px 60px -26px rgba(0, 0, 0, .8); }
+  .dish-img img { width: 100%; height: 100%; object-fit: cover; transition: scale .8s cubic-bezier(.2, .7, .2, 1); }
+  .dish:hover .dish-img img { scale: 1.06; }
+  .dish-info { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 18px; }
+  .dish h3 { font-size: 26px; line-height: 1.1; }
+  .dish p { margin-top: 4px; font-size: 13px; color: var(--mauve); }
+  .dish strong { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--saffron-2); white-space: nowrap; }
+
+  /* ---------- visit + reserve ---------- */
+  .visit { position: relative; padding: 140px 0 150px; background: var(--plum); }
+  .visit .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: start; }
+  .visit h2 { margin: 18px 0 24px; font-size: clamp(40px, 4.6vw, 66px); line-height: 1.02; }
+  .visit-text > p { font-size: 16px; font-weight: 300; line-height: 1.8; color: var(--mauve); max-width: 440px; }
+  .hours { margin-top: 40px; display: grid; gap: 0; max-width: 460px; }
+  .hours div { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid rgba(245, 236, 220, .1); font-size: 15px; }
+  .hours div:first-child { border-top: 1px solid rgba(245, 236, 220, .1); }
+  .hours span { color: var(--mauve); }
+  .hours .closed { color: var(--saffron); }
+  .addr { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; max-width: 460px; }
+  .addr h4 { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase; color: var(--saffron); }
+  .addr p { font-size: 15px; line-height: 1.7; color: var(--ivory); }
+  .addr a:hover { color: var(--saffron-2); }
+
+  .reserve { position: relative; padding: 50px 46px; border: 1px solid var(--line); border-radius: 6px; background: linear-gradient(160deg, rgba(59, 33, 64, .7), rgba(22, 11, 23, .7)); box-shadow: 0 50px 100px -40px rgba(0, 0, 0, .8); }
+  .reserve h3 { font-size: 38px; line-height: 1.05; }
+  .reserve > p { margin-top: 10px; font-size: 14px; color: var(--mauve); }
+  .fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+  .field { display: grid; gap: 9px; }
+  .field.wide { grid-column: span 3; }
+  .field.half { grid-column: span 3; }
+  .field label { font-size: 11px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--mauve); }
+  .field input, .field select { width: 100%; min-width: 0; height: 52px; padding: 0 16px; border-radius: 3px; border: 1px solid rgba(245, 236, 220, .18); background: rgba(22, 11, 23, .55); color: var(--ivory); font-size: 15px; outline: none; transition: border-color .3s; color-scheme: dark; }
+  .field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--saffron) 50%), linear-gradient(135deg, var(--saffron) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 36px; }
+  .field option { background: var(--plum); }
+  .field input:focus, .field select:focus { border-color: var(--saffron); }
+  .menu-pick { display: flex; flex-wrap: wrap; gap: 10px; }
+  .menu-pick label { position: relative; cursor: pointer; }
+  .menu-pick input { position: absolute; opacity: 0; pointer-events: none; }
+  .menu-pick span { display: inline-block; padding: 11px 18px; border-radius: 99px; border: 1px solid rgba(245, 236, 220, .2); font-size: 13px; letter-spacing: .04em; text-transform: none; color: var(--ivory); transition: background .3s, color .3s, border-color .3s; }
+  .menu-pick input:checked + span { background: var(--saffron); border-color: var(--saffron); color: var(--night); }
+  .menu-pick input:focus-visible + span { outline: 2px solid var(--saffron-2); outline-offset: 3px; }
+  .reserve .btn { width: 100%; margin-top: 28px; padding: 19px; }
+  .status { min-height: 0; margin-top: 18px; font-size: 14px; line-height: 1.6; color: var(--saffron-2); }
+
+  /* ---------- footer ---------- */
+  footer { padding: 100px 0 96px; text-align: center; }
+  footer .logo { justify-content: center; margin: 0 auto; font-size: 34px; }
+  footer .logo svg { width: 38px; height: 38px; }
+  .foot-tag { margin: 18px auto 0; max-width: 460px; font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--mauve); }
+  .foot-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 40px; margin: 46px 0 50px; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
+  .foot-links a { opacity: .8; }
+  .foot-links a:hover { opacity: 1; color: var(--saffron-2); }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px; margin-top: 50px; padding-top: 28px; border-top: 1px solid rgba(245, 236, 220, .1); font-size: 13px; color: var(--mauve); text-align: left; }
+
+  /* reveal on scroll */
+  .rv { opacity: 0; transform: translateY(34px); transition: opacity .9s, transform 1s cubic-bezier(.2, .7, .2, 1); }
+  .rv.in { opacity: 1; transform: none; }
+
+  /* demo badge linking back to the portfolio */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(245, 236, 220, .96); color: var(--night); font-size: 12px; font-weight: 500; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .6); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--night); color: var(--saffron-2); font-size: 13px; }
+
+  :focus-visible { outline: 2px solid var(--saffron-2); outline-offset: 3px; }
+
+  @media (max-width: 1060px) {
+    .nav-links { display: none; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 50px; }
+    .stage { width: min(100%, 560px); }
+    .press-row { grid-template-columns: repeat(2, 1fr); gap: 34px 24px; }
+    .chef .wrap, .visit .wrap { grid-template-columns: 1fr; gap: 70px; }
+    .chef-photos { max-width: 640px; }
+    .menu-head, .sig-head { flex-direction: column; align-items: flex-start; }
+    .price { text-align: left; }
+  }
+  @media (max-width: 860px) {
+    /* tasting menu: the sticky course name becomes a slim bar above the photos */
+    .menu-grid { grid-template-columns: 1fr; gap: 0; }
+    .menu-side { top: 66px; z-index: 5; display: block; min-height: 0; margin: 0 -18px 34px; padding: 14px 18px 16px; background: rgba(33, 17, 33, .94); backdrop-filter: blur(12px); }
+    .rail { position: absolute; left: 0; right: 0; bottom: 0; width: auto; height: 2px; }
+    .rail-fill { transform-origin: left; transform: scaleX(var(--p, 0)); }
+    .rail-dots { display: none; }
+    .cur-stack { height: 58px; }
+    .cur { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 16px; align-items: center; }
+    .cur-num { grid-row: span 2; font-size: 54px; }
+    .cur-kicker { margin: 0 0 2px; font-size: 10px; }
+    .cur h3 { font-size: 24px; }
+    .cur p, .cur-count { display: none; }
+    .courses { gap: 80px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { width: calc(100% - 36px); }
+    .nav .wrap { gap: 16px; }
+    .logo { font-size: 20px; letter-spacing: .22em; gap: 9px; }
+    .logo svg { width: 24px; height: 24px; }
+    .nav .btn { padding: 10px 14px; letter-spacing: .16em; }
+    .hero { padding: 116px 0 80px; }
+    .hero .wrap { gap: 26px; }
+    .hero-meta { gap: 24px; }
+    .hero-meta b { font-size: 28px; }
+    .note { right: 0; bottom: 4%; padding: 10px 14px 10px 10px; }
+    .note div { font-size: 16px; }
+    .note b { width: 32px; height: 32px; font-size: 15px; }
+    .press-row b { font-size: 19px; }
+    .fill { padding: 110px 0 90px; }
+    .fill-word { font-size: 19vw; }
+    .fill-cols { grid-template-columns: 1fr; gap: 20px; margin-top: 40px; }
+    .menu { padding: 90px 0; }
+    .price b { font-size: 36px; }
+    .course-text { grid-template-columns: 1fr; }
+    .course-text h3 { font-size: 30px; }
+    .chef { padding: 110px 0; }
+    .chef-photos { height: 480px; }
+    .seal { width: 96px; height: 96px; left: 62%; }
+    .chef-b { outline-width: 6px; }
+    .sig { padding: 100px 0 120px; }
+    .visit { padding: 100px 0; }
+    .reserve { padding: 34px 22px; }
+    .fields { grid-template-columns: 1fr 1fr; }
+    .field.wide { grid-column: span 2; }
+    .field.half { grid-column: span 2; }
+    .fields .field:first-child { grid-column: span 2; }
+    blockquote { padding-right: 46px; }
+    blockquote::before { font-size: 100px; top: 0; }
+    .addr { grid-template-columns: 1fr; gap: 22px; }
+    .foot-links { gap: 14px 26px; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-cue i { animation: none; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .cur { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- saffron crocus mark used in the logo -->
+    <symbol id="crocus" viewBox="0 0 40 40">
+      <path d="M20 36V20" stroke="#e3a43b" stroke-width="1.4" fill="none" />
+      <path d="M20 22c-6-2-9-8-8-15 4 2 7 6 8 15Z" fill="none" stroke="#e3a43b" stroke-width="1.3" />
+      <path d="M20 22c6-2 9-8 8-15-4 2-7 6-8 15Z" fill="none" stroke="#e3a43b" stroke-width="1.3" />
+      <path d="M20 21c-2.5-5-2.5-11 0-17 2.5 6 2.5 12 0 17Z" fill="#e3a43b" />
+      <path d="M20 24c-3 3-7 4-11 3M20 24c3 3 7 4 11 3" stroke="#c4402b" stroke-width="1.2" fill="none" stroke-linecap="round" />
+    </symbol>
+    <!-- star anise: eight seed pods around a centre -->
+    <symbol id="anise" viewBox="-50 -50 100 100">
+      <g id="pod"><path d="M0-4C9-12 11-34 0-47-11-34-9-12 0-4Z" fill="#6a3520" stroke="#a86536" stroke-width="1.2" /><ellipse cx="0" cy="-27" rx="3.6" ry="7" fill="#d9a05c" /></g>
+      <use href="#pod" transform="rotate(45)" /><use href="#pod" transform="rotate(90)" /><use href="#pod" transform="rotate(135)" />
+      <use href="#pod" transform="rotate(180)" /><use href="#pod" transform="rotate(225)" /><use href="#pod" transform="rotate(270)" /><use href="#pod" transform="rotate(315)" />
+      <circle r="6" fill="#4d2615" stroke="#a86536" />
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Zafraan home"><svg aria-hidden="true"><use href="#crocus" /></svg>ZAFRAAN</a>
+    <div class="nav-links">
+      <a href="#menu">Tasting menu</a>
+      <a href="#chef">The chef</a>
+      <a href="#signatures">Signatures</a>
+      <a href="#visit">Visit</a>
+    </div>
+    <a href="#reserve" class="btn btn-gold">Reserve</a>
+  </div>
+</nav>
+
+<!-- HERO: the plate turns as you scroll while spices float at their own depths -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-text" data-speed="-0.14">
+      <span class="eyebrow">Bandra West, Mumbai</span>
+      <h1>The spice route, <em>plated</em> in seven courses.</h1>
+      <p>A modern Indian tasting menu built on nine heirloom spices, sourced from the farms and markets that have grown them for centuries.</p>
+      <div class="cta-row">
+        <a href="#reserve" class="btn btn-gold">Reserve a table
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#menu" class="btn btn-line">See the menu</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>₹4,800</b><span>Per guest</span></div>
+        <div><b>7</b><span>Courses</span></div>
+        <div><b>28</b><span>Seats a night</span></div>
+      </div>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <div class="layer halo" data-speed="0.05"></div>
+      <div class="layer rings" data-speed="0.1" data-depth="8">
+        <svg viewBox="0 0 200 200" fill="none" stroke="#e3a43b">
+          <circle cx="100" cy="100" r="98" stroke-opacity=".35" stroke-width=".4" />
+          <circle cx="100" cy="100" r="92" stroke-opacity=".55" stroke-width=".35" stroke-dasharray="1 3.2" />
+          <g stroke-opacity=".6" stroke-width=".5">
+            <path d="M100 2v6M100 192v6M2 100h6M192 100h6" />
+            <path d="M30.7 30.7l4.2 4.2M165.1 165.1l4.2 4.2M30.7 169.3l4.2-4.2M165.1 34.9l4.2-4.2" />
+          </g>
+          <path d="M100 0l2.4 2.4L100 4.8l-2.4-2.4Z" fill="#e3a43b" stroke="none" />
+          <path d="M100 195.2l2.4 2.4-2.4 2.4-2.4-2.4Z" fill="#e3a43b" stroke="none" />
+        </svg>
+      </div>
+      <div class="layer plate" data-speed="0.12" data-depth="14"><div class="plate-spin"><img src="img/hero-salad.jpg" alt="" /></div></div>
+      <div class="layer spice anise-a" data-speed="0.42" data-depth="46"><svg viewBox="-50 -50 100 100"><use href="#anise" /></svg></div>
+      <div class="layer spice anise-b" data-speed="-0.22" data-depth="58"><svg viewBox="-50 -50 100 100"><use href="#anise" /></svg></div>
+      <div class="layer spice chilli" data-speed="0.3" data-depth="64">
+        <svg viewBox="0 0 140 44">
+          <path d="M26 21C50 8 92 6 136 34 98 24 58 30 28 30Z" fill="#b5261c" />
+          <path d="M32 18C58 10 90 11 120 24" stroke="#e8564a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6" />
+          <path d="M21 17c3-2 6-1 8 3v9c-3 2-6 2-8 0Z" fill="#3f6b2f" />
+          <path d="M21 22C14 20 9 14 4 12" stroke="#4f7d3a" stroke-width="3" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="layer spice pod-a" data-speed="0.55" data-depth="72">
+        <svg viewBox="0 0 40 72"><path d="M20 2C35 18 35 54 20 70 5 54 5 18 20 2Z" fill="#879d55" stroke="#5e7536" stroke-width="1.4" /><path d="M20 6v60M13 14c-3 16-3 30 0 46M27 14c3 16 3 30 0 46" stroke="#5e7536" stroke-width="1" fill="none" /></svg>
+      </div>
+      <div class="layer spice pod-b" data-speed="0.6" data-depth="52">
+        <svg viewBox="0 0 40 72"><path d="M20 2C35 18 35 54 20 70 5 54 5 18 20 2Z" fill="#879d55" stroke="#5e7536" stroke-width="1.4" /><path d="M20 6v60M13 14c-3 16-3 30 0 46M27 14c3 16 3 30 0 46" stroke="#5e7536" stroke-width="1" fill="none" /></svg>
+      </div>
+      <div class="layer spice leaf" data-speed="0.24" data-depth="38">
+        <svg viewBox="0 0 60 110"><path d="M30 4C54 30 56 72 30 104 4 72 6 30 30 4Z" fill="#335e33" /><path d="M30 10v90M30 34l12-10M30 50l14-10M30 66l13-10M30 34L18 24M30 50L16 40M30 66L17 56" stroke="#6d9a5a" stroke-width="1.2" fill="none" stroke-linecap="round" /></svg>
+      </div>
+      <div class="layer spice strands" data-speed="0.36" data-depth="30">
+        <svg viewBox="0 0 80 60" fill="none" stroke-linecap="round"><path d="M6 50C20 34 30 30 44 8" stroke="#c4402b" stroke-width="2.4" /><path d="M20 56C30 40 42 32 62 22" stroke="#d24e2c" stroke-width="2.2" /><path d="M36 54C44 44 56 40 74 40" stroke="#b8341f" stroke-width="2" /><path d="M44 8l3-4M62 22l4-1M74 40l3 1" stroke="#e3a43b" stroke-width="2.4" /></svg>
+      </div>
+      <div class="layer note" data-speed="-0.2" data-depth="40"><b>01</b><div><small>Tonight's first course</small>Roast pepper &amp; paneer salad</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><i></i>Scroll</div>
+</header>
+
+<!-- PRESS / AWARDS -->
+<section class="press" aria-label="Awards and press">
+  <div class="wrap press-row">
+    <div class="rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8Z"/></svg><b>Three Toques</b><span>Mumbai Table Guide 2026</span></div>
+    <div class="rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="9" r="6"/><path d="M8.5 14l-2 7 5.5-3 5.5 3-2-7"/></svg><b>Restaurant of the Year</b><span>Spice Route Awards</span></div>
+    <div class="rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg><b>&ldquo;India's most poetic menu&rdquo;</b><span>The Gourmand Ledger</span></div>
+    <div class="rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg><b>Cellar of Distinction</b><span>Indian Wine Circle 2025</span></div>
+  </div>
+</section>
+
+<!-- PHOTO-FILLED WORD: the spice photo inside the letters drifts as you scroll -->
+<section class="fill" id="story">
+  <div class="wrap">
+    <span class="eyebrow rv">Our name</span>
+    <span class="fill-word" id="fill-word" aria-hidden="true">ZAFRAAN</span>
+    <h2 class="fill-sub rv">Saffron, in Hindi and Persian. The most precious spice in the kitchen.</h2>
+    <div class="fill-cols rv">
+      <p>Every menu at Zafraan begins with a spice, not a dish. We travel to Pampore for saffron, to Idukki for cardamom and to the hills of Guntur for chillies, and we cook only what those harvests give us.</p>
+      <p>The result is an Indian tasting menu that changes with the seasons: familiar flavours from home kitchens, cooked with fine-dining precision and served slowly across one long evening.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TASTING MENU: the course number on the left changes as each dish scrolls past -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <div>
+        <span class="eyebrow">The tasting menu · Autumn 2026</span>
+        <h2>Seven courses, from the <em>Malabar coast</em> to the Kashmir valley.</h2>
+      </div>
+      <div class="price"><b>₹4,800</b><span>Per guest · wine pairing ₹3,200</span></div>
+    </div>
+
+    <div class="menu-grid">
+      <aside class="menu-side" id="menu-side" aria-hidden="true">
+        <div class="rail"><div class="rail-fill"></div><div class="rail-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="cur-stack">
+          <div class="cur"><span class="cur-num">01</span><span class="cur-kicker">Amuse-bouche</span><h3>Aloo tikki chaat</h3><p>Old Delhi</p></div>
+          <div class="cur"><span class="cur-num">02</span><span class="cur-kicker">The coast</span><h3>Malabar prawns</h3><p>Kerala</p></div>
+          <div class="cur"><span class="cur-num">03</span><span class="cur-kicker">The garden</span><h3>Beetroot tikki &amp; greens</h3><p>Punjab</p></div>
+          <div class="cur"><span class="cur-num">04</span><span class="cur-kicker">The tandoor</span><h3>Tandoori paneer tikka</h3><p>Amritsar</p></div>
+          <div class="cur"><span class="cur-num">05</span><span class="cur-kicker">The feast</span><h3>Duck, kokum &amp; orange</h3><p>Goa</p></div>
+          <div class="cur"><span class="cur-num">06</span><span class="cur-kicker">The fire</span><h3>Masala-crusted salmon</h3><p>Bengal coast</p></div>
+          <div class="cur"><span class="cur-num">07</span><span class="cur-kicker">Something sweet</span><h3>Jamun malpua, saffron rabri</h3><p>Mysuru</p></div>
+          <span class="cur-count">Course <b id="cur-n">01</b> of 07</span>
+        </div>
+      </aside>
+
+      <div class="courses">
+        <article class="course">
+          <div class="px-img"><img src="img/chaat.jpg" alt="Spiced potato chaat in white bowls with tamarind and coriander" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 01 · Amuse-bouche</span><h3>Aloo tikki chaat</h3><span class="region">Old Delhi</span>
+            <p>Crisp spiced potato, tamarind and date chutney, mint, whipped yoghurt and pomegranate. A street-food classic served in three perfect bites.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Paired with a jaljeera and lime spritz</span></div>
+        </article>
+        <article class="course">
+          <div class="px-img"><img src="img/prawn.jpg" alt="Tiger prawns over fine noodles with chilli and spring onion" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 02 · The coast</span><h3>Malabar prawns</h3><span class="region">Kerala</span>
+            <p>Tiger prawns glazed in coconut and kokum, curry leaf oil and a lacy appam crisp, finished at the table with a pour of moilee broth.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Nashik Chenin Blanc, 2024</span></div>
+        </article>
+        <article class="course">
+          <div class="px-img"><img src="img/garden.jpg" alt="Plated garden course on a candle-lit dinner table" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 03 · The garden</span><h3>Beetroot tikki &amp; greens</h3><span class="region">Punjab</span>
+            <p>A crisp beetroot and millet tikki, sarson emulsion, charred winter greens and a crumble of makki roti.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Dry rosé from the Nandi Hills</span></div>
+        </article>
+        <article class="course">
+          <div class="px-img"><img src="img/paneer-tikka.jpg" alt="Skewers of charred paneer and red pepper on a grill" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 04 · The tandoor</span><h3>Tandoori paneer tikka</h3><span class="region">Amritsar</span>
+            <p>House paneer and red peppers marinated overnight in Kashmiri chilli, yoghurt and fennel, then kept in the clay oven for exactly nine minutes.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Viognier, Akluj valley</span></div>
+        </article>
+        <article class="course">
+          <div class="px-img"><img src="img/duck.jpg" alt="Sliced duck breast with a glossy orange glaze" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 05 · The feast</span><h3>Duck, kokum &amp; orange</h3><span class="region">Goa</span>
+            <p>Slow-roasted duck breast with a sour kokum and blood-orange glaze, toasted cashew and a spoon of xacuti spice.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Pinot Noir, chilled slightly</span></div>
+        </article>
+        <article class="course">
+          <div class="px-img"><img src="img/masala-salmon.jpg" alt="Spice-crusted salmon fillet roasted with courgette rounds" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 06 · The fire</span><h3>Masala-crusted salmon</h3><span class="region">Bengal coast</span>
+            <p>Salmon roasted under a crust of mustard seed, nigella and turmeric, with charred courgette and a spoon of kasundi butter.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Sauvignon Blanc, Dindori</span></div>
+        </article>
+        <article class="course">
+          <div class="px-img"><img src="img/dessert.jpg" alt="Crisp pancakes topped with blackberries and nuts on a pewter plate" loading="lazy" /></div>
+          <div class="course-text"><span class="k">Course 07 · Something sweet</span><h3>Jamun malpua, saffron rabri</h3><span class="region">Mysuru</span>
+            <p>Crisp malpua pancakes with black plum and blackberries, saffron rabri, candied pecans and a dusting of cardamom sugar.</p>
+            <span class="pair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0Z M12 13v7M8 21h8"/></svg>Late-harvest Muscat</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHEF: overlapping photos drift at different speeds beside a pull quote -->
+<section class="chef" id="chef">
+  <div class="wrap">
+    <div class="chef-photos">
+      <div class="px-img chef-a" data-speed="0.08"><img src="img/chef-plating.jpg" alt="A chef placing garnish on a row of plates at the pass" loading="lazy" /></div>
+      <div class="px-img chef-b" data-speed="-0.12"><img src="img/kitchen-steam.jpg" alt="Steam rising from large pots in the restaurant kitchen" loading="lazy" /></div>
+      <div class="layer seal" data-speed="0.22" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs><path id="seal-path" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" /></defs>
+          <circle cx="100" cy="100" r="96" fill="#160b17" stroke="#e3a43b" stroke-width="1" />
+          <circle cx="100" cy="100" r="54" fill="none" stroke="#e3a43b" stroke-opacity=".4" />
+          <text font-family="Jost, sans-serif" font-size="15" letter-spacing="5.2" fill="#f3c873"><textPath href="#seal-path">ZAFRAAN · MUMBAI · SINCE 2019 · </textPath></text>
+          <use href="#crocus" x="76" y="74" width="48" height="48" />
+        </svg>
+      </div>
+    </div>
+    <div class="chef-text">
+      <span class="eyebrow rv">The chef</span>
+      <h2 class="rv">Meher Kapoor cooks the food her <em>grandmother</em> wrote down.</h2>
+      <p class="rv">After a decade in kitchens in London and Copenhagen, Meher came home with one notebook: her nani's handwritten recipes from Amritsar, Lucknow and Kozhikode. Zafraan is that notebook, cooked with everything she learned along the way.</p>
+      <p class="rv">Her kitchen of twelve grinds every masala by hand each morning, bakes its own breads in a wood-fired tandoor and works directly with forty farming families.</p>
+      <blockquote class="rv" data-speed="-0.05">Spice is memory. My job is to make you remember a place you have never been.<cite>Chef Meher Kapoor</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- DINING ROOM BAND: the photo moves slower than the page -->
+<section class="band" aria-label="The dining room">
+  <div class="band-bg" data-speed="0.38"><img src="img/dining-room.jpg" alt="" loading="lazy" /></div>
+  <div class="band-text" data-speed="-0.1">
+    <div class="orn"><i></i></div>
+    <h2>Dinner, <em>slowly</em>.</h2>
+    <p>Twenty-eight seats, brass and teak, candlelight from seven o'clock. The evening lasts about three hours, and nobody will rush you.</p>
+  </div>
+</section>
+
+<!-- SIGNATURES: the row drifts sideways and tilts in 3D with your scroll speed -->
+<section class="sig" id="signatures">
+  <div class="wrap sig-head">
+    <div><span class="eyebrow">À la carte at the bar</span><h2>Signature plates</h2></div>
+    <p>Not staying for the full menu? Our bar serves these favourites every night until 11:30 pm, no booking needed.</p>
+  </div>
+  <div class="sig-viewport">
+    <div class="sig-track" id="sig-track">
+      <article class="dish"><div class="dish-img"><img src="img/signature-plate.jpg" alt="Golden pancake topped with blueberries, raisins and almonds" loading="lazy" /></div><div class="dish-info"><div><h3>Jaggery pancake</h3><p>Blueberries, almonds</p></div><strong>₹550</strong></div></article>
+      <article class="dish"><div class="dish-img"><img src="img/bharta-toast.jpg" alt="Smoked aubergine on toast seen from above on a black plate" loading="lazy" /></div><div class="dish-info"><div><h3>Bharta toast</h3><p>Fire-roasted aubergine</p></div><strong>₹650</strong></div></article>
+      <article class="dish"><div class="dish-img"><img src="img/paneer-tikka.jpg" alt="Charred paneer tikka skewers" loading="lazy" /></div><div class="dish-info"><div><h3>Paneer tikka</h3><p>Kashmiri chilli, mint</p></div><strong>₹950</strong></div></article>
+      <article class="dish"><div class="dish-img"><img src="img/prawn.jpg" alt="Prawns on fine noodles" loading="lazy" /></div><div class="dish-info"><div><h3>Prawn sevai</h3><p>Coconut, curry leaf</p></div><strong>₹1,250</strong></div></article>
+      <article class="dish"><div class="dish-img"><img src="img/chaat.jpg" alt="Bowls of spiced potato chaat" loading="lazy" /></div><div class="dish-info"><div><h3>Chaat trio</h3><p>Tamarind, yoghurt, sev</p></div><strong>₹550</strong></div></article>
+      <article class="dish"><div class="dish-img"><img src="img/duck.jpg" alt="Glazed duck breast" loading="lazy" /></div><div class="dish-info"><div><h3>Duck xacuti</h3><p>Kokum, orange</p></div><strong>₹1,350</strong></div></article>
+      <article class="dish"><div class="dish-img"><img src="img/dessert.jpg" alt="Blackberry malpua on a pewter plate" loading="lazy" /></div><div class="dish-info"><div><h3>Jamun malpua</h3><p>Saffron rabri</p></div><strong>₹600</strong></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT + RESERVE -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="visit-text">
+      <span class="eyebrow rv">Visit us</span>
+      <h2 class="rv">An evening at <em>Zafraan</em></h2>
+      <p class="rv">We seat guests between 7 and 9 pm for the tasting menu. Please tell us about allergies when you book; a vegetarian menu is always available.</p>
+      <div class="hours rv">
+        <div>Tuesday to Thursday<span>7:00 pm – 11:00 pm</span></div>
+        <div>Friday &amp; Saturday<span>7:00 pm – 11:30 pm</span></div>
+        <div>Sunday lunch<span>12:30 pm – 3:30 pm</span></div>
+        <div>Monday<span class="closed">Closed</span></div>
+      </div>
+      <div class="addr rv">
+        <div><h4>Address</h4><p>14 Chapel Lane, Bandra West<br />Mumbai 400050</p></div>
+        <div><h4>Contact</h4><p><a href="#reserve">+91 22 4000 1234</a><br /><a href="#reserve">table@zafraan.example</a></p></div>
+      </div>
+    </div>
+
+    <form class="reserve rv" id="reserve" novalidate>
+      <h3>Reserve a table</h3>
+      <p>Bookings open sixty days ahead. Tables for up to eight guests.</p>
+      <div class="fields">
+        <div class="field"><label for="r-date">Date</label><input id="r-date" name="date" type="date" required /></div>
+        <div class="field"><label for="r-time">Time</label>
+          <select id="r-time" name="time" required><option>7:00 pm</option><option>7:30 pm</option><option selected>8:00 pm</option><option>8:30 pm</option><option>9:00 pm</option></select></div>
+        <div class="field"><label for="r-guests">Guests</label>
+          <select id="r-guests" name="guests" required><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+        <div class="field wide"><label for="r-name">Name</label><input id="r-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required /></div>
+        <div class="field half"><span id="menu-label" style="font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--mauve)">Menu</span>
+          <div class="menu-pick" role="radiogroup" aria-labelledby="menu-label">
+            <label><input type="radio" name="menu" value="the tasting menu" checked /><span>Tasting menu</span></label>
+            <label><input type="radio" name="menu" value="the vegetarian tasting menu" /><span>Vegetarian tasting</span></label>
+            <label><input type="radio" name="menu" value="the bar" /><span>Bar, à la carte</span></label>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-gold" type="submit">Request a table</button>
+      <p class="status" id="status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="logo"><svg aria-hidden="true"><use href="#crocus" /></svg>ZAFRAAN</a>
+    <p class="foot-tag">Modern Indian cooking, one spice at a time.</p>
+    <div class="foot-links"><a href="#menu">Tasting menu</a><a href="#chef">The chef</a><a href="#signatures">Bar menu</a><a href="#reserve">Reservations</a><a href="#visit">Gift cards</a></div>
+    <div class="orn"><i></i></div>
+    <div class="foot-bottom"><span>© 2026 Zafraan (fictional brand, design demo by Ravindra Nath Jha).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const root = document.documentElement;
+
+  const nav = document.getElementById("nav");
+  const hero = document.querySelector(".hero");
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+  const fillWord = document.getElementById("fill-word");
+  const menuSide = document.getElementById("menu-side");
+  const curs = [...document.querySelectorAll(".cur")];
+  const dots = [...document.querySelectorAll(".rail-dots i")];
+  const curN = document.getElementById("cur-n");
+  const courses = [...document.querySelectorAll(".course")];
+  const sig = document.getElementById("signatures");
+  const track = document.getElementById("sig-track");
+  const dishes = [...track.children];
+
+  let mouseX = 0, mouseY = 0, frame = null, active = -1;
+  let lastY = window.scrollY, tilt = 0;
+
+  const render = () => {
+    frame = null;
+    const h = window.innerHeight;
+    const w = window.innerWidth;
+    const y = window.scrollY;
+    nav.classList.toggle("is-solid", y > 60);
+
+    // Tasting menu: the course whose photo has crossed 55% of the screen is the active one
+    const mark = h * 0.55;
+    let idx = 0;
+    courses.forEach((c, i) => { if (c.getBoundingClientRect().top < mark) idx = i; });
+    if (idx !== active) {
+      active = idx;
+      curs.forEach((c, i) => c.classList.toggle("on", i === idx));
+      dots.forEach((d, i) => d.classList.toggle("on", i <= idx));
+      curN.textContent = String(idx + 1).padStart(2, "0");
+    }
+    const first = courses[0].getBoundingClientRect();
+    const last = courses[courses.length - 1].getBoundingClientRect();
+    menuSide.style.setProperty("--p", clamp((mark - first.top) / Math.max(1, last.bottom - first.top)).toFixed(4));
+
+    if (reduce) return;
+
+    // 1. The hero plate and spice SVGs read their rotation from one CSS variable
+    if (y < h * 1.6) root.style.setProperty("--rot", `${(y * 0.06).toFixed(2)}deg`);
+
+    // 2. data-speed layers. Hero layers move by scrollY x speed so they start at rest;
+    //    everything else moves by its distance from the middle of the screen x speed,
+    //    measured from the untransformed position so the offset never feeds back into itself.
+    for (const el of speedEls) {
+      const r = el.getBoundingClientRect();
+      const inHero = el.closest(".hero");
+      const oy = el._oy || 0;
+      if (!inHero && (r.bottom - oy < -h || r.top - oy > h * 2)) continue;
+      if (inHero && y > h * 1.6) continue;
+      const speed = Number(el.dataset.speed);
+      // stacked hero on narrow screens: soften the drift so text and plate do not pull apart
+      const offset = inHero ? y * speed * (w < 1060 ? 0.45 : 1) : (r.top - oy + r.height / 2 - h / 2) * speed;
+      const depth = el.dataset.depth ? Number(el.dataset.depth) : 0;
+      el._oy = offset + mouseY * depth;
+      el.style.transform = `translate3d(${(mouseX * depth).toFixed(1)}px, ${el._oy.toFixed(1)}px, 0)`;
+    }
+
+    // 3. Photos slide inside their frames
+    for (const img of innerImgs) {
+      const box = img.parentElement.getBoundingClientRect();
+      if (box.bottom < 0 || box.top > h) continue;
+      const p = (box.top + box.height) / (h + box.height); // 1 entering, 0 leaving
+      img.style.transform = `translate3d(0, ${((p - 0.5) * 16).toFixed(2)}%, 0)`;
+    }
+
+    // 4. The spice photo inside the giant word pans diagonally as the word crosses the screen
+    const fr = fillWord.getBoundingClientRect();
+    if (fr.bottom > 0 && fr.top < h) {
+      const p = clamp((h - fr.top) / (h + fr.height));
+      fillWord.style.backgroundPosition = `${(p * 100).toFixed(2)}% ${(28 + p * 46).toFixed(2)}%, 0 0`;
+    }
+
+    // 5. Signature row: drifts sideways with progress and tilts with scroll velocity
+    const sr = sig.getBoundingClientRect();
+    if (sr.bottom > -100 && sr.top < h + 100) {
+      const p = clamp((h - sr.top) / (h + sr.height));
+      const travel = Math.max(0, track.scrollWidth - w + 40);
+      track.style.transform = `translate3d(${(-p * travel).toFixed(1)}px, 0, 0)`;
+    }
+    const v = y - lastY;
+    lastY = y;
+    tilt += (clamp(v * 0.45, -16, 16) - tilt) * 0.16;
+    if (Math.abs(tilt) < 0.02) tilt = 0;
+    const tiltCss = `rotateY(${(-tilt).toFixed(2)}deg) skewY(${(tilt * 0.22).toFixed(2)}deg) scale(${(1 - Math.abs(tilt) * 0.004).toFixed(4)})`;
+    for (const d of dishes) d.style.transform = tiltCss;
+    // keep easing back to flat after the scroll stops
+    if (tilt !== 0) schedule();
+  };
+
+  function schedule() { if (!frame) frame = requestAnimationFrame(render); }
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+
+  // Hero layers follow the mouse too: the spices nearest the viewer move furthest
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * -1;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * -1;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  render();
+
+  // Text blocks fade up as they enter
+  const rvs = document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) {
+    rvs.forEach((el) => el.classList.add("in"));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    rvs.forEach((el) => io.observe(el));
+  }
+
+  // Demo-only reservation form
+  const form = document.getElementById("reserve");
+  const dateInput = document.getElementById("r-date");
+  const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const today = new Date();
+  dateInput.min = iso(today);
+  dateInput.max = iso(new Date(today.getTime() + 60 * 864e5));
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const status = document.getElementById("status");
+    const f = form.elements;
+    if (!f.date.value || !f.name.value.trim()) {
+      status.textContent = "Please choose a date and add your name so we know who to expect.";
+      (f.date.value ? f.name : f.date).focus();
+      return;
+    }
+    const day = new Date(`${f.date.value}T12:00`).toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" });
+    const guests = Number(f.guests.value);
+    const first = f.name.value.trim().split(/\s+/)[0];
+    status.textContent = `Thank you, ${first}. A table for ${guests} ${guests === 1 ? "guest" : "guests"} at ${f.time.value} on ${day} for ${f.menu.value} has been pencilled in (demo only, no booking was made).`;
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>

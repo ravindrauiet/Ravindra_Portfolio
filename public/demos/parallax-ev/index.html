@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Volt GT — Electric Performance Car Launch (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax car launch website demo: a hero car that drives out of frame, a scroll-driven 0-100 speedometer, a self-drawing route map and a paint configurator, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-ev/index.html" />
+<meta property="og:title" content="Volt GT — Parallax Electric Car Launch Demo" />
+<meta property="og:description" content="Scroll-driven speedometer, self-drawing route map, sliding feature panels and a paint configurator in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-ev/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,600;1,700;1,800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --graphite: #141619;
+    --graphite-2: #1d2024;
+    --steel: #2c3036;
+    --paper: #eef0eb;
+    --paper-2: #e1e4de;
+    --lime: #c6ff3d;
+    --lime-ink: #4f6a00;
+    --ink: #141619;
+    --ink-soft: #565c64;
+    --mist: #9aa0a8;
+    --line-dark: rgba(255, 255, 255, .12);
+    --line-light: rgba(20, 22, 25, .14);
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --sans: Archivo, system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--ink-soft); }
+  .eyebrow::before { content: ""; width: 22px; height: 2px; background: currentColor; }
+  .dark .eyebrow { color: var(--lime); }
+  .display { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: -.01em; line-height: .9; }
+  .hl { background: linear-gradient(transparent 58%, var(--lime) 58%, var(--lime) 92%, transparent 92%); padding: 0 .06em; }
+  .dark { background: var(--graphite); color: #f2f3f0; }
+  [data-speed], [data-depth], .px-img img { will-change: transform; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; padding: 22px 0; transition: background .4s, padding .4s, box-shadow .4s; }
+  .nav.is-solid { background: rgba(238, 240, 235, .86); backdrop-filter: blur(14px); padding: 13px 0; box-shadow: 0 1px 0 var(--line-light); }
+  .nav.on-dark { background: rgba(20, 22, 25, .82); color: #f2f3f0; box-shadow: 0 1px 0 var(--line-dark); }
+  .nav.on-dark .logo small { color: var(--mist); }
+  .nav.on-dark .nav-links a::after { background: var(--lime); }
+  .nav.on-dark .btn-dark { background: var(--lime); color: var(--graphite); }
+  .nav .wrap { display: flex; align-items: center; gap: 38px; }
+  .logo { display: flex; align-items: center; gap: 10px; margin-right: auto; font-family: var(--display); font-size: 26px; font-weight: 800; font-style: italic; letter-spacing: .04em; text-transform: uppercase; }
+  .logo i { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: var(--graphite); }
+  .logo i svg { width: 16px; height: 16px; }
+  .logo small { font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: .26em; color: var(--ink-soft); }
+  .nav-links { display: flex; gap: 30px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+  .nav-links a { position: relative; }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -6px; height: 2px; background: var(--ink); transition: right .3s; }
+  .nav-links a:hover::after { right: 0; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 28px; border-radius: 6px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; transition: transform .3s, background .3s, color .3s, box-shadow .3s; white-space: nowrap; }
+  .btn svg { width: 16px; height: 16px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(4px); }
+  .btn-lime { background: var(--lime); color: var(--graphite); box-shadow: 0 16px 34px -14px rgba(120, 170, 0, .8); }
+  .btn-lime:hover { transform: translateY(-3px); }
+  .btn-dark { background: var(--graphite); color: #fff; }
+  .btn-dark:hover { background: #000; transform: translateY(-3px); }
+  .btn-line { border: 1.5px solid currentColor; }
+  .btn-line:hover { background: var(--graphite); color: #fff; border-color: var(--graphite); }
+  .nav .btn { padding: 12px 20px; font-size: 12px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; padding: 136px 0 70px; background:
+      linear-gradient(var(--line-light) 1px, transparent 1px) 0 0 / 100% 120px,
+      linear-gradient(90deg, var(--line-light) 1px, transparent 1px) 0 0 / 120px 100%,
+      var(--paper); }
+  .hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 65% 62%, rgba(198, 255, 61, .28), transparent 70%), linear-gradient(transparent 70%, var(--paper)); pointer-events: none; }
+  .hero-word { position: absolute; left: 50%; top: 44%; translate: -50% -50%; font-family: var(--display); font-weight: 800; font-style: italic; font-size: clamp(170px, 27vw, 430px); line-height: .8; letter-spacing: -.02em; white-space: nowrap; color: transparent; -webkit-text-stroke: 2px rgba(20, 22, 25, .2); pointer-events: none; user-select: none; }
+  .speed-lines { position: absolute; left: 0; right: 0; top: 46%; height: 46%; transform-origin: 30% 50%; pointer-events: none; }
+  .speed-lines i { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, rgba(20, 22, 25, .7), transparent); animation: streak var(--d) linear infinite; animation-delay: var(--delay); opacity: .8; }
+  .speed-lines i.l { background: linear-gradient(90deg, transparent, #8fbf00, transparent); height: 3px; }
+  @keyframes streak { from { transform: translateX(40vw); opacity: 0; } 20% { opacity: .9; } to { transform: translateX(-70vw); opacity: 0; } }
+  .hero-car { position: absolute; right: -3vw; bottom: 9vh; width: min(64vw, 1000px); aspect-ratio: 2.25 / 1; z-index: 1; }
+  .car-frame { width: 100%; height: 100%; overflow: hidden; clip-path: polygon(9% 0, 100% 0, 91% 100%, 0 100%); box-shadow: 0 50px 90px -40px rgba(0, 0, 0, .55); }
+  .car-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 36% 82%; scale: 1.08; }
+  .car-tag { position: absolute; left: 13%; bottom: -20px; display: flex; gap: 0; background: var(--graphite); color: #fff; border-radius: 6px; overflow: hidden; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 20px 40px -16px rgba(0, 0, 0, .6); }
+  .car-tag span { padding: 12px 16px; }
+  .car-tag b { padding: 12px 16px; background: var(--lime); color: var(--graphite); font-weight: 700; }
+  .hero-text { position: relative; z-index: 2; max-width: 500px; }
+  .hero-text h1 { margin: 18px 0 20px; font-size: clamp(56px, 6.2vw, 94px); }
+  .hero-text p { max-width: 420px; font-size: 17px; line-height: 1.7; color: var(--ink-soft); }
+  .price { margin-top: 22px; font-size: 14px; color: var(--ink-soft); }
+  .price b { display: block; font-family: var(--display); font-size: 38px; font-weight: 700; color: var(--ink); line-height: 1.1; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .hero-specs { position: relative; z-index: 2; display: inline-flex; margin-top: 30px; gap: 0; border: 1px solid var(--line-light); border-radius: 8px; background: rgba(238, 240, 235, .8); backdrop-filter: blur(8px); }
+  .hero-specs div { padding: 14px 22px; }
+  .hero-specs div + div { box-shadow: -1px 0 0 var(--line-light); }
+  .hero-specs b { display: block; font-family: var(--display); font-size: 30px; font-weight: 700; line-height: 1; }
+  .hero-specs span { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ---------- ticker ---------- */
+  .ticker { position: relative; z-index: 3; overflow: hidden; background: var(--lime); color: var(--graphite); padding: 16px 0; transform: skewY(-1.5deg); margin: -10px 0; }
+  .ticker-track { display: flex; width: max-content; animation: ticker 30s linear infinite; }
+  .ticker span { display: flex; align-items: center; gap: 34px; padding-right: 34px; font-family: var(--display); font-size: 28px; font-weight: 700; font-style: italic; text-transform: uppercase; white-space: nowrap; }
+  .ticker span::after { content: ""; width: 26px; height: 3px; background: var(--graphite); transform: skewX(-30deg); }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+
+  /* ---------- launch (pinned speedometer) ---------- */
+  .launch { position: relative; height: 340vh; }
+  .launch-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+  .launch-bg { position: absolute; inset: -12% 0; opacity: .16; }
+  .launch-bg img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.2); }
+  .launch-sticky::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, transparent 20%, var(--graphite) 75%); pointer-events: none; }
+  .launch-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.05fr; gap: 60px; align-items: center; }
+  .launch h2 { margin: 18px 0 20px; font-size: clamp(54px, 6.4vw, 96px); }
+  .launch h2 em { font-style: italic; color: var(--lime); }
+  .launch-copy > p { max-width: 440px; font-size: 16px; line-height: 1.75; color: var(--mist); }
+  .phases { display: grid; gap: 10px; margin-top: 34px; max-width: 440px; }
+  .phase { display: grid; grid-template-columns: 54px 1fr auto; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line-dark); border-radius: 8px; color: var(--mist); transition: background .35s, color .35s, border-color .35s; }
+  .phase b { font-family: var(--display); font-size: 22px; font-weight: 700; }
+  .phase span { font-size: 14px; }
+  .phase small { font-size: 12px; letter-spacing: .1em; }
+  .phase.on { background: rgba(198, 255, 61, .1); border-color: rgba(198, 255, 61, .5); color: #fff; }
+  .phase.on b { color: var(--lime); }
+  .gauge { position: relative; width: min(100%, 560px); justify-self: center; }
+  .gauge svg { width: 100%; height: auto; overflow: visible; }
+  .g-track { fill: none; stroke: rgba(255, 255, 255, .1); stroke-width: 18; stroke-linecap: round; }
+  .g-arc { fill: none; stroke: var(--lime); stroke-width: 18; stroke-linecap: round; filter: drop-shadow(0 0 10px rgba(198, 255, 61, .55)); }
+  .g-tick { stroke: rgba(255, 255, 255, .35); stroke-width: 2; }
+  .g-tick.major { stroke: rgba(255, 255, 255, .8); stroke-width: 3; }
+  .g-num { fill: var(--mist); font: 600 17px var(--display); text-anchor: middle; dominant-baseline: middle; }
+  .g-needle { fill: #fff; }
+  .g-hub { fill: var(--graphite); stroke: var(--lime); stroke-width: 4; }
+  .g-readout { position: absolute; left: 0; right: 0; top: 58%; text-align: center; pointer-events: none; }
+  .g-readout b { display: block; font-family: var(--display); font-size: clamp(56px, 6vw, 88px); font-weight: 800; line-height: .9; font-variant-numeric: tabular-nums; }
+  .g-readout span { font-size: 12px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--mist); }
+  .g-time span { font: inherit; letter-spacing: 0; color: inherit; text-transform: none; }
+  .g-time { display: inline-flex; gap: 4px; margin-top: 14px; padding: 8px 14px; border-radius: 6px; background: var(--lime); color: var(--graphite); font-family: var(--display); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  /* ---------- specs grid ---------- */
+  .specs { padding: 150px 0 130px; }
+  .specs-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 56px; }
+  .specs-head h2 { margin-top: 16px; font-size: clamp(46px, 5.4vw, 80px); }
+  .specs-head p { max-width: 380px; font-size: 16px; line-height: 1.7; color: var(--ink-soft); }
+  .spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line-light); border-radius: 12px; overflow: hidden; background: #f6f7f3; }
+  .spec { position: relative; padding: 38px 34px 34px; box-shadow: inset -1px -1px 0 var(--line-light); transition: background .3s; }
+  .spec:hover { background: #fff; }
+  .spec b { font-family: var(--display); font-size: clamp(60px, 6vw, 88px); font-weight: 800; line-height: .9; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .spec sup { margin-left: 6px; font-family: var(--display); font-size: 26px; font-weight: 700; vertical-align: top; position: relative; top: 8px; color: var(--ink-soft); }
+  .spec h3 { margin-top: 16px; font-size: 15px; font-weight: 700; }
+  .spec p { margin-top: 6px; font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+  .spec .bar { height: 4px; margin-top: 22px; border-radius: 4px; background: var(--paper-2); overflow: hidden; }
+  .spec .bar i { display: block; height: 100%; width: 0; background: var(--graphite); transition: width 1.4s cubic-bezier(.2, .7, .2, 1); }
+  .spec.in .bar i { width: var(--v); }
+
+  /* ---------- range map ---------- */
+  .range { position: relative; height: 300vh; }
+  .range-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+  .range-photo { position: absolute; inset: -10% 0; opacity: .14; }
+  .range-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.6); }
+  .range-grid { position: relative; z-index: 1; display: grid; grid-template-columns: .85fr 1.15fr; gap: 50px; align-items: center; }
+  .range h2 { margin: 18px 0 18px; font-size: clamp(50px, 5.6vw, 84px); }
+  .range h2 em { font-style: italic; color: var(--lime); }
+  .range-copy > p { max-width: 420px; font-size: 16px; line-height: 1.75; color: var(--mist); }
+  .trip { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; max-width: 440px; }
+  .trip > div { padding: 18px 20px; border: 1px solid var(--line-dark); border-radius: 8px; background: rgba(255, 255, 255, .03); }
+  .trip b { display: block; font-family: var(--display); font-size: 48px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  .trip b small { font-size: 22px; font-weight: 600; color: var(--mist); margin-left: 4px; }
+  .trip span { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--mist); }
+  .batt { height: 6px; margin-top: 12px; border-radius: 6px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+  .batt i { display: block; height: 100%; width: 100%; background: var(--lime); border-radius: 6px; }
+  .trip-note { margin-top: 14px; min-height: 22px; font-size: 14px; color: var(--mist); }
+  .trip-note b { color: var(--lime); font-weight: 600; }
+  .map { position: relative; border: 1px solid var(--line-dark); border-radius: 16px; background: rgba(20, 22, 25, .7); backdrop-filter: blur(4px); padding: 10px; }
+  .map svg { display: block; width: 100%; height: auto; max-height: 76vh; }
+  .m-state { fill: rgba(255, 255, 255, .035); stroke: rgba(255, 255, 255, .18); stroke-width: 1.5; stroke-dasharray: 5 6; }
+  .m-road { fill: none; stroke: rgba(255, 255, 255, .1); stroke-width: 2; }
+  .m-route-bg { fill: none; stroke: rgba(255, 255, 255, .16); stroke-width: 6; stroke-linecap: round; }
+  .m-route { fill: none; stroke: var(--lime); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(198, 255, 61, .6)); }
+  .m-city circle { fill: var(--graphite); stroke: rgba(255, 255, 255, .4); stroke-width: 3; transition: fill .4s, stroke .4s, r .4s; }
+  .m-city text { fill: var(--mist); font: 700 22px var(--display); letter-spacing: .06em; text-transform: uppercase; transition: fill .4s; }
+  .m-city text.km { font: 500 15px var(--sans); letter-spacing: 0; text-transform: none; }
+  .m-city.on circle { fill: var(--lime); stroke: var(--lime); }
+  .m-city.on text { fill: #fff; }
+  .m-city.on text.km { fill: var(--lime); }
+  .m-car { fill: #fff; stroke: var(--graphite); stroke-width: 3; }
+  .m-label { fill: rgba(255, 255, 255, .3); font: 600 14px var(--sans); letter-spacing: .2em; }
+
+  /* ---------- feature panels ---------- */
+  .features { padding: 150px 0 90px; overflow: hidden; }
+  .features-head { max-width: 760px; margin-bottom: 90px; }
+  .features-head h2 { margin-top: 16px; font-size: clamp(48px, 5.6vw, 84px); }
+  .feat { display: grid; grid-template-columns: 1.2fr .8fr; gap: 0; align-items: center; margin-bottom: 120px; }
+  .feat.rev { grid-template-columns: .8fr 1.2fr; }
+  .feat.rev .feat-media { order: 2; }
+  .feat-media { position: relative; height: 560px; }
+  .feat-main { position: absolute; inset: 0; border-radius: 14px; }
+  .feat-main::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 60%, rgba(20, 22, 25, .35)); pointer-events: none; }
+  .feat-thumb { position: absolute; right: -40px; bottom: -50px; overflow: hidden; width: 38%; aspect-ratio: 4 / 3; border-radius: 12px; border: 6px solid var(--paper); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .5); z-index: 2; }
+  .feat.rev .feat-thumb { right: auto; left: -40px; }
+  .feat-card { position: relative; z-index: 3; margin-left: -80px; padding: 46px 44px; border-radius: 14px; background: #fff; box-shadow: 0 40px 80px -40px rgba(20, 22, 25, .4); }
+  .feat.rev .feat-card { margin-left: 0; margin-right: -80px; }
+  .feat-card .num { font-family: var(--display); font-size: 74px; font-weight: 800; font-style: italic; line-height: .8; color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+  .feat-card h3 { margin: 22px 0 14px; font-family: var(--display); font-size: 44px; font-weight: 800; text-transform: uppercase; line-height: .95; }
+  .feat-card p { font-size: 15px; line-height: 1.75; color: var(--ink-soft); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .chips span { padding: 8px 12px; border-radius: 6px; background: var(--paper); font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+  .slide-l, .slide-r { transition: none; }
+
+  /* inner-image parallax: the photo is taller than its frame and slides inside it */
+  .px-img { overflow: hidden; }
+  .px-img img { width: 100%; height: 124%; margin-top: -12%; object-fit: cover; }
+
+  /* ---------- night band ---------- */
+  .night { position: relative; height: 105vh; overflow: hidden; display: grid; place-items: center; text-align: center; }
+  .night-bg { position: absolute; inset: -22% 0; }
+  .night-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.6) saturate(1.1); }
+  .night::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(20, 22, 25, .2) 20%, rgba(20, 22, 25, .9) 100%); }
+  .night-text { position: relative; z-index: 1; padding: 0 24px; }
+  .night-text h2 { margin: 22px 0 18px; font-size: clamp(60px, 10vw, 170px); color: #fff; }
+  .night-text h2 em { font-style: italic; color: var(--lime); }
+  .night-text p { max-width: 520px; margin: 0 auto; font-size: 17px; line-height: 1.7; color: #d6d9dc; }
+
+  /* ---------- configurator ---------- */
+  .config { padding: 140px 0; }
+  .config-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 50px; }
+  .config-head h2 { margin-top: 16px; font-size: clamp(48px, 5.6vw, 84px); }
+  .config-head p { max-width: 380px; color: var(--mist); line-height: 1.7; }
+  .config-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 30px; align-items: start; }
+  .stage { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; background: #0d0e10; }
+  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter .6s; }
+  .stage .tint { position: absolute; inset: 0; background: var(--paint, transparent); mix-blend-mode: var(--blend, multiply); opacity: var(--tint-o, 0); clip-path: polygon(0 50%, 7% 46.5%, 22% 45.5%, 33% 44.5%, 36% 43.5%, 44% 47%, 53% 52%, 63% 54.5%, 73% 57%, 82% 60%, 89.5% 63.5%, 90.5% 70%, 89% 75%, 84% 77.5%, 0 80.5%); transition: background .6s, opacity .6s; pointer-events: none; }
+  .stage .sheen { position: absolute; inset: 0; background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, .18) 50%, transparent 60%); background-size: 250% 100%; background-position: 100% 0; pointer-events: none; }
+  .stage.flash .sheen { animation: sheen .9s ease; }
+  @keyframes sheen { from { background-position: 100% 0; } to { background-position: -50% 0; } }
+  .stage-label { position: absolute; left: 20px; bottom: 20px; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 10px; border-radius: 8px; background: rgba(20, 22, 25, .82); backdrop-filter: blur(8px); font-size: 14px; font-weight: 600; }
+  .stage-label i { width: 26px; height: 26px; border-radius: 6px; background: var(--chip, #e9ebee); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3); }
+  .swatches { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+  .swatch { display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 10px; border-radius: 10px; border: 1px solid var(--line-dark); font-size: 14px; font-weight: 600; color: var(--mist); transition: border-color .3s, color .3s, background .3s; }
+  .swatch i { width: 30px; height: 30px; border-radius: 8px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25); }
+  .swatch small { display: block; font-size: 11px; font-weight: 500; color: var(--mist); }
+  .swatch[aria-pressed="true"] { border-color: var(--lime); color: #fff; background: rgba(198, 255, 61, .07); }
+  .panel { padding: 32px; border-radius: 16px; border: 1px solid var(--line-dark); background: var(--graphite-2); }
+  .panel h3 { font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--mist); }
+  .trims { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0 28px; padding: 6px; border-radius: 10px; background: rgba(255, 255, 255, .05); }
+  .trims button { padding: 14px 10px; border-radius: 7px; font-family: var(--display); font-size: 21px; font-weight: 700; text-transform: uppercase; color: var(--mist); transition: background .3s, color .3s; }
+  .trims button[aria-pressed="true"] { background: var(--lime); color: var(--graphite); }
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .spec-table th, .spec-table td { padding: 14px 0; border-bottom: 1px solid var(--line-dark); text-align: left; }
+  .spec-table th { font-weight: 500; color: var(--mist); }
+  .spec-table td { text-align: right; font-weight: 600; }
+  .total { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin: 26px 0 22px; }
+  .total span { font-size: 13px; color: var(--mist); }
+  .total b { font-family: var(--display); font-size: 52px; font-weight: 800; line-height: .9; color: var(--lime); }
+  .panel .btn { width: 100%; }
+  .fine { margin-top: 14px; font-size: 12px; line-height: 1.6; color: var(--mist); }
+
+  /* ---------- test drive ---------- */
+  .drive { padding: 140px 0; }
+  .drive-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
+  .drive-media { position: relative; height: 560px; }
+  .drive-media .px-img { position: absolute; inset: 0; border-radius: 14px; }
+  .drive-badge { position: absolute; right: -24px; top: 40px; z-index: 2; padding: 20px 22px; border-radius: 12px; background: var(--lime); color: var(--graphite); box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .5); }
+  .drive-badge b { display: block; font-family: var(--display); font-size: 46px; font-weight: 800; line-height: .9; }
+  .drive-badge span { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .drive h2 { margin: 16px 0 16px; font-size: clamp(48px, 5.4vw, 80px); }
+  .drive-copy > p { max-width: 480px; font-size: 16px; line-height: 1.7; color: var(--ink-soft); }
+  .form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+  .field { display: grid; gap: 7px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .field input, .field select { width: 100%; padding: 15px 16px; border-radius: 8px; border: 1px solid var(--line-light); background: #fff; font-size: 15px; outline: none; transition: border-color .3s, box-shadow .3s; }
+  .field input:focus, .field select:focus { border-color: var(--graphite); box-shadow: 0 0 0 3px rgba(198, 255, 61, .6); }
+  .form .btn { grid-column: 1 / -1; justify-self: start; margin-top: 6px; }
+  .form-msg { grid-column: 1 / -1; min-height: 24px; font-size: 14px; font-weight: 600; color: var(--lime-ink); }
+
+  /* ---------- footer ---------- */
+  footer { position: relative; overflow: hidden; padding: 90px 0 96px; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 40px; }
+  footer .logo i { background: var(--lime); }
+  footer .logo small { color: var(--mist); }
+  .foot-grid h4 { margin-bottom: 18px; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--mist); }
+  .foot-grid a:not(.logo) { display: block; margin-bottom: 10px; font-size: 15px; opacity: .85; }
+  .foot-grid a:not(.logo):hover { color: var(--lime); opacity: 1; }
+  .foot-grid p { max-width: 310px; margin-top: 16px; font-size: 14px; line-height: 1.7; color: var(--mist); }
+  .giant { margin-top: 80px; font-family: var(--display); font-weight: 800; font-style: italic; font-size: 21vw; line-height: .8; letter-spacing: -.02em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .2); text-transform: uppercase; }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; margin-top: 30px; font-size: 13px; color: var(--mist); }
+
+  /* demo badge linking back to the portfolio */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(255, 255, 255, .96); color: var(--graphite); font-size: 12px; font-weight: 700; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .5); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--graphite); color: var(--lime); font-size: 13px; }
+
+  :focus-visible { outline: 2px solid #8fbf00; outline-offset: 3px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  @media (max-width: 1080px) {
+    .nav-links { display: none; }
+    .launch-grid, .range-grid, .config-grid, .drive-grid { grid-template-columns: 1fr; }
+    .launch-grid { gap: 10px; }
+    .gauge { width: min(100%, 440px); }
+    .feat, .feat.rev { grid-template-columns: 1fr; }
+    .feat.rev .feat-media { order: 0; }
+    .feat-card, .feat.rev .feat-card { margin: -70px 24px 0; }
+    .feat-thumb { display: none; }
+    .feat-media { height: 460px; }
+    .spec-grid { grid-template-columns: repeat(2, 1fr); }
+    .specs-head, .config-head { flex-direction: column; align-items: flex-start; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .hero { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+    .hero-car { position: relative; right: auto; bottom: auto; width: 90vw; margin: 40px 0 0 auto; }
+    .hero-word { top: 74%; }
+    .speed-lines { top: 62%; height: 34%; }
+    .drive-badge { right: 16px; }
+  }
+  @media (max-width: 1080px) and (min-height: 600px) {
+    .launch-copy > p, .phases { display: none; }
+    .launch h2 { font-size: clamp(42px, 9vw, 72px); margin-bottom: 0; }
+    .launch-grid { text-align: left; }
+    .range-copy > p { display: none; }
+    .range h2 { font-size: clamp(40px, 8vw, 64px); margin-bottom: 0; }
+    .trip { margin-top: 16px; }
+    .range-grid { gap: 20px; }
+    .map svg { max-height: 44vh; max-height: 44svh; }
+  }
+  @media (max-width: 640px) {
+    .wrap { width: calc(100% - 32px); }
+    .nav .btn span { display: none; }
+    .nav .btn { padding: 11px 14px; }
+    .logo small { display: none; }
+    .hero { padding-top: 112px; }
+    .hero-text h1 { font-size: 52px; }
+    .hero-text p { font-size: 15px; }
+    .price { margin-top: 18px; }
+    .price b { font-size: 32px; }
+    .cta-row .btn { padding: 14px 18px; font-size: 12px; }
+    .hero-word { top: 70%; font-size: 46vw; }
+    .hero-car { width: 116vw; margin: 34px 0 0 -8vw; }
+    .car-tag { display: none; }
+    .speed-lines { top: 60%; height: 30%; }
+    .hero-specs { display: flex; margin-top: 22px; }
+    .hero-specs div { flex: 1; padding: 12px 12px; }
+    .hero-specs b { font-size: 24px; }
+    .hero-specs span { font-size: 10px; letter-spacing: .08em; }
+    .ticker span { font-size: 22px; }
+    .spec-grid { grid-template-columns: 1fr; }
+    .spec { padding: 30px 24px; }
+    .specs, .features, .config, .drive { padding: 100px 0; }
+    .features-head { margin-bottom: 60px; }
+    .feat { margin-bottom: 80px; }
+    .feat-media { height: 340px; }
+    .feat-card, .feat.rev .feat-card { margin: -50px 10px 0; padding: 30px 24px; }
+    .feat-card .num { font-size: 56px; }
+    .feat-card h3 { font-size: 36px; }
+    .trip b { font-size: 38px; }
+    .m-city text { font-size: 30px; }
+    .m-city text.km { font-size: 22px; }
+    .m-label { font-size: 20px; }
+    .trip > div { padding: 14px; }
+    .g-time { font-size: 18px; }
+    .panel { padding: 24px 20px; }
+    .total b { font-size: 42px; }
+    .swatch { flex: 1 1 calc(50% - 6px); }
+    .drive-media { height: 380px; }
+    .form { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-grid > div:first-child { grid-column: 1 / -1; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ticker-track, .speed-lines i, .stage.flash .sheen { animation: none; }
+    .speed-lines { display: none; }
+    .spec .bar i { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo"><i><svg viewBox="0 0 24 24" fill="#c6ff3d"><path d="M13.5 2 4 14h6.5L9 22l11-13h-7l.5-7z"/></svg></i>Volt<small>Motors</small></a>
+    <div class="nav-links">
+      <a href="#performance">Performance</a>
+      <a href="#range">Range</a>
+      <a href="#design">Design</a>
+      <a href="#configure">Configure</a>
+    </div>
+    <a href="#test-drive" class="btn btn-dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 14.5V21M9.6 11.2 3.4 9.5M14.4 11.2l6.2-1.7"/></svg><span>Test drive</span></a>
+  </div>
+</nav>
+
+<!-- HERO: the car drives out of frame sideways, speed lines stretch, the giant type drifts at its own speed -->
+<header class="hero" id="top">
+  <div class="hero-word" data-speed="0.35" data-depth="14" aria-hidden="true">VOLT GT</div>
+  <div class="speed-lines" id="speed-lines" aria-hidden="true">
+    <i style="--x:10%;--y:8%;--w:28vw;--d:2.6s;--delay:-.4s"></i>
+    <i class="l" style="--x:30%;--y:18%;--w:20vw;--d:1.9s;--delay:-1.1s"></i>
+    <i style="--x:55%;--y:27%;--w:34vw;--d:3.1s;--delay:-2s"></i>
+    <i style="--x:5%;--y:38%;--w:18vw;--d:2.2s;--delay:-.2s"></i>
+    <i class="l" style="--x:42%;--y:49%;--w:26vw;--d:2.4s;--delay:-1.6s"></i>
+    <i style="--x:70%;--y:58%;--w:22vw;--d:1.7s;--delay:-.9s"></i>
+    <i style="--x:20%;--y:68%;--w:30vw;--d:2.8s;--delay:-2.3s"></i>
+    <i class="l" style="--x:60%;--y:78%;--w:16vw;--d:2s;--delay:-.6s"></i>
+    <i style="--x:35%;--y:88%;--w:24vw;--d:2.5s;--delay:-1.4s"></i>
+    <i style="--x:80%;--y:96%;--w:20vw;--d:2.1s;--delay:-.1s"></i>
+  </div>
+  <div class="hero-car" id="hero-car" data-depth="30" aria-hidden="true">
+    <div class="car-frame"><img src="img/hero-car.jpg" alt="" /></div>
+    <div class="car-tag"><b>New</b><span>Volt GT · India launch 2026</span></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-text" data-speed="-0.12">
+      <span class="eyebrow">Volt Motors · India launch</span>
+      <h1 class="display">Silence, at <span class="hl">full</span> throttle.</h1>
+      <p>The Volt GT is a four-seat electric grand tourer built for Indian expressways: dual motors, 620 km of real-world range and a cabin quieter than a library.</p>
+      <div class="price">Ex-showroom, from<b>₹48.9 lakh</b></div>
+      <div class="cta-row">
+        <a href="#test-drive" class="btn btn-lime">Book a test drive
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#configure" class="btn btn-line">Build yours</a>
+      </div>
+      <div class="hero-specs">
+        <div><b>3.4 s</b><span>0–100 km/h</span></div>
+        <div><b>620 km</b><span>Range</span></div>
+        <div><b>18 min</b><span>10–80% charge</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>0–100 in 3.4 s</span><span>620 km range</span><span>10–80% in 18 min</span><span>480 kW dual motor</span><span>Built for Indian roads</span>
+    <span>0–100 in 3.4 s</span><span>620 km range</span><span>10–80% in 18 min</span><span>480 kW dual motor</span><span>Built for Indian roads</span>
+  </div>
+</div>
+
+<!-- LAUNCH: pinned while the speedometer needle, arc and readout climb from 0 to 100 -->
+<section class="launch dark" id="performance">
+  <div class="launch-sticky">
+    <div class="launch-bg" data-speed="0.2"><img src="img/light-tunnel.jpg" alt="" loading="lazy" /></div>
+    <div class="wrap launch-grid">
+      <div class="launch-copy">
+        <span class="eyebrow">Launch control</span>
+        <h2 class="display">0–100 in <em>3.4</em> seconds.</h2>
+        <p>Two motors, 760 Nm from standstill and torque vectoring that reads the road 1,000 times a second. Keep scrolling to launch.</p>
+        <div class="phases">
+          <div class="phase" data-at="0.02"><b>0.0 s</b><span>Launch: both motors at full torque</span><small>0 km/h</small></div>
+          <div class="phase" data-at="0.45"><b>1.6 s</b><span>Traction: rear bias, zero wheelspin</span><small>50 km/h</small></div>
+          <div class="phase" data-at="0.98"><b>3.4 s</b><span>Done: 100 km/h, not a sound</span><small>100 km/h</small></div>
+        </div>
+      </div>
+      <div class="gauge">
+        <svg viewBox="0 0 420 420" role="img" aria-label="Speedometer climbing from 0 to 100 kilometres per hour">
+          <path class="g-track" id="g-track" d="" />
+          <path class="g-arc" id="g-arc" d="" />
+          <g id="g-ticks"></g>
+          <g id="g-needle"><path class="g-needle" d="M200 202 L318 208.5 Q322 210 318 211.5 L200 218 Z" /><circle class="g-hub" cx="210" cy="210" r="16" /></g>
+        </svg>
+        <div class="g-readout">
+          <b id="g-speed">0</b><span>km/h</span><br />
+          <div class="g-time"><span id="g-time">0.0</span>s</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS: counters run up when the grid scrolls into view -->
+<section class="specs">
+  <div class="wrap">
+    <div class="specs-head">
+      <div><span class="eyebrow">The numbers</span><h2 class="display">Engineered to the <span class="hl">decimal</span>.</h2></div>
+      <p>Every figure is measured on a full battery at 25°C on Indian test tracks, with four adults and luggage on board.</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec" style="--v:92%"><b data-count="3.4" data-dec="1">0</b><sup>s</sup><h3>0–100 km/h</h3><p>Launch control with dual-motor all-wheel drive.</p><div class="bar"><i></i></div></div>
+      <div class="spec" style="--v:86%"><b data-count="620">0</b><sup>km</sup><h3>Certified range</h3><p>MIDC cycle, 21-inch aero wheels.</p><div class="bar"><i></i></div></div>
+      <div class="spec" style="--v:80%"><b data-count="18">0</b><sup>min</sup><h3>10–80% charge</h3><p>On a 350 kW DC fast charger.</p><div class="bar"><i></i></div></div>
+      <div class="spec" style="--v:88%"><b data-count="480">0</b><sup>kW</sup><h3>Peak power</h3><p>That is 643 horsepower, delivered silently.</p><div class="bar"><i></i></div></div>
+      <div class="spec" style="--v:74%"><b data-count="760">0</b><sup>Nm</sup><h3>Instant torque</h3><p>All of it, from zero rpm.</p><div class="bar"><i></i></div></div>
+      <div class="spec" style="--v:70%"><b data-count="250">0</b><sup>km/h</sup><h3>Top speed</h3><p>Electronically limited, track-mode only.</p><div class="bar"><i></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RANGE: pinned while the route draws itself from Delhi to Udaipur and cities light up -->
+<section class="range dark" id="range">
+  <div class="range-sticky">
+    <div class="range-photo" data-speed="0.18"><img src="img/desert-road.jpg" alt="" loading="lazy" /></div>
+    <div class="wrap range-grid">
+      <div class="range-copy">
+        <span class="eyebrow">Real-world range</span>
+        <h2 class="display">Delhi to Udaipur. <em>One</em> coffee stop.</h2>
+        <p>662 km down NH48 with the air-con on and four people on board. A seven-minute top-up in Jaipur is all it takes; you arrive with charge to spare.</p>
+        <div class="trip">
+          <div><b id="km">0<small>km</small></b><span>Distance driven</span></div>
+          <div><b id="batt">100<small>%</small></b><span>Battery</span><div class="batt"><i id="batt-bar"></i></div></div>
+        </div>
+        <p class="trip-note" id="trip-note" aria-live="polite">Leaving Delhi, fully charged.</p>
+      </div>
+      <div class="map">
+        <svg viewBox="0 0 800 560" role="img" aria-label="Stylised map of the route from Delhi through Jaipur and Ajmer to Udaipur">
+          <defs>
+            <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.4" fill="rgba(255,255,255,.08)" /></pattern>
+          </defs>
+          <rect width="800" height="560" fill="url(#dots)" />
+          <path class="m-state" d="M70 150 L190 60 L330 40 L470 70 L560 60 L660 90 L700 160 L640 230 L610 330 L560 400 L470 470 L360 520 L230 530 L130 470 L80 380 L40 260 Z" />
+          <path class="m-road" d="M620 90 L720 60 M534 150 L600 240 L700 300 M469 245 L560 330 L640 470 M340 284 L200 230 L90 200 M243 445 L150 520 M243 445 L330 540" />
+          <text class="m-label" x="96" y="330">RAJASTHAN</text>
+          <text class="m-label" x="672" y="44">N ↑</text>
+          <path class="m-route-bg" id="route-bg" d="M620 98 C590 115 560 130 534 151 S480 210 469 245 S390 270 340 284 S270 380 243 445" />
+          <path class="m-route" id="route" d="M620 98 C590 115 560 130 534 151 S480 210 469 245 S390 270 340 284 S270 380 243 445" />
+          <g class="m-city" data-km="0"><circle cx="620" cy="98" r="11" /><text x="642" y="95">Delhi</text><text class="km" x="642" y="117">0 km · start</text></g>
+          <g class="m-city" data-km="122"><circle cx="534" cy="151" r="9" /><text x="556" y="150">Neemrana</text><text class="km" x="556" y="171">122 km</text></g>
+          <g class="m-city" data-km="280"><circle cx="469" cy="245" r="11" /><text x="492" y="244">Jaipur</text><text class="km" x="492" y="266">280 km · 7 min top-up</text></g>
+          <g class="m-city" data-km="415"><circle cx="340" cy="284" r="9" /><text x="320" y="262" text-anchor="end">Ajmer</text><text class="km" x="320" y="286" text-anchor="end">415 km</text></g>
+          <g class="m-city" data-km="662"><circle cx="243" cy="445" r="12" /><text x="268" y="452">Udaipur</text><text class="km" x="268" y="474">662 km · arrive 18%</text></g>
+          <circle class="m-car" id="map-car" cx="620" cy="98" r="8" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES: panels slide in from alternate sides; each photo moves at its own speed -->
+<section class="features" id="design">
+  <div class="wrap">
+    <div class="features-head"><span class="eyebrow">Four reasons</span><h2 class="display">Designed in <span class="hl">four</span> acts.</h2></div>
+
+    <article class="feat">
+      <div class="feat-media slide-l">
+        <div class="px-img feat-main" data-speed="0.06"><img src="img/design.jpg" alt="Silver car body with a sharp window line" loading="lazy" /></div>
+        <div class="feat-thumb px-img" data-speed="-0.14"><img src="img/paint-detail.jpg" alt="Close-up of a slim LED headlight" loading="lazy" /></div>
+      </div>
+      <div class="feat-card slide-r"><div class="num">01</div><h3>Shaped by the wind</h3><p>A drag coefficient of 0.21, flush door handles and an active rear wing that rises at 120 km/h. Every line earns its range.</p><div class="chips"><span>Cd 0.21</span><span>Active aero</span><span>21-inch aero wheels</span></div></div>
+    </article>
+
+    <article class="feat rev">
+      <div class="feat-media slide-r">
+        <div class="px-img feat-main" data-speed="0.1"><img src="img/interior.jpg" alt="Car cabin with four sculpted seats seen from above" loading="lazy" /></div>
+        <div class="feat-thumb px-img" data-speed="-0.18"><img src="img/gauges.jpg" alt="Illuminated instrument cluster" loading="lazy" /></div>
+      </div>
+      <div class="feat-card slide-l"><div class="num">02</div><h3>A lounge for four</h3><p>Ventilated vegan-leather seats, a 15-inch floating display and 22-speaker sound tuned for a cabin that hits just 58 dB at 100 km/h.</p><div class="chips"><span>Ventilated seats</span><span>15" display</span><span>58 dB cabin</span></div></div>
+    </article>
+
+    <article class="feat">
+      <div class="feat-media slide-l">
+        <div class="px-img feat-main" data-speed="0.04"><img src="img/charging.jpg" alt="Power lines crossing open fields at sunset" loading="lazy" /></div>
+        <div class="feat-thumb px-img" data-speed="-0.12"><img src="img/night-highway.jpg" alt="Light trails on a highway at night" loading="lazy" /></div>
+      </div>
+      <div class="feat-card slide-r"><div class="num">03</div><h3>Charge in a chai break</h3><p>An 800-volt architecture adds 300 km in under ten minutes, and 2,400 Volt fast chargers line India's major highways from launch day.</p><div class="chips"><span>800 V system</span><span>350 kW DC</span><span>2,400 chargers</span></div></div>
+    </article>
+
+    <article class="feat rev">
+      <div class="feat-media slide-r">
+        <div class="px-img feat-main" data-speed="0.08"><img src="img/safety.jpg" alt="Driver on a rainy road seen from the back seat" loading="lazy" /></div>
+        <div class="feat-thumb px-img" data-speed="-0.16"><img src="img/tunnel.jpg" alt="Long lit road tunnel" loading="lazy" /></div>
+      </div>
+      <div class="feat-card slide-l"><div class="num">04</div><h3>Calm in a monsoon</h3><p>Eleven airbags, a crash-tested battery cage and Level 2 driver assist trained on Indian traffic, rain and unmarked lanes.</p><div class="chips"><span>11 airbags</span><span>Level 2 ADAS</span><span>5-star target</span></div></div>
+    </article>
+  </div>
+</section>
+
+<!-- NIGHT BAND: the background photo moves at a fraction of the scroll speed -->
+<section class="night">
+  <div class="night-bg" data-speed="0.42"><img src="img/night-city.jpg" alt="" loading="lazy" /></div>
+  <div class="night-text dark-text" data-speed="-0.1">
+    <span class="eyebrow" style="color:var(--lime)">After dark</span>
+    <h2 class="display">Made for the <em>2 a.m.</em> expressway.</h2>
+    <p>Matrix LED headlights see 600 metres ahead, and the cabin glows only where your eyes need it.</p>
+  </div>
+</section>
+
+<!-- CONFIGURATOR: paint swatches retint the car photo; trims update the price and specs -->
+<section class="config dark" id="configure">
+  <div class="wrap">
+    <div class="config-head">
+      <div><span class="eyebrow">Configurator</span><h2 class="display">Make it yours.</h2></div>
+      <p>Pick a trim and a colour. Price and figures update instantly; final prices are confirmed at booking.</p>
+    </div>
+    <div class="config-grid">
+      <div>
+        <div class="stage" id="stage">
+          <img src="img/hero-car.jpg" alt="Volt GT side view in the selected paint" id="stage-img" style="object-position:40% 80%" />
+          <div class="tint" id="tint"></div>
+          <div class="sheen"></div>
+          <div class="stage-label"><i id="stage-chip"></i><span id="stage-name">Glacier White</span></div>
+        </div>
+        <div class="swatches" role="group" aria-label="Paint colour">
+          <button class="swatch" type="button" aria-pressed="true" data-name="Glacier White" data-price="0" data-paint="transparent" data-o="0" data-blend="color" data-filter="none" style="--c:#e9ebee"><i></i><span>Glacier White<small>Included</small></span></button>
+          <button class="swatch" type="button" aria-pressed="false" data-name="Volt Lime" data-price="1.2" data-paint="#b6f01e" data-o=".62" data-blend="multiply" data-filter="none" style="--c:#c6ff3d"><i></i><span>Volt Lime<small>+₹1.2 lakh</small></span></button>
+          <button class="swatch" type="button" aria-pressed="false" data-name="Monsoon Blue" data-price="0.8" data-paint="#2f6fd6" data-o=".85" data-blend="multiply" data-filter="none" style="--c:#2f6fd6"><i></i><span>Monsoon Blue<small>+₹0.8 lakh</small></span></button>
+          <button class="swatch" type="button" aria-pressed="false" data-name="Carbon Graphite" data-price="0.5" data-paint="#3a3e44" data-o=".9" data-blend="multiply" data-filter="none" style="--c:#33373c"><i></i><span>Carbon Graphite<small>+₹0.5 lakh</small></span></button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Trim</h3>
+        <div class="trims" role="group" aria-label="Trim">
+          <button type="button" aria-pressed="true" data-trim="lr">Long Range</button>
+          <button type="button" aria-pressed="false" data-trim="perf">Performance</button>
+        </div>
+        <table class="spec-table">
+          <tbody>
+            <tr><th>0–100 km/h</th><td id="t-acc">3.4 s</td></tr>
+            <tr><th>Range</th><td id="t-range">620 km</td></tr>
+            <tr><th>Peak power</th><td id="t-power">480 kW</td></tr>
+            <tr><th>Wheels</th><td id="t-wheels">21" Aero</td></tr>
+            <tr><th>Paint</th><td id="t-paint">Glacier White</td></tr>
+          </tbody>
+        </table>
+        <div class="total"><span>Ex-showroom price</span><b id="t-price">₹48.9 lakh</b></div>
+        <a href="#test-drive" class="btn btn-lime">Reserve for ₹51,000</a>
+        <p class="fine">Fully refundable reservation. Prices are illustrative for this design demo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEST DRIVE: demo-only form with a status message -->
+<section class="drive" id="test-drive">
+  <div class="wrap drive-grid">
+    <div class="drive-media">
+      <div class="px-img"><img src="img/night-ghat.jpg" alt="Light trail of a car on a mountain road at dusk" loading="lazy" /></div>
+      <div class="drive-badge" data-speed="-0.12"><b>40</b><span>Cities at launch</span></div>
+    </div>
+    <div class="drive-copy">
+      <span class="eyebrow">Test drive</span>
+      <h2 class="display">Feel 3.4 seconds <span class="hl">yourself</span>.</h2>
+      <p>Book a 45-minute drive at a Volt studio near you, or we will bring the car to your door in 40 cities.</p>
+      <form class="form" id="drive-form" novalidate>
+        <div class="field"><label for="f-name">Full name</label><input id="f-name" required placeholder="Aarav Mehta" autocomplete="name" /></div>
+        <div class="field"><label for="f-phone">Mobile</label><input id="f-phone" required type="tel" placeholder="+91 98xxx xxxxx" autocomplete="tel" /></div>
+        <div class="field"><label for="f-city">City</label>
+          <select id="f-city"><option>Delhi NCR</option><option>Mumbai</option><option>Bengaluru</option><option>Hyderabad</option><option>Chennai</option><option>Pune</option><option>Jaipur</option></select></div>
+        <div class="field"><label for="f-date">Preferred date</label><input id="f-date" type="date" /></div>
+        <button class="btn btn-dark" type="submit">Book my test drive
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="form-msg" id="form-msg" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="dark">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo"><i><svg viewBox="0 0 24 24" fill="#141619"><path d="M13.5 2 4 14h6.5L9 22l11-13h-7l.5-7z"/></svg></i>Volt<small>Motors</small></a><p>Electric performance cars designed for Indian roads. A design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Volt GT</h4><a href="#performance">Performance</a><a href="#range">Range</a><a href="#design">Design</a><a href="#configure">Configure</a></div>
+      <div><h4>Owners</h4><a href="#top">Charging map</a><a href="#top">Service</a><a href="#top">Warranty</a><a href="#top">Contact</a></div>
+      <div><h4>Follow</h4><a href="#top">Instagram</a><a href="#top">YouTube</a><a href="#top">LinkedIn</a></div>
+    </div>
+    <div class="giant" data-marquee aria-hidden="true">Volt GT · Volt Motors · Volt GT</div>
+    <div class="foot-bottom"><span>© 2026 Volt Motors (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const $ = (id) => document.getElementById(id);
+
+  const nav = $("nav");
+  const hero = document.querySelector(".hero");
+  const heroCar = $("hero-car");
+  const lines = $("speed-lines");
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+  const giant = document.querySelector("[data-marquee]");
+
+  // ---------- speedometer geometry (0–120 km/h over a 270° sweep) ----------
+  const CX = 210, CY = 210, R = 170, MAX = 120, START = 135, SWEEP = 270;
+  const polar = (deg, r) => [CX + r * Math.cos(deg * Math.PI / 180), CY + r * Math.sin(deg * Math.PI / 180)];
+  const angleFor = (v) => START + SWEEP * (v / MAX);
+  const [sx, sy] = polar(START, R), [ex, ey] = polar(START + SWEEP, R);
+  const arcD = `M${sx.toFixed(1)} ${sy.toFixed(1)} A${R} ${R} 0 1 1 ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+  $("g-track").setAttribute("d", arcD);
+  const gArc = $("g-arc");
+  gArc.setAttribute("d", arcD);
+  const arcLen = gArc.getTotalLength();
+  gArc.style.strokeDasharray = arcLen;
+  gArc.style.strokeDashoffset = arcLen;
+  let ticks = "";
+  for (let v = 0; v <= MAX; v += 5) {
+    const major = v % 20 === 0;
+    const [x1, y1] = polar(angleFor(v), R - 22), [x2, y2] = polar(angleFor(v), R - (major ? 42 : 32));
+    ticks += `<line class="g-tick${major ? " major" : ""}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" />`;
+    if (major) { const [tx, ty] = polar(angleFor(v), R - 64); ticks += `<text class="g-num" x="${tx.toFixed(1)}" y="${ty.toFixed(1)}">${v}</text>`; }
+  }
+  $("g-ticks").innerHTML = ticks;
+  const needle = $("g-needle");
+  const launch = $("performance");
+  const gSpeed = $("g-speed"), gTime = $("g-time");
+  const phases = [...document.querySelectorAll(".phase")];
+
+  // ---------- route map ----------
+  const range = $("range");
+  const route = $("route");
+  const routeLen = route.getTotalLength();
+  route.style.strokeDasharray = routeLen;
+  route.style.strokeDashoffset = routeLen;
+  const mapCar = $("map-car");
+  const cities = [...document.querySelectorAll(".m-city")].map((g) => {
+    const c = g.querySelector("circle");
+    const cx = Number(c.getAttribute("cx")), cy = Number(c.getAttribute("cy"));
+    // find how far along the route each city sits
+    let best = 0, bestD = Infinity;
+    for (let l = 0; l <= routeLen; l += 2) {
+      const p = route.getPointAtLength(l);
+      const d = (p.x - cx) ** 2 + (p.y - cy) ** 2;
+      if (d < bestD) { bestD = d; best = l; }
+    }
+    return { g, at: best / routeLen, km: Number(g.dataset.km) };
+  });
+  const kmEl = $("km"), battEl = $("batt"), battBar = $("batt-bar"), note = $("trip-note");
+  const kmAt = (p) => {
+    for (let i = 1; i < cities.length; i++) {
+      const a = cities[i - 1], b = cities[i];
+      if (p <= b.at) return a.km + (b.km - a.km) * clamp((p - a.at) / Math.max(.0001, b.at - a.at));
+    }
+    return cities[cities.length - 1].km;
+  };
+  const battAt = (km) => km < 280 ? 100 - km / 6.2 : 80 - (km - 280) / 6.2;
+  let lastNote = "";
+
+  // ---------- feature panels ----------
+  const slides = [...document.querySelectorAll(".slide-l, .slide-r")];
+
+  let mouseX = 0, mouseY = 0, frame = null;
+
+  const render = () => {
+    frame = null;
+    const h = window.innerHeight, w = window.innerWidth, y = window.scrollY;
+    nav.classList.toggle("is-solid", y > 60);
+    const under = document.elementFromPoint(w / 2, nav.offsetHeight + 4);
+    nav.classList.toggle("on-dark", y > 60 && !!under && !!under.closest(".dark, .night"));
+
+    if (!reduce) {
+      // 1. data-speed layers: hero layers use scrollY × speed (start at rest); others use
+      //    distance from the viewport centre × speed, measured from the untransformed position
+      for (const el of speedEls) {
+        const r = el.getBoundingClientRect();
+        const inHero = el.closest(".hero");
+        const oy = el._oy || 0;
+        if (!inHero && (r.bottom - oy < -h || r.top - oy > h * 2)) continue;
+        if (inHero && y > h * 1.5) continue;
+        const speed = Number(el.dataset.speed);
+        const offset = inHero ? y * speed : (r.top - oy + r.height / 2 - h / 2) * speed;
+        const depth = inHero && el.dataset.depth ? Number(el.dataset.depth) : 0;
+        el._oy = offset + mouseY * depth;
+        el.style.transform = `translate3d(${(mouseX * depth).toFixed(1)}px, ${el._oy.toFixed(1)}px, 0)`;
+      }
+
+      // 2. Hero car drives out of frame to the right while the speed lines stretch
+      if (y < h * 1.5) {
+        const p = clamp(y / (h * 0.9));
+        const d = Number(heroCar.dataset.depth);
+        heroCar.style.transform = `translate3d(${(p * p * w * 0.95 + mouseX * d).toFixed(1)}px, ${(y * 0.12 + mouseY * d).toFixed(1)}px, 0)`;
+        lines.style.transform = `scaleX(${(1 + p * 2.6).toFixed(3)})`;
+        lines.style.opacity = (0.55 + p * 0.45).toFixed(2);
+      }
+
+      // 3. Photos slide inside their frames
+      for (const img of innerImgs) {
+        const box = img.parentElement.getBoundingClientRect();
+        if (box.bottom < 0 || box.top > h) continue;
+        const p = (box.top + box.height) / (h + box.height); // 1 entering, 0 leaving
+        img.style.transform = `translate3d(0, ${((p - 0.5) * 16).toFixed(2)}%, 0)`;
+      }
+
+      // 4. Feature panels slide in from alternate sides
+      for (const el of slides) {
+        const r = el.getBoundingClientRect();
+        const p = clamp((h - r.top) / (h * 0.65));
+        const dir = el.classList.contains("slide-l") ? -1 : 1;
+        const e = 1 - Math.pow(1 - p, 3);
+        el.style.transform = `translate3d(${(dir * (1 - e) * Math.min(160, w * 0.18)).toFixed(1)}px, 0, 0)`;
+        el.style.opacity = (0.15 + e * 0.85).toFixed(2);
+      }
+
+      // 5. Giant footer word slides sideways
+      const gr = giant.getBoundingClientRect();
+      if (gr.top < h) giant.style.transform = `translate3d(${(-(h - gr.top) / (h + gr.height) * 30).toFixed(2)}%, 0, 0)`;
+    }
+
+    // 6. Speedometer: progress through the pinned section drives needle, arc, readout and timer
+    {
+      const r = launch.getBoundingClientRect();
+      const p = reduce ? 1 : clamp(-r.top / Math.max(1, r.height - h) / 0.85);
+      const v = 100 * (1 - Math.pow(1 - p, 1.7)); // acceleration tapers like a real car
+      needle.setAttribute("transform", `rotate(${angleFor(v).toFixed(2)} ${CX} ${CY})`);
+      gArc.style.strokeDashoffset = (arcLen * (1 - v / MAX)).toFixed(1);
+      gSpeed.textContent = Math.round(v);
+      gTime.textContent = (p * 3.4).toFixed(1);
+      phases.forEach((ph) => ph.classList.toggle("on", p >= Number(ph.dataset.at)));
+    }
+
+    // 7. Route map: the line draws itself, the car marker follows, cities light up
+    {
+      const r = range.getBoundingClientRect();
+      const p = reduce ? 1 : clamp((-r.top / Math.max(1, r.height - h) - 0.05) / 0.8);
+      route.style.strokeDashoffset = (routeLen * (1 - p)).toFixed(1);
+      const pt = route.getPointAtLength(routeLen * p);
+      mapCar.setAttribute("cx", pt.x.toFixed(1));
+      mapCar.setAttribute("cy", pt.y.toFixed(1));
+      const km = kmAt(p);
+      const batt = battAt(km);
+      kmEl.firstChild.textContent = Math.round(km);
+      battEl.firstChild.textContent = Math.round(batt);
+      battBar.style.width = `${batt.toFixed(1)}%`;
+      let lit = 0;
+      cities.forEach((c) => { const on = p >= c.at - 0.005; c.g.classList.toggle("on", on); if (on) lit++; });
+      const notes = ["Leaving Delhi, fully charged.", "Neemrana: cruising at 100 km/h, no stop needed.", "<b>Jaipur:</b> 55% → 80% in a 7-minute top-up.", "Ajmer: Aravalli climbs, regen braking on the way down.", "<b>Udaipur:</b> arrived with 18% to spare."];
+      const n = notes[Math.max(0, lit - 1)];
+      if (n !== lastNote) { note.innerHTML = n; lastNote = n; }
+    }
+  };
+
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+
+  // Hero layers also respond to the mouse, deeper layers moving further
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * -1;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * -1;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  render();
+
+  // ---------- count-up numbers ----------
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      const spec = entry.target.closest(".spec");
+      if (spec) spec.classList.add("in");
+      const end = Number(entry.target.dataset.count);
+      const dec = Number(entry.target.dataset.dec || 0);
+      if (reduce) { entry.target.textContent = end.toFixed(dec); return; }
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / 1500);
+        entry.target.textContent = (end * (1 - Math.pow(1 - t, 3))).toFixed(dec);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll("[data-count]").forEach((el) => io.observe(el));
+
+  // ---------- configurator ----------
+  const trims = {
+    lr: { price: 48.9, acc: "3.4 s", range: "620 km", power: "480 kW", wheels: '21" Aero' },
+    perf: { price: 56.4, acc: "2.9 s", range: "560 km", power: "560 kW", wheels: '22" Forged' },
+  };
+  let trim = "lr", paint = document.querySelector('.swatch[aria-pressed="true"]');
+  const stage = $("stage"), tint = $("tint"), stageImg = $("stage-img");
+  const update = () => {
+    const t = trims[trim];
+    $("t-acc").textContent = t.acc;
+    $("t-range").textContent = t.range;
+    $("t-power").textContent = t.power;
+    $("t-wheels").textContent = t.wheels;
+    $("t-paint").textContent = paint.dataset.name;
+    $("t-price").textContent = `₹${(t.price + Number(paint.dataset.price)).toFixed(1)} lakh`;
+    $("stage-name").textContent = `${paint.dataset.name} · ${trim === "lr" ? "Long Range" : "Performance"}`;
+    $("stage-chip").style.background = getComputedStyle(paint).getPropertyValue("--c");
+    tint.style.setProperty("--paint", paint.dataset.paint);
+    tint.style.setProperty("--tint-o", paint.dataset.o);
+    tint.style.setProperty("--blend", paint.dataset.blend);
+    stageImg.style.filter = paint.dataset.filter;
+  };
+  document.querySelectorAll(".swatch").forEach((btn) => btn.addEventListener("click", () => {
+    paint = btn;
+    document.querySelectorAll(".swatch").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    stage.classList.remove("flash"); void stage.offsetWidth; stage.classList.add("flash");
+    update();
+  }));
+  document.querySelectorAll(".trims button").forEach((btn) => btn.addEventListener("click", () => {
+    trim = btn.dataset.trim;
+    document.querySelectorAll(".trims button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    update();
+  }));
+  update();
+
+  // ---------- test drive form (demo only) ----------
+  $("drive-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = $("f-name").value.trim(), phone = $("f-phone").value.trim();
+    const msg = $("form-msg");
+    if (!name || phone.replace(/\D/g, "").length < 10) {
+      msg.style.color = "#b42318";
+      msg.textContent = "Please enter your name and a 10-digit mobile number.";
+      return;
+    }
+    msg.style.color = "";
+    msg.textContent = `Thanks, ${name.split(" ")[0]}. Your Volt GT test drive in ${$("f-city").value} is requested (demo only, nothing was sent).`;
+    e.target.reset();
+  });
+})();
+</script>
+</body>
+</html>
