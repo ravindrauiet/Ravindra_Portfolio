@@ -6,7 +6,7 @@ import TemplateGallery from "@/components/library/TemplateGallery";
 import { PARALLAX_DEMOS } from "@/lib/demos";
 import { CATEGORIES, buildDocument, getAllTemplates, getCategory, getTemplate } from "@/lib/templates";
 
-const SITE = "https://ravindranathjha.in";
+const SITE = "https://www.ravindranathjha.in";
 
 export const metadata = {
   title: "Free UI Templates: 3D Scenes, Gradients, Backgrounds, Sections & Components",

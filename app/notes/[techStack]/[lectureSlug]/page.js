@@ -6,7 +6,7 @@ import LectureToc, { ReadingProgress } from "@/components/notes/LectureToc";
 import { LectureBehaviour, LectureFinish, LectureProgressCard } from "@/components/notes/LectureActions";
 import { getTechStack, getLecture, getAllTechStacks } from "@/lib/notesData";
 
-const SITE = "https://ravindranathjha.in";
+const SITE = "https://www.ravindranathjha.in";
 
 export async function generateStaticParams() {
   const stacks = getAllTechStacks();

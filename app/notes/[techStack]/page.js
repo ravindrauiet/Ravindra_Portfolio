@@ -5,7 +5,7 @@ import CourseProgress from "@/components/notes/CourseProgress";
 import LectureList from "@/components/notes/LectureList";
 import { getTechStack, getAllTechStacks } from "@/lib/notesData";
 
-const SITE = "https://ravindranathjha.in";
+const SITE = "https://www.ravindranathjha.in";
 
 export async function generateStaticParams() {
   const stacks = getAllTechStacks();

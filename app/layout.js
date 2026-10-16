@@ -8,7 +8,7 @@ import MotionEffects from "@/components/MotionEffects";
 import Script from "next/script";
 
 export const metadata = {
-  metadataBase: new URL("https://ravindranathjha.in"),
+  metadataBase: new URL("https://www.ravindranathjha.in"),
   title: {
     default: "Ravindra Nath Jha | Full Stack Developer & AI Engineer | M.Tech AI, IIT Jodhpur",
     template: "%s | Ravindra Nath Jha"
@@ -43,11 +43,11 @@ export const metadata = {
     "Free UI Templates",
     "AI Website Prompts"
   ],
-  authors: [{ name: "Ravindra Nath Jha", url: "https://ravindranathjha.in" }],
+  authors: [{ name: "Ravindra Nath Jha", url: "https://www.ravindranathjha.in" }],
   creator: "Ravindra Nath Jha",
   publisher: "Ravindra Nath Jha",
   alternates: {
-    canonical: "https://ravindranathjha.in",
+    canonical: "https://www.ravindranathjha.in",
   },
   robots: {
     index: true,
@@ -70,14 +70,14 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ravindranathjha.in",
+    url: "https://www.ravindranathjha.in",
     siteName: "Ravindra Nath Jha Portfolio",
     title: "Ravindra Nath Jha | Full Stack Developer & AI Engineer (M.Tech AI, IIT Jodhpur)",
     description:
       "Full Stack Developer, AI Engineer and Team Lead with an M.Tech in Artificial Intelligence from IIT Jodhpur. React.js, Next.js, Node.js, React Native and Generative AI. Projects, skills, free notes and templates.",
     images: [
       {
-        url: "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
+        url: "https://www.ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
         width: 1200,
         height: 630,
         alt: "Ravindra Nath Jha - Full Stack Developer & AI Engineer, M.Tech AI IIT Jodhpur",
@@ -89,7 +89,7 @@ export const metadata = {
     title: "Ravindra Nath Jha | Full Stack Developer & AI Engineer",
     description:
       "Full Stack Developer & AI Engineer with an M.Tech in Artificial Intelligence from IIT Jodhpur. React.js, Next.js, Node.js and Generative AI.",
-    images: ["https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg"],
+    images: ["https://www.ravindranathjha.in/assets/images/Ravindraprofile.jpeg"],
   },
 };
 

@@ -4,8 +4,8 @@ export default function JsonLd() {
     "@type": "Person",
     "name": "Ravindra Nath Jha",
     "alternateName": "Ravindra Jha",
-    "url": "https://ravindranathjha.in",
-    "image": "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
+    "url": "https://www.ravindranathjha.in",
+    "image": "https://www.ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
     "jobTitle": "Full Stack Developer, AI Engineer & Team Lead",
     "description": "Full Stack Developer, AI Engineer and Team Lead with an M.Tech in Artificial Intelligence from the Indian Institute of Technology (IIT) Jodhpur.",
     "alumniOf": [
@@ -81,7 +81,7 @@ export default function JsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Ravindra Nath Jha Portfolio",
-    "url": "https://ravindranathjha.in",
+    "url": "https://www.ravindranathjha.in",
     "author": {
       "@type": "Person",
       "name": "Ravindra Nath Jha"
@@ -93,8 +93,8 @@ export default function JsonLd() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Ravindra Nath Jha - Freelance Full Stack Development",
-    "image": "https://ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
-    "url": "https://ravindranathjha.in",
+    "image": "https://www.ravindranathjha.in/assets/images/Ravindraprofile.jpeg",
+    "url": "https://www.ravindranathjha.in",
     "telephone": "+919354156323",
     "email": "ravindranathjha76@gmail.com",
     "address": {

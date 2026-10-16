@@ -4,12 +4,12 @@ export const metadata = {
   title: "Skills: Full Stack, React, Next.js, Node.js & AI",
   description: "Technical skills of Ravindra Nath Jha (M.Tech AI, IIT Jodhpur): React.js, Next.js, Node.js, Express, MongoDB, Python, React Native, AWS, REST APIs, machine learning, LLMs and generative AI.",
   alternates: {
-    canonical: "https://ravindranathjha.in/skills",
+    canonical: "https://www.ravindranathjha.in/skills",
   },
   openGraph: {
     title: "Skills: Full Stack & AI | Ravindra Nath Jha",
     description: "Technical skills of Ravindra Nath Jha (M.Tech AI, IIT Jodhpur): React.js, Next.js, Node.js, Express, MongoDB, Python, React Native, AWS, REST APIs, machine learning, LLMs and generative AI.",
-    url: "https://ravindranathjha.in/skills",
+    url: "https://www.ravindranathjha.in/skills",
   },
 };
 

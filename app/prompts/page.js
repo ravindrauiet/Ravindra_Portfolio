@@ -5,7 +5,7 @@ import CopyButton from "@/components/library/CopyButton";
 import PromptGallery from "@/components/library/PromptGallery";
 import { INDUSTRIES, getAllPrompts, getPrompt } from "@/lib/prompts";
 
-const SITE = "https://ravindranathjha.in";
+const SITE = "https://www.ravindranathjha.in";
 
 export const metadata = {
   title: "Free AI Website Prompts: Build Full Websites with Claude, ChatGPT & Cursor",

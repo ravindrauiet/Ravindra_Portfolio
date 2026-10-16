@@ -4,7 +4,7 @@ import { getAllPrompts } from "@/lib/prompts";
 import { PARALLAX_DEMOS } from "@/lib/demos";
 
 export default function sitemap() {
-  const baseUrl = "https://ravindranathjha.in";
+  const baseUrl = "https://www.ravindranathjha.in";
 
   const staticRoutes = [
     {

@@ -6,12 +6,12 @@ export const metadata = {
   title: "Tech Notes & Free Developer Tutorials",
   description: "Comprehensive developer notes, lecture series, and code guides for React.js, Next.js, Java, Python, and Artificial Intelligence by Ravindra Nath Jha.",
   alternates: {
-    canonical: "https://ravindranathjha.in/notes",
+    canonical: "https://www.ravindranathjha.in/notes",
   },
   openGraph: {
     title: "Tech Notes & Free Developer Tutorials | Ravindra Nath Jha",
     description: "Comprehensive developer notes, lecture series, and code guides for React.js, Next.js, Java, Python, and Artificial Intelligence.",
-    url: "https://ravindranathjha.in/notes",
+    url: "https://www.ravindranathjha.in/notes",
   },
 };
 

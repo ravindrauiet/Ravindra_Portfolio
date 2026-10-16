@@ -12,7 +12,7 @@ import {
   getTemplate,
 } from "@/lib/templates";
 
-const SITE = "https://ravindranathjha.in";
+const SITE = "https://www.ravindranathjha.in";
 const AI_TOOLS = ["Claude", "ChatGPT", "Cursor", "v0", "Bolt", "Gemini"];
 
 export const dynamicParams = false;

@@ -5,6 +5,6 @@ export default function robots() {
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: "https://ravindranathjha.in/sitemap.xml",
+    sitemap: "https://www.ravindranathjha.in/sitemap.xml",
   };
 }

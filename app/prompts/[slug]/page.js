@@ -5,7 +5,7 @@ import CopyButton from "@/components/library/CopyButton";
 import Image from "next/image";
 import { getAllPrompts, getPrompt, getRelatedPrompts } from "@/lib/prompts";
 
-const SITE = "https://ravindranathjha.in";
+const SITE = "https://www.ravindranathjha.in";
 const AI_TOOLS = ["Claude", "ChatGPT", "Cursor", "v0", "Bolt", "Gemini"];
 
 export const dynamicParams = false;
