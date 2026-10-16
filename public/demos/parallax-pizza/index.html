@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forno Rosso — Wood-Fired Neapolitan Pizza, Bengaluru (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax pizzeria website demo: spinning hero pizza with flying ingredients, a pinned build-your-pizza sequence, a sideways menu and a scroll-heated wood-fire scene. Built with HTML, CSS, GSAP and Lenis by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-pizza/index.html" />
+<meta property="og:title" content="Forno Rosso — Parallax Pizzeria Website Demo" />
+<meta property="og:description" content="Spinning hero pizza, layer-by-layer pizza assembly, pinned horizontal menu and an oven that heats up as you scroll." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-pizza/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --char: #140e0c;
+    --char-2: #1f1613;
+    --char-3: #2b1f1a;
+    --tomato: #d7261e;
+    --tomato-2: #ef4a2f;
+    --tomato-deep: #9e150e;
+    --cream: #f7efe1;
+    --mozz: #fffaf1;
+    --crust: #e9b46a;
+    --gold: #f6a534;
+    --basil: #2f7d3a;
+    --basil-2: #58a957;
+    --muted: #a8968a;
+    --ink-soft: #5d4b42;
+    --display: "Bowlby One", "Arial Black", Impact, sans-serif;
+    --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: clip; }
+  body { background: var(--char); color: var(--cream); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1260px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
+  .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; border-radius: 2px; }
+  .display { font-family: var(--display); font-weight: 400; line-height: .9; letter-spacing: -.01em; text-transform: uppercase; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  svg.ico { width: 100%; height: auto; display: block; overflow: visible; }
+
+  /* film grain over everything */
+  body::after { content: ""; position: fixed; inset: 0; z-index: 95; pointer-events: none; opacity: .08; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ---------- buttons ---------- */
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 17px 28px; border-radius: 99px; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transition: background .3s, color .3s, box-shadow .3s; white-space: nowrap; }
+  .btn-red { background: var(--tomato); color: #fff; box-shadow: 0 18px 40px -14px rgba(215, 38, 30, .85), inset 0 -3px 0 rgba(0, 0, 0, .18); }
+  .btn-red:hover { background: var(--tomato-2); }
+  .btn-ghost { border: 1.5px solid rgba(247, 239, 225, .35); color: var(--cream); }
+  .btn-ghost:hover { background: var(--cream); color: var(--char); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 70; padding: 22px 0; transition: background .4s, padding .4s, backdrop-filter .4s; }
+  .nav.solid { background: rgba(20, 14, 12, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 13px 0; }
+  .nav .wrap { display: flex; align-items: center; gap: 34px; }
+  .logo { display: flex; align-items: center; gap: 10px; margin-right: auto; font-family: var(--display); font-size: 22px; letter-spacing: .02em; line-height: 1; }
+  .logo svg { width: 30px; height: 30px; }
+  .logo em { font-style: normal; color: var(--tomato-2); }
+  .nav-links { display: flex; gap: 30px; font-size: 14px; font-weight: 600; }
+  .nav-links a { position: relative; opacity: .82; transition: opacity .3s; }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -5px; height: 2px; border-radius: 2px; background: var(--tomato-2); transition: right .35s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { right: 0; }
+  .nav .btn { padding: 12px 20px; font-size: 13px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; background:
+      radial-gradient(ellipse 60% 55% at 50% 52%, rgba(215, 38, 30, .38), transparent 70%),
+      radial-gradient(ellipse 90% 70% at 50% 110%, rgba(246, 165, 52, .16), transparent 60%),
+      var(--char); isolation: isolate; }
+  .hero-glow { position: absolute; left: 50%; top: 52%; width: min(90vh, 70vw); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle, rgba(239, 74, 47, .45), rgba(215, 38, 30, .12) 45%, transparent 68%); filter: blur(10px); z-index: 0; }
+  .hero-words { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .hw { position: absolute; left: 0; right: 0; display: flex; justify-content: center; overflow: hidden; padding: 0 0 .04em; }
+  .hw1 { top: 12vh; }
+  .hw2 { bottom: 20vh; }
+  .hw-in { display: flex; font-family: var(--display); font-size: min(17vw, 28vh); line-height: .84; letter-spacing: -.02em; white-space: nowrap; }
+  .hw1 .hw-in { color: var(--cream); }
+  .hw2 .hw-in { color: var(--tomato); text-shadow: 0 0 60px rgba(215, 38, 30, .35); }
+  .hw-in span { display: inline-block; }
+
+  .ings { position: absolute; inset: 0; pointer-events: none; }
+  .ings-back { z-index: 2; }
+  .ings-front { z-index: 4; }
+  .ing { position: absolute; will-change: transform; }
+  .ing > div { will-change: transform; }
+  .ing svg { width: 100%; height: auto; display: block; overflow: visible; rotate: var(--r, 0deg); filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .45)); animation: bob 5.5s ease-in-out infinite alternate; animation-delay: var(--dl, 0s); }
+  .ing[data-d="1"] { opacity: .6; }
+  .ing[data-d="1"] svg { filter: blur(.6px); }
+  .ing[data-d="4"] svg { filter: blur(1.6px) drop-shadow(0 20px 24px rgba(0, 0, 0, .5)); }
+  .ing[data-d="5"] svg { filter: blur(7px); }
+  .ing.flour svg { filter: none; animation-duration: 9s; }
+  @keyframes bob { from { transform: translateY(-8px) rotate(-4deg); } to { transform: translateY(10px) rotate(5deg); } }
+
+  .hero-pizza { position: absolute; left: 50%; top: 52%; z-index: 3; width: min(56vh, 40vw); aspect-ratio: 1; translate: -50% -50%; }
+  .hp-spin, .hp-in { width: 100%; height: 100%; }
+  .hp-in { border-radius: 50%; box-shadow: 0 50px 90px -20px rgba(0, 0, 0, .85), 0 0 0 10px rgba(247, 239, 225, .04), 0 0 120px rgba(239, 74, 47, .25); }
+  .hp-in img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; animation: idle-spin 90s linear infinite; }
+  @keyframes idle-spin { to { rotate: 360deg; } }
+
+  .hero-copy { position: absolute; left: 0; right: 0; bottom: 84px; z-index: 6; }
+  .hero-copy .wrap { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
+  .hero-copy p { max-width: 440px; font-size: 15px; line-height: 1.6; color: rgba(247, 239, 225, .82); }
+  .hero-copy p b { color: var(--cream); }
+  .open-pill { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 12px; padding: 7px 14px 7px 10px; border-radius: 99px; background: rgba(247, 239, 225, .08); border: 1px solid rgba(247, 239, 225, .14); font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+  .open-pill i { width: 8px; height: 8px; border-radius: 50%; background: #5fd36a; box-shadow: 0 0 0 4px rgba(95, 211, 106, .18); }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+  .scroll-hint { position: absolute; left: 50%; bottom: 24px; translate: -50% 0; z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: rgba(247, 239, 225, .6); }
+  .scroll-hint i { width: 2px; height: 40px; border-radius: 2px; background: linear-gradient(var(--tomato-2), transparent); animation: hint 1.8s ease-in-out infinite; transform-origin: top; }
+  @keyframes hint { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- marquee band ---------- */
+  .band { position: relative; z-index: 5; background: var(--tomato); color: var(--mozz); padding: 18px 0; rotate: -2.2deg; margin: -26px -3vw 0; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .8); }
+  .band-track { display: flex; width: max-content; align-items: center; }
+  .band span { display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-family: var(--display); font-size: 30px; line-height: 1; white-space: nowrap; text-transform: uppercase; }
+  .band span svg { width: 38px; height: auto; }
+
+  /* ---------- build your pizza (pinned) ---------- */
+  .build { position: relative; background: var(--cream); color: var(--char); overflow: hidden; }
+  .build-inner { position: relative; height: 100vh; height: 100svh; min-height: 640px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: 30px; width: min(1260px, calc(100% - 64px)); margin: 0 auto; padding-top: 70px; }
+  .build-bgword { position: absolute; left: 50%; top: 50%; translate: -50% -50%; font-family: var(--display); font-size: 20vw; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(215, 38, 30, .13); white-space: nowrap; pointer-events: none; z-index: 0; }
+  .build-copy { position: relative; z-index: 2; }
+  .build-copy h2 { margin: 14px 0 28px; font-size: clamp(40px, 4.3vw, 66px); color: var(--char); }
+  .build-copy h2 em { font-style: normal; color: var(--tomato); }
+  .build .eyebrow { color: var(--tomato); }
+  .steps-wrap { position: relative; padding-left: 24px; }
+  .steps { list-style: none; display: grid; gap: 6px; }
+  .steps-wrap::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 3px; background: rgba(20, 14, 12, .1); }
+  .steps-bar { position: absolute; left: 0; top: 10px; width: 3px; height: calc(100% - 20px); border-radius: 3px; background: var(--tomato); transform-origin: top; transform: scaleY(1); }
+  .step { display: grid; grid-template-columns: 54px 1fr; align-items: baseline; padding: 9px 0; opacity: .32; transition: opacity .45s, transform .45s; }
+  .step.on { opacity: 1; transform: translateX(8px); }
+  .step b { font-family: var(--display); font-size: 22px; color: var(--tomato); }
+  .step h3 { font-family: var(--display); font-weight: 400; font-size: clamp(22px, 2.2vw, 32px); line-height: 1; text-transform: uppercase; }
+  .step p { grid-column: 2; margin-top: 6px; font-size: 15px; color: var(--ink-soft); max-width: 360px; }
+
+  .pz-stage-wrap { position: relative; z-index: 1; display: grid; place-items: center; }
+  .pz-stage { position: relative; width: min(64vh, 44vw); aspect-ratio: 1; }
+  .pz-shadow { position: absolute; inset: 6% 4% -4%; border-radius: 50%; background: radial-gradient(closest-side, rgba(60, 25, 10, .35), transparent); filter: blur(14px); }
+  .pz-flour { position: absolute; inset: -14%; pointer-events: none; }
+  .pz-rot { position: absolute; inset: 0; }
+  .pz-dough { position: absolute; inset: 0; border-radius: 50%; background:
+      radial-gradient(circle, #f6e4c1 0 64%, #efd09c 72%, #e2b06d 82%, #c98b47 92%, #a9692f 98%, transparent 100%);
+    box-shadow: inset 0 0 0 2px rgba(150, 90, 40, .25), 0 30px 60px -24px rgba(80, 40, 10, .55); }
+  .pz-char { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
+  .pz-sauce { position: absolute; inset: 11%; border-radius: 50%; background:
+      radial-gradient(circle at 30% 34%, rgba(255, 120, 80, .5), transparent 22%),
+      radial-gradient(circle at 70% 64%, rgba(120, 10, 5, .45), transparent 26%),
+      radial-gradient(circle at 62% 26%, rgba(150, 18, 10, .35), transparent 18%),
+      radial-gradient(circle at 26% 72%, rgba(240, 90, 60, .35), transparent 20%),
+      radial-gradient(circle, #d8321f 0 60%, #b81d12 92%, #a3180f 100%);
+    box-shadow: inset 0 0 18px rgba(90, 10, 5, .45); }
+  .pz-layer { position: absolute; inset: 0; }
+  .pz-layer > div { position: absolute; }
+  .pz-layer svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .mozz svg { filter: drop-shadow(0 4px 5px rgba(120, 60, 20, .3)); }
+  .leaf svg { filter: drop-shadow(0 6px 6px rgba(20, 40, 10, .35)); }
+  .pz-steam { position: absolute; left: 22%; right: 22%; bottom: 70%; height: 46%; overflow: visible; opacity: 0; }
+  .pz-steam path { fill: none; stroke: rgba(255, 255, 255, .9); stroke-width: 6; stroke-linecap: round; filter: blur(3px); stroke-dasharray: 40 220; animation: steam 3.6s linear infinite; }
+  .pz-steam path:nth-child(2) { animation-delay: -1.2s; }
+  .pz-steam path:nth-child(3) { animation-delay: -2.4s; }
+  @keyframes steam { from { stroke-dashoffset: 260; } to { stroke-dashoffset: 0; } }
+  .pz-label { position: absolute; left: 50%; bottom: -6%; translate: -50% 0; display: flex; align-items: center; gap: 14px; padding: 12px 22px; border-radius: 99px; background: var(--char); color: var(--cream); box-shadow: 0 20px 40px -14px rgba(0, 0, 0, .5); white-space: nowrap; z-index: 3; }
+  .pz-label b { font-family: var(--display); font-weight: 400; font-size: 20px; text-transform: uppercase; }
+  .pz-label span { font-size: 14px; color: var(--gold); font-weight: 700; }
+  .build-hint { position: absolute; right: 0; top: 96px; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ---------- menu (pinned horizontal) ---------- */
+  .menu { position: relative; background:
+      radial-gradient(ellipse 70% 60% at 80% 20%, rgba(255, 110, 70, .35), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 10% 90%, rgba(90, 8, 4, .55), transparent 60%),
+      var(--tomato-deep); color: var(--mozz); overflow: hidden; }
+  .menu-inner { height: 100vh; height: 100svh; min-height: 680px; display: flex; flex-direction: column; justify-content: center; padding-top: 70px; }
+  .menu-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 26px; }
+  .menu-head h2 { font-size: clamp(46px, 6vw, 96px); }
+  .menu .eyebrow { color: #ffd59a; }
+  .menu-meta { display: flex; align-items: center; gap: 18px; font-size: 14px; color: rgba(255, 250, 241, .78); }
+  .menu-progress { width: 200px; height: 3px; border-radius: 3px; background: rgba(255, 250, 241, .2); overflow: hidden; }
+  .menu-progress i { display: block; width: 100%; height: 100%; background: var(--mozz); transform-origin: left; transform: scaleX(0); }
+  .menu-viewport { position: relative; }
+  .menu-track { display: flex; gap: 40px; width: max-content; padding: 20px max(32px, calc((100vw - 1260px) / 2)) 30px; align-items: center; }
+  .m-intro { width: 340px; flex: none; }
+  .m-intro p { font-size: 18px; line-height: 1.6; color: rgba(255, 250, 241, .86); }
+  .m-intro .legend { display: grid; gap: 10px; margin-top: 26px; font-size: 14px; }
+  .m-intro .legend div { display: flex; align-items: center; gap: 10px; }
+  .vmark { display: inline-grid; place-items: center; width: 18px; height: 18px; border: 2px solid #1f9d3c; border-radius: 3px; background: #fff; flex: none; }
+  .vmark::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #1f9d3c; }
+  .vmark.nv { border-color: #8b2b10; }
+  .vmark.nv::after { width: 0; height: 0; border-radius: 0; background: none; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 8px solid #8b2b10; }
+  .m-card { position: relative; width: 360px; flex: none; padding: 26px 26px 28px; border-radius: 30px; background: rgba(20, 8, 5, .26); border: 1px solid rgba(255, 250, 241, .14); backdrop-filter: blur(4px); }
+  .m-card:nth-child(odd) { transform: translateY(26px); }
+  .m-pizza { position: relative; width: 100%; aspect-ratio: 1; margin: -70px 0 20px; }
+  .m-pizza .disc { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: 0 40px 60px -24px rgba(0, 0, 0, .75), 0 0 0 8px rgba(255, 250, 241, .07); }
+  .m-pizza img { width: 100%; height: 100%; object-fit: cover; scale: 1.05; }
+  .m-num { position: absolute; right: 6px; top: 4px; font-family: var(--display); font-size: 18px; color: #ffd59a; }
+  .m-title { display: flex; align-items: center; gap: 10px; }
+  .m-title h3 { font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 1; text-transform: uppercase; }
+  .m-card p { margin-top: 10px; font-size: 15px; line-height: 1.55; color: rgba(255, 250, 241, .82); min-height: 70px; }
+  .m-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; }
+  .price { font-family: var(--display); font-size: 26px; color: var(--mozz); }
+  .m-add { padding: 11px 18px; border-radius: 99px; background: var(--mozz); color: var(--tomato-deep); font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; transition: background .3s, color .3s; }
+  .m-add:hover { background: var(--char); color: var(--mozz); }
+  .m-end { width: 340px; flex: none; display: grid; place-items: center; text-align: center; aspect-ratio: 3 / 4; border-radius: 30px; border: 2px dashed rgba(255, 250, 241, .3); padding: 30px; }
+  .m-end h3 { font-family: var(--display); font-weight: 400; font-size: 40px; line-height: .95; text-transform: uppercase; margin-bottom: 24px; }
+  .m-end .btn { background: var(--mozz); color: var(--tomato-deep); }
+
+  /* ---------- into the fire (pinned) ---------- */
+  .fire { position: relative; background: #0b0706; overflow: hidden; isolation: isolate; }
+  .fire-inner { position: relative; height: 100vh; height: 100svh; min-height: 640px; display: grid; place-items: center; text-align: center; }
+  .fire-photo { position: absolute; inset: -6%; z-index: -4; }
+  .fire-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; filter: brightness(.3) saturate(1.1); }
+  .fire-embers-img { position: absolute; left: 0; right: 0; bottom: 0; height: 55%; z-index: -3; mix-blend-mode: screen; opacity: .25;
+    -webkit-mask-image: linear-gradient(transparent, #000 60%); mask-image: linear-gradient(transparent, #000 60%); }
+  .fire-embers-img img { width: 100%; height: 100%; object-fit: cover; }
+  .fire-glow { position: absolute; left: 50%; bottom: -30%; width: 140vw; height: 110vh; translate: -50% 0; border-radius: 50%; z-index: -2; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(255, 190, 90, .85), rgba(246, 120, 40, .55) 35%, rgba(215, 38, 30, .3) 60%, transparent 100%); opacity: .25; transform: scale(.55); transform-origin: 50% 100%; }
+  .fire-glow.g2 { width: 70vw; height: 60vh; bottom: -32%; background: radial-gradient(closest-side, rgba(255, 236, 180, .9), rgba(255, 160, 60, .5) 45%, transparent 100%); mix-blend-mode: screen; }
+  .fire-vignette { position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 80% 70% at 50% 55%, transparent 40%, rgba(5, 3, 2, .85) 100%); }
+  #embers { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+  .fire-content { position: relative; z-index: 2; padding: 90px 24px 40px; }
+  .fire .eyebrow { color: #ffbf6b; }
+  .temp { margin-top: 18px; font-family: var(--display); font-size: clamp(110px, 19vw, 300px); line-height: .85; letter-spacing: -.03em;
+    background: linear-gradient(180deg, #fff3c9 0%, #ffc45c 35%, #f26a2a 70%, #c41f14 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 40px rgba(255, 120, 40, .45)); font-variant-numeric: tabular-nums; }
+  .temp small { font-size: .42em; vertical-align: .9em; margin-left: .04em; }
+  .secs { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 8px; font-family: var(--display); font-size: clamp(30px, 4vw, 58px); line-height: 1; color: var(--mozz); text-transform: uppercase; }
+  .secs i { width: 60px; height: 3px; border-radius: 3px; background: var(--gold); }
+  .fire-lines { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; max-width: 980px; margin: 46px auto 0; text-align: left; }
+  .fire-lines div { padding-top: 16px; border-top: 1px solid rgba(255, 220, 170, .25); }
+  .fire-lines b { display: block; font-family: var(--display); font-weight: 400; font-size: 20px; text-transform: uppercase; color: #ffd08a; }
+  .fire-lines p { margin-top: 6px; font-size: 15px; color: rgba(255, 244, 230, .9); text-shadow: 0 2px 14px rgba(0, 0, 0, .7); }
+  .fire-lines b { text-shadow: 0 2px 14px rgba(0, 0, 0, .6); }
+  .heat { position: absolute; right: 34px; top: 50%; translate: 0 -50%; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 12px; font-size: 11px; font-weight: 700; letter-spacing: .2em; color: rgba(255, 230, 200, .7); }
+  .heat-bar { width: 6px; height: 240px; border-radius: 6px; background: rgba(255, 255, 255, .12); overflow: hidden; display: flex; align-items: flex-end; }
+  .heat-bar i { display: block; width: 100%; height: 100%; background: linear-gradient(#fff1b8, #f6a534 40%, #d7261e); transform-origin: bottom; transform: scaleY(1); }
+  .fire-cap { position: absolute; right: 34px; bottom: 26px; z-index: 2; font-size: 12px; color: rgba(255, 230, 200, .6); max-width: 300px; text-align: right; }
+
+  /* ---------- reviews ---------- */
+  .reviews { position: relative; background: var(--cream); color: var(--char); padding: 150px 0 160px; overflow: hidden; }
+  .rev-word { position: absolute; left: 0; top: 40px; font-family: var(--display); font-size: 22vw; line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 2px rgba(47, 125, 58, .16); pointer-events: none; }
+  .reviews .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 70px; align-items: center; }
+  .rev-photo { position: relative; height: 620px; border-radius: 34px; overflow: hidden; box-shadow: 0 50px 90px -40px rgba(60, 20, 10, .55); }
+  .rev-photo img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; object-fit: cover; object-position: 40% 50%; }
+  .rev-photo figcaption { position: absolute; left: 18px; bottom: 18px; right: 18px; padding: 12px 16px; border-radius: 16px; background: rgba(20, 14, 12, .72); backdrop-filter: blur(6px); color: var(--cream); font-size: 13px; }
+  .rev-score { position: absolute; right: -26px; top: 40px; display: grid; place-items: center; width: 150px; height: 150px; border-radius: 50%; background: var(--tomato); color: #fff; text-align: center; box-shadow: 0 30px 50px -20px rgba(158, 21, 14, .8); z-index: 2; }
+  .rev-score b { display: block; font-family: var(--display); font-weight: 400; font-size: 44px; line-height: 1; }
+  .rev-score span { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .reviews h2 { margin: 16px 0 34px; font-size: clamp(42px, 5vw, 78px); }
+  .reviews h2 em { font-style: normal; color: var(--tomato); }
+  .reviews .eyebrow { color: var(--basil); }
+  .rev-list { display: grid; gap: 18px; }
+  .rev { padding: 24px 26px; border-radius: 24px; background: var(--mozz); box-shadow: 0 24px 50px -30px rgba(60, 20, 10, .45), inset 0 0 0 1px rgba(20, 14, 12, .06); }
+  .rev:nth-child(2) { margin-left: 40px; }
+  .stars { display: flex; gap: 3px; color: var(--gold); }
+  .stars svg { width: 16px; height: 16px; }
+  .rev blockquote { margin: 10px 0 12px; font-size: 17px; line-height: 1.55; }
+  .rev cite { font-style: normal; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+
+  /* ---------- order ---------- */
+  .order { position: relative; padding: 140px 0; background:
+      radial-gradient(ellipse 50% 40% at 85% 10%, rgba(215, 38, 30, .22), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, rgba(47, 125, 58, .16), transparent 70%), var(--char); }
+  .order-head { margin-bottom: 50px; }
+  .order-head h2 { margin-top: 16px; font-size: clamp(44px, 5.6vw, 90px); }
+  .order-head h2 em { font-style: normal; color: var(--tomato-2); }
+  .order-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .85fr); gap: 40px; align-items: start; }
+  .o-block { margin-bottom: 34px; }
+  .o-block > h3 { margin-bottom: 14px; font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+  .pick-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .tile { position: relative; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 20px; background: var(--char-2); border: 1.5px solid rgba(247, 239, 225, .1); cursor: pointer; transition: border-color .3s, background .3s, transform .3s; }
+  .tile:hover { transform: translateY(-2px); border-color: rgba(247, 239, 225, .3); }
+  .tile input { position: absolute; opacity: 0; pointer-events: none; }
+  .tile:has(input:checked) { border-color: var(--tomato-2); background: #2a1612; box-shadow: 0 16px 30px -18px rgba(239, 74, 47, .8); }
+  .tile:has(input:focus-visible) { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .tile .th { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; flex: none; box-shadow: 0 8px 14px -6px rgba(0, 0, 0, .6); }
+  .tile .th img, .tile .th svg { width: 100%; height: 100%; object-fit: cover; scale: 1.06; }
+  .tile strong { display: flex; align-items: center; gap: 6px; font-size: 15px; line-height: 1.2; }
+  .tile strong .vmark { width: 13px; height: 13px; border-width: 1.5px; }
+  .tile strong .vmark::after { width: 5px; height: 5px; }
+  .tile strong .vmark.nv::after { width: 0; height: 0; border-left-width: 3.5px; border-right-width: 3.5px; border-bottom-width: 6px; }
+  .tile small { display: block; margin-top: 3px; font-size: 13px; color: var(--muted); }
+  .seg { display: inline-flex; flex-wrap: wrap; gap: 6px; padding: 6px; border-radius: 99px; background: var(--char-2); border: 1px solid rgba(247, 239, 225, .1); }
+  .seg label { position: relative; padding: 11px 18px; border-radius: 99px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .3s, color .3s; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg label:has(input:checked) { background: var(--cream); color: var(--char); }
+  .seg label:has(input:focus-visible) { outline: 2px solid var(--gold); }
+  .seg small { color: inherit; opacity: .65; font-weight: 500; }
+  .o-row { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; }
+  .qty { display: inline-flex; align-items: center; gap: 4px; padding: 6px; border-radius: 99px; background: var(--char-2); border: 1px solid rgba(247, 239, 225, .1); }
+  .qty button { width: 40px; height: 40px; border-radius: 50%; font-size: 20px; font-weight: 700; transition: background .3s; }
+  .qty button:hover { background: rgba(247, 239, 225, .1); }
+  .qty output { min-width: 34px; text-align: center; font-family: var(--display); font-size: 20px; }
+  .checks { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chk { display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 99px; background: var(--char-2); border: 1.5px solid rgba(247, 239, 225, .1); font-size: 14px; cursor: pointer; transition: border-color .3s; }
+  .chk input { accent-color: var(--tomato); width: 16px; height: 16px; }
+  .chk:has(input:checked) { border-color: var(--basil-2); }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .fields .full { grid-column: 1 / -1; }
+  .field label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: rgba(247, 239, 225, .75); }
+  .field input, .field textarea { width: 100%; padding: 14px 16px; border-radius: 14px; background: var(--char-2); border: 1.5px solid rgba(247, 239, 225, .12); outline: 0; transition: border-color .3s; }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field input:focus, .field textarea:focus { border-color: var(--gold); }
+  .field input::placeholder, .field textarea::placeholder { color: #7d6c62; }
+  .summary { position: sticky; top: 96px; padding: 30px; border-radius: 30px; background: var(--cream); color: var(--char); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .8); }
+  .summary h3 { font-family: var(--display); font-weight: 400; font-size: 28px; text-transform: uppercase; line-height: 1; }
+  .sum-pizza { display: flex; align-items: center; gap: 16px; margin: 22px 0 18px; }
+  .sum-pizza .th { width: 84px; height: 84px; border-radius: 50%; overflow: hidden; flex: none; box-shadow: 0 14px 24px -10px rgba(60, 20, 10, .6); transition: rotate .8s cubic-bezier(.2, .8, .2, 1); }
+  .sum-pizza .th img, .sum-pizza .th svg { width: 100%; height: 100%; object-fit: cover; scale: 1.06; }
+  .sum-pizza b { display: block; font-size: 18px; }
+  .sum-pizza span { font-size: 14px; color: var(--ink-soft); }
+  .lines { list-style: none; display: grid; gap: 8px; padding: 16px 0; border-top: 1px dashed rgba(20, 14, 12, .2); border-bottom: 1px dashed rgba(20, 14, 12, .2); font-size: 15px; }
+  .lines li { display: flex; justify-content: space-between; gap: 12px; }
+  .lines li span:last-child { font-weight: 700; white-space: nowrap; }
+  .total { display: flex; align-items: baseline; justify-content: space-between; margin: 18px 0 22px; }
+  .total span { font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
+  .total b { font-family: var(--display); font-weight: 400; font-size: 46px; line-height: 1; color: var(--tomato); }
+  .summary .btn { width: 100%; }
+  .status { min-height: 22px; margin-top: 14px; font-size: 14px; line-height: 1.5; color: var(--basil); font-weight: 600; }
+  .status.err { color: var(--tomato); }
+  .sum-note { margin-top: 10px; font-size: 12px; color: var(--ink-soft); }
+
+  /* ---------- visit ---------- */
+  .visit { position: relative; padding: 140px 0; background: var(--cream); color: var(--char); }
+  .visit .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 60px; align-items: center; }
+  .visit .eyebrow { color: var(--tomato); }
+  .visit h2 { margin: 16px 0 30px; font-size: clamp(42px, 5vw, 78px); }
+  .hours { list-style: none; display: grid; font-size: 16px; }
+  .hours li { display: flex; justify-content: space-between; gap: 20px; padding: 13px 4px; border-bottom: 1px solid rgba(20, 14, 12, .1); }
+  .hours li span:last-child { font-weight: 600; }
+  .hours li.today { padding-left: 14px; padding-right: 14px; border-radius: 14px; border-bottom-color: transparent; background: var(--char); color: var(--cream); }
+  .hours li.today span:first-child::after { content: " · today"; color: var(--gold); font-weight: 700; }
+  .visit-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; font-size: 15px; }
+  .visit-info b { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--tomato); }
+  .map { position: relative; border-radius: 34px; overflow: hidden; background: #efe3cf; aspect-ratio: 5 / 4; box-shadow: 0 50px 90px -50px rgba(60, 20, 10, .6), inset 0 0 0 1px rgba(20, 14, 12, .06); }
+  .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pin { position: absolute; left: 54%; top: 46%; translate: -50% -100%; display: flex; flex-direction: column; align-items: center; }
+  .pin-card { padding: 10px 16px; border-radius: 14px; background: var(--char); color: var(--cream); font-size: 13px; white-space: nowrap; box-shadow: 0 16px 30px -12px rgba(0, 0, 0, .5); }
+  .pin-card b { display: block; font-family: var(--display); font-weight: 400; font-size: 16px; text-transform: uppercase; }
+  .pin-dot { position: relative; width: 22px; height: 22px; margin-top: 10px; border-radius: 50%; background: var(--tomato); border: 4px solid #fff; box-shadow: 0 6px 12px rgba(0, 0, 0, .3); }
+  .pin-dot::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 2px solid var(--tomato); animation: ping 2s ease-out infinite; }
+  @keyframes ping { from { transform: scale(.4); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+  .radius-tag { position: absolute; right: 18px; bottom: 18px; padding: 9px 14px; border-radius: 99px; background: rgba(255, 250, 241, .92); font-size: 13px; font-weight: 600; }
+
+  /* ---------- footer ---------- */
+  footer { position: relative; overflow: hidden; background: var(--tomato); color: var(--mozz); padding: 100px 0 96px; }
+  .foot-grid { display: grid; grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr)); gap: 40px; }
+  .foot-grid .logo { font-size: 26px; }
+  .foot-grid .logo em { color: var(--char); }
+  .foot-grid p { max-width: 320px; margin-top: 16px; font-size: 15px; color: rgba(255, 250, 241, .85); }
+  .foot-grid h4 { margin-bottom: 14px; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: rgba(255, 250, 241, .65); }
+  .foot-grid a:not(.logo) { display: block; margin-bottom: 8px; font-size: 15px; }
+  .foot-grid a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .giant { margin: 70px 0 0; font-family: var(--display); font-size: 21vw; line-height: .8; white-space: nowrap; color: var(--mozz); letter-spacing: -.03em; }
+  .giant span { color: var(--char); }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(255, 250, 241, .25); font-size: 13px; color: rgba(255, 250, 241, .85); }
+
+  /* ---------- demo badge & cursor ---------- */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 80; display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 9px; border-radius: 99px; background: rgba(255, 250, 241, .96); color: var(--char); font-size: 12px; font-weight: 700; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .6); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--tomato); color: #fff; font-size: 14px; }
+  .cursor, .cursor-dot { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; border-radius: 50%; display: none; opacity: 0; transition: opacity .3s; }
+  .cursor.live, .cursor-dot.live { opacity: 1; }
+  .cursor { width: 44px; height: 44px; margin: -22px 0 0 -22px; border: 1.5px solid var(--tomato-2); transition: width .3s, height .3s, margin .3s, background .3s, border-color .3s; }
+  .cursor.big { width: 80px; height: 80px; margin: -40px 0 0 -40px; background: rgba(239, 74, 47, .16); border-color: transparent; }
+  .cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--tomato-2); }
+  @media (pointer: fine) { .has-cursor .cursor, .has-cursor .cursor-dot { display: block; } }
+
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  /* ---------- static mode (reduced motion or no GSAP): show final states ---------- */
+  html.static .menu-viewport { overflow-x: auto; scrollbar-width: thin; }
+  html.static .menu-track { padding-top: 90px; }
+  html.static .build-hint { display: none; }
+  html.static .ing svg, html.static .hp-in img, html.static .scroll-hint i, html.static .pin-dot::after { animation: none; }
+  html.static .step { opacity: 1; transform: none; }
+  html.static .pz-steam { opacity: 1; }
+  html.static .pz-steam path { animation: none; stroke-dasharray: none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1080px) {
+    .nav-links { display: none; }
+    .reviews .wrap, .visit .wrap { grid-template-columns: 1fr; }
+    .order-grid { grid-template-columns: 1fr; }
+    .summary { position: relative; top: 0; }
+    .rev-score { right: 18px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 767px) {
+    .wrap, .build-inner { width: calc(100% - 32px); }
+    .nav { padding: 14px 0; }
+    .nav .wrap { gap: 12px; }
+    .logo { font-size: 18px; }
+    .logo svg { width: 26px; height: 26px; }
+    .nav .btn { padding: 10px 14px; font-size: 12px; }
+    .hero { min-height: 640px; }
+    .hw1 { top: 13vh; }
+    .hw2 { bottom: 33vh; }
+    .hw-in { font-size: 21vw; }
+    .hero-pizza { width: 68vw; top: 45%; }
+    .ing.mhide { display: none; }
+    .ing.dsk { display: none; }
+    .hero-copy { bottom: 74px; }
+    .hero-copy .wrap { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .hero-copy p { font-size: 14px; }
+    .hero-copy p .more, .open-pill { display: none; }
+    .hero-ctas { justify-content: flex-start; flex-wrap: nowrap; gap: 8px; }
+    .hero-ctas .btn { padding: 13px 16px; font-size: 12px; gap: 8px; }
+    .scroll-hint { display: none; }
+    .band span { font-size: 22px; gap: 20px; padding-right: 20px; }
+    .band span svg { width: 28px; }
+    .build-inner { grid-template-columns: 1fr; align-content: start; gap: 8px; padding-top: 78px; min-height: 0; }
+    .build-copy h2 { margin: 8px 0 12px; font-size: 34px; }
+    .steps-wrap { padding-left: 0; }
+    .steps { grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+    .steps-wrap::before, .steps-bar { display: none; }
+    .step { grid-template-columns: 30px 1fr; padding: 6px 0; }
+    .step.on { transform: none; }
+    .step b { font-size: 15px; }
+    .step h3 { font-size: 15px; }
+    .step p { display: none; }
+    .pz-stage { width: min(84vw, 46vh); margin-top: 7vh; }
+    .pz-label b { font-size: 16px; }
+    .pz-label { padding: 10px 16px; }
+    .build-hint { display: none; }
+    .menu-inner { height: auto; min-height: 0; padding: 110px 0 90px; }
+    .menu-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .menu-progress { display: none; }
+    .menu-track { flex-direction: column; width: auto; gap: 90px; padding: 60px 16px 10px; }
+    .m-intro, .m-card, .m-end { width: 100%; max-width: 420px; }
+    .m-card:nth-child(odd) { transform: none; }
+    .m-end { aspect-ratio: auto; padding: 40px 24px; }
+    html.static .menu-viewport { overflow: visible; }
+    .fire-content { padding: 80px 16px 30px; }
+    .temp { font-size: 30vw; }
+    .secs i { width: 28px; }
+    .fire-lines { grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+    .fire-lines div { padding-top: 10px; }
+    .fire-lines p { font-size: 14px; }
+    .heat { display: none; }
+    .fire-cap { left: 16px; right: 16px; top: 76px; bottom: auto; max-width: none; font-size: 11px; }
+    .reviews { padding: 100px 0; }
+    .rev-photo { height: 420px; }
+    .rev-score { width: 116px; height: 116px; top: 16px; right: 16px; }
+    .rev-score b { font-size: 34px; }
+    .rev:nth-child(2) { margin-left: 0; }
+    .order, .visit { padding: 100px 0; }
+    .pick-grid { grid-template-columns: 1fr 1fr; }
+    .tile { padding: 10px; gap: 10px; }
+    .tile .th { width: 42px; height: 42px; }
+    .tile strong { font-size: 14px; }
+    .fields { grid-template-columns: 1fr; }
+    .summary { padding: 24px; }
+    .visit-info { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; gap: 26px; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Shared SVG ingredient library, reused with <use> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-basil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fb556"/><stop offset=".55" stop-color="#2f8a3a"/><stop offset="1" stop-color="#1b5a26"/></linearGradient>
+    <linearGradient id="g-chilli" x1="0" y1="0" x2="1" y2=".4"><stop offset="0" stop-color="#ff5a3a"/><stop offset=".5" stop-color="#d8211a"/><stop offset="1" stop-color="#8f0f0a"/></linearGradient>
+    <radialGradient id="g-mozz" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#fbf3e2"/><stop offset="1" stop-color="#ecd7ad"/></radialGradient>
+    <radialGradient id="g-garlic" cx=".4" cy=".4" r=".8"><stop offset="0" stop-color="#fffaf0"/><stop offset=".8" stop-color="#efe1c6"/><stop offset="1" stop-color="#d9c29a"/></radialGradient>
+    <symbol id="i-basil" viewBox="0 0 120 70">
+      <path d="M6 36 C 26 6, 86 0, 116 34 C 88 64, 30 66, 6 36 Z" fill="url(#g-basil)"/>
+      <path d="M6 36 Q 60 30 116 34" stroke="#b5e3a4" stroke-opacity=".75" stroke-width="2.2" fill="none"/>
+      <path d="M34 33 Q 42 20 52 14 M54 32 Q 64 18 76 12 M74 33 Q 84 22 96 20 M38 35 Q 46 46 56 54 M58 35 Q 68 48 80 54 M78 35 Q 88 44 98 46" stroke="#b5e3a4" stroke-opacity=".35" stroke-width="1.5" fill="none"/>
+      <path d="M30 22 C 46 12, 70 10, 90 18" stroke="#fff" stroke-opacity=".22" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-tomato" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="48" fill="#b9190f"/>
+      <circle cx="50" cy="50" r="43" fill="#e9452e"/>
+      <g id="loc"><path d="M50 44 C 38 40, 34 22, 44 14 C 48 11, 52 11, 56 14 C 66 22, 62 40, 50 44 Z" fill="#c3220f"/><ellipse cx="46" cy="24" rx="2.4" ry="3.6" fill="#ffd27a"/><ellipse cx="54" cy="28" rx="2.4" ry="3.6" fill="#ffd27a"/><ellipse cx="49" cy="34" rx="2.2" ry="3.2" fill="#ffd27a"/></g>
+      <use href="#loc" transform="rotate(72 50 50)"/><use href="#loc" transform="rotate(144 50 50)"/><use href="#loc" transform="rotate(216 50 50)"/><use href="#loc" transform="rotate(288 50 50)"/>
+      <circle cx="50" cy="50" r="8" fill="#f68a66"/>
+      <path d="M22 30 A 34 34 0 0 1 44 12" stroke="#fff" stroke-opacity=".4" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-chilli" viewBox="0 0 140 50">
+      <path d="M22 20 C 50 8, 100 10, 134 42 C 100 30, 56 37, 24 35 C 15 34, 13 22, 22 20 Z" fill="url(#g-chilli)"/>
+      <path d="M20 23 C 12 18, 8 12, 5 4" stroke="#3b7a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M14 21 C 18 15, 28 15, 31 22 C 27 31, 17 31, 14 25 Z" fill="#4c8f34"/>
+      <path d="M40 19 C 70 14, 100 19, 122 34" stroke="#fff" stroke-opacity=".4" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-garlic" viewBox="0 0 100 110">
+      <path d="M50 8 C 54 20, 58 26, 66 32 C 90 44, 96 70, 84 88 C 74 104, 26 104, 16 88 C 4 70, 10 44, 34 32 C 42 26, 46 20, 50 8 Z" fill="url(#g-garlic)"/>
+      <path d="M50 30 C 40 50, 40 80, 48 102 M50 30 C 62 50, 64 80, 54 102 M36 36 C 22 56, 24 84, 34 98 M64 36 C 80 56, 78 84, 66 98" stroke="#cdb48a" stroke-width="2.4" fill="none"/>
+      <path d="M47 9 C 48 3, 52 3, 53 9" stroke="#b39a6c" stroke-width="3" fill="none"/>
+    </symbol>
+    <symbol id="i-olive" viewBox="0 0 60 60">
+      <circle cx="30" cy="30" r="18" fill="none" stroke="#221c19" stroke-width="16"/>
+      <path d="M15 21 A 19 19 0 0 1 30 11" stroke="#7d736a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-flour" viewBox="0 0 100 100">
+      <g fill="#fffaf0"><circle cx="20" cy="30" r="2.4" opacity=".8"/><circle cx="34" cy="18" r="1.6" opacity=".6"/><circle cx="52" cy="40" r="3" opacity=".7"/><circle cx="70" cy="22" r="1.8" opacity=".6"/><circle cx="80" cy="56" r="2.6" opacity=".7"/><circle cx="44" cy="70" r="2" opacity=".55"/><circle cx="24" cy="78" r="3.2" opacity=".5"/><circle cx="62" cy="84" r="1.6" opacity=".6"/><circle cx="12" cy="54" r="1.4" opacity=".6"/><circle cx="88" cy="86" r="2" opacity=".5"/><circle cx="58" cy="60" r="1.2" opacity=".7"/></g>
+    </symbol>
+    <symbol id="i-mozz" viewBox="0 0 100 90">
+      <path d="M20 20 C 34 2, 70 4, 84 18 C 100 34, 96 62, 78 76 C 60 90, 26 86, 12 68 C 0 52, 6 32, 20 20 Z" fill="url(#g-mozz)"/>
+      <path d="M30 28 C 42 18, 60 18, 70 26" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol>
+    <symbol id="i-margherita" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="49" fill="#d79a52"/><circle cx="50" cy="50" r="44" fill="#efcf98"/><circle cx="50" cy="50" r="38" fill="#cf2d1c"/>
+      <use href="#i-mozz" x="24" y="22" width="22" height="20"/><use href="#i-mozz" x="54" y="26" width="20" height="18"/><use href="#i-mozz" x="30" y="54" width="22" height="20"/><use href="#i-mozz" x="56" y="56" width="18" height="16"/>
+      <use href="#i-basil" x="40" y="40" width="22" height="13"/><use href="#i-basil" x="22" y="40" width="16" height="10"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div><div class="cursor-dot" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Forno Rosso home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#d7261e"/><path d="M16 6c3 4 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 3-6 0 2 1 3 2 3-1-4 0-7 2-9z" fill="#fffaf1"/></svg>
+      FORNO <em>ROSSO</em>
+    </a>
+    <div class="nav-links">
+      <a href="#build">The Margherita</a>
+      <a href="#menu">Menu</a>
+      <a href="#fire">The oven</a>
+      <a href="#visit">Visit</a>
+    </div>
+    <a href="#order" class="btn btn-red magnetic">Order now</a>
+  </div>
+</nav>
+
+<!-- HERO: 6 depth layers (glow, giant words, far ingredients, pizza, near ingredients, blurred foreground) -->
+<header class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-words" aria-hidden="true">
+    <div class="hw hw1"><div class="hw-in" data-split>FORNO</div></div>
+    <div class="hw hw2"><div class="hw-in" data-split>ROSSO</div></div>
+  </div>
+
+  <div class="ings ings-back" aria-hidden="true">
+    <div class="ing flour" data-d="1" style="left:36%;top:14%;width:150px"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-flour"/></svg></div></div>
+    <div class="ing flour dsk" data-d="1" style="left:62%;top:70%;width:170px"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-flour"/></svg></div></div>
+    <div class="ing" data-d="1" style="left:9%;top:22%;width:58px;--r:-24deg"><div><svg class="ico" viewBox="0 0 120 70"><use href="#i-basil"/></svg></div></div>
+    <div class="ing dsk" data-d="1" style="left:90%;top:36%;width:36px"><div><svg class="ico" viewBox="0 0 60 60"><use href="#i-olive"/></svg></div></div>
+    <div class="ing" data-d="1" style="left:73%;top:10%;width:46px;--r:16deg"><div><svg class="ico" viewBox="0 0 100 110"><use href="#i-garlic"/></svg></div></div>
+    <div class="ing dsk" data-d="1" style="left:23%;top:74%;width:62px"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-tomato"/></svg></div></div>
+    <div class="ing dsk" data-d="1" style="left:57%;top:88%;width:76px;--r:-30deg"><div><svg class="ico" viewBox="0 0 140 50"><use href="#i-chilli"/></svg></div></div>
+    <div class="ing" data-d="2" style="left:17%;top:47%;width:100px;--r:28deg;--dl:-1s"><div><svg class="ico" viewBox="0 0 120 70"><use href="#i-basil"/></svg></div></div>
+    <div class="ing" data-d="2" style="left:79%;top:55%;width:104px;--dl:-2s"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-tomato"/></svg></div></div>
+    <div class="ing dsk" data-d="2" style="left:26%;top:16%;width:124px;--r:22deg;--dl:-3s"><div><svg class="ico" viewBox="0 0 140 50"><use href="#i-chilli"/></svg></div></div>
+    <div class="ing dsk" data-d="2" style="left:86%;top:76%;width:80px;--r:-12deg;--dl:-1.5s"><div><svg class="ico" viewBox="0 0 100 110"><use href="#i-garlic"/></svg></div></div>
+    <div class="ing" data-d="2" style="left:12%;top:83%;width:54px;--dl:-2.5s"><div><svg class="ico" viewBox="0 0 60 60"><use href="#i-olive"/></svg></div></div>
+  </div>
+
+  <div class="hero-pizza"><div class="hp-spin"><div class="hp-in"><img src="img/ortolana-veg-pizza.jpg" alt="Top-down view of a sliced pizza with peppers, red onion, black olives and mozzarella" /></div></div></div>
+
+  <div class="ings ings-front" aria-hidden="true">
+    <div class="ing" data-d="3" style="left:63%;top:27%;width:120px;--r:-40deg;--dl:-.5s"><div><svg class="ico" viewBox="0 0 120 70"><use href="#i-basil"/></svg></div></div>
+    <div class="ing" data-d="3" style="left:37%;top:67%;width:52px;--dl:-1.2s"><div><svg class="ico" viewBox="0 0 60 60"><use href="#i-olive"/></svg></div></div>
+    <div class="ing dsk" data-d="3" style="left:31%;top:29%;width:88px;--dl:-2.2s"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-tomato"/></svg></div></div>
+    <div class="ing" data-d="3" style="left:64%;top:69%;width:132px;--r:150deg;--dl:-3.1s"><div><svg class="ico" viewBox="0 0 140 50"><use href="#i-chilli"/></svg></div></div>
+    <div class="ing dsk" data-d="4" style="left:75%;top:60%;width:190px;--r:-12deg;--dl:-1.8s"><div><svg class="ico" viewBox="0 0 120 70"><use href="#i-basil"/></svg></div></div>
+    <div class="ing mhide" data-d="4" style="left:3%;top:9%;width:150px;--dl:-2.6s"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-tomato"/></svg></div></div>
+    <div class="ing" data-d="4" style="left:83%;top:12%;width:200px;--r:-35deg;--dl:-.8s"><div><svg class="ico" viewBox="0 0 140 50"><use href="#i-chilli"/></svg></div></div>
+    <div class="ing dsk" data-d="4" style="left:6%;top:56%;width:120px;--r:20deg;--dl:-3.5s"><div><svg class="ico" viewBox="0 0 100 110"><use href="#i-garlic"/></svg></div></div>
+    <div class="ing mhide" data-d="5" style="left:-7%;top:58%;width:340px;--r:40deg"><div><svg class="ico" viewBox="0 0 120 70"><use href="#i-basil"/></svg></div></div>
+    <div class="ing dsk" data-d="5" style="left:90%;top:80%;width:300px;--dl:-2s"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-tomato"/></svg></div></div>
+    <div class="ing dsk" data-d="5" style="left:43%;top:-12%;width:270px;--r:-160deg;--dl:-1s"><div><svg class="ico" viewBox="0 0 120 70"><use href="#i-basil"/></svg></div></div>
+    <div class="ing flour" data-d="4" style="left:68%;top:38%;width:230px"><div><svg class="ico" viewBox="0 0 100 100"><use href="#i-flour"/></svg></div></div>
+  </div>
+
+  <div class="hero-copy">
+    <div class="wrap">
+      <div>
+        <div class="open-pill"><i></i><span id="open-now">Open today · 12 pm to 11:30 pm</span></div>
+        <p><b>Neapolitan pizza, 90 seconds in a 485°C oak fire.</b><span class="more"> Indiranagar, Bengaluru. Delivery and dine-in, from ₹449.</span></p>
+      </div>
+      <div class="hero-ctas">
+        <a href="#order" class="btn btn-red magnetic">Order a pizza <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#menu" class="btn btn-ghost magnetic">See the menu</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true"><i></i>Scroll</div>
+</header>
+
+<div class="band" aria-hidden="true">
+  <div class="band-track">
+    <span>Dough rested 48 hours <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>San Marzano tomatoes <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>Fior di latte <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>Oak fire at 485°C <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>Ninety seconds <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span>
+    <span>Dough rested 48 hours <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>San Marzano tomatoes <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>Fior di latte <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>Oak fire at 485°C <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span><span>Ninety seconds <svg viewBox="0 0 120 70"><use href="#i-basil"/></svg></span>
+  </div>
+</div>
+
+<!-- BUILD: pinned; scrolling assembles a Margherita layer by layer -->
+<section class="build" id="build">
+  <div class="build-inner">
+    <div class="build-bgword" aria-hidden="true">MARGHERITA</div>
+    <div class="build-copy">
+      <span class="eyebrow">Build a Margherita</span>
+      <h2 class="display">Four things.<br /><em>No&nbsp;shortcuts.</em></h2>
+      <div class="steps-wrap"><span class="steps-bar" aria-hidden="true"></span><ol class="steps">
+        <li class="step"><b>01</b><h3>Dough · 48 h</h3><p>Flour, water, salt and a pinch of yeast, rested for two days so the crust puffs light and blistered.</p></li>
+        <li class="step"><b>02</b><h3>San Marzano sauce</h3><p>Hand-crushed tomatoes and sea salt. Spread thin, never cooked twice.</p></li>
+        <li class="step"><b>03</b><h3>Fior di latte</h3><p>Fresh cow's-milk mozzarella, torn by hand into soft clouds.</p></li>
+        <li class="step"><b>04</b><h3>Fresh basil</h3><p>Picked that morning, laid on just before the fire.</p></li>
+      </ol></div>
+    </div>
+    <div class="pz-stage-wrap">
+      <div class="pz-stage" aria-label="Illustration of a Margherita pizza being assembled" role="img">
+        <div class="pz-shadow"></div>
+        <svg class="pz-flour" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-flour" x="0" y="0" width="30" height="30"/><use href="#i-flour" x="70" y="8" width="26" height="26"/><use href="#i-flour" x="6" y="70" width="28" height="28"/><use href="#i-flour" x="72" y="72" width="24" height="24"/><use href="#i-flour" x="40" y="-4" width="20" height="20"/><use href="#i-flour" x="44" y="84" width="18" height="18"/></svg>
+        <div class="pz-rot">
+          <div class="pz-dough"></div>
+          <div class="pz-sauce"></div>
+          <div class="pz-layer pz-cheese">
+            <div class="mozz" style="left:24%;top:22%;width:20%"><svg viewBox="0 0 100 90"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:52%;top:18%;width:18%"><svg viewBox="0 0 100 90" style="rotate:60deg"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:62%;top:42%;width:21%"><svg viewBox="0 0 100 90" style="rotate:-30deg"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:18%;top:48%;width:19%"><svg viewBox="0 0 100 90" style="rotate:120deg"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:40%;top:42%;width:17%"><svg viewBox="0 0 100 90" style="rotate:200deg"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:36%;top:66%;width:20%"><svg viewBox="0 0 100 90" style="rotate:80deg"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:58%;top:66%;width:16%"><svg viewBox="0 0 100 90" style="rotate:-100deg"><use href="#i-mozz"/></svg></div>
+            <div class="mozz" style="left:37%;top:18%;width:12%"><svg viewBox="0 0 100 90" style="rotate:20deg"><use href="#i-mozz"/></svg></div>
+          </div>
+          <div class="pz-char"></div>
+          <div class="pz-layer pz-basil">
+            <div class="leaf" style="left:30%;top:33%;width:20%"><svg viewBox="0 0 120 70" style="rotate:-30deg"><use href="#i-basil"/></svg></div>
+            <div class="leaf" style="left:52%;top:30%;width:18%"><svg viewBox="0 0 120 70" style="rotate:40deg"><use href="#i-basil"/></svg></div>
+            <div class="leaf" style="left:46%;top:54%;width:22%"><svg viewBox="0 0 120 70" style="rotate:160deg"><use href="#i-basil"/></svg></div>
+            <div class="leaf" style="left:24%;top:58%;width:16%"><svg viewBox="0 0 120 70" style="rotate:100deg"><use href="#i-basil"/></svg></div>
+            <div class="leaf" style="left:62%;top:56%;width:15%"><svg viewBox="0 0 120 70" style="rotate:-80deg"><use href="#i-basil"/></svg></div>
+            <div class="leaf" style="left:42%;top:42%;width:14%"><svg viewBox="0 0 120 70" style="rotate:220deg"><use href="#i-basil"/></svg></div>
+          </div>
+        </div>
+        <svg class="pz-steam" viewBox="0 0 100 100" aria-hidden="true"><path d="M30 100 C 20 80, 40 60, 30 40 S 40 10, 34 0"/><path d="M50 100 C 40 78, 62 58, 50 36 S 58 12, 52 0"/><path d="M70 100 C 60 80, 80 62, 70 42 S 76 14, 72 0"/></svg>
+        <div class="pz-label"><b>Margherita</b><span>₹449 · 90 s in the oven</span></div>
+      </div>
+    </div>
+    <div class="build-hint" aria-hidden="true">Keep scrolling to build</div>
+  </div>
+</section>
+
+<!-- MENU: pinned; vertical scroll slides the cards sideways and spins each pizza -->
+<section class="menu" id="menu">
+  <div class="menu-inner">
+    <div class="wrap menu-head">
+      <div><span class="eyebrow">The menu</span><h2 class="display">Six pizzas.<br />That's it.</h2></div>
+      <div class="menu-meta"><span>All 12 inch, hand-stretched</span><div class="menu-progress" aria-hidden="true"><i></i></div></div>
+    </div>
+    <div class="menu-viewport">
+      <div class="menu-track">
+        <div class="m-intro">
+          <p>A short menu, made properly. Every pizza starts with the same 48-hour dough and goes into the same oak fire. Prices are for a 12-inch pizza.</p>
+          <div class="legend"><div><span class="vmark" aria-hidden="true"></span>Vegetarian</div><div><span class="vmark nv" aria-hidden="true"></span>Non-vegetarian (contains chicken)</div></div>
+        </div>
+        <article class="m-card">
+          <div class="m-pizza"><div class="disc"><img src="img/verde-spinach-pizza.jpg" alt="Thin-crust pizza with tomato sauce, wilted spinach and grated cheese, from above" loading="lazy" /></div><span class="m-num">01</span></div>
+          <div class="m-title"><span class="vmark" title="Vegetarian"></span><h3>Verde</h3></div>
+          <p>Thin crust, tomato sauce and a heap of wilted spinach under finely grated hard cheese.</p>
+          <div class="m-foot"><span class="price">₹449</span><button class="m-add" type="button" data-pick="verde">Add</button></div>
+        </article>
+        <article class="m-card">
+          <div class="m-pizza"><div class="disc"><img src="img/giardino-veg-pizza.jpg" alt="Close-up of a pizza topped with tomato slices, sweet corn, green olives, mushrooms and red pepper" loading="lazy" /></div><span class="m-num">02</span></div>
+          <div class="m-title"><span class="vmark" title="Vegetarian"></span><h3>Giardino</h3></div>
+          <p>Fresh tomato slices, sweet corn, green olives, mushrooms and red pepper on bubbling mozzarella.</p>
+          <div class="m-foot"><span class="price">₹549</span><button class="m-add" type="button" data-pick="giardino">Add</button></div>
+        </article>
+        <article class="m-card">
+          <div class="m-pizza"><div class="disc"><img src="img/ortolana-veg-pizza.jpg" alt="Pizza cut into eight slices with red, yellow and green peppers, red onion and black olives" loading="lazy" /></div><span class="m-num">03</span></div>
+          <div class="m-title"><span class="vmark" title="Vegetarian"></span><h3>Ortolana</h3></div>
+          <p>Red, yellow and green peppers, red onion and black olives over tomato and mozzarella, cut in eight.</p>
+          <div class="m-foot"><span class="price">₹599</span><button class="m-add" type="button" data-pick="ortolana">Add</button></div>
+        </article>
+        <article class="m-card">
+          <div class="m-pizza"><div class="disc"><img src="img/bianca-spinach-pizza.jpg" alt="White-base pizza with spinach, soft white cheese and dark roasted dates, from above" loading="lazy" /></div><span class="m-num">04</span></div>
+          <div class="m-title"><span class="vmark" title="Vegetarian"></span><h3>Bianca</h3></div>
+          <p>No tomato: a white base with spinach, soft white cheese and sticky roasted dates.</p>
+          <div class="m-foot"><span class="price">₹699</span><button class="m-add" type="button" data-pick="bianca">Add</button></div>
+        </article>
+        <article class="m-card">
+          <div class="m-pizza"><div class="disc"><img src="img/pollo-chicken-pizza.jpg" alt="Whole pizza with chicken, ham slices, tomato and oregano under golden, browned mozzarella" loading="lazy" /></div><span class="m-num">05</span></div>
+          <div class="m-title"><span class="vmark nv" title="Non-vegetarian"></span><h3>Pollo e Prosciutto</h3></div>
+          <p>Roast chicken, ham, tomato and dried oregano under a thick layer of browned, bubbling mozzarella.</p>
+          <div class="m-foot"><span class="price">₹849</span><button class="m-add" type="button" data-pick="pollo">Add</button></div>
+        </article>
+        <div class="m-end"><div><h3>Plus the Margherita, ₹449</h3><a href="#order" class="btn magnetic">Start an order</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIRE: pinned; the oven glow and embers build as you scroll -->
+<section class="fire" id="fire">
+  <div class="fire-inner">
+    <div class="fire-photo"><img src="img/pizza-on-peel-oven.jpg" alt="A pizza on a steel peel in front of a burning wood fire" loading="lazy" /></div>
+    <div class="fire-embers-img" aria-hidden="true"><img src="img/glowing-embers.jpg" alt="" loading="lazy" /></div>
+    <div class="fire-glow" aria-hidden="true"></div>
+    <div class="fire-glow g2" aria-hidden="true"></div>
+    <div class="fire-vignette" aria-hidden="true"></div>
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <div class="fire-content">
+      <span class="eyebrow">Into the fire</span>
+      <div class="temp" aria-label="485 degrees Celsius"><span id="temp-n">485</span><small>°C</small></div>
+      <div class="secs"><i></i><span><span id="secs-n">90</span> seconds</span><i></i></div>
+      <div class="fire-lines">
+        <div><b>Oak, not gas</b><p>Seasoned oak burns at the back of a dome built by hand from volcanic brick.</p></div>
+        <div><b>Leopard spots</b><p>The rim puffs and chars in dark freckles while the centre stays soft.</p></div>
+        <div><b>Turned twice</b><p>One pizzaiolo, one peel. Out of the fire and onto your plate in a minute and a half.</p></div>
+      </div>
+    </div>
+    <div class="heat" aria-hidden="true"><span>HEAT</span><div class="heat-bar"><i></i></div><span>485°</span></div>
+    <p class="fire-cap">Photo: a pizza on a steel peel in front of a wood fire.</p>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="rev-word" aria-hidden="true">GRAZIE · GRAZIE · GRAZIE</div>
+  <div class="wrap">
+    <div style="position:relative">
+      <figure class="rev-photo">
+        <img src="img/guest-eating-pizza.jpg" alt="A guest lifts a cheesy slice from a basil-topped pizza at a dimly lit table" loading="lazy" data-inner />
+        <figcaption>Friday night at the counter: a slice of Margherita with fresh basil.</figcaption>
+      </figure>
+      <div class="rev-score" data-speed="-60"><div><b>4.8</b><span>from 2,300<br />diners</span></div></div>
+    </div>
+    <div>
+      <span class="eyebrow">What Bengaluru says</span>
+      <h2 class="display">Worth the<br /><em>queue.</em></h2>
+      <div class="rev-list">
+        <article class="rev" data-speed="30">
+          <div class="stars" aria-label="5 out of 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <blockquote>"The crust is the star. Soft and chewy in the middle, properly charred at the edges. Closest thing to Naples I've had in this city."</blockquote>
+          <cite>Ananya R. · Koramangala</cite>
+        </article>
+        <article class="rev" data-speed="-20">
+          <div class="stars" aria-label="5 out of 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+          <blockquote>"Ordered the Verde for delivery to HSR and it arrived hot and still crisp. The spinach one has become our Sunday habit."</blockquote>
+          <cite>Karthik S. · HSR Layout</cite>
+        </article>
+        <article class="rev" data-speed="45">
+          <div class="stars" aria-label="4 out of 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg style="opacity:.25"><use href="#i-star"/></svg></div>
+          <blockquote>"Sit at the counter and watch them work the oven. Ninety seconds really is all it takes. Book ahead on weekends."</blockquote>
+          <cite>Meera &amp; Joel · Indiranagar</cite>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER (demo only) -->
+<section class="order" id="order">
+  <div class="wrap">
+    <div class="order-head"><span class="eyebrow">Order online</span><h2 class="display">Hot in <em>35 minutes.</em></h2></div>
+    <form class="order-grid" id="order-form" novalidate>
+      <div>
+        <div class="o-block">
+          <h3>1 · Choose your pizza</h3>
+          <div class="pick-grid" id="pick-grid">
+            <label class="tile"><input type="radio" name="pizza" value="margherita" checked /><span class="th"><svg viewBox="0 0 100 100"><use href="#i-margherita"/></svg></span><span><strong><span class="vmark"></span>Margherita</strong><small>₹449</small></span></label>
+            <label class="tile"><input type="radio" name="pizza" value="verde" /><span class="th"><img src="img/verde-spinach-pizza.jpg" alt="" loading="lazy" /></span><span><strong><span class="vmark"></span>Verde</strong><small>₹449</small></span></label>
+            <label class="tile"><input type="radio" name="pizza" value="giardino" /><span class="th"><img src="img/giardino-veg-pizza.jpg" alt="" loading="lazy" /></span><span><strong><span class="vmark"></span>Giardino</strong><small>₹549</small></span></label>
+            <label class="tile"><input type="radio" name="pizza" value="ortolana" /><span class="th"><img src="img/ortolana-veg-pizza.jpg" alt="" loading="lazy" /></span><span><strong><span class="vmark"></span>Ortolana</strong><small>₹599</small></span></label>
+            <label class="tile"><input type="radio" name="pizza" value="bianca" /><span class="th"><img src="img/bianca-spinach-pizza.jpg" alt="" loading="lazy" /></span><span><strong><span class="vmark"></span>Bianca</strong><small>₹699</small></span></label>
+            <label class="tile"><input type="radio" name="pizza" value="pollo" /><span class="th"><img src="img/pollo-chicken-pizza.jpg" alt="" loading="lazy" /></span><span><strong><span class="vmark nv"></span>Pollo</strong><small>₹849</small></span></label>
+          </div>
+        </div>
+        <div class="o-block o-row">
+          <div>
+            <h3 style="margin-bottom:14px;font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)">2 · Size</h3>
+            <div class="seg" role="radiogroup" aria-label="Size">
+              <label><input type="radio" name="size" value="10" />10" <small>−₹100</small></label>
+              <label><input type="radio" name="size" value="12" checked />12"</label>
+              <label><input type="radio" name="size" value="14" />14" <small>+₹220</small></label>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:14px;font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)">Quantity</h3>
+            <div class="qty"><button type="button" data-q="-1" aria-label="One fewer">−</button><output id="qty" aria-live="polite">1</output><button type="button" data-q="1" aria-label="One more">+</button></div>
+          </div>
+        </div>
+        <div class="o-block">
+          <h3>3 · Extras</h3>
+          <div class="checks">
+            <label class="chk"><input type="checkbox" name="extra" value="burrata" data-price="199" />Burrata on top +₹199</label>
+            <label class="chk"><input type="checkbox" name="extra" value="chilli" data-price="49" />Chilli oil +₹49</label>
+            <label class="chk"><input type="checkbox" name="extra" value="basil" data-price="29" />Extra basil +₹29</label>
+          </div>
+        </div>
+        <div class="o-block">
+          <h3>4 · Delivery or pick-up</h3>
+          <div class="seg" role="radiogroup" aria-label="Delivery method" style="margin-bottom:18px">
+            <label><input type="radio" name="mode" value="delivery" checked />Delivery <small>₹49, free over ₹999</small></label>
+            <label><input type="radio" name="mode" value="pickup" />Pick up / dine-in</label>
+          </div>
+          <div class="fields">
+            <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" placeholder="Your name" required /></div>
+            <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="98xxx xxxxx" required /></div>
+            <div class="field full" id="addr-field"><label for="f-addr">Delivery address</label><textarea id="f-addr" name="address" autocomplete="street-address" placeholder="Flat, street and area (we deliver within 6 km of Indiranagar)"></textarea></div>
+          </div>
+        </div>
+      </div>
+      <aside class="summary" aria-live="polite">
+        <h3>Your order</h3>
+        <div class="sum-pizza"><span class="th" id="sum-th"></span><div><b id="sum-name">Margherita</b><span id="sum-desc">12" · 1 pizza</span></div></div>
+        <ul class="lines" id="sum-lines"></ul>
+        <div class="total"><span>Total</span><b id="sum-total">₹449</b></div>
+        <button class="btn btn-red magnetic" type="submit">Place order</button>
+        <p class="status" id="status" role="status"></p>
+        <p class="sum-note">Design demo: nothing is charged or sent.</p>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Visit the oven</span>
+      <h2 class="display">Hours &amp;<br />location</h2>
+      <ul class="hours" id="hours">
+        <li data-day="1"><span>Monday</span><span>Closed (oven rests)</span></li>
+        <li data-day="2"><span>Tuesday</span><span>12:00 pm – 11:30 pm</span></li>
+        <li data-day="3"><span>Wednesday</span><span>12:00 pm – 11:30 pm</span></li>
+        <li data-day="4"><span>Thursday</span><span>12:00 pm – 11:30 pm</span></li>
+        <li data-day="5"><span>Friday</span><span>12:00 pm – 12:30 am</span></li>
+        <li data-day="6"><span>Saturday</span><span>12:00 pm – 12:30 am</span></li>
+        <li data-day="0"><span>Sunday</span><span>12:00 pm – 11:00 pm</span></li>
+      </ul>
+      <div class="visit-info">
+        <div><b>Find us</b>14, 12th Main Road, HAL 2nd Stage, Indiranagar, Bengaluru 560038</div>
+        <div><b>Call</b>+91 80 0000 0000<br />Tables of 6+ please book ahead</div>
+      </div>
+    </div>
+    <div class="map" role="img" aria-label="Stylised map showing Forno Rosso in Indiranagar with a 6 km delivery radius">
+      <svg viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="500" height="400" fill="#efe3cf"/>
+        <path d="M0 300 C 120 280, 180 330, 300 300 S 460 250, 500 270 V400 H0Z" fill="#dfe9cf"/>
+        <circle cx="390" cy="90" r="46" fill="#cfe0c0"/>
+        <g stroke="#fffaf1" stroke-linecap="round" fill="none">
+          <path d="M-10 180 L 520 150" stroke-width="18"/>
+          <path d="M260 -10 L 280 420" stroke-width="16"/>
+          <path d="M-10 70 L 520 60" stroke-width="9"/><path d="M-10 260 L 520 240" stroke-width="9"/><path d="M-10 350 L 520 330" stroke-width="9"/>
+          <path d="M90 -10 L 110 420" stroke-width="9"/><path d="M170 -10 L 185 420" stroke-width="7"/><path d="M370 -10 L 385 420" stroke-width="9"/><path d="M450 -10 L 465 420" stroke-width="7"/>
+          <path d="M0 0 L 500 400" stroke-width="7" stroke-opacity=".7"/>
+        </g>
+        <circle cx="270" cy="184" r="150" fill="rgba(215,38,30,.07)" stroke="#d7261e" stroke-width="2" stroke-dasharray="6 8"/>
+        <text x="40" y="168" font-family="Instrument Sans, sans-serif" font-size="12" font-weight="700" fill="#9a8a7c" letter-spacing="2">100 FEET ROAD</text>
+        <text x="290" y="250" font-family="Instrument Sans, sans-serif" font-size="12" font-weight="700" fill="#9a8a7c" letter-spacing="2" transform="rotate(88 290 250)">12TH MAIN</text>
+      </svg>
+      <div class="pin"><div class="pin-card"><b>Forno Rosso</b>12th Main, Indiranagar</div><div class="pin-dot"></div></div>
+      <div class="radius-tag">Delivery within 6 km · about 35 min</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#140e0c"/><path d="M16 6c3 4 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 3-6 0 2 1 3 2 3-1-4 0-7 2-9z" fill="#fffaf1"/></svg>FORNO <em>ROSSO</em></a><p>Wood-fired Neapolitan pizza in Indiranagar, Bengaluru. A design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Eat</h4><a href="#menu">Menu</a><a href="#order">Order online</a><a href="#build">The Margherita</a></div>
+      <div><h4>Visit</h4><a href="#visit">Hours</a><a href="#visit">Location</a><a href="#fire">The oven</a></div>
+      <div><h4>Follow</h4><a href="#top">Instagram</a><a href="#top">Swiggy</a><a href="#top">Zomato</a></div>
+    </div>
+    <div class="giant" aria-hidden="true">FORNO <span>ROSSO</span> · FORNO <span>ROSSO</span></div>
+    <div class="foot-bottom"><span>© 2026 Forno Rosso (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const params = new URLSearchParams(location.search);
+  if (params.has("preview")) $(".demo-badge")?.remove();
+  const capture = params.has("capture");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasGSAP = !!(window.gsap && window.ScrollTrigger);
+  const rupee = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
+
+  /* ---------- leopard char spots on the built pizza's rim (static art, always drawn) ---------- */
+  (() => {
+    const spots = [];
+    // small, soft, irregular freckles on the rim ("leopard spotting"), seeded so it looks the same every load
+    let seed = 7;
+    const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+    for (let i = 0; i < 46; i++) {
+      const a = rnd() * Math.PI * 2;
+      const r = 41.5 + rnd() * 6.5;
+      const x = 50 + Math.cos(a) * r, y = 50 + Math.sin(a) * r;
+      const s = 0.35 + rnd() * 0.9;
+      const o = 0.35 + rnd() * 0.4;
+      spots.push(`radial-gradient(circle at ${x.toFixed(1)}% ${y.toFixed(1)}%, rgba(52,26,12,${o.toFixed(2)}) 0 ${s.toFixed(2)}%, rgba(110,55,20,${(o * .35).toFixed(2)}) ${(s + .7).toFixed(2)}%, transparent ${(s + 1.4).toFixed(2)}%)`);
+    }
+    spots.push("radial-gradient(circle, transparent 0 78%, rgba(170,95,35,.35) 88%, rgba(120,60,20,.45) 96%, rgba(70,30,10,.5) 99.5%, transparent 100%)");
+    $(".pz-char").style.background = spots.join(",");
+  })();
+
+  /* ---------- opening hours: highlight today ---------- */
+  const day = new Date().getDay();
+  $(`#hours li[data-day="${day}"]`)?.classList.add("today");
+  const todayText = $(`#hours li[data-day="${day}"] span:last-child`)?.textContent || "";
+  $("#open-now").textContent = day === 1 ? "Closed today · back Tuesday at noon" : "Open today · " + todayText.replace(/:00/g, "").replace(" – ", " to ");
+
+  /* ---------- order form with live total (demo only) ---------- */
+  const PIZZAS = {
+    margherita: { name: "Margherita", price: 449, img: null },
+    verde: { name: "Verde", price: 449, img: "img/verde-spinach-pizza.jpg" },
+    giardino: { name: "Giardino", price: 549, img: "img/giardino-veg-pizza.jpg" },
+    ortolana: { name: "Ortolana", price: 599, img: "img/ortolana-veg-pizza.jpg" },
+    bianca: { name: "Bianca", price: 699, img: "img/bianca-spinach-pizza.jpg" },
+    pollo: { name: "Pollo", price: 849, img: "img/pollo-chicken-pizza.jpg" },
+  };
+  const SIZE = { 10: -100, 12: 0, 14: 220 };
+  const form = $("#order-form");
+  let qty = 1, shownTotal = 449, spin = 0, lastPizza = "";
+  const totalEl = $("#sum-total");
+  const animateTotal = (to) => {
+    const from = shownTotal; shownTotal = to;
+    if (reduce || !hasGSAP) { totalEl.textContent = rupee(to); return; }
+    const o = { v: from };
+    gsap.to(o, { v: to, duration: .6, ease: "power2.out", onUpdate: () => (totalEl.textContent = rupee(o.v)) });
+  };
+  const updateOrder = () => {
+    const key = form.pizza.value, p = PIZZAS[key];
+    const size = form.size.value, mode = form.mode.value;
+    const extras = $$('input[name="extra"]:checked', form);
+    const each = p.price + SIZE[size] + extras.reduce((s, e) => s + Number(e.dataset.price), 0);
+    const sub = each * qty;
+    const fee = mode === "delivery" ? (sub >= 999 ? 0 : 49) : 0;
+    const lines = [[`${p.name} ${size}" × ${qty}`, rupee((p.price + SIZE[size]) * qty)]];
+    extras.forEach((e) => lines.push([e.parentElement.textContent.split("+")[0].trim() + ` × ${qty}`, rupee(Number(e.dataset.price) * qty)]));
+    lines.push([mode === "delivery" ? (fee ? "Delivery" : "Delivery (free over ₹999)") : "Pick up / dine-in", fee ? rupee(fee) : "₹0"]);
+    $("#sum-lines").innerHTML = lines.map(([a, b]) => `<li><span>${a}</span><span>${b}</span></li>`).join("");
+    $("#sum-name").textContent = p.name;
+    $("#sum-desc").textContent = `${size}" · ${qty} pizza${qty > 1 ? "s" : ""} · ${mode === "delivery" ? "delivery" : "pick up"}`;
+    if (key !== lastPizza) {
+      $("#sum-th").innerHTML = p.img ? `<img src="${p.img}" alt="">` : '<svg viewBox="0 0 100 100"><use href="#i-margherita"/></svg>';
+      spin += 180; $("#sum-th").style.rotate = spin + "deg"; lastPizza = key;
+    }
+    $("#addr-field").style.display = mode === "delivery" ? "" : "none";
+    animateTotal(sub + fee);
+  };
+  form.addEventListener("change", updateOrder);
+  $$("[data-q]").forEach((b) => b.addEventListener("click", () => {
+    qty = Math.min(9, Math.max(1, qty + Number(b.dataset.q)));
+    $("#qty").textContent = qty; updateOrder();
+  }));
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const st = $("#status");
+    const name = form.name.value.trim(), phone = form.phone.value.replace(/\D/g, "");
+    if (!name || phone.length < 10 || (form.mode.value === "delivery" && !form.address.value.trim())) {
+      st.className = "status err";
+      st.textContent = "Please add your name, a 10-digit phone number" + (form.mode.value === "delivery" ? " and a delivery address." : ".");
+      return;
+    }
+    st.className = "status";
+    st.textContent = `Thanks, ${name}! This is a design demo, so no order was placed and nothing was sent.`;
+  });
+  $$(".m-add").forEach((b) => b.addEventListener("click", () => {
+    const r = form.querySelector(`input[name="pizza"][value="${b.dataset.pick}"]`);
+    if (r) { r.checked = true; updateOrder(); }
+    b.textContent = "Added"; setTimeout(() => (b.textContent = "Add"), 1400);
+    scrollToEl($("#order"));
+  }));
+  let lenis = null;
+  const scrollToEl = (el) => { if (lenis) lenis.scrollTo(el, { offset: -10 }); else el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); };
+  updateOrder();
+
+  /* nav turns solid after the top */
+  const nav = $("#nav");
+  const navCheck = () => nav.classList.toggle("solid", scrollY > 40);
+  addEventListener("scroll", navCheck, { passive: true }); navCheck();
+
+  /* ---------- static mode: reduced motion or the animation library failed to load ---------- */
+  if (reduce || !hasGSAP) {
+    document.documentElement.classList.add("static");
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- Lenis smooth scrolling (skipped with ?capture for screenshots) ---------- */
+  if (!capture && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
+    const id = a.getAttribute("href");
+    const el = id.length > 1 ? $(id) : $("#top");
+    if (!el) return;
+    e.preventDefault(); scrollToEl(el);
+  }));
+
+  /* ---------- custom cursor + magnetic buttons (mouse only) ---------- */
+  if (matchMedia("(pointer: fine)").matches) {
+    document.documentElement.classList.add("has-cursor");
+    const ring = $(".cursor"), dot = $(".cursor-dot");
+    const rx = gsap.quickTo(ring, "x", { duration: .45, ease: "power3" }), ry = gsap.quickTo(ring, "y", { duration: .45, ease: "power3" });
+    const dx = gsap.quickTo(dot, "x", { duration: .08 }), dy = gsap.quickTo(dot, "y", { duration: .08 });
+    addEventListener("mousemove", (e) => { ring.classList.add("live"); dot.classList.add("live"); rx(e.clientX); ry(e.clientY); dx(e.clientX); dy(e.clientY); });
+    document.addEventListener("mouseover", (e) => ring.classList.toggle("big", !!e.target.closest("a, button, label, .m-pizza, input, textarea")));
+    $$(".magnetic").forEach((el) => {
+      const mx = gsap.quickTo(el, "x", { duration: .5, ease: "elastic.out(1, .4)" }), my = gsap.quickTo(el, "y", { duration: .5, ease: "elastic.out(1, .4)" });
+      el.addEventListener("mousemove", (e) => { const r = el.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * .35); my((e.clientY - r.top - r.height / 2) * .45); });
+      el.addEventListener("mouseleave", () => { mx(0); my(0); });
+    });
+    // hero ingredients also lean with the mouse, deeper layers further
+    const hero = $(".hero");
+    const movers = $$(".hero .ing > div").map((el) => ({ d: Number(el.parentElement.dataset.d), x: gsap.quickTo(el, "x", { duration: 1, ease: "power3" }), y: gsap.quickTo(el, "y", { duration: 1, ease: "power3" }) }));
+    hero.addEventListener("mousemove", (e) => {
+      const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+      movers.forEach((m) => { m.x(-nx * m.d * 22); m.y(-ny * m.d * 18); });
+    });
+  }
+
+  /* ---------- split hero words into letters ---------- */
+  $$("[data-split]").forEach((el) => { el.innerHTML = [...el.textContent].map((c) => `<span>${c}</span>`).join(""); });
+
+  /* ---------- intro: the pizza drops in spinning, letters rise, ingredients scatter in ---------- */
+  const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
+  intro.from(".hw1 .hw-in span", { yPercent: 110, duration: 1.1, stagger: .06 }, .1)
+    .from(".hw2 .hw-in span", { yPercent: -110, duration: 1.1, stagger: .06 }, .2)
+    .from(".hp-in", { scale: .2, rotation: -240, opacity: 0, duration: 1.6, ease: "expo.out" }, .15)
+    .from(".hero .ing > div", { scale: 0, opacity: 0, duration: 1.2, stagger: { each: .03, from: "random" }, ease: "back.out(1.6)" }, .5)
+    .from(".hero-copy .wrap > *", { y: 40, opacity: 0, duration: 1, stagger: .1 }, .9);
+
+  /* ---------- marquee band moves with scroll ---------- */
+  gsap.fromTo(".band-track", { xPercent: 0 }, { xPercent: -50, ease: "none", scrollTrigger: { trigger: ".band", start: "top bottom", end: "bottom top", scrub: .6 } });
+
+  let fireHeat = null;
+  const mm = gsap.matchMedia();
+  mm.add({ desk: "(min-width: 768px)", mob: "(max-width: 767px)" }, (ctx) => {
+    const { desk } = ctx.conditions;
+
+    /* ===== 1. HERO: pinned on desktop; pizza spins and grows, words part, ingredients fly at 5 depths ===== */
+    const heroTl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: {
+      trigger: ".hero", start: "top top", end: desk ? "+=110%" : "bottom top", scrub: 1, pin: desk, anticipatePin: 1 } });
+    heroTl.to(".hp-spin", { rotation: 300, scale: desk ? 1.45 : 1.25 }, 0)
+      .to(".hw1", { xPercent: -42 }, 0)
+      .to(".hw2", { xPercent: 42 }, 0)
+      .to(".hero-glow", { scale: 1.6, opacity: .6 }, 0)
+      .to(".hero-copy", { y: -80, opacity: 0, duration: .5 }, 0)
+      .to(".scroll-hint", { opacity: 0, duration: .2 }, 0);
+    $$(".hero .ing").forEach((el) => {
+      const d = Number(el.dataset.d);
+      const left = parseFloat(el.style.left) / 100 - .5;
+      heroTl.to(el, { x: left * d * (desk ? 260 : 140), y: -d * (desk ? 170 : 110) - 40, rotation: (left > 0 ? 1 : -1) * d * 35, scale: 1 + d * .08 }, 0);
+    });
+
+    /* ===== 2. BUILD: pinned; dough, sauce, cheese, basil, then bake ===== */
+    const steps = $$(".step");
+    const setStep = (i) => steps.forEach((s, k) => s.classList.toggle("on", k <= i && k >= i - 0));
+    gsap.set(".pz-dough", { scale: .25, opacity: 0, rotation: -120 });
+    gsap.set(".pz-sauce", { clipPath: "circle(0% at 50% 50%)" });
+    gsap.set(".pz-char", { opacity: 0 });
+    gsap.set([".pz-label", ".pz-steam"], { opacity: 0 });
+    gsap.set(".pz-label", { y: 30 });
+    gsap.set(".steps-bar", { scaleY: 0 });
+    gsap.set(".pz-flour", { opacity: 0, scale: .6 });
+    const sideX = (i, n) => Math.cos((i / n) * Math.PI * 2 + .4);
+    const sideY = (i, n) => Math.sin((i / n) * Math.PI * 2 + .4);
+    $$(".mozz").forEach((m, i, a) => gsap.set(m, { y: -260 - (i % 3) * 60, x: sideX(i, a.length) * 80, scale: 1.8, opacity: 0, rotation: -90 + i * 40 }));
+    $$(".leaf").forEach((m, i, a) => gsap.set(m, { x: sideX(i, a.length) * (desk ? 700 : 340), y: sideY(i, a.length) * (desk ? 520 : 420), rotation: (i % 2 ? 1 : -1) * 420, scale: 2.4, opacity: 0 }));
+
+    const buildTl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: {
+      trigger: ".build", start: "top top", end: desk ? "+=320%" : "+=240%", scrub: 1, pin: ".build-inner", anticipatePin: 1,
+      onUpdate: (self) => setStep(Math.min(3, Math.floor(self.progress * 4.6))) } });
+    buildTl.to(".pz-flour", { opacity: 1, scale: 1.1, duration: .6, ease: "power2.out" }, 0)
+      .to(".pz-dough", { scale: 1, opacity: 1, rotation: 0, duration: 1, ease: "back.out(1.4)" }, 0)
+      .to(".pz-sauce", { clipPath: "circle(51% at 50% 50%)", duration: 1, ease: "power1.inOut" }, 1)
+      .to(".pz-rot", { rotation: 90, duration: 1 }, 1)
+      .to(".mozz", { y: 0, x: 0, scale: 1, opacity: 1, rotation: 0, duration: .55, stagger: .06, ease: "power3.out" }, 2)
+      .to(".pz-rot", { rotation: 140, duration: 1 }, 2)
+      .to(".leaf", { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: .7, stagger: .05, ease: "power3.out" }, 3)
+      .to(".pz-rot", { rotation: 200, duration: 1 }, 3)
+      .to(".pz-char", { opacity: 1, duration: .5 }, 4)
+      .to(".pz-dough", { filter: "saturate(1.5) brightness(.9) sepia(.12)", duration: .5 }, 4)
+      .to(".pz-stage", { scale: desk ? 1.06 : 1.04, duration: .6 }, 4)
+      .to([".pz-label", ".pz-steam"], { opacity: 1, y: 0, duration: .4 }, 4.3)
+      .to(".pz-flour", { opacity: 0, duration: .4 }, 4.2)
+      .to(".steps-bar", { scaleY: 1, duration: 4.4 }, 0)
+      .to(".build-bgword", { xPercent: -18, duration: 4.8 }, 0);
+
+    /* ===== 3. MENU: pinned horizontal track on desktop; vertical stack with spinning pizzas on phones ===== */
+    if (desk) {
+      const track = $(".menu-track");
+      const dist = () => Math.max(0, track.scrollWidth - innerWidth);
+      const slide = gsap.to(track, { x: () => -dist(), ease: "none", scrollTrigger: {
+        trigger: ".menu", start: "top top", end: () => "+=" + dist(), scrub: 1, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: (self) => gsap.set(".menu-progress i", { scaleX: self.progress }) } });
+      $$(".m-card").forEach((card) => {
+        gsap.fromTo(card.querySelector(".disc"), { rotation: -200 }, { rotation: 160, ease: "none", scrollTrigger: { trigger: card, containerAnimation: slide, start: "left right", end: "right left", scrub: true } });
+        gsap.fromTo(card.querySelector(".m-pizza"), { y: -30, scale: .88 }, { y: 6, scale: 1, ease: "sine.inOut", scrollTrigger: { trigger: card, containerAnimation: slide, start: "left right", end: "right left", scrub: true } });
+      });
+    } else {
+      $$(".m-card .disc").forEach((d) => gsap.fromTo(d, { rotation: -160 }, { rotation: 160, ease: "none", scrollTrigger: { trigger: d, start: "top bottom", end: "bottom top", scrub: true } }));
+    }
+
+    /* ===== 4. FIRE: pinned; glow intensifies, embers rise, counters climb ===== */
+    const temp = $("#temp-n"), secs = $("#secs-n");
+    const heat = { t: 0, s: 0, k: 0 };
+    temp.textContent = "0"; secs.textContent = "0";
+    gsap.set(".heat-bar i", { scaleY: 0 });
+    gsap.set(".fire-lines > div", { opacity: 0, y: 40 });
+    const fireTl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: {
+      trigger: ".fire", start: "top top", end: desk ? "+=200%" : "+=140%", scrub: 1, pin: ".fire-inner", anticipatePin: 1 } });
+    fireTl.to(heat, { t: 485, k: 1, duration: 1, onUpdate: () => { temp.textContent = Math.round(heat.t); } }, 0)
+      .to(heat, { s: 90, duration: .8, onUpdate: () => { secs.textContent = Math.round(heat.s); } }, .35)
+      .fromTo(".fire-glow", { opacity: .2, scale: .5 }, { opacity: 1, scale: 1.25, duration: 1 }, 0)
+      .fromTo(".fire-glow.g2", { opacity: 0, scale: .4 }, { opacity: .55, scale: 1.1, duration: 1 }, .1)
+      .fromTo(".fire-photo img", { filter: "brightness(.22) saturate(1)" }, { filter: "brightness(.5) saturate(1.3)", duration: 1 }, 0)
+      .fromTo(".fire-photo", { scale: 1.2 }, { scale: 1, duration: 1.2 }, 0)
+      .fromTo(".fire-embers-img", { opacity: .1 }, { opacity: .55, duration: 1 }, 0)
+      .to(".heat-bar i", { scaleY: 1, duration: 1 }, 0)
+      .to(".fire-lines > div", { opacity: 1, y: 0, stagger: .12, duration: .3 }, .55)
+      .to({}, { duration: .25 });
+    fireHeat = heat;
+
+    /* ===== 5. Reviews, footer and other drifting layers ===== */
+    gsap.fromTo(".rev-word", { xPercent: 0 }, { xPercent: -30, ease: "none", scrollTrigger: { trigger: ".reviews", start: "top bottom", end: "bottom top", scrub: true } });
+    gsap.fromTo("[data-inner]", { yPercent: -8 }, { yPercent: 8, ease: "none", scrollTrigger: { trigger: ".rev-photo", start: "top bottom", end: "bottom top", scrub: true } });
+    gsap.fromTo(".rev-photo", { clipPath: "inset(14% 12% 14% 12% round 34px)" }, { clipPath: "inset(0% 0% 0% 0% round 34px)", ease: "power2.out", scrollTrigger: { trigger: ".rev-photo", start: "top 90%", end: "top 30%", scrub: true } });
+    $$("[data-speed]").forEach((el) => gsap.fromTo(el, { y: Number(el.dataset.speed) }, { y: -Number(el.dataset.speed), ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true } }));
+    gsap.fromTo(".giant", { xPercent: 4 }, { xPercent: -38, ease: "none", scrollTrigger: { trigger: "footer", start: "top bottom", end: "bottom bottom", scrub: true } });
+    gsap.from(".tile", { y: 40, opacity: 0, stagger: .06, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".pick-grid", start: "top 85%" } });
+    gsap.from(".summary", { y: 60, opacity: 0, rotation: 2, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".order-grid", start: "top 80%" } });
+    gsap.from(".map", { scale: .9, opacity: 0, rotation: -2, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: ".map", start: "top 85%" } });
+    $$(".display").forEach((h) => {
+      if (h.closest(".hero")) return;
+      gsap.from(h, { yPercent: 40, opacity: 0, duration: 1, ease: "power4.out", scrollTrigger: { trigger: h, start: "top 88%" } });
+    });
+
+    return () => { fireHeat = null; temp.textContent = "485"; secs.textContent = "90"; };
+  });
+
+  /* ---------- ember particles (canvas), intensity follows the fire timeline ---------- */
+  const cv = $("#embers"), c2 = cv.getContext("2d");
+  let W = 0, H = 0, embers = [], running = false;
+  const size = () => { const dpr = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; c2.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  const spawn = () => ({ x: Math.random() * W, y: H + 10, r: .8 + Math.random() * 2.6, vy: .6 + Math.random() * 2.2, vx: (Math.random() - .5) * .6, life: 0, max: 160 + Math.random() * 220, ph: Math.random() * 6 });
+  const tick = () => {
+    if (!running) return;
+    const k = fireHeat ? fireHeat.k : 1;
+    const want = Math.round(20 + k * 170);
+    while (embers.length < want) { const e = spawn(); e.y = H * (0.6 + Math.random() * .5); embers.push(e); }
+    c2.clearRect(0, 0, W, H);
+    c2.globalCompositeOperation = "lighter";
+    embers = embers.filter((e, i) => {
+      e.life++; e.y -= e.vy * (0.6 + k); e.x += e.vx + Math.sin((e.life + e.ph * 30) / 24) * .5;
+      const t = e.life / e.max;
+      if (t >= 1 || e.y < -10) return i < want ? (Object.assign(e, spawn()), true) : false;
+      const a = Math.sin(t * Math.PI) * (.35 + k * .65);
+      const g = c2.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.r * 4);
+      g.addColorStop(0, `rgba(255,236,170,${a})`); g.addColorStop(.35, `rgba(255,140,40,${a * .7})`); g.addColorStop(1, "rgba(255,60,20,0)");
+      c2.fillStyle = g; c2.beginPath(); c2.arc(e.x, e.y, e.r * 4, 0, Math.PI * 2); c2.fill();
+      return true;
+    });
+    requestAnimationFrame(tick);
+  };
+  new IntersectionObserver(([en]) => {
+    if (en.isIntersecting && !running) { size(); running = true; requestAnimationFrame(tick); }
+    else if (!en.isIntersecting) running = false;
+  }).observe($(".fire"));
+  addEventListener("resize", () => { if (running) size(); });
+
+  addEventListener("load", () => ScrollTrigger.refresh());
+  if (capture) ScrollTrigger.refresh();
+})();
+</script>
+</body>
+</html>

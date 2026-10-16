@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blackbuck Coffee — Cold Brew, Beans &amp; Café, Mumbai (Parallax Website Demo)</title>
+<meta name="description" content="A free cinematic parallax coffee website demo: exploding coffee-bean hero, pinned cherry-to-cup story that fills a cup, sideways drinks menu and a lighting-up origins map. HTML, GSAP ScrollTrigger and Lenis by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-brew/index.html" />
+<meta property="og:title" content="Blackbuck Coffee — Parallax Coffee Website Demo" />
+<meta property="og:description" content="Exploding bean hero, a pinned cherry-to-cup sequence, horizontal drinks menu and an origins map that draws itself, built with GSAP ScrollTrigger and Lenis." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-brew/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b0705;
+    --bg-2: #140c08;
+    --roast: #2a170e;
+    --brown: #6b3a22;
+    --orange: #ff6b2c;
+    --orange-2: #ffa25a;
+    --cream: #f5e6cc;
+    --cream-2: #e9d3ad;
+    --muted: #a8907c;
+    --line: rgba(245, 230, 204, .14);
+    --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --sans: "Hanken Grotesk", system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: clip; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1280px, calc(100% - 96px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--orange-2); }
+  .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+  .display { font-family: var(--display); font-weight: 700; letter-spacing: -.03em; line-height: .98; }
+  .grad { background: linear-gradient(100deg, var(--orange) 10%, var(--orange-2) 55%, var(--cream) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* film grain over everything */
+  body::after { content: ""; position: fixed; inset: -50%; z-index: 95; pointer-events: none; opacity: .09;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ---------- buttons ---------- */
+  .btn { position: relative; display: inline-flex; align-items: center; gap: 12px; padding: 17px 28px; border-radius: 99px; font-weight: 700; font-size: 15px; letter-spacing: .01em; transition: background .3s, color .3s, box-shadow .3s; will-change: transform; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn-hot { background: linear-gradient(135deg, var(--orange), #ff8a3d); color: #1a0b04; box-shadow: 0 18px 40px -14px rgba(255, 107, 44, .75), inset 0 1px 0 rgba(255, 255, 255, .35); }
+  .btn-hot:hover { box-shadow: 0 22px 50px -12px rgba(255, 107, 44, .95), inset 0 1px 0 rgba(255, 255, 255, .45); }
+  .btn-ghost { border: 1px solid rgba(245, 230, 204, .3); color: var(--cream); backdrop-filter: blur(8px); background: rgba(245, 230, 204, .04); }
+  .btn-ghost:hover { background: rgba(245, 230, 204, .12); }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 70; transition: background .4s, backdrop-filter .4s, border-color .4s; border-bottom: 1px solid transparent; }
+  .nav.solid { background: rgba(11, 7, 5, .72); backdrop-filter: blur(14px); border-color: var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 82px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+  .logo svg { width: 34px; height: 34px; }
+  .logo small { display: block; font-family: var(--sans); font-weight: 600; font-size: 10px; letter-spacing: .32em; color: var(--muted); margin-top: 2px; }
+  .nav-links { display: flex; gap: 34px; font-size: 14px; font-weight: 600; color: var(--cream-2); }
+  .nav-links a { position: relative; padding: 4px 0; }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--orange); transform: scaleX(0); transform-origin: right; transition: transform .35s; }
+  .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav .btn { padding: 12px 22px; font-size: 14px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; isolation: isolate;
+    background: radial-gradient(60% 55% at 50% 47%, #3a1d0f 0%, #1a0d07 45%, var(--bg) 80%); }
+  .hero-glow { position: absolute; left: 50%; top: 47%; width: 90vmin; height: 90vmin; margin: -45vmin 0 0 -45vmin; border-radius: 50%; z-index: 0;
+    background: radial-gradient(circle, rgba(255, 107, 44, .28) 0%, rgba(255, 107, 44, .08) 38%, transparent 66%); filter: blur(10px); }
+  .hero-word { position: absolute; left: 0; right: 0; top: 47%; z-index: 1; transform: translateY(-54%); text-align: center; white-space: nowrap;
+    font-family: var(--display); font-weight: 900; font-size: 13.4vw; line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.4px rgba(245, 230, 204, .3); user-select: none; }
+  .hero-word span { display: inline-block; will-change: transform; }
+  .hb { position: absolute; left: 50%; top: 47%; pointer-events: none; will-change: transform; }
+  .hb svg { width: 100%; height: 100%; display: block; overflow: visible; animation: bob var(--d, 7s) ease-in-out var(--dl, 0s) infinite alternate; }
+  .hb.back { z-index: 2; opacity: .55; filter: blur(2.2px); }
+  .hb.mid { z-index: 6; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .55)); }
+  .hb.front { z-index: 9; filter: blur(7px); opacity: .95; }
+  @keyframes bob { from { transform: translateY(-9px) rotate(-7deg); } to { transform: translateY(9px) rotate(7deg); } }
+
+  .cup { position: absolute; left: 50%; top: 47%; z-index: 4; width: var(--cup); height: var(--cup); margin: calc(var(--cup) / -2) 0 0 calc(var(--cup) / -2); will-change: transform; }
+  .cup-shadow { position: absolute; inset: 8% -4% -14% 8%; border-radius: 50%; background: radial-gradient(circle, rgba(0, 0, 0, .85), transparent 68%); filter: blur(18px); }
+  .cup-img { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1px rgba(255, 255, 255, .06), 0 50px 90px -30px rgba(0, 0, 0, .9); }
+  .cup-img img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+  .cup-img::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: radial-gradient(70% 55% at 30% 18%, rgba(255, 255, 255, .22), transparent 55%), radial-gradient(circle at 50% 50%, transparent 62%, rgba(0, 0, 0, .55) 100%); }
+  .cup-ring { position: absolute; inset: -15%; width: 130%; height: 130%; will-change: transform; }
+  .cup-ring text { font-family: var(--display); font-size: 10.5px; font-weight: 600; letter-spacing: .42em; fill: rgba(245, 230, 204, .62); }
+  .steam { position: absolute; left: 50%; top: 47%; z-index: 5; width: calc(var(--cup) * .6); height: calc(var(--cup) * 1.05); margin-left: calc(var(--cup) * -.3); margin-top: calc(var(--cup) * -1.0); pointer-events: none; mix-blend-mode: screen; }
+  .steam path { fill: none; stroke: url(#steamG); stroke-linecap: round; stroke-width: 10; filter: blur(5px); animation: steam 5.5s ease-in-out infinite; opacity: 0; }
+  .steam path:nth-child(2) { animation-delay: 1.8s; stroke-width: 7; }
+  .steam path:nth-child(3) { animation-delay: 3.6s; stroke-width: 12; }
+  @keyframes steam { 0% { opacity: 0; transform: translateY(60px) scaleY(.7); } 30% { opacity: .75; } 100% { opacity: 0; transform: translateY(-50px) scaleY(1.15); } }
+  .can { position: absolute; left: 50%; top: 47%; z-index: 7; width: calc(var(--cup) * .36); margin-left: calc(var(--cup) * .36); margin-top: calc(var(--cup) * -.08); will-change: transform; filter: drop-shadow(-24px 34px 30px rgba(0, 0, 0, .75)); }
+  .can svg { display: block; width: 100%; height: auto; }
+
+  .hero-top { position: absolute; z-index: 8; left: 48px; top: 118px; }
+  .hero-chip { position: absolute; z-index: 8; right: 48px; top: 118px; display: flex; gap: 12px; align-items: center; padding: 10px 18px 10px 10px; border-radius: 99px; border: 1px solid var(--line); background: rgba(20, 12, 8, .55); backdrop-filter: blur(10px); font-size: 13px; font-weight: 600; color: var(--cream-2); }
+  .hero-chip b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--orange); color: #1a0b04; font-family: var(--display); font-size: 11px; }
+  .hero-title { position: absolute; z-index: 8; left: 48px; bottom: 54px; font-size: clamp(38px, 4.4vw, 70px); max-width: 11.5em; }
+  .hero-title .ln { display: block; overflow: hidden; padding-bottom: .06em; }
+  .hero-title .ln > span { display: inline-block; }
+  .hero-side { position: absolute; z-index: 8; right: 48px; bottom: 58px; width: min(390px, 32vw); }
+  .hero-side p { color: var(--cream-2); font-size: 16px; margin-bottom: 22px; }
+  .hero-side .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .scroll-hint { position: absolute; z-index: 8; left: 50%; bottom: 22px; transform: translateX(-50%); font-size: 10px; font-weight: 700; letter-spacing: .4em; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .scroll-hint i { width: 1px; height: 34px; background: linear-gradient(var(--orange), transparent); animation: drip 1.8s ease-in-out infinite; transform-origin: top; }
+  @keyframes drip { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- marquee ---------- */
+  .marquee { position: relative; z-index: 2; padding: 44px 0; overflow: hidden; border-block: 1px solid var(--line); background: var(--bg); }
+  .mq-row { display: flex; gap: 48px; white-space: nowrap; font-family: var(--display); font-weight: 800; font-size: clamp(40px, 6.4vw, 104px); letter-spacing: -.03em; line-height: 1.08; will-change: transform; }
+  .mq-row span { display: inline-flex; align-items: center; gap: 48px; }
+  .mq-row span::after { content: ""; width: .32em; height: .44em; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #a0582f, #3a1b0c 70%); transform: rotate(28deg); box-shadow: inset -3px 0 0 rgba(0, 0, 0, .35); }
+  .mq-row.out { color: transparent; -webkit-text-stroke: 1.2px rgba(245, 230, 204, .4); }
+  .mq-row.out span::after { background: var(--orange); }
+
+  /* ---------- statement ---------- */
+  .statement { position: relative; padding: 170px 0 110px; overflow: hidden; }
+  .statement p.big { font-family: var(--display); font-weight: 500; font-size: clamp(28px, 3.6vw, 56px); line-height: 1.18; letter-spacing: -.025em; max-width: 19em; }
+  .statement .w { opacity: .14; transition: none; }
+  .statement .w.hot { color: var(--orange-2); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 90px; padding-top: 40px; border-top: 1px solid var(--line); }
+  .stat b { display: block; font-family: var(--display); font-weight: 700; font-size: clamp(36px, 4.4vw, 68px); letter-spacing: -.04em; line-height: 1; }
+  .stat b em { font-style: normal; color: var(--orange); }
+  .stat > span { display: block; margin-top: 12px; color: var(--muted); font-size: 14px; font-weight: 600; letter-spacing: .04em; }
+  .st-bean { position: absolute; pointer-events: none; }
+  .st-bean svg { width: 100%; height: 100%; }
+
+  /* ---------- story (pinned) ---------- */
+  .story { position: relative; background: radial-gradient(80% 70% at 70% 55%, #24130b, var(--bg) 70%); }
+  .story-pin { position: relative; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; }
+  .story-inner { position: absolute; inset: 100px 48px 40px; display: grid; grid-template-columns: minmax(300px, 34%) 1fr; gap: 40px; align-items: center; }
+  .story-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 26px; }
+  .story-head h2 { font-size: clamp(30px, 3.2vw, 50px); }
+  .story-count { font-family: var(--display); font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: .1em; }
+  .story-count b { color: var(--orange); font-size: 30px; letter-spacing: -.02em; }
+  .steps { list-style: none; position: relative; min-height: 230px; }
+  .step { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(26px); transition: opacity .5s, transform .6s cubic-bezier(.2, .8, .2, 1); }
+  .step.on { opacity: 1; transform: none; }
+  .step .k { font-size: 12px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--orange-2); }
+  .step h3 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 2.6vw, 40px); letter-spacing: -.03em; line-height: 1.05; margin: 12px 0 14px; }
+  .step p { color: var(--cream-2); font-size: 16px; max-width: 30em; }
+  .story-bar { position: relative; height: 3px; border-radius: 3px; background: var(--line); margin: 20px 0 26px; overflow: hidden; }
+  .story-bar i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--orange), var(--orange-2)); transform-origin: left; transform: scaleX(0); }
+  .story-photo { display: flex; align-items: center; gap: 18px; }
+  .sp-frame { position: relative; width: 132px; height: 132px; border-radius: 50%; overflow: hidden; flex: none; box-shadow: 0 0 0 1px var(--line), 0 24px 40px -18px #000; }
+  .sp-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.15); transition: opacity .6s, transform 1.2s; }
+  .sp-frame img.on { opacity: 1; transform: scale(1); }
+  .story-photo figcaption { font-size: 13px; color: var(--muted); max-width: 16em; line-height: 1.45; }
+  .story-stage { position: relative; height: 100%; display: grid; place-items: center; }
+  .story-stage svg { width: 100%; height: 100%; max-height: calc(100vh - 150px); overflow: visible; }
+  .stage-word { position: absolute; inset: auto 0 2% 0; text-align: right; font-family: var(--display); font-weight: 900; font-size: 9vw; line-height: .9; letter-spacing: -.05em; color: rgba(245, 230, 204, .035); pointer-events: none; white-space: nowrap; }
+  .st-temp { font-family: var(--display); font-weight: 800; }
+
+  /* ---------- menu (horizontal) ---------- */
+  .menu { position: relative; background: var(--bg); overflow: hidden; }
+  .menu-pin { position: relative; height: 100vh; height: 100svh; min-height: 640px; display: flex; align-items: center; overflow: hidden; }
+  .menu-bgword { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: var(--display); font-weight: 900; font-size: 30vw; letter-spacing: -.06em; line-height: 1; white-space: nowrap; color: rgba(245, 230, 204, .035); pointer-events: none; will-change: transform; }
+  .menu-track { position: relative; display: flex; gap: 34px; padding: 0 48px; align-items: center; will-change: transform; }
+  .menu-intro { flex: none; width: 420px; padding-right: 30px; }
+  .menu-intro h2 { font-size: clamp(44px, 5vw, 80px); margin: 18px 0 20px; }
+  .menu-intro p { color: var(--cream-2); max-width: 22em; }
+  .menu-intro .hint { margin-top: 26px; display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .menu-intro .hint i { width: 60px; height: 1px; background: var(--orange); }
+  .dcard { flex: none; width: 330px; border-radius: 26px; padding: 12px; background: linear-gradient(160deg, rgba(245, 230, 204, .08), rgba(245, 230, 204, .02)); border: 1px solid var(--line); box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .9); transform-style: preserve-3d; will-change: transform; }
+  .dcard:nth-child(odd) { margin-top: 70px; }
+  .dcard .ph { position: relative; height: 300px; border-radius: 18px; overflow: hidden; }
+  .dcard .ph img { position: absolute; top: 0; left: -15%; width: 130%; height: 100%; object-fit: cover; will-change: transform; }
+  .dcard .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(11, 7, 5, .55)); }
+  .dcard .tag { position: absolute; z-index: 1; left: 14px; top: 14px; padding: 6px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: rgba(11, 7, 5, .7); backdrop-filter: blur(6px); color: var(--cream); }
+  .dcard .tag.ice { background: rgba(245, 230, 204, .88); color: #1a0d07; }
+  .dcard .body { padding: 18px 10px 8px; }
+  .dcard .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .dcard h3 { font-family: var(--display); font-weight: 600; font-size: 21px; letter-spacing: -.02em; line-height: 1.15; }
+  .dcard .price { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--orange); white-space: nowrap; }
+  .dcard p { margin-top: 8px; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+  .menu-progress { position: absolute; left: 48px; right: 48px; bottom: 40px; height: 2px; background: var(--line); }
+  .menu-progress i { position: absolute; inset: 0; background: var(--orange); transform: scaleX(0); transform-origin: left; }
+
+  /* ---------- origins ---------- */
+  .origins { position: relative; background: radial-gradient(70% 60% at 30% 50%, #1e110a, var(--bg) 75%); }
+  .origins-pin { position: relative; height: 100vh; height: 100svh; min-height: 680px; overflow: hidden; }
+  .origins-inner { position: absolute; inset: 96px 48px 36px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; }
+  .map-wrap { position: relative; height: 100%; display: grid; place-items: center; }
+  .map-wrap svg { width: 100%; height: 100%; max-height: calc(100vh - 140px); overflow: hidden; -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); }
+  .map-word { position: absolute; left: -10px; top: 50%; transform: translateY(-50%); font-family: var(--display); font-weight: 900; font-size: 15vw; letter-spacing: -.06em; color: rgba(245, 230, 204, .03); pointer-events: none; white-space: nowrap; }
+  .map-label { font-family: var(--display); font-weight: 700; fill: var(--cream); }
+  .map-sub { font-family: var(--sans); font-weight: 600; fill: var(--muted); }
+  .origin-copy h2 { font-size: clamp(34px, 3.8vw, 60px); margin: 16px 0 14px; }
+  .origin-copy > p { color: var(--cream-2); max-width: 30em; margin-bottom: 26px; }
+  .ocards { display: grid; gap: 14px; }
+  .ocard { display: grid; grid-template-columns: 1fr auto; gap: 6px 18px; padding: 20px 22px; border-radius: 20px; border: 1px solid var(--line); background: rgba(245, 230, 204, .025); opacity: .42; transform: scale(.97); transform-origin: left center; transition: opacity .5s, transform .5s, border-color .5s, background .5s, box-shadow .5s; }
+  .ocard.on { opacity: 1; transform: none; border-color: rgba(255, 107, 44, .65); background: linear-gradient(140deg, rgba(255, 107, 44, .13), rgba(245, 230, 204, .03)); box-shadow: 0 30px 60px -30px rgba(255, 107, 44, .5); }
+  .ocard h3 { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -.02em; }
+  .ocard .meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .ocard .notes { grid-column: 1 / -1; font-size: 14.5px; color: var(--cream-2); }
+  .ocard .p { font-family: var(--display); font-weight: 700; color: var(--orange); font-size: 18px; align-self: start; text-align: right; }
+  .ocard .p small { display: block; font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--muted); }
+
+  /* ---------- plans ---------- */
+  .plans { position: relative; padding: 160px 0 140px; overflow: hidden; }
+  .plans-bg { position: absolute; right: -8vw; top: 60px; width: 46vw; max-width: 620px; aspect-ratio: 1; border-radius: 50%; overflow: hidden; opacity: .5; will-change: transform; }
+  .plans-bg img { width: 100%; height: 100%; object-fit: cover; }
+  .plans-bg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, transparent 30%, var(--bg) 72%); }
+  .sec-head { position: relative; max-width: 640px; margin-bottom: 60px; }
+  .sec-head h2 { font-size: clamp(36px, 4.4vw, 70px); margin: 18px 0 18px; }
+  .sec-head p { color: var(--cream-2); }
+  .plan-grid { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+  .plan { position: relative; display: flex; flex-direction: column; padding: 34px 30px 30px; border-radius: 28px; border: 1px solid var(--line); background: linear-gradient(170deg, rgba(42, 23, 14, .92), rgba(16, 10, 7, .92)); backdrop-filter: blur(6px); transition: transform .4s, box-shadow .4s; }
+  .plan:hover { transform: translateY(-8px); box-shadow: 0 40px 70px -30px #000; }
+  .plan.feat { border-color: rgba(255, 107, 44, .7); background: linear-gradient(165deg, #3b1d0d, #1a0d07 70%); box-shadow: 0 40px 90px -40px rgba(255, 107, 44, .6), inset 0 1px 0 rgba(255, 255, 255, .08); }
+  .plan .badge { position: absolute; top: -13px; right: 26px; padding: 6px 14px; border-radius: 99px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; background: var(--orange); color: #1a0b04; }
+  .plan h3 { font-family: var(--display); font-weight: 600; font-size: 22px; letter-spacing: -.02em; }
+  .plan .who { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .plan .amt { margin: 26px 0 22px; font-family: var(--display); font-weight: 800; font-size: 50px; letter-spacing: -.05em; line-height: 1; }
+  .plan .amt small { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+  .plan ul { list-style: none; display: grid; gap: 12px; margin-bottom: 30px; flex: 1; }
+  .plan li { display: flex; gap: 12px; font-size: 15px; color: var(--cream-2); }
+  .plan li svg { flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--orange); }
+  .plan .btn { justify-content: center; }
+
+  /* ---------- build your box ---------- */
+  .box { position: relative; padding: 140px 0; background: linear-gradient(180deg, var(--bg), #120a06 40%, var(--bg)); }
+  .box-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: start; }
+  .box-form { display: grid; gap: 28px; }
+  .fgroup h4 { font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--orange-2); margin-bottom: 14px; }
+  .items { display: grid; gap: 12px; }
+  .item { display: grid; grid-template-columns: 64px 1fr auto; gap: 18px; align-items: center; padding: 14px 16px 14px 14px; border-radius: 20px; border: 1px solid var(--line); background: rgba(245, 230, 204, .03); transition: border-color .3s, background .3s; }
+  .item.has { border-color: rgba(255, 107, 44, .55); background: rgba(255, 107, 44, .07); }
+  .item .thumb { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: #1f120b; }
+  .item .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .item .thumb svg { width: 34px; height: 60px; }
+  .item b { display: block; font-family: var(--display); font-weight: 600; font-size: 16px; letter-spacing: -.01em; }
+  .item span { font-size: 13.5px; color: var(--muted); }
+  .stepper { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 99px; padding: 4px; }
+  .stepper button { width: 34px; height: 34px; border-radius: 50%; font-size: 18px; font-weight: 700; line-height: 1; transition: background .2s; }
+  .stepper button:hover { background: rgba(245, 230, 204, .1); }
+  .stepper output { min-width: 26px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .opts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt { position: relative; }
+  .opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .opt span { display: inline-block; padding: 11px 18px; border-radius: 99px; border: 1px solid var(--line); font-size: 14px; font-weight: 600; color: var(--cream-2); transition: all .25s; }
+  .opt input:checked + span { background: var(--cream); color: #1a0d07; border-color: var(--cream); }
+  .opt input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .field { display: grid; gap: 8px; }
+  .field input { padding: 14px 18px; border-radius: 14px; border: 1px solid var(--line); background: rgba(245, 230, 204, .04); outline: none; }
+  .field input:focus { border-color: var(--orange); }
+  .summary { position: sticky; top: 110px; padding: 30px; border-radius: 28px; border: 1px solid rgba(255, 107, 44, .4); background: radial-gradient(120% 80% at 100% 0%, rgba(255, 107, 44, .16), transparent 60%), linear-gradient(170deg, #22130b, #120a06); box-shadow: 0 40px 80px -40px #000; }
+  .summary h3 { font-family: var(--display); font-weight: 600; font-size: 22px; }
+  .lines { list-style: none; margin: 20px 0; display: grid; gap: 10px; min-height: 60px; font-size: 14.5px; }
+  .lines li { display: flex; justify-content: space-between; gap: 12px; color: var(--cream-2); }
+  .lines .empty { color: var(--muted); }
+  .sumrow { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 14.5px; color: var(--muted); margin-top: 8px; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; margin: 18px 0 22px; }
+  .total span { font-weight: 700; }
+  .total b { font-family: var(--display); font-weight: 800; font-size: 46px; letter-spacing: -.04em; color: var(--orange); font-variant-numeric: tabular-nums; }
+  .summary .btn { width: 100%; justify-content: center; }
+  .status { margin-top: 14px; min-height: 22px; font-size: 13.5px; color: var(--orange-2); }
+  .status.err { color: #ff8f7a; }
+
+  /* ---------- reviews ---------- */
+  .reviews { position: relative; padding: 170px 0 130px; overflow: hidden; }
+  .rev-bg { position: absolute; inset: -20% 0; z-index: 0; will-change: transform; }
+  .rev-bg img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.8) brightness(.38); }
+  .reviews::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, var(--bg) 0%, rgba(11, 7, 5, .55) 30%, rgba(11, 7, 5, .55) 70%, var(--bg) 100%); }
+  .reviews .wrap { position: relative; z-index: 2; }
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .rev { padding: 34px 30px; border-radius: 26px; background: rgba(16, 10, 7, .72); border: 1px solid var(--line); backdrop-filter: blur(14px); will-change: transform; }
+  .rev .stars { display: flex; gap: 4px; color: var(--orange); margin-bottom: 18px; }
+  .rev .stars svg { width: 16px; height: 16px; }
+  .rev q { display: block; font-family: var(--display); font-weight: 400; font-size: 19px; line-height: 1.45; letter-spacing: -.01em; quotes: "\201C" "\201D"; }
+  .rev .by { margin-top: 22px; font-size: 14px; color: var(--muted); }
+  .rev .by b { color: var(--cream); display: block; font-size: 15px; }
+  .rev-score { display: flex; align-items: baseline; gap: 18px; margin-bottom: 50px; }
+  .rev-score b { font-family: var(--display); font-weight: 800; font-size: clamp(64px, 8vw, 128px); letter-spacing: -.06em; line-height: .9; }
+  .rev-score span { color: var(--cream-2); max-width: 15em; }
+
+  /* ---------- cafe ---------- */
+  .cafe { position: relative; padding: 150px 0 160px; overflow: hidden; }
+  .cafe-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+  .cafe-copy h2 { font-size: clamp(36px, 4.2vw, 66px); margin: 18px 0 20px; }
+  .cafe-copy > p { color: var(--cream-2); margin-bottom: 30px; max-width: 30em; }
+  .addr { display: grid; grid-template-columns: auto 1fr; gap: 14px 18px; padding: 26px 0; border-block: 1px solid var(--line); margin-bottom: 30px; font-size: 15px; }
+  .addr dt { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; padding-top: 3px; }
+  .hours { display: grid; gap: 6px; }
+  .hours div { display: flex; justify-content: space-between; gap: 20px; max-width: 320px; }
+  .open-now { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 13px; font-weight: 700; color: var(--cream-2); }
+  .open-now i { width: 9px; height: 9px; border-radius: 50%; background: #6fd39a; box-shadow: 0 0 0 4px rgba(111, 211, 154, .18); }
+  .open-now.closed i { background: #ff8f7a; box-shadow: 0 0 0 4px rgba(255, 143, 122, .18); }
+  .collage { position: relative; height: 640px; }
+  .collage figure { position: absolute; border-radius: 24px; overflow: hidden; box-shadow: 0 40px 70px -30px #000; will-change: transform; }
+  .collage img { width: 100%; height: 118%; object-fit: cover; will-change: transform; }
+  .collage figcaption { position: absolute; left: 14px; bottom: 14px; padding: 6px 12px; border-radius: 99px; background: rgba(11, 7, 5, .75); backdrop-filter: blur(6px); font-size: 12px; font-weight: 600; color: var(--cream-2); }
+  .c1 { left: 0; top: 40px; width: 74%; height: 400px; }
+  .c2 { right: 0; top: 0; width: 38%; height: 270px; }
+  .c3 { right: 6%; bottom: 0; width: 46%; height: 300px; }
+
+  /* ---------- footer ---------- */
+  footer { position: relative; padding: 110px 0 90px; overflow: hidden; border-top: 1px solid var(--line); background: radial-gradient(70% 90% at 50% 100%, #2a140a, var(--bg) 70%); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+  .foot-grid h5 { font-size: 12px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .foot-grid ul { list-style: none; display: grid; gap: 10px; font-size: 15px; color: var(--cream-2); }
+  .foot-grid p { color: var(--muted); font-size: 15px; max-width: 24em; margin-top: 16px; }
+  .giant { width: max-content; margin: 80px 0 20px; font-family: var(--display); font-weight: 900; font-size: 17vw; line-height: .82; letter-spacing: -.07em; white-space: nowrap; will-change: transform;
+    background: linear-gradient(180deg, var(--orange) 0%, #7a2f10 70%, transparent 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .foot-bottom { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 80; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(245, 230, 204, .95); color: #160c07; font-size: 12px; font-weight: 700; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .7); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #160c07; color: var(--cream); font-size: 13px; }
+
+  /* ---------- custom cursor ---------- */
+  .cur-dot, .cur-ring { position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none; border-radius: 50%; opacity: 0; }
+  .cur-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: var(--orange); }
+  .cur-ring { width: 44px; height: 44px; margin: -22px 0 0 -22px; border: 1px solid rgba(245, 230, 204, .55); display: grid; place-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; color: #1a0b04; transition: width .3s, height .3s, margin .3s, background .3s, border-color .3s; }
+  .cur-ring.big { width: 86px; height: 86px; margin: -43px 0 0 -43px; background: rgba(255, 107, 44, .9); border-color: transparent; }
+  @media (pointer: fine) { html.has-cursor.cur-live .cur-dot, html.has-cursor.cur-live .cur-ring { opacity: 1; } }
+
+  /* ---------- static mode (reduced motion / no JS libs) ---------- */
+  html.static .step { position: relative; opacity: 1; transform: none; margin-bottom: 22px; }
+  html.static .steps { min-height: 0; }
+  html.static .story-pin, html.static .origins-pin, html.static .menu-pin { height: auto; min-height: 0; }
+  html.static .story-inner, html.static .origins-inner { position: relative; inset: auto; padding: 110px 48px 60px; }
+  html.static .story-photo, html.static .story-bar { display: none; }
+  html.static .menu-pin { display: block; padding: 120px 0 80px; }
+  html.static .menu-track { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; }
+  html.static .dcard { scroll-snap-align: start; }
+  html.static .ocard { opacity: 1; transform: none; }
+  html.static .statement .w { opacity: 1; }
+  html.static .hb svg, html.static .steam path { animation: none; }
+  html.static .steam path { opacity: .5; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1100px) {
+    .nav-links { display: none; }
+    .plan-grid, .rev-grid { grid-template-columns: 1fr; max-width: 560px; }
+    .box-grid, .cafe-grid { grid-template-columns: 1fr; }
+    .summary { position: relative; top: 0; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 767px) {
+    body { font-size: 16px; }
+    .wrap { width: calc(100% - 40px); }
+    .nav .wrap { height: 68px; }
+    .nav .btn { padding: 10px 16px; font-size: 13px; }
+    .logo { font-size: 16px; }
+    .logo small { display: none; }
+    .hero { min-height: 600px; height: 100svh; }
+    .hero-word { top: 36%; font-size: 15vw; }
+    .hero-glow, .cup, .hb, .steam, .can { top: 36%; }
+    .hero-top { left: 20px; top: 88px; }
+    .hero-top .eyebrow { font-size: 10px; letter-spacing: .22em; }
+    .hero-chip { display: none; }
+    .hero-title { left: 20px; right: 20px; bottom: 222px; font-size: 9.6vw; }
+    .hero-side { left: 20px; right: 20px; width: auto; bottom: 80px; }
+    .hb.front.f4, .hb.front.f3 { display: none; }
+    .hero-side p { font-size: 14.5px; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .hero-side .btn { padding: 14px 20px; font-size: 14px; }
+    .scroll-hint { display: none; }
+    .marquee { padding: 28px 0; }
+    .statement { padding: 110px 0 90px; }
+    .stats { grid-template-columns: 1fr 1fr; gap: 30px 20px; margin-top: 60px; }
+    .story-inner { inset: 76px 20px 24px; grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; gap: 8px; align-items: stretch; }
+    .story-head { margin-bottom: 0; }
+    .story-head h2 { font-size: 24px; }
+    .story-copy { display: contents; }
+    .story-stage { order: 2; min-height: 0; }
+    .story-stage svg { max-height: 100%; }
+    .steps { order: 3; min-height: 190px; }
+    .step h3 { font-size: 24px; margin: 6px 0 8px; }
+    .step p { font-size: 14.5px; }
+    .story-bar { order: 4; margin: 6px 0 0; }
+    .story-photo { display: none; }
+    .stage-word { display: none; }
+    html.static .story-inner { padding: 90px 20px 40px; }
+    .menu-track { padding: 0 20px; gap: 18px; }
+    .menu-intro { width: 78vw; }
+    .dcard { width: 76vw; }
+    .dcard:nth-child(odd) { margin-top: 0; }
+    .dcard .ph { height: 250px; }
+    .menu-progress { left: 20px; right: 20px; }
+    .origins-pin { height: auto; min-height: 0; }
+    .origins-inner { position: relative; inset: auto; padding: 100px 20px 80px; grid-template-columns: 1fr; gap: 24px; }
+    .map-wrap { height: 420px; }
+    .map-word { display: none; }
+    html.static .origins-inner { padding: 100px 20px 80px; }
+    .plans, .box, .reviews, .cafe { padding: 100px 0; }
+    .plans-bg { width: 90vw; right: -40vw; }
+    .plan .amt { font-size: 42px; }
+    .item { grid-template-columns: 48px 1fr; padding: 12px; gap: 12px 14px; }
+    .item .thumb { width: 48px; height: 48px; }
+    .item .stepper { grid-column: 1 / -1; justify-self: start; }
+    .summary { padding: 24px; }
+    .total b { font-size: 38px; }
+    .rev q { font-size: 17px; }
+    .collage { height: 520px; }
+    .c1 { width: 88%; height: 300px; top: 30px; }
+    .c2 { width: 46%; height: 190px; }
+    .c3 { width: 60%; height: 220px; right: 0; }
+    .foot-grid { grid-template-columns: 1fr; gap: 30px; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- shared SVG defs: glossy bean, steam, can metal -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="beanG" cx="34%" cy="28%" r="80%">
+      <stop offset="0" stop-color="#b0673a" />
+      <stop offset=".38" stop-color="#6a3519" />
+      <stop offset=".75" stop-color="#2e1409" />
+      <stop offset="1" stop-color="#130703" />
+    </radialGradient>
+    <linearGradient id="beanRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd2a6" stop-opacity=".55" />
+      <stop offset=".4" stop-color="#ffd2a6" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="steamG" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#f5e6cc" stop-opacity="0" />
+      <stop offset=".4" stop-color="#f5e6cc" stop-opacity=".55" />
+      <stop offset="1" stop-color="#f5e6cc" stop-opacity="0" />
+    </linearGradient>
+    <symbol id="bean" viewBox="0 0 100 140">
+      <path d="M50 4C82 4 96 40 96 72c0 36-20 64-46 64C22 136 4 106 4 70 4 36 20 4 50 4Z" fill="url(#beanG)" />
+      <path d="M50 4C82 4 96 40 96 72c0 36-20 64-46 64C22 136 4 106 4 70 4 36 20 4 50 4Z" fill="none" stroke="url(#beanRim)" stroke-width="3" />
+      <path d="M53 10C33 40 68 62 48 90c-10 16 4 32 2 42" fill="none" stroke="#0d0402" stroke-width="8" stroke-linecap="round" />
+      <path d="M57 14C40 42 72 62 53 90c-8 14 4 28 3 38" fill="none" stroke="#c07a48" stroke-opacity=".35" stroke-width="2" stroke-linecap="round" />
+      <ellipse cx="27" cy="44" rx="8" ry="21" fill="#fff" opacity=".3" transform="rotate(-18 27 44)" />
+      <ellipse cx="74" cy="104" rx="4" ry="12" fill="#fff" opacity=".12" transform="rotate(-20 74 104)" />
+    </symbol>
+  </defs>
+</svg>
+
+<div class="cur-dot" aria-hidden="true"></div>
+<div class="cur-ring" aria-hidden="true"><span></span></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Blackbuck Coffee home">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#ff6b2c" />
+        <path d="M16.5 31c-1.6-5-5.4-7.6-5-13.2.3-3.6-1.4-6.2-3.6-8" fill="none" stroke="#160c07" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3.2 1.4" />
+        <path d="M23.5 31c1.6-5 5.4-7.6 5-13.2-.3-3.6 1.4-6.2 3.6-8" fill="none" stroke="#160c07" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3.2 1.4" />
+        <ellipse cx="20" cy="31.5" rx="4.6" ry="3" fill="#160c07" />
+      </svg>
+      <span>Blackbuck<small>COFFEE · MUMBAI</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#story">Story</a><a href="#menu">Menu</a><a href="#origins">Origins</a><a href="#plans">Plans</a><a href="#cafe">Café</a>
+    </nav>
+    <a href="#box" class="btn btn-hot magnetic">Build a box</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero" aria-label="Blackbuck Coffee">
+  <div class="hero-glow"></div>
+  <div class="hero-word" aria-hidden="true">BLACKBUCK</div>
+  <div class="hero-beans" aria-hidden="true"></div>
+
+  <div class="cup" id="cup">
+    <div class="cup-shadow"></div>
+    <svg class="cup-ring" viewBox="0 0 300 300" aria-hidden="true">
+      <defs><path id="ringPath" d="M150 150m-138 0a138 138 0 1 1 276 0a138 138 0 1 1-276 0" /></defs>
+      <circle cx="150" cy="150" r="128" fill="none" stroke="rgba(245,230,204,.12)" stroke-dasharray="2 6" />
+      <text><textPath href="#ringPath">SINGLE ESTATE · ROASTED DARK · BREWED IN MUMBAI · SINCE 2019 · </textPath></text>
+    </svg>
+    <div class="cup-img"><img src="img/cup-top-round.jpg" alt="Top-down view of a cappuccino with leaf latte art in a white cup" /></div>
+  </div>
+
+  <svg class="steam" viewBox="0 0 200 340" aria-hidden="true">
+    <path d="M100 330c-30-40 30-70 0-110s30-70 0-110 20-60 5-90" />
+    <path d="M70 330c-26-36 24-64-2-100s26-64 0-100" />
+    <path d="M132 330c24-38-24-66 2-104s-22-62 4-98" />
+  </svg>
+
+  <div class="can" id="can" aria-hidden="true">
+    <svg viewBox="0 0 120 250">
+      <defs>
+        <linearGradient id="canBody" x1="0" x2="1">
+          <stop offset="0" stop-color="#080403" /><stop offset=".16" stop-color="#3d2416" /><stop offset=".26" stop-color="#8a5a3c" />
+          <stop offset=".34" stop-color="#3a2014" /><stop offset=".7" stop-color="#140a06" /><stop offset=".9" stop-color="#4a2c1b" /><stop offset="1" stop-color="#080403" />
+        </linearGradient>
+        <linearGradient id="canBand" x1="0" x2="1">
+          <stop offset="0" stop-color="#8a2e0c" /><stop offset=".22" stop-color="#ff7a3a" /><stop offset=".3" stop-color="#ffc08e" />
+          <stop offset=".4" stop-color="#ff6b2c" /><stop offset=".85" stop-color="#b8420f" /><stop offset="1" stop-color="#5e1f06" />
+        </linearGradient>
+        <linearGradient id="canMetal" x1="0" x2="1">
+          <stop offset="0" stop-color="#2a2a2a" /><stop offset=".2" stop-color="#9c9c9c" /><stop offset=".3" stop-color="#f2f2f2" />
+          <stop offset=".45" stop-color="#7a7a7a" /><stop offset=".8" stop-color="#3a3a3a" /><stop offset=".92" stop-color="#b0b0b0" /><stop offset="1" stop-color="#2a2a2a" />
+        </linearGradient>
+      </defs>
+      <path d="M14 24h92l4 10v182l-4 10H14l-4-10V34Z" fill="url(#canBody)" />
+      <rect x="10" y="128" width="100" height="52" fill="url(#canBand)" />
+      <path d="M18 22c4-8 80-8 84 0l4 4H14Z" fill="url(#canMetal)" />
+      <ellipse cx="60" cy="22" rx="44" ry="7" fill="url(#canMetal)" />
+      <ellipse cx="60" cy="21" rx="36" ry="4.6" fill="#555" opacity=".6" />
+      <path d="M14 226h92c-2 10-88 10-92 0Z" fill="url(#canMetal)" />
+      <g transform="translate(60 70)" fill="none" stroke="#ff6b2c" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="3 1.4">
+        <path d="M-5 16c-2-6-7-9-6-16 .4-4-1.6-7-4-9" /><path d="M5 16c2-6 7-9 6-16-.4-4 1.6-7 4-9" />
+      </g>
+      <text x="60" y="110" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="11.5" fill="#f5e6cc" letter-spacing=".5">BLACKBUCK</text>
+      <text x="60" y="151" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="13" fill="#1a0b04">COLD</text>
+      <text x="60" y="169" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="13" fill="#1a0b04">BREW</text>
+      <text x="60" y="204" text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-weight="700" font-size="7" fill="#f5e6cc" opacity=".7" letter-spacing="1.5">250 ML · 18 HR</text>
+      <rect x="22" y="30" width="9" height="190" rx="4.5" fill="#fff" opacity=".16" />
+      <rect x="94" y="34" width="4" height="182" rx="2" fill="#fff" opacity=".08" />
+    </svg>
+  </div>
+
+  <div class="hero-top"><span class="eyebrow">Specialty coffee roasters · Mumbai</span></div>
+  <div class="hero-chip"><b>18h</b>Cold brew, steeped overnight</div>
+
+  <h1 class="hero-title display">
+    <span class="ln"><span>Indian coffee,</span></span>
+    <span class="ln"><span>brewed <em class="grad" style="font-style:normal">wild.</em></span></span>
+  </h1>
+  <div class="hero-side">
+    <p>Single-estate beans from Chikmagalur, Coorg and Araku, roasted dark and glossy in Mumbai. Cold brew cans, fresh bags and a café that stays open late.</p>
+    <div class="row">
+      <a href="#box" class="btn btn-hot magnetic">Build your box
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4" /></svg></a>
+      <a href="#menu" class="btn btn-ghost magnetic">See the menu</a>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">SCROLL<i></i></div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<section class="marquee" aria-hidden="true">
+  <div class="mq-row" data-mq="-1"><span>Cold brew cans</span><span>Single-estate beans</span><span>Bandra café</span><span>Cold brew cans</span><span>Single-estate beans</span><span>Bandra café</span></div>
+  <div class="mq-row out" data-mq="1"><span>Roasted dark</span><span>Brewed slow</span><span>Poured late</span><span>Roasted dark</span><span>Brewed slow</span><span>Poured late</span></div>
+</section>
+
+<!-- ================= STATEMENT ================= -->
+<section class="statement">
+  <div class="wrap">
+    <span class="eyebrow">The Blackbuck way</span>
+    <p class="big" data-words style="margin-top:28px">We buy ripe cherries from three Indian hills, roast them <span class="w-hot">dark and honest</span> in Mumbai, and steep our cold brew for <span class="w-hot">eighteen slow hours.</span> Nothing added. Nothing hidden.</p>
+    <div class="stats">
+      <div class="stat"><b><span data-count="18">0</span><em>h</em></b><span>Cold brew steep</span></div>
+      <div class="stat"><b><span data-count="3">0</span></b><span>Partner estates</span></div>
+      <div class="stat"><b><span data-count="42">0</span></b><span>Cities we ship cans to</span></div>
+      <div class="stat"><b><span data-count="4.8" data-dec="1">0</span><em>★</em></b><span>From 3,200 reviews</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STORY: CHERRY TO CUP ================= -->
+<section class="story" id="story">
+  <div class="story-pin">
+    <div class="stage-word" aria-hidden="true">CHERRY→CUP</div>
+    <div class="story-inner">
+      <div class="story-copy">
+        <div class="story-head">
+          <h2 class="display">From cherry<br />to cup</h2>
+          <div class="story-count"><b id="stepNo">01</b> / 05</div>
+        </div>
+        <ol class="steps">
+          <li class="step on"><span class="k">Step 01 · Nov to Feb</span><h3>Picked only when red</h3><p>Pickers on shade-grown estates in Chikmagalur and Coorg hand-pick only the deep-red, fully ripe coffee cherries.</p></li>
+          <li class="step"><span class="k">Step 02 · 12 to 18 days</span><h3>Pulped and sun-dried</h3><p>The fruit is pulped away and the seeds are dried on raised beds until they become pale green coffee beans.</p></li>
+          <li class="step"><span class="k">Step 03 · drop at 218°C</span><h3>Roasted in small batches</h3><p>In our Mumbai roastery the green beans turn yellow, then cinnamon, then chocolate, then a glossy dark brown.</p></li>
+          <li class="step"><span class="k">Step 04 · minutes before</span><h3>Ground to order</h3><p>We grind on steel burrs just before brewing: coarse for cold brew and pour-over, fine for espresso.</p></li>
+          <li class="step"><span class="k">Step 05 · 18-hour steep</span><h3>Poured slow, into your cup</h3><p>Cold brew steeps overnight and hot coffee is poured by hand. Either way, it ends here, in your cup.</p></li>
+        </ol>
+        <div class="story-bar"><i id="storyBar"></i></div>
+        <figure class="story-photo">
+          <div class="sp-frame">
+            <img class="on" src="img/cherries.jpg" alt="A hand picking ripe red coffee cherries from a sack" />
+            <img src="img/raw-beans.jpg" alt="A hand sorting pale, unroasted coffee beans in a basket" />
+            <img src="img/roasted-beans.jpg" alt="Close-up of glossy dark roasted coffee beans" />
+            <img src="img/ground.jpg" alt="Freshly ground coffee in a metal tin" />
+            <img src="img/espresso-pull.jpg" alt="Espresso pouring from a portafilter" />
+          </div>
+          <figcaption id="spCap">Ripe red coffee cherries, picked by hand.</figcaption>
+        </figure>
+      </div>
+
+      <div class="story-stage">
+        <svg id="storySvg" viewBox="0 0 800 640" role="img" aria-label="Animated illustration: coffee cherries become green beans, are roasted dark, ground, and poured into a cup that fills as you scroll">
+          <defs>
+            <radialGradient id="cherryG" cx="35%" cy="30%" r="75%">
+              <stop offset="0" stop-color="#ff7a63" /><stop offset=".35" stop-color="#d81a2c" /><stop offset=".8" stop-color="#6a0714" /><stop offset="1" stop-color="#3a020a" />
+            </radialGradient>
+            <radialGradient id="heatG">
+              <stop offset="0" stop-color="#ffb05a" stop-opacity=".95" /><stop offset=".35" stop-color="#ff6b2c" stop-opacity=".55" /><stop offset=".7" stop-color="#b8300a" stop-opacity=".18" /><stop offset="1" stop-color="#b8300a" stop-opacity="0" />
+            </radialGradient>
+            <radialGradient id="shineG" cx="32%" cy="26%" r="70%">
+              <stop offset="0" stop-color="#fff" stop-opacity=".45" /><stop offset=".4" stop-color="#fff" stop-opacity=".06" /><stop offset="1" stop-color="#000" stop-opacity=".35" />
+            </radialGradient>
+            <linearGradient id="liqG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#7a4321" /><stop offset=".25" stop-color="#3d1d0c" /><stop offset="1" stop-color="#140702" />
+            </linearGradient>
+            <linearGradient id="streamG" gradientUnits="userSpaceOnUse" x1="0" y1="216" x2="0" y2="566">
+              <stop offset="0" stop-color="#2a1309" /><stop offset=".5" stop-color="#6b3517" /><stop offset="1" stop-color="#3a1a0a" />
+            </linearGradient>
+            <linearGradient id="leafG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#4f8a4a" /><stop offset="1" stop-color="#173a22" />
+            </linearGradient>
+            <clipPath id="cupClip"><path d="M474 304 L493 516 Q498 566 546 566 L634 566 Q682 566 687 516 L706 304 Z" /></clipPath>
+          </defs>
+
+          <!-- heat glow + shimmer (roasting) -->
+          <circle id="heat" cx="240" cy="330" r="230" fill="url(#heatG)" opacity="0" />
+          <g id="shimmer" fill="none" stroke="#ffb05a" stroke-width="3" stroke-linecap="round" opacity="0">
+            <path d="M170 210c-12-20 12-34 0-54s12-34 0-54" /><path d="M240 190c-12-20 12-34 0-54s12-34 0-54" /><path d="M310 210c-12-20 12-34 0-54s12-34 0-54" />
+          </g>
+          <text id="temp" class="st-temp" x="240" y="560" text-anchor="middle" font-size="44" fill="#ffa25a" opacity="0">24°C</text>
+
+          <!-- branch with leaves (cherry stage) -->
+          <g id="branch">
+            <path d="M40 150 C140 190 300 170 450 210" fill="none" stroke="#4a2a18" stroke-width="9" stroke-linecap="round" />
+            <path d="M120 175c-30-50-90-40-110-30 20 30 70 50 110 30Z" fill="url(#leafG)" />
+            <path d="M300 182c20-56 84-60 106-52-14 34-62 60-106 52Z" fill="url(#leafG)" />
+            <path d="M210 182c-6 50 40 80 62 84 4-34-24-74-62-84Z" fill="url(#leafG)" opacity=".85" />
+            <path d="M380 205c34 40 90 30 108 18-26-26-76-34-108-18Z" fill="url(#leafG)" />
+          </g>
+          <g id="finale" opacity="0">
+            <text x="240" y="318" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="900" font-size="74" fill="#f5e6cc" letter-spacing="-3">READY.</text>
+            <text x="240" y="362" text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-weight="700" font-size="16" letter-spacing="4" fill="#ffa25a">FROM ₹180 AT THE BAR</text>
+            <path d="M120 392 H360" stroke="rgba(245,230,204,.18)" stroke-width="2" />
+          </g>
+          <g id="items"></g>
+          <g id="grounds"></g>
+
+          <!-- dripper -->
+          <g id="dripper" opacity="0">
+            <path d="M516 122 L664 122 L614 214 L566 214 Z" fill="rgba(245,230,204,.06)" stroke="#f5e6cc" stroke-width="4" stroke-linejoin="round" />
+            <path d="M540 140 L574 206 M590 140 L590 206 M640 140 L606 206" stroke="rgba(245,230,204,.25)" stroke-width="2" />
+            <path d="M505 122 L675 122" stroke="#f5e6cc" stroke-width="5" stroke-linecap="round" />
+            <path d="M556 214 L624 214" stroke="#f5e6cc" stroke-width="5" stroke-linecap="round" />
+          </g>
+          <path id="stream" d="M590 216 L590 560" stroke="url(#streamG)" stroke-width="0" stroke-linecap="round" fill="none" />
+
+          <!-- cup -->
+          <ellipse cx="590" cy="590" rx="190" ry="20" fill="none" stroke="rgba(245,230,204,.5)" stroke-width="3" />
+          <ellipse cx="590" cy="594" rx="150" ry="10" fill="rgba(0,0,0,.45)" />
+          <g clip-path="url(#cupClip)">
+            <rect x="460" y="290" width="260" height="290" fill="rgba(245,230,204,.03)" />
+            <path id="liquid" d="" fill="url(#liqG)" />
+            <path id="crema" d="" fill="none" stroke="#c98a4b" stroke-width="5" stroke-opacity=".9" />
+          </g>
+          <path d="M470 300 L490 518 Q496 572 546 572 L634 572 Q684 572 690 518 L710 300" fill="none" stroke="#f5e6cc" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+          <path d="M462 300 L718 300" stroke="#f5e6cc" stroke-width="6" stroke-linecap="round" />
+          <path d="M704 350 C790 340 796 470 690 486" fill="none" stroke="#f5e6cc" stroke-width="5" stroke-linecap="round" />
+          <path d="M490 320 L504 480" stroke="#fff" stroke-opacity=".22" stroke-width="6" stroke-linecap="round" />
+          <text id="fillTxt" x="590" y="628" text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-weight="700" font-size="15" letter-spacing="3" fill="#a8907c">CUP 0% FULL</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MENU (horizontal) ================= -->
+<section class="menu" id="menu">
+  <div class="menu-pin">
+    <div class="menu-bgword" aria-hidden="true">MENU · MENU</div>
+    <div class="menu-track" id="menuTrack">
+      <div class="menu-intro">
+        <span class="eyebrow">At the bar</span>
+        <h2 class="display">Pour <span class="grad">something</span> dark.</h2>
+        <p>Every drink at the Bandra bar uses beans roasted that week. Oat or almond milk is ₹40 extra.</p>
+        <div class="hint"><i></i>Keep scrolling</div>
+      </div>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag">Hot</span><img src="img/espresso-cup.jpg" alt="An espresso in a white cup and saucer on a dark table" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Espresso</h3><span class="price">₹180</span></div><p>A short, syrupy double shot of our Chikmagalur house blend.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag">Hot</span><img src="img/americano.jpg" alt="Black coffee in a double-walled glass cup" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Americano</h3><span class="price">₹200</span></div><p>Two shots over hot water, served black in a double-walled glass.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag">Hot</span><img src="img/flat-white.jpg" alt="Flat white with leaf latte art in a red cup" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Flat white</h3><span class="price">₹260</span></div><p>Velvety steamed milk over a ristretto double, finished with latte art.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag">Hot</span><img src="img/latte-heart.jpg" alt="Top-down view of a latte with heart latte art in a dark cup" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Café latte</h3><span class="price">₹280</span></div><p>Our softest cup: espresso, lots of milk and a poured heart.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag">Slow bar</span><img src="img/pour-over.jpg" alt="Pour-over coffee in a glass beside a dripper and scale" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Araku pour-over</h3><span class="price">₹340</span></div><p>Hand-poured over a cone dripper, weighed to the gram. Notes of plum and honey.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag ice">Iced</span><img src="img/cold-brew-ice.jpg" alt="Iced coffee with milk swirling through ice in a tall glass" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Cold brew white</h3><span class="price">₹320</span></div><p>Our 18-hour cold brew over ice, with a pour of cold milk.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag ice">Iced</span><img src="img/cold-coffee.jpg" alt="A tall blended iced coffee with a straw" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Bandra cold coffee</h3><span class="price">₹290</span></div><p>Mumbai's favourite: cold brew blended with milk and ice until frothy.</p></div>
+      </article>
+      <article class="dcard" data-cursor="Sip">
+        <div class="ph"><span class="tag">Reserve</span><img src="img/espresso-pull.jpg" alt="Espresso pouring from a portafilter on a machine" loading="lazy" /></div>
+        <div class="body"><div class="top"><h3>Reserve shot</h3><span class="price">₹420</span></div><p>A rotating single-estate micro-lot, pulled as a straight espresso.</p></div>
+      </article>
+    </div>
+    <div class="menu-progress"><i id="menuBar"></i></div>
+  </div>
+</section>
+
+<!-- ================= ORIGINS ================= -->
+<section class="origins" id="origins">
+  <div class="origins-pin">
+    <div class="origins-inner">
+      <div class="map-wrap">
+        <div class="map-word" aria-hidden="true">ORIGINS</div>
+        <svg id="mapSvg" viewBox="0 0 420 410" role="img" aria-label="Map of India marking Chikmagalur, Coorg and Araku Valley coffee regions and the Blackbuck café in Mumbai">
+          <defs>
+            <radialGradient id="regionG"><stop offset="0" stop-color="#ff6b2c" stop-opacity=".75" /><stop offset=".5" stop-color="#ff6b2c" stop-opacity=".2" /><stop offset="1" stop-color="#ff6b2c" stop-opacity="0" /></radialGradient>
+            <linearGradient id="indiaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a170e" /><stop offset="1" stop-color="#1a0e08" /></linearGradient>
+          </defs>
+          <path id="indiaFillPath" fill="url(#indiaFill)" opacity="0" />
+          <path id="indiaLine" fill="none" stroke="#f5e6cc" stroke-linejoin="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+          <g id="routes" fill="none" stroke="#ffa25a" stroke-linecap="round"></g>
+          <g id="regions"></g>
+        </svg>
+      </div>
+      <div class="origin-copy">
+        <span class="eyebrow">Origins</span>
+        <h2 class="display">Three hills.<br /><span class="grad">One roastery.</span></h2>
+        <p>Every bag names the estate it came from. We pay above fair-trade minimums and visit each harvest.</p>
+        <div class="ocards">
+          <div class="ocard" data-o="0"><h3>Chikmagalur</h3><div class="p">₹650<small>250 g bag</small></div><div class="meta">Karnataka · 1,200 m · Arabica</div><div class="notes">Cocoa, jaggery and orange peel. Our everyday house roast.</div></div>
+          <div class="ocard" data-o="1"><h3>Coorg</h3><div class="p">₹850<small>250 g bag</small></div><div class="meta">Karnataka · 1,100 m · Arabica</div><div class="notes">Dark chocolate, warm spice and dried fig. Made for milk.</div></div>
+          <div class="ocard" data-o="2"><h3>Araku Valley</h3><div class="p">₹1,100<small>250 g reserve</small></div><div class="meta">Andhra Pradesh · 1,000 m · Arabica</div><div class="notes">Plum, honey and black tea, grown by tribal farmer co-operatives.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLANS ================= -->
+<section class="plans" id="plans">
+  <div class="plans-bg" data-speed="-0.25"><img src="img/bean-cup-round.jpg" alt="" loading="lazy" /></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Subscriptions</span>
+      <h2 class="display">Never run <span class="grad">dry.</span></h2>
+      <p>Fresh bags and cold brew cans at your door, roasted the week they ship. Pause, skip or cancel any time.</p>
+    </div>
+    <div class="plan-grid">
+      <div class="plan" data-cursor="Pick">
+        <h3>Starter</h3><div class="who">For the weekend brewer</div>
+        <div class="amt">₹650<small> / month</small></div>
+        <ul>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>One 250 g bag of Chikmagalur beans</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Whole bean or ground your way</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Shipping ₹80</li>
+        </ul>
+        <a href="#box" class="btn btn-ghost magnetic">Start Starter</a>
+      </div>
+      <div class="plan feat" data-cursor="Pick">
+        <span class="badge">Most loved</span>
+        <h3>Daily ritual</h3><div class="who">For a cup every morning</div>
+        <div class="amt">₹1,490<small> / month</small></div>
+        <ul>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Two 250 g bags, any origin but reserve</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Four cold brew cans</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Free shipping</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>10% off at the Bandra café</li>
+        </ul>
+        <a href="#box" class="btn btn-hot magnetic">Start Daily ritual</a>
+      </div>
+      <div class="plan" data-cursor="Pick">
+        <h3>Café at home</h3><div class="who">For offices and big households</div>
+        <div class="amt">₹2,900<small> / month</small></div>
+        <ul>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Four bags, including Araku reserve</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Eight cold brew cans</li>
+          <li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5l4 4 8-9" /></svg>Free shipping and a brew guide</li>
+        </ul>
+        <a href="#box" class="btn btn-ghost magnetic">Start Café at home</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BUILD YOUR BOX ================= -->
+<section class="box" id="box">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Build your box</span>
+      <h2 class="display">Pack it <span class="grad">your way.</span></h2>
+      <p>Mix bags and cans, pick a grind, and watch the total update as you go. Free shipping over ₹999.</p>
+    </div>
+    <div class="box-grid">
+      <form class="box-form" id="boxForm" novalidate>
+        <div class="fgroup">
+          <h4>Beans · 250 g bags</h4>
+          <div class="items">
+            <div class="item" data-name="Chikmagalur beans" data-price="650"><div class="thumb"><img src="img/roasted-beans.jpg" alt="Roasted coffee beans" loading="lazy" /></div><div><b>Chikmagalur</b><span>Cocoa, jaggery · ₹650</span></div><div class="stepper"><button type="button" data-d="-1" aria-label="Fewer Chikmagalur bags">−</button><output>0</output><button type="button" data-d="1" aria-label="More Chikmagalur bags">+</button></div></div>
+            <div class="item" data-name="Coorg beans" data-price="850"><div class="thumb"><img src="img/bean-cup-round.jpg" alt="A cup filled with roasted coffee beans" loading="lazy" /></div><div><b>Coorg</b><span>Dark chocolate, spice · ₹850</span></div><div class="stepper"><button type="button" data-d="-1" aria-label="Fewer Coorg bags">−</button><output>0</output><button type="button" data-d="1" aria-label="More Coorg bags">+</button></div></div>
+            <div class="item" data-name="Araku reserve" data-price="1100"><div class="thumb"><svg viewBox="0 0 100 140" aria-hidden="true"><use href="#bean" /></svg></div><div><b>Araku Valley reserve</b><span>Plum, honey · ₹1,100</span></div><div class="stepper"><button type="button" data-d="-1" aria-label="Fewer Araku bags">−</button><output>0</output><button type="button" data-d="1" aria-label="More Araku bags">+</button></div></div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <h4>Cold brew · 250 ml cans</h4>
+          <div class="items">
+            <div class="item" data-name="Black cold brew can" data-price="180"><div class="thumb" style="background:#ff6b2c"><svg viewBox="0 0 120 250" aria-hidden="true" style="width:22px;height:46px"><rect x="10" y="20" width="100" height="210" rx="10" fill="#160c07" /><rect x="10" y="120" width="100" height="50" fill="#f5e6cc" /></svg></div><div><b>Black cold brew</b><span>Straight, unsweetened · ₹180</span></div><div class="stepper"><button type="button" data-d="-1" aria-label="Fewer black cans">−</button><output>0</output><button type="button" data-d="1" aria-label="More black cans">+</button></div></div>
+            <div class="item" data-name="Oat cold brew can" data-price="220"><div class="thumb" style="background:#f5e6cc"><svg viewBox="0 0 120 250" aria-hidden="true" style="width:22px;height:46px"><rect x="10" y="20" width="100" height="210" rx="10" fill="#160c07" /><rect x="10" y="120" width="100" height="50" fill="#ff6b2c" /></svg></div><div><b>Oat milk cold brew</b><span>Lightly sweet, dairy-free · ₹220</span></div><div class="stepper"><button type="button" data-d="-1" aria-label="Fewer oat cans">−</button><output>0</output><button type="button" data-d="1" aria-label="More oat cans">+</button></div></div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <h4>Grind</h4>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="grind" value="Whole bean" checked /><span>Whole bean</span></label>
+            <label class="opt"><input type="radio" name="grind" value="Espresso" /><span>Espresso</span></label>
+            <label class="opt"><input type="radio" name="grind" value="Pour-over" /><span>Pour-over</span></label>
+            <label class="opt"><input type="radio" name="grind" value="French press" /><span>French press</span></label>
+            <label class="opt"><input type="radio" name="grind" value="South Indian filter" /><span>South Indian filter</span></label>
+          </div>
+        </div>
+        <div class="fgroup">
+          <h4>How often</h4>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="freq" value="0" checked /><span>Just once</span></label>
+            <label class="opt"><input type="radio" name="freq" value="10" /><span>Every month · save 10%</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <h4 style="font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--orange-2)"><label for="pin">Delivery PIN code</label></h4>
+          <input id="pin" name="pin" inputmode="numeric" maxlength="6" placeholder="e.g. 400050" autocomplete="postal-code" />
+        </div>
+      </form>
+
+      <aside class="summary" aria-live="polite">
+        <h3>Your box</h3>
+        <ul class="lines" id="lines"><li class="empty">Add a bag or a can to start.</li></ul>
+        <div class="sumrow"><span>Subtotal</span><span id="sub">₹0</span></div>
+        <div class="sumrow" style="border:0;padding-top:6px"><span>Subscription saving</span><span id="disc">₹0</span></div>
+        <div class="sumrow" style="border:0;padding-top:6px"><span>Shipping</span><span id="ship">₹0</span></div>
+        <div class="total"><span>Total</span><b id="total">₹0</b></div>
+        <button type="submit" form="boxForm" class="btn btn-hot magnetic">Place demo order</button>
+        <p class="status" id="status" role="status"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section class="reviews" id="reviews">
+  <div class="rev-bg"><img src="img/cheers.jpg" alt="" loading="lazy" /></div>
+  <div class="wrap">
+    <div class="rev-score"><b class="grad">4.8</b><span>average from 3,200 reviews of our cans, bags and the Bandra café.</span></div>
+    <div class="rev-grid">
+      <div class="rev" data-speed="0.06">
+        <div class="stars" aria-label="5 out of 5 stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg></div>
+        <q>The black cold brew can is my 4 pm ritual. Smooth, strong and not a drop of sugar. My fridge is never without it.</q>
+        <div class="by"><b>Ananya R.</b>Bandra, Mumbai</div>
+      </div>
+      <div class="rev" data-speed="-0.08">
+        <div class="stars" aria-label="5 out of 5 stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg></div>
+        <q>Ordered the Araku reserve for my pour-over. Plummy, bright and the roast date was three days old when it arrived in Pune.</q>
+        <div class="by"><b>Kabir S.</b>Koregaon Park, Pune</div>
+      </div>
+      <div class="rev" data-speed="0.1">
+        <div class="stars" aria-label="4 out of 5 stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg><svg viewBox="0 0 20 20" fill="currentColor" opacity=".25"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6L10 15l-5.3 2.9 1.2-6L1.4 7.8l6-.7z" /></svg></div>
+        <q>Late-night flat whites at the Bandra bar are the best in the city. It gets busy after ten, so go a little early.</q>
+        <div class="by"><b>Meera I.</b>Khar West, Mumbai</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAFE ================= -->
+<section class="cafe" id="cafe">
+  <div class="wrap cafe-grid">
+    <div class="cafe-copy">
+      <span class="eyebrow">The flagship</span>
+      <h2 class="display">Blackbuck <span class="grad">Bandra.</span></h2>
+      <p>Brick walls, a long espresso bar and a roaster you can watch through the glass. Open late, because good coffee should not stop at six.</p>
+      <div class="open-now" id="openNow"><i></i><span>Checking hours…</span></div>
+      <dl class="addr">
+        <dt>Address</dt><dd>14 Chapel Road, Bandra West, Mumbai 400050</dd>
+        <dt>Hours</dt><dd class="hours"><div><span>Mon to Fri</span><span>7:30 am to 11 pm</span></div><div><span>Sat and Sun</span><span>8 am to midnight</span></div></dd>
+        <dt>Call</dt><dd>+91 22 4000 0000 (demo)</dd>
+      </dl>
+      <a href="#box" class="btn btn-hot magnetic">Order cans for pickup</a>
+    </div>
+    <div class="collage">
+      <figure class="c1" data-speed="0.08"><img src="img/cafe-wide.jpg" alt="Warm, dimly lit café interior with brick walls and a coffee bar" loading="lazy" /><figcaption>The bar after dark</figcaption></figure>
+      <figure class="c2" data-speed="-0.18"><img src="img/machine.jpg" alt="Barista steaming milk at an espresso machine" loading="lazy" /><figcaption>Steaming milk</figcaption></figure>
+      <figure class="c3" data-speed="-0.06"><img src="img/barista-pour.jpg" alt="Barista pouring latte art into a cup" loading="lazy" /><figcaption>Latte art at the bar</figcaption></figure>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#ff6b2c" /><path d="M16.5 31c-1.6-5-5.4-7.6-5-13.2.3-3.6-1.4-6.2-3.6-8" fill="none" stroke="#160c07" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3.2 1.4" /><path d="M23.5 31c1.6-5 5.4-7.6 5-13.2-.3-3.6 1.4-6.2 3.6-8" fill="none" stroke="#160c07" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3.2 1.4" /><ellipse cx="20" cy="31.5" rx="4.6" ry="3" fill="#160c07" /></svg><span>Blackbuck</span></a>
+        <p>Indian specialty coffee, roasted dark in Mumbai. Cold brew cans, fresh beans and a café that stays open late.</p>
+      </div>
+      <div><h5>Shop</h5><ul><li><a href="#box">Cold brew cans</a></li><li><a href="#origins">Beans</a></li><li><a href="#plans">Subscriptions</a></li></ul></div>
+      <div><h5>Visit</h5><ul><li><a href="#cafe">Bandra café</a></li><li><a href="#menu">Menu</a></li><li><a href="#story">Our process</a></li></ul></div>
+      <div><h5>Hello</h5><ul><li>hello@blackbuck.example</li><li>Instagram · @blackbuck.demo</li></ul></div>
+    </div>
+    <div class="giant" aria-hidden="true">BLACKBUCK</div>
+    <div class="foot-bottom"><span>© 2026 Blackbuck Coffee (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (params.has("preview")) document.querySelector(".demo-badge")?.remove();
+  const CAPTURE = params.has("capture");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+  const html = document.documentElement;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const ease = (t) => t * t * (3 - 2 * t);
+  const svgNS = "http://www.w3.org/2000/svg";
+  const mk = (tag, attrs, parent) => { const el = document.createElementNS(svgNS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent && parent.appendChild(el); return el; };
+  const rng = (seed) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const beanSvg = '<svg viewBox="0 0 100 140"><use href="#bean"/></svg>';
+
+  /* ---------- nav ---------- */
+  const nav = document.getElementById("nav");
+  const onScrollNav = () => nav.classList.toggle("solid", scrollY > 60);
+  addEventListener("scroll", onScrollNav, { passive: true }); onScrollNav();
+
+  /* ---------- statement words ---------- */
+  const words = [];
+  document.querySelectorAll("[data-words]").forEach((p) => {
+    const walk = (node, hot) => {
+      [...node.childNodes].forEach((c) => {
+        if (c.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          c.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part.trim()) { frag.append(part); return; }
+            const s = document.createElement("span"); s.className = "w" + (hot ? " hot" : ""); s.textContent = part; words.push(s); frag.append(s);
+          });
+          c.replaceWith(frag);
+        } else walk(c, hot || c.classList?.contains("w-hot"));
+      });
+    };
+    walk(p, false);
+  });
+
+  /* ---------- hero beans ---------- */
+  const hero = document.getElementById("hero");
+  const beanBox = hero.querySelector(".hero-beans");
+  const R = rng(11);
+  const beans = [];
+  const addBean = (cls, a, r, size, depth) => {
+    const el = document.createElement("div");
+    el.className = "hb " + cls;
+    el.style.width = size + "px"; el.style.height = size * 1.4 + "px";
+    el.style.marginLeft = -size / 2 + "px"; el.style.marginTop = -size * 0.7 + "px";
+    el.innerHTML = beanSvg;
+    el.firstChild.style.setProperty("--d", (5 + R() * 5).toFixed(1) + "s");
+    el.firstChild.style.setProperty("--dl", (-R() * 6).toFixed(1) + "s");
+    beanBox.appendChild(el);
+    beans.push({ el, a, r, depth, rot: R() * 360, spin: (R() < 0.5 ? -1 : 1) * (0.4 + R() * 0.7) });
+  };
+  for (let i = 0; i < 20; i++) addBean("back", R() * Math.PI * 2, 1.25 + R() * 1.9, 18 + R() * 16, 0.45);
+  for (let i = 0; i < 15; i++) { const a = (i / 15) * Math.PI * 2 + R() * 0.3; addBean("mid", a, 1.2 + R() * 1.05, 40 + R() * 30, 1); }
+  // front beans placed by normalised x/y so they frame the cup without covering the copy
+  [[-1.84, -0.62, 180], [1.9, -0.42, 150], [0.82, -1.5, 104], [-1.08, 0.7, 118], [0.3, 1.95, 140]].forEach(([nx, ny, s], i) => addBean("front f" + i, Math.atan2(ny, nx), Math.hypot(nx, ny), s, 1.9));
+
+  const cup = document.getElementById("cup");
+  const cupImg = cup.querySelector(".cup-img img");
+  const ring = cup.querySelector(".cup-ring");
+  const can = document.getElementById("can");
+  const heroWord = hero.querySelector(".hero-word");
+  heroWord.innerHTML = [...heroWord.textContent].map((ch) => `<span>${ch}</span>`).join("");
+  const letters = [...heroWord.children];
+  const heroTitle = hero.querySelector(".hero-title");
+  const heroSide = hero.querySelector(".hero-side");
+  const heroTop = hero.querySelector(".hero-top");
+  const heroChip = hero.querySelector(".hero-chip");
+  const steam = hero.querySelector(".steam");
+  const glow = hero.querySelector(".hero-glow");
+
+  let cupR = 200, stretch = 1.4, frontStretch = 1.5, heroP = 0, mx = 0, my = 0, tmx = 0, tmy = 0;
+  const sizeHero = () => {
+    const w = innerWidth, h = hero.offsetHeight;
+    const mobile = w < 768;
+    const d = mobile ? Math.min(w * 0.66, h * 0.36) : Math.min(h * 0.47, w * 0.32);
+    hero.style.setProperty("--cup", d + "px");
+    cupR = d / 2;
+    stretch = mobile ? 0.95 : clamp(w / h, 1, 2) * 0.95;
+    frontStretch = mobile ? 0.8 : clamp(w / h, 1, 2) * 0.95;
+  };
+  sizeHero();
+
+  const renderHero = () => {
+    const p = heroP;
+    mx += (tmx - mx) * 0.07; my += (tmy - my) * 0.07;
+    for (const b of beans) {
+      const rr = b.r * (1 + p * (1 + b.depth * 1.3));
+      const x = Math.cos(b.a) * rr * cupR * (b.depth > 1.5 ? frontStretch : stretch) + mx * b.depth * 30;
+      const y = Math.sin(b.a) * rr * cupR - p * b.depth * 90 + my * b.depth * 22;
+      const rot = b.rot + p * b.spin * 300 * (0.6 + b.depth * 0.5);
+      b.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(1)}deg) scale(${(1 + p * b.depth * 0.35).toFixed(3)})`;
+    }
+    cup.style.transform = `translate3d(${(mx * 10).toFixed(1)}px,${(my * 8 - p * 40).toFixed(1)}px,0) scale(${(1 + p * 0.32).toFixed(3)})`;
+    cupImg.style.transform = `rotate(${(p * 75).toFixed(1)}deg)`;
+    ring.style.transform = `rotate(${(-p * 160).toFixed(1)}deg)`;
+    can.style.transform = `translate3d(${(mx * 22 + p * innerWidth * 0.16).toFixed(1)}px,${(my * 16 - p * innerHeight * 0.42).toFixed(1)}px,0) rotate(${(12 + p * 60).toFixed(1)}deg)`;
+    const mid = (letters.length - 1) / 2;
+    letters.forEach((l, i) => { l.style.transform = `translate3d(${((i - mid) * p * 34 - mx * 14).toFixed(1)}px,${((i % 2 ? 1 : -1) * p * 50).toFixed(1)}px,0)`; });
+    heroWord.style.opacity = (1 - p * 0.4).toFixed(3);
+    heroTitle.style.transform = `translate3d(0,${(-p * 160).toFixed(1)}px,0)`;
+    heroTitle.style.opacity = (1 - seg(p, 0.25, 0.7)).toFixed(3);
+    heroSide.style.transform = `translate3d(0,${(-p * 110).toFixed(1)}px,0)`;
+    heroSide.style.opacity = (1 - seg(p, 0.2, 0.6)).toFixed(3);
+    heroTop.style.opacity = heroChip.style.opacity = (1 - seg(p, 0.1, 0.4)).toFixed(3);
+    steam.style.opacity = (1 - seg(p, 0, 0.5)).toFixed(3);
+    glow.style.transform = `scale(${(1 + p * 0.6).toFixed(3)})`;
+  };
+  renderHero();
+
+  /* ---------- story stage ---------- */
+  const itemsG = document.getElementById("items");
+  const groundsG = document.getElementById("grounds");
+  const CX = 240, CY = 330;
+  const offs = [[0, 0], [62, -8], [-60, 10], [30, -60], [-32, -56], [32, 58], [-28, 62], [92, 50], [-90, -46], [96, -54], [-92, 54]];
+  const BEAN_D = "M50 4C82 4 96 40 96 72c0 36-20 64-46 64C22 136 4 106 4 70 4 36 20 4 50 4Z";
+  const items = offs.map(([dx, dy], i) => {
+    const g = mk("g", { transform: `translate(${CX + dx} ${CY + dy})` }, itemsG);
+    const ch = mk("g", {}, g);
+    mk("circle", { r: 31, fill: "url(#cherryG)" }, ch);
+    mk("ellipse", { cx: -10, cy: -13, rx: 7, ry: 11, fill: "#fff", opacity: ".38", transform: "rotate(-30 -10 -13)" }, ch);
+    mk("circle", { cx: 2, cy: -27, r: 3.2, fill: "#3a020a" }, ch);
+    const bn = mk("g", {}, g);
+    const inner = mk("g", { transform: `rotate(${(i * 47) % 360}) translate(-24 -34) scale(.48)` }, bn);
+    const body = mk("path", { d: BEAN_D, fill: "#8a9a5b" }, inner);
+    mk("path", { d: BEAN_D, fill: "url(#shineG)" }, inner);
+    const crease = mk("path", { d: "M53 10C33 40 68 62 48 90c-10 16 4 32 2 42", fill: "none", stroke: "#3c4a22", "stroke-width": 8, "stroke-linecap": "round" }, inner);
+    return { g, ch, bn, body, crease, dx, dy, rot: (i * 47) % 360 };
+  });
+  const R2 = rng(5);
+  const grounds = Array.from({ length: 70 }, () => {
+    const src = offs[Math.floor(R2() * offs.length)];
+    const sx = CX + src[0] + (R2() - 0.5) * 30, sy = CY + src[1] + (R2() - 0.5) * 30;
+    const ang = R2() * Math.PI * 2, dist = 60 + R2() * 110;
+    const el = mk("circle", { r: (2.2 + R2() * 3).toFixed(1), fill: R2() < 0.5 ? "#9a5a2e" : "#6b3a1c", opacity: 0 }, groundsG);
+    return { el, sx, sy, cx: sx + Math.cos(ang) * dist, cy: sy + Math.sin(ang) * dist - 60, ex: 570 + R2() * 40, ey: 132 + R2() * 20, d: R2() };
+  });
+  const cols = [[0, [138, 154, 91]], [0.25, [185, 161, 90]], [0.5, [168, 104, 52]], [0.75, [96, 50, 24]], [1, [43, 21, 11]]];
+  const roastCol = (t) => {
+    for (let i = 1; i < cols.length; i++) if (t <= cols[i][0]) {
+      const k = (t - cols[i - 1][0]) / (cols[i][0] - cols[i - 1][0]);
+      return cols[i - 1][1].map((c, j) => Math.round(lerp(c, cols[i][1][j], k)));
+    }
+    return cols[cols.length - 1][1];
+  };
+  const branch = document.getElementById("branch");
+  const heat = document.getElementById("heat");
+  const shimmer = document.getElementById("shimmer");
+  const temp = document.getElementById("temp");
+  const dripper = document.getElementById("dripper");
+  const finale = document.getElementById("finale");
+  const stream = document.getElementById("stream");
+  const liquid = document.getElementById("liquid");
+  const crema = document.getElementById("crema");
+  const fillTxt = document.getElementById("fillTxt");
+  const steps = [...document.querySelectorAll(".step")];
+  const spImgs = [...document.querySelectorAll(".sp-frame img")];
+  const spCap = document.getElementById("spCap");
+  const caps = ["Ripe red coffee cherries, picked by hand.", "Pale, unroasted beans sorted by hand.", "Glossy beans, fresh from the roaster.", "Fresh grounds, ready to brew.", "Espresso pouring from the portafilter."];
+  const stepNo = document.getElementById("stepNo");
+  const storyBar = document.getElementById("storyBar");
+  let storyP = 0, wave = 0, lastStep = -1;
+
+  const drawLiquid = () => {
+    const level = 566 - storyP * 252;
+    const amp = storyP > 0.01 ? 4.5 : 0;
+    let d = "", c = "";
+    for (let x = 466; x <= 714; x += 8) {
+      const y = level + Math.sin(x / 26 + wave) * amp + Math.sin(x / 11 - wave * 1.6) * amp * 0.35;
+      d += (x === 466 ? "M" : "L") + x + " " + y.toFixed(1) + " ";
+      c += (x === 466 ? "M" : "L") + x + " " + (y + 2).toFixed(1) + " ";
+    }
+    liquid.setAttribute("d", d + "L714 600 L466 600 Z");
+    crema.setAttribute("d", c);
+    crema.style.opacity = storyP > 0.03 ? 1 : 0;
+  };
+
+  const setStory = (p) => {
+    storyP = p;
+    const s1 = ease(seg(p, 0.15, 0.27));          // cherry -> green bean
+    const r = seg(p, 0.4, 0.6);                   // roast
+    const g = seg(p, 0.6, 0.8);                   // grind
+    const pour = seg(p, 0.8, 0.86);
+    branch.style.opacity = (1 - s1).toFixed(3);
+    const col = roastCol(r);
+    const colStr = `rgb(${col})`, creaseStr = `rgb(${col.map((c) => Math.round(c * 0.35))})`;
+    const shrink = 1 - ease(seg(g, 0, 0.4));
+    items.forEach((it, i) => {
+      const bob = Math.sin(i * 1.7) * 6 * (1 - s1);
+      it.g.setAttribute("transform", `translate(${CX + it.dx} ${CY + it.dy + bob})`);
+      it.ch.setAttribute("transform", `scale(${(1 - s1 * 0.8).toFixed(3)})`);
+      it.ch.style.opacity = (1 - s1).toFixed(3);
+      const jit = r > 0 && r < 1 ? Math.sin(p * 900 + i) * 1.5 : 0;
+      it.bn.setAttribute("transform", `translate(${jit.toFixed(1)} 0) rotate(${(s1 * 40 + g * 220 * (i % 2 ? 1 : -1)).toFixed(1)}) scale(${(s1 * shrink * (1 + r * 0.12)).toFixed(3)})`);
+      it.bn.style.opacity = (s1 * (shrink > 0.02 ? 1 : 0)).toFixed(3);
+      it.body.setAttribute("fill", colStr);
+      it.crease.setAttribute("stroke", creaseStr);
+    });
+    const heatO = seg(p, 0.38, 0.46) * (1 - seg(p, 0.58, 0.64));
+    heat.setAttribute("opacity", (heatO * (0.85 + Math.sin(p * 400) * 0.15)).toFixed(3));
+    heat.setAttribute("r", (200 + r * 60).toFixed(1));
+    shimmer.setAttribute("opacity", (heatO * 0.7).toFixed(3));
+    shimmer.setAttribute("transform", `translate(0 ${(-r * 40).toFixed(1)})`);
+    temp.setAttribute("opacity", heatO.toFixed(3));
+    temp.textContent = Math.round(lerp(24, 218, r)) + "°C";
+    grounds.forEach((q) => {
+      const t = clamp((g - 0.15 - q.d * 0.35) / 0.5);
+      if (t <= 0 || t >= 1) { q.el.setAttribute("opacity", 0); return; }
+      const u = 1 - t;
+      const x = u * u * q.sx + 2 * u * t * q.cx + t * t * q.ex;
+      const y = u * u * q.sy + 2 * u * t * q.cy + t * t * q.ey;
+      q.el.setAttribute("cx", x.toFixed(1)); q.el.setAttribute("cy", y.toFixed(1));
+      q.el.setAttribute("opacity", (t > 0.9 ? (1 - t) * 10 : 1).toFixed(2));
+    });
+    dripper.setAttribute("opacity", seg(p, 0.6, 0.68).toFixed(3));
+    dripper.setAttribute("transform", `translate(0 ${((1 - seg(p, 0.6, 0.68)) * -30).toFixed(1)})`);
+    const fin = seg(p, 0.88, 0.96);
+    finale.setAttribute("opacity", fin.toFixed(3));
+    finale.setAttribute("transform", `translate(0 ${((1 - fin) * 30).toFixed(1)})`);
+    const level = 566 - p * 252;
+    stream.setAttribute("d", `M590 216 L590 ${level.toFixed(1)}`);
+    stream.setAttribute("stroke-width", (pour * 9).toFixed(2));
+    fillTxt.textContent = `CUP ${Math.round(p * 100)}% FULL`;
+    drawLiquid();
+    const st = Math.min(4, Math.floor(p * 5 + 0.0001));
+    if (st !== lastStep) {
+      lastStep = st;
+      steps.forEach((s, i) => s.classList.toggle("on", i === st));
+      spImgs.forEach((s, i) => s.classList.toggle("on", i === st));
+      spCap.textContent = caps[st];
+      stepNo.textContent = "0" + (st + 1);
+    }
+    storyBar.style.transform = `scaleX(${p.toFixed(4)})`;
+  };
+  setStory(0);
+
+  /* ---------- origins map ---------- */
+  const proj = ([lon, lat]) => [(lon - 68) * 14, (37 - lat) * 14];
+  const india = [[74.5,37],[75.8,36.4],[77,35.5],[78.5,34.5],[79.5,32.5],[78.8,31],[80.5,30.2],[81.5,30],[84,28.5],[86,27.9],[88.1,27.9],[88.8,27.3],[89.8,26.8],[92,26.9],[94,27.6],[95.5,28.2],[97.2,28],[96.5,27],[95.2,26.5],[94.6,25],[94.2,23.8],[93.3,23.9],[93,22.5],[92.3,23.5],[92,24.8],[91,25.2],[90,25.3],[89.8,26],[88.6,26.3],[88.3,25.5],[88.8,24.4],[88.6,23],[89,22],[88,21.6],[86.9,21.4],[86,20],[84.8,19.2],[83.5,18],[82.3,17],[81,15.8],[80.2,15.1],[80.3,13.3],[79.8,11.5],[79.8,10.3],[78.9,9.3],[78.2,8.9],[77.5,8.1],[76.6,8.9],[76.2,10],[75.5,11.7],[74.8,12.9],[74.3,14.5],[73.5,16],[73,17.8],[72.8,19.5],[72.7,21],[72.5,21.5],[70.8,20.7],[69,22.3],[68.4,23.6],[69.5,24.3],[70.6,25.7],[70,26.8],[71,27.9],[72.6,29.2],[73.4,30],[74.4,30.9],[74.6,32.5],[73.8,33.6],[73.5,34.8]];
+  const indiaD = "M" + india.map((c) => proj(c).map((v) => v.toFixed(1)).join(" ")).join(" L") + " Z";
+  const mapSvg = document.getElementById("mapSvg");
+  const indiaLine = document.getElementById("indiaLine");
+  const indiaFillPath = document.getElementById("indiaFillPath");
+  indiaLine.setAttribute("d", indiaD); indiaFillPath.setAttribute("d", indiaD);
+  const mumbai = proj([72.88, 19.07]);
+  const origins = [
+    { name: "Chikmagalur", sub: "KARNATAKA", c: proj([75.77, 13.32]), lx: 10, ly: -4 },
+    { name: "Coorg", sub: "KARNATAKA", c: proj([75.8, 12.42]), lx: 10, ly: 8 },
+    { name: "Araku Valley", sub: "ANDHRA PRADESH", c: proj([82.87, 18.33]), lx: 10, ly: 3 },
+  ];
+  const regionsG = document.getElementById("regions");
+  const routesG = document.getElementById("routes");
+  origins.forEach((o) => {
+    const g = mk("g", {}, regionsG);
+    o.glow = mk("circle", { cx: o.c[0], cy: o.c[1], r: 0, fill: "url(#regionG)" }, g);
+    o.ring = mk("circle", { cx: o.c[0], cy: o.c[1], r: 0, fill: "none", stroke: "#ff6b2c" }, g);
+    o.dot = mk("circle", { cx: o.c[0], cy: o.c[1], r: 0, fill: "#ffa25a" }, g);
+    o.label = mk("text", { class: "map-label", x: o.c[0], y: o.c[1], opacity: 0 }, g); o.label.textContent = o.name;
+    o.subl = mk("text", { class: "map-sub", x: o.c[0], y: o.c[1], opacity: 0 }, g); o.subl.textContent = o.sub;
+    const mxp = (mumbai[0] + o.c[0]) / 2 - 20, myp = (mumbai[1] + o.c[1]) / 2 - 10;
+    o.route = mk("path", { d: `M${mumbai[0]} ${mumbai[1]} Q${mxp} ${myp - (o.name === "Araku Valley" ? 40 : 0)} ${o.c[0]} ${o.c[1]}`, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1 }, routesG);
+  });
+  const mumG = mk("g", {}, regionsG);
+  const mumDot = mk("rect", { fill: "#f5e6cc" }, mumG);
+  const mumLabel = mk("text", { class: "map-label" }, mumG); mumLabel.textContent = "Our café, Mumbai";
+  const ocards = [...document.querySelectorAll(".ocard")];
+  const views = [[0, 0, 420, 410], [0, 0, 420, 410], [55, 215, 150, 146], [130, 195, 150, 146], [25, 170, 300, 290]];
+  const setMap = (p) => {
+    const draw = ease(seg(p, 0, 0.22));
+    // keyframes: 0-.22 draw, .22-.42 zoom south, .42-.62 pan Araku, .62-.82 pull back + routes
+    let v;
+    if (p < 0.22) v = views[0];
+    else if (p < 0.42) v = views[1].map((a, i) => lerp(a, views[2][i], ease(seg(p, 0.22, 0.38))));
+    else if (p < 0.62) v = views[2].map((a, i) => lerp(a, views[3][i], ease(seg(p, 0.46, 0.58))));
+    else v = views[3].map((a, i) => lerp(a, views[4][i], ease(seg(p, 0.64, 0.8))));
+    mapSvg.setAttribute("viewBox", v.map((n) => n.toFixed(2)).join(" "));
+    const z = v[2] / 420; // scale factor so strokes and labels keep screen size
+    indiaLine.setAttribute("stroke-dashoffset", (1 - draw).toFixed(4));
+    indiaLine.setAttribute("stroke-width", (1.6 * z).toFixed(3));
+    indiaFillPath.setAttribute("opacity", seg(p, 0.12, 0.26).toFixed(3));
+    const lit = [ease(seg(p, 0.28, 0.36)), ease(seg(p, 0.33, 0.41)), ease(seg(p, 0.5, 0.58))];
+    const routeP = ease(seg(p, 0.66, 0.86));
+    origins.forEach((o, i) => {
+      const l = lit[i];
+      const pulse = 1 + Math.sin(performance.now() / 400 + i) * 0.08;
+      o.glow.setAttribute("r", (l * 26 * z * pulse * 1.6).toFixed(2));
+      o.ring.setAttribute("r", (l * 9 * z * pulse).toFixed(2));
+      o.ring.setAttribute("stroke-width", (1.2 * z).toFixed(3));
+      o.dot.setAttribute("r", (l * 4 * z).toFixed(2));
+      const fs = 13 * z;
+      o.label.setAttribute("font-size", fs.toFixed(2)); o.label.setAttribute("opacity", l.toFixed(3));
+      o.label.setAttribute("x", (o.c[0] + o.lx * z * 1.4).toFixed(2)); o.label.setAttribute("y", (o.c[1] + o.ly * z * 1.4 + fs * 0.35).toFixed(2));
+      o.subl.setAttribute("font-size", (7.5 * z).toFixed(2)); o.subl.setAttribute("opacity", (l * 0.9).toFixed(3));
+      o.subl.setAttribute("x", (o.c[0] + o.lx * z * 1.4).toFixed(2)); o.subl.setAttribute("y", (o.c[1] + o.ly * z * 1.4 + fs * 1.25).toFixed(2));
+      o.route.setAttribute("stroke-dashoffset", (1 - routeP).toFixed(4));
+      o.route.setAttribute("stroke-width", (1.4 * z).toFixed(3));
+      o.route.setAttribute("stroke-opacity", ".85");
+    });
+    // Coorg's label sits below Chikmagalur's; at full zoom-out hide sub-labels to avoid clutter
+    const mm = seg(p, 0.62, 0.72);
+    const ms = 6 * z * mm;
+    mumDot.setAttribute("x", mumbai[0] - ms / 2); mumDot.setAttribute("y", mumbai[1] - ms / 2);
+    mumDot.setAttribute("width", ms); mumDot.setAttribute("height", ms);
+    mumDot.setAttribute("transform", `rotate(45 ${mumbai[0]} ${mumbai[1]})`);
+    mumLabel.setAttribute("font-size", (11 * z).toFixed(2)); mumLabel.setAttribute("opacity", mm.toFixed(3));
+    mumLabel.setAttribute("x", (mumbai[0] + 2 * z).toFixed(2)); mumLabel.setAttribute("y", (mumbai[1] - 9 * z).toFixed(2));
+    const active = p < 0.27 ? -1 : p < 0.33 ? 0 : p < 0.5 ? 1 : p < 0.64 ? 2 : 3;
+    ocards.forEach((c, i) => c.classList.toggle("on", active === 3 || i === active));
+  };
+  let mapP = 0;
+  setMap(0);
+
+  /* ---------- build your box ---------- */
+  const form = document.getElementById("boxForm");
+  const itemsEls = [...form.querySelectorAll(".item")];
+  const linesEl = document.getElementById("lines");
+  const status = document.getElementById("status");
+  const fmt = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
+  let shownTotal = 0;
+  const totalEl = document.getElementById("total");
+  const animateTotal = (to) => {
+    const from = shownTotal; shownTotal = to;
+    if (reduce || !hasGsap) { totalEl.textContent = fmt(to); return; }
+    const o = { v: from };
+    gsap.to(o, { v: to, duration: 0.5, ease: "power2.out", onUpdate: () => (totalEl.textContent = fmt(o.v)) });
+  };
+  const calc = () => {
+    let sub = 0, lines = "";
+    itemsEls.forEach((it) => {
+      const q = +it.querySelector("output").textContent, pr = +it.dataset.price;
+      it.classList.toggle("has", q > 0);
+      if (q) { sub += q * pr; lines += `<li><span>${q} × ${it.dataset.name}</span><span>${fmt(q * pr)}</span></li>`; }
+    });
+    const pct = +form.querySelector("input[name=freq]:checked").value;
+    const disc = Math.round(sub * pct / 100);
+    const ship = sub === 0 ? 0 : sub - disc >= 999 ? 0 : 80;
+    linesEl.innerHTML = lines || '<li class="empty">Add a bag or a can to start.</li>';
+    document.getElementById("sub").textContent = fmt(sub);
+    document.getElementById("disc").textContent = disc ? "− " + fmt(disc) : "₹0";
+    document.getElementById("ship").textContent = sub === 0 ? "₹0" : ship ? fmt(ship) : "Free";
+    animateTotal(sub - disc + ship);
+    return { sub, total: sub - disc + ship };
+  };
+  itemsEls.forEach((it) => it.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+    const o = it.querySelector("output");
+    o.textContent = clamp(+o.textContent + +b.dataset.d, 0, 12);
+    status.textContent = ""; calc();
+  })));
+  form.addEventListener("change", calc);
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const { sub, total } = calc();
+    const pin = form.pin.value.trim();
+    status.classList.add("err");
+    if (!sub) { status.textContent = "Your box is empty. Add at least one bag or can."; return; }
+    if (!/^[1-9]\d{5}$/.test(pin)) { status.textContent = "Please enter a valid 6-digit PIN code."; form.pin.focus(); return; }
+    status.classList.remove("err");
+    const grind = form.querySelector("input[name=grind]:checked").value;
+    status.textContent = `Demo only: nothing was ordered or charged. Your ${grind.toLowerCase()} box of ${fmt(total)} would ship to ${pin}.`;
+  });
+  calc();
+
+  /* ---------- open now (India time) ---------- */
+  (() => {
+    const el = document.getElementById("openNow");
+    try {
+      const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", hour: "numeric", minute: "numeric", hour12: false }).formatToParts(new Date());
+      const get = (t) => parts.find((x) => x.type === t)?.value;
+      const day = get("weekday"), mins = (+get("hour") % 24) * 60 + +get("minute");
+      const wknd = day === "Sat" || day === "Sun";
+      const open = wknd ? mins >= 480 : mins >= 450 && mins < 1380;
+      el.classList.toggle("closed", !open);
+      el.querySelector("span").textContent = open ? "Open now in Bandra" : "Closed now · opens at " + (wknd ? "8 am" : "7:30 am");
+    } catch { el.querySelector("span").textContent = "Open daily from 7:30 am"; }
+  })();
+
+  /* ---------- static fallback ---------- */
+  if (!hasGsap || reduce) {
+    html.classList.add("static");
+    setStory(1); setMap(1);
+    words.forEach((w) => (w.style.opacity = 1));
+    document.querySelectorAll("[data-count]").forEach((el) => (el.textContent = el.dataset.count));
+    return;
+  }
+
+  /* ================= MOTION ================= */
+  gsap.registerPlugin(ScrollTrigger);
+  let lenis = null;
+  if (window.Lenis && !CAPTURE) {
+    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
+      const id = a.getAttribute("href"); if (id.length < 2) return;
+      const t = document.querySelector(id); if (!t) return;
+      e.preventDefault(); lenis.scrollTo(t, { offset: id === "#box" ? -60 : 0 });
+    }));
+  }
+
+  // hero intro
+  gsap.from(".hero-title .ln > span", { yPercent: 110, duration: 1.2, ease: "power4.out", stagger: 0.12, delay: 0.15 });
+  gsap.from(".hb", { opacity: 0, duration: 1.4, ease: "power2.out", stagger: 0.012, clearProps: "opacity" });
+  gsap.from(".cup-img", { scale: 0.6, opacity: 0, duration: 1.3, ease: "expo.out" });
+  gsap.from(".cup-ring, .can", { opacity: 0, duration: 1.4, delay: 0.3, ease: "power2.out" });
+
+  // continuous loops: mouse easing on hero, liquid wave, map pulse
+  let storyVisible = false, mapVisible = false;
+  gsap.ticker.add(() => {
+    if (scrollY < innerHeight * 2.4) renderHero();
+    if (storyVisible) { wave += 0.06; drawLiquid(); }
+    if (mapVisible) setMap(mapP);
+  });
+
+  const mm = gsap.matchMedia();
+  mm.add({ desk: "(min-width: 768px)", mob: "(max-width: 767px)" }, (ctx) => {
+    const { desk } = ctx.conditions;
+
+    // HERO: pinned bean explosion
+    ScrollTrigger.create({ trigger: hero, start: "top top", end: desk ? "+=120%" : "+=80%", pin: true, scrub: true, onUpdate: (s) => (heroP = s.progress), onLeaveBack: () => (heroP = 0) });
+
+    // marquee rows slide in opposite directions
+    document.querySelectorAll("[data-mq]").forEach((row) => {
+      const dir = +row.dataset.mq;
+      gsap.fromTo(row, { xPercent: dir > 0 ? -30 : 0 }, { xPercent: dir > 0 ? 0 : -30, ease: "none", scrollTrigger: { trigger: ".marquee", start: "top bottom", end: "bottom top", scrub: true } });
+    });
+
+    // statement words light up
+    gsap.to(words, { opacity: 1, stagger: 0.05, ease: "none", scrollTrigger: { trigger: ".statement p.big", start: "top 78%", end: "bottom 45%", scrub: true } });
+
+    // STORY: pinned cherry-to-cup
+    ScrollTrigger.create({ trigger: "#story", start: "top top", end: desk ? "+=420%" : "+=320%", pin: ".story-pin", scrub: true,
+      onUpdate: (s) => setStory(s.progress), onToggle: (s) => (storyVisible = s.isActive) });
+    ScrollTrigger.create({ trigger: "#story", start: "top bottom", end: "bottom top", onToggle: (s) => (storyVisible = s.isActive) });
+
+    // MENU: horizontal pinned track with tilt and depth
+    const track = document.getElementById("menuTrack");
+    const cards = [...track.querySelectorAll(".dcard")];
+    const dist = () => Math.max(0, track.scrollWidth - innerWidth);
+    const tiltCards = () => {
+      const c = innerWidth / 2;
+      cards.forEach((card) => {
+        const r = card.getBoundingClientRect();
+        const off = clamp((r.left + r.width / 2 - c) / innerWidth, -1, 1);
+        gsap.set(card, { transformPerspective: 1100, rotateY: off * -24, rotateZ: off * 2.5, scale: 1 - Math.abs(off) * 0.12, y: Math.abs(off) * 40 });
+        gsap.set(card.querySelector("img"), { xPercent: off * 7 });
+      });
+    };
+    gsap.to(track, { x: () => -dist(), ease: "none",
+      scrollTrigger: { trigger: "#menu", start: "top top", end: () => "+=" + dist(), pin: ".menu-pin", scrub: 0.6, invalidateOnRefresh: true,
+        onUpdate: (s) => { tiltCards(); gsap.set("#menuBar", { scaleX: s.progress }); } } });
+    gsap.to(".menu-bgword", { xPercent: -35, ease: "none", scrollTrigger: { trigger: "#menu", start: "top top", end: () => "+=" + dist(), scrub: true } });
+    tiltCards();
+
+    // ORIGINS: map draws, zooms and lights up
+    if (desk) {
+      ScrollTrigger.create({ trigger: "#origins", start: "top top", end: "+=240%", pin: ".origins-pin", scrub: true, onUpdate: (s) => (mapP = s.progress) });
+    } else {
+      ScrollTrigger.create({ trigger: ".map-wrap", start: "top 75%", end: "+=900", scrub: true, onUpdate: (s) => (mapP = s.progress) });
+    }
+    ScrollTrigger.create({ trigger: "#origins", start: "top bottom", end: "bottom top", onToggle: (s) => { mapVisible = s.isActive; if (!s.isActive) setMap(mapP); } });
+
+    // generic data-speed parallax (collage, plans image, review cards)
+    document.querySelectorAll("[data-speed]").forEach((el) => {
+      const sp = +el.dataset.speed * (desk ? 1 : 0.5);
+      gsap.fromTo(el, { y: () => -sp * innerHeight }, { y: () => sp * innerHeight, ease: "none", scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true, invalidateOnRefresh: true } });
+    });
+    document.querySelectorAll(".collage img").forEach((img) => gsap.fromTo(img, { yPercent: -10 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }));
+    gsap.fromTo(".rev-bg", { yPercent: -12 }, { yPercent: 12, ease: "none", scrollTrigger: { trigger: ".reviews", start: "top bottom", end: "bottom top", scrub: true } });
+
+    // section headings rise in
+    gsap.utils.toArray(".sec-head h2, .cafe-copy h2, .origin-copy h2, .rev-score b").forEach((h) => gsap.from(h, { y: 80, opacity: 0, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: h, start: "top 88%" } }));
+    gsap.utils.toArray(".plan").forEach((pl, i) => gsap.from(pl, { y: 120, rotate: (i - 1) * 4, opacity: 0, duration: 1.1, ease: "power3.out", delay: i * 0.08, scrollTrigger: { trigger: ".plan-grid", start: "top 85%" } }));
+
+    // giant footer word slides sideways
+    const giant = document.querySelector(".giant");
+    gsap.fromTo(giant, { x: () => innerWidth * 0.1 }, { x: () => -(giant.offsetWidth - innerWidth * 0.8), ease: "none", invalidateOnRefresh: true, scrollTrigger: { trigger: "footer", start: "top bottom", end: "bottom bottom", scrub: true } });
+
+    // floating beans around the statement
+    return () => { heroP = 0; };
+  });
+
+  // counters
+  document.querySelectorAll("[data-count]").forEach((el) => {
+    const to = +el.dataset.count, dec = +(el.dataset.dec || 0), o = { v: 0 };
+    ScrollTrigger.create({ trigger: el, start: "top 90%", once: true, onEnter: () => gsap.to(o, { v: to, duration: 1.8, ease: "power3.out", onUpdate: () => (el.textContent = o.v.toFixed(dec)) }) });
+  });
+
+  /* ---------- pointer: custom cursor, magnetic buttons, hero mouse depth ---------- */
+  if (matchMedia("(pointer: fine)").matches) {
+    html.classList.add("has-cursor");
+    const dot = document.querySelector(".cur-dot"), ringEl = document.querySelector(".cur-ring"), ringTxt = ringEl.querySelector("span");
+    const dx = gsap.quickTo(dot, "x", { duration: 0.08 }), dy = gsap.quickTo(dot, "y", { duration: 0.08 });
+    const rx = gsap.quickTo(ringEl, "x", { duration: 0.45, ease: "power3" }), ry = gsap.quickTo(ringEl, "y", { duration: 0.45, ease: "power3" });
+    addEventListener("pointermove", (e) => {
+      if (!html.classList.contains("cur-live")) { gsap.set([dot, ringEl], { x: e.clientX, y: e.clientY }); html.classList.add("cur-live"); }
+      dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
+      tmx = e.clientX / innerWidth * 2 - 1; tmy = e.clientY / innerHeight * 2 - 1;
+    });
+    document.querySelectorAll("[data-cursor]").forEach((el) => {
+      el.addEventListener("pointerenter", () => { ringEl.classList.add("big"); ringTxt.textContent = el.dataset.cursor.toUpperCase(); });
+      el.addEventListener("pointerleave", () => { ringEl.classList.remove("big"); ringTxt.textContent = ""; });
+    });
+    document.querySelectorAll(".magnetic").forEach((b) => {
+      const qx = gsap.quickTo(b, "x", { duration: 0.5, ease: "elastic.out(1, .4)" }), qy = gsap.quickTo(b, "y", { duration: 0.5, ease: "elastic.out(1, .4)" });
+      b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); qx((e.clientX - r.left - r.width / 2) * 0.35); qy((e.clientY - r.top - r.height / 2) * 0.45); });
+      b.addEventListener("pointerleave", () => { qx(0); qy(0); });
+    });
+  }
+
+  addEventListener("resize", () => { sizeHero(); });
+  addEventListener("load", () => ScrollTrigger.refresh());
+  if (CAPTURE) ScrollTrigger.refresh();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rivaah Studio — Wedding Photography &amp; Films, Jaipur · Udaipur (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax wedding photography website demo: scattered photo prints, a scatter-to-grid gallery, a self-drawing wedding-day timeline and a curtain reveal, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-wedding/index.html" />
+<meta property="og:title" content="Rivaah Studio — Parallax Wedding Photography Website Demo" />
+<meta property="og:description" content="Drifting photo prints, scatter-to-grid gallery, self-drawing timeline, curtain reveal and a sideways films strip in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-wedding/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Pinyon+Script&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ivory: #fbf6f0;
+    --paper: #fffdf9;
+    --blush: #f5e6e0;
+    --blush-2: #ecd4cc;
+    --maroon: #6b1f2f;
+    --maroon-2: #8a3243;
+    --rose: #b86b72;
+    --gold: #a9844f;
+    --gold-2: #c9a46c;
+    --ink: #2c1a1e;
+    --muted: #7a6467;
+    --line: rgba(107, 31, 47, .14);
+    --display: "Playfair Display", Georgia, serif;
+    --script: "Pinyon Script", cursive;
+    --sans: Mulish, system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { background: var(--ivory); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1200px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+  .eyebrow::before, .eyebrow.both::after { content: ""; width: 34px; height: 1px; background: currentColor; opacity: .7; }
+  .script { font-family: var(--script); font-weight: 400; color: var(--rose); }
+  h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -.01em; }
+  h2 em, h1 em { font-style: italic; color: var(--maroon); }
+  .sec-head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+  .sec-head h2 { margin: 18px 0 16px; font-size: clamp(38px, 4.8vw, 66px); line-height: 1.05; }
+  .sec-head p { font-size: 17px; line-height: 1.75; color: var(--muted); }
+  [data-speed], [data-depth], .px-img img, .g-print, .c-panel, .films-track { will-change: transform; }
+
+  /* inner-image parallax: the photo is 124% of its frame and slides inside it */
+  .px-img { position: relative; overflow: hidden; }
+  .px-img img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; max-width: none; object-fit: cover; }
+
+  /* ---------- buttons ---------- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 30px; border-radius: 99px; font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; transition: transform .3s, background .3s, color .3s, box-shadow .3s; }
+  .btn-fill { background: var(--maroon); color: var(--paper); box-shadow: 0 18px 36px -16px rgba(107, 31, 47, .75); }
+  .btn-fill:hover { background: var(--maroon-2); transform: translateY(-2px); }
+  .btn-line { border: 1px solid rgba(107, 31, 47, .35); color: var(--maroon); }
+  .btn-line:hover { background: var(--maroon); color: var(--paper); }
+  .btn svg { width: 16px; height: 16px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(4px); }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; padding: 24px 0; transition: background .4s, padding .4s, box-shadow .4s; }
+  .nav.is-solid { background: rgba(251, 246, 240, .86); backdrop-filter: blur(14px); padding: 14px 0; box-shadow: 0 1px 0 var(--line); }
+  .nav .wrap { display: flex; align-items: center; gap: 38px; }
+  .logo { display: flex; align-items: baseline; gap: 8px; margin-right: auto; font-family: var(--display); font-size: 27px; font-style: italic; font-weight: 500; color: var(--maroon); }
+  .logo small { font-family: var(--sans); font-style: normal; font-size: 10px; font-weight: 800; letter-spacing: .34em; text-transform: uppercase; color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .nav-links a { position: relative; color: var(--ink); opacity: .78; transition: opacity .3s; }
+  .nav-links a::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: -7px; height: 1px; background: var(--gold); transition: left .3s, right .3s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { left: 0; right: 0; }
+  .nav .btn { padding: 12px 22px; font-size: 12px; }
+
+  /* ---------- hero: scattered prints ---------- */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; display: grid; place-items: center; padding: 130px 0 110px;
+    background: radial-gradient(ellipse 60% 50% at 50% 46%, var(--paper) 0%, transparent 70%), radial-gradient(circle at 12% 88%, var(--blush) 0, transparent 40%), radial-gradient(circle at 90% 10%, var(--blush) 0, transparent 38%), var(--ivory); }
+  .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: 160px; background: linear-gradient(rgba(251, 246, 240, 0), var(--ivory)); pointer-events: none; }
+  .hero-ring { position: absolute; left: 50%; top: 50%; width: min(72vw, 900px); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; border: 1px solid rgba(169, 132, 79, .28); pointer-events: none; }
+  .hero-ring::after { content: ""; position: absolute; inset: 7%; border-radius: 50%; border: 1px dashed rgba(169, 132, 79, .22); }
+  .hero-copy { position: relative; z-index: 3; text-align: center; max-width: 640px; padding: 0 20px; }
+  .hero-copy .script { display: block; font-size: clamp(30px, 3.2vw, 44px); line-height: 1; margin-bottom: 10px; }
+  .hero-copy h1 { margin: 22px 0 22px; font-size: clamp(50px, 6.6vw, 98px); line-height: .98; }
+  .hero-copy p { max-width: 470px; margin: 0 auto; font-size: 17px; line-height: 1.75; color: var(--muted); }
+  .hero-copy .cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
+  .print { position: absolute; z-index: 2; padding: 10px 10px 0; background: var(--paper); border-radius: 3px; rotate: var(--r, 0deg); box-shadow: 0 2px 4px rgba(44, 26, 30, .06), 0 26px 50px -18px rgba(70, 30, 38, .38); }
+  .print img { width: 100%; aspect-ratio: var(--ar, 4 / 5); object-fit: cover; border-radius: 1px; }
+  .print figcaption { padding: 9px 2px 11px; font-family: var(--script); font-size: 21px; line-height: 1; color: var(--muted); text-align: center; white-space: nowrap; }
+  .p1 { --r: -8deg; left: 6%; top: 15%; width: 200px; }
+  .p2 { --r: 5deg; left: 15%; top: 56%; width: 168px; --ar: 1 / 1; }
+  .p3 { --r: -3deg; left: 1.5%; top: 72%; width: 150px; --ar: 4 / 3; }
+  .p4 { --r: 7deg; right: 6%; top: 13%; width: 196px; --ar: 3 / 4; }
+  .p5 { --r: -6deg; right: 14%; top: 58%; width: 176px; --ar: 1 / 1; }
+  .p6 { --r: 4deg; right: 2%; top: 74%; width: 158px; --ar: 4 / 3; }
+  .scroll-cue { position: absolute; left: 50%; bottom: 26px; translate: -50% 0; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+  .scroll-cue i { width: 1px; height: 40px; background: linear-gradient(var(--gold), transparent); animation: cue 2.2s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- intro ---------- */
+  .intro { padding: 140px 0 120px; text-align: center; }
+  .intro blockquote { max-width: 900px; margin: 26px auto 0; font-family: var(--display); font-size: clamp(28px, 3.4vw, 46px); line-height: 1.3; }
+  .intro blockquote em { color: var(--maroon); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 900px; margin: 70px auto 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats div { padding: 30px 10px; }
+  .stats div + div { border-left: 1px solid var(--line); }
+  .stats b { display: block; font-family: var(--display); font-size: 44px; font-weight: 500; color: var(--maroon); }
+  .stats span { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  /* ---------- scattered-to-grid gallery ---------- */
+  .gallery { position: relative; height: 320vh; background: linear-gradient(var(--ivory), var(--blush) 30%, var(--blush) 70%, var(--ivory)); }
+  .g-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; padding-top: 70px; }
+  .g-head { position: relative; text-align: center; height: 108px; width: 100%; }
+  .g-head h2 { position: absolute; left: 0; right: 0; top: 30px; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.05; transition: opacity .2s; }
+  .g-head .eyebrow { position: relative; }
+  .g-stage { position: relative; width: min(980px, 92vw, calc((100svh - 260px) * 1.28)); display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, 1.4vw, 18px); }
+  .g-print { position: relative; z-index: 1; padding: clamp(4px, .6vw, 8px); background: var(--paper); border-radius: 3px; box-shadow: 0 22px 40px -20px rgba(70, 30, 38, .45); }
+  .g-print img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .g-print figcaption { position: absolute; left: clamp(4px, .6vw, 8px); right: clamp(4px, .6vw, 8px); bottom: clamp(4px, .6vw, 8px); padding: 22px 12px 9px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: #fff; background: linear-gradient(transparent, rgba(30, 14, 18, .72)); opacity: var(--cap, 0); transition: opacity .3s; }
+  .g-progress { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+  .g-progress span { position: relative; width: 140px; height: 1px; background: var(--line); }
+  .g-progress i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--maroon); }
+
+  /* ---------- the wedding day timeline ---------- */
+  .day { padding: 150px 0 120px; }
+  .tl { position: relative; max-width: 1080px; margin: 0 auto; }
+  .tl-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .tl-svg .ghost { fill: none; stroke: rgba(169, 132, 79, .35); stroke-width: 1.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+  .tl-svg .ink { fill: none; stroke: var(--maroon); stroke-width: 2; stroke-linecap: round; }
+  .tl-dot { position: absolute; z-index: 2; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--ivory); border: 1.5px solid var(--gold-2); transition: background .4s, border-color .4s, transform .4s; }
+  .tl-dot.lit { background: var(--maroon); border-color: var(--maroon); transform: scale(1.15); box-shadow: 0 0 0 6px rgba(107, 31, 47, .1); }
+  .moment { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 160px; align-items: center; padding: 50px 0; }
+  .moment + .moment { margin-top: 30px; }
+  .moment .m-photo { opacity: 0; transform: translateY(50px); transition: opacity 1s cubic-bezier(.2, .7, .2, 1), transform 1s cubic-bezier(.2, .7, .2, 1); }
+  .moment .m-text { opacity: 0; transform: translateY(30px); transition: opacity 1s .15s cubic-bezier(.2, .7, .2, 1), transform 1s .15s cubic-bezier(.2, .7, .2, 1); }
+  .moment.on .m-photo, .moment.on .m-text { opacity: 1; transform: none; }
+  .moment:nth-child(even) .m-photo { order: 2; }
+  .m-photo .px-img { aspect-ratio: 4 / 3; border-radius: 4px; box-shadow: 0 30px 60px -30px rgba(70, 30, 38, .5); }
+  .m-photo figcaption { margin-top: 12px; font-size: 13px; color: var(--muted); }
+  .m-photo figcaption b { font-weight: 800; color: var(--gold); letter-spacing: .12em; text-transform: uppercase; font-size: 11px; margin-right: 6px; }
+  .m-text .m-time { font-size: 12px; font-weight: 800; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+  .m-text h3 { margin: 10px 0 4px; font-size: clamp(40px, 4.4vw, 60px); line-height: 1; color: var(--maroon); }
+  .m-text .script { font-size: 30px; }
+  .m-text p { margin-top: 16px; max-width: 420px; font-size: 16px; line-height: 1.8; color: var(--muted); }
+  .m-text ul { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; list-style: none; }
+  .m-text li { padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--paper); font-size: 12px; font-weight: 700; color: var(--ink); }
+
+  /* ---------- curtain reveal ---------- */
+  .curtain { position: relative; height: 250vh; }
+  .c-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+  .c-photo { position: absolute; inset: 0; }
+  .c-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .c-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(26, 16, 30, .7)); }
+  .c-caption { position: absolute; left: 0; right: 0; bottom: 9vh; z-index: 2; text-align: center; color: #fff; opacity: 0; padding: 0 24px; }
+  .c-caption .script { color: #f3d6cf; font-size: clamp(34px, 4vw, 54px); line-height: 1; }
+  .c-caption h2 { margin: 10px 0 12px; font-size: clamp(36px, 5vw, 72px); line-height: 1.04; }
+  .c-caption p { font-size: 14px; opacity: .85; }
+  .c-panel { position: absolute; top: 0; bottom: 0; z-index: 3; width: 50.5%; display: flex; align-items: center; background: var(--blush); overflow: hidden; }
+  .c-panel.l { left: 0; justify-content: flex-end; padding-right: 22px; }
+  .c-panel.r { right: 0; justify-content: flex-start; padding-left: 22px; }
+  .c-panel span { font-family: var(--display); font-size: clamp(40px, 6.4vw, 104px); line-height: 1; white-space: nowrap; color: var(--maroon); }
+  .c-panel.r span { font-style: italic; }
+  .c-hint { position: absolute; left: 50%; top: calc(50% + clamp(50px, 6vw, 90px)); translate: -50% 0; z-index: 4; font-size: 11px; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+  /* ---------- films strip ---------- */
+  .films { padding: 150px 0 140px; overflow: hidden; }
+  .films .sec-head { margin-bottom: 56px; }
+  .films-track { display: flex; gap: 28px; width: max-content; padding: 0 max(32px, calc((100vw - 1200px) / 2)); }
+  .film { position: relative; width: clamp(280px, 32vw, 440px); flex-shrink: 0; }
+  .film-media { position: relative; }
+  .film .px-img { aspect-ratio: 16 / 10; border-radius: 6px; background: var(--ink); }
+  .film .px-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(26, 14, 18, .05), rgba(26, 14, 18, .55)); }
+  .play { position: absolute; left: 50%; top: 50%; z-index: 2; width: 66px; height: 66px; translate: -50% -50%; display: grid; place-items: center; border-radius: 50%; background: rgba(255, 253, 249, .92); color: var(--maroon); box-shadow: 0 14px 30px -10px rgba(0, 0, 0, .5); transition: transform .35s, background .35s, color .35s; }
+  .play svg { width: 22px; height: 22px; margin-left: 4px; }
+  .film:hover .play { transform: scale(1.1); background: var(--maroon); color: var(--paper); }
+  .dur { position: absolute; right: 14px; bottom: 14px; z-index: 2; padding: 6px 10px; border-radius: 4px; background: rgba(26, 14, 18, .7); color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+  .kind { position: absolute; left: 14px; top: 14px; z-index: 2; padding: 6px 11px; border-radius: 99px; background: rgba(255, 253, 249, .92); color: var(--maroon); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .film h3 { margin-top: 18px; font-size: 25px; }
+  .film p { margin-top: 4px; font-size: 14px; color: var(--muted); }
+
+  /* ---------- testimonials ---------- */
+  .words { padding: 30px 0 150px; }
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .quote { position: relative; padding: 42px 34px 34px; border-radius: 6px; background: var(--paper); border: 1px solid var(--line); }
+  .quote::before { content: "\201C"; position: absolute; right: 26px; top: 6px; font-family: var(--display); font-size: 110px; line-height: 1; color: var(--blush-2); }
+  .quote p { position: relative; font-family: var(--display); font-style: italic; font-size: 20px; line-height: 1.55; }
+  .quote footer { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .quote b { display: block; font-size: 15px; font-weight: 800; color: var(--maroon); }
+  .quote span { font-size: 13px; color: var(--muted); }
+  .stars { display: flex; gap: 3px; margin-bottom: 18px; color: var(--gold-2); }
+  .stars svg { width: 15px; height: 15px; }
+
+  /* ---------- full-bleed band ---------- */
+  .band { position: relative; height: 92vh; min-height: 560px; overflow: hidden; display: grid; place-items: center; text-align: center; color: #fff; }
+  .band-bg { position: absolute; inset: -30% 0; }
+  .band-bg img { width: 100%; height: 100%; object-fit: cover; }
+  .band::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(40, 14, 22, .42), rgba(40, 14, 22, .78)); }
+  .band-text { position: relative; z-index: 1; padding: 0 24px; max-width: 900px; }
+  .band-text .script { color: #f3d6cf; font-size: clamp(34px, 4vw, 52px); }
+  .band-text h2 { margin: 8px 0 18px; font-size: clamp(42px, 6.4vw, 98px); line-height: 1; }
+  .band-text h2 em { color: #f3d6cf; font-style: italic; }
+  .band-text p { max-width: 520px; margin: 0 auto 32px; font-size: 16px; line-height: 1.75; opacity: .9; }
+  .band-text small { display: block; margin-top: 22px; font-size: 12px; opacity: .7; }
+  .btn-light { background: var(--paper); color: var(--maroon); }
+  .btn-light:hover { background: #fff; transform: translateY(-2px); }
+
+  /* ---------- packages ---------- */
+  .packages { padding: 150px 0 140px; }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: stretch; }
+  .plan { position: relative; display: flex; flex-direction: column; padding: 44px 36px 38px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 30px 60px -44px rgba(70, 30, 38, .5); }
+  .plan.featured { background: var(--maroon); color: var(--paper); border-color: var(--maroon); transform: translateY(-14px); }
+  .plan .tag { position: absolute; left: 50%; top: 0; translate: -50% -50%; padding: 7px 16px; border-radius: 99px; background: var(--gold-2); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
+  .plan h3 { font-size: 30px; }
+  .plan .sub { margin-top: 6px; font-size: 14px; color: var(--muted); }
+  .plan.featured .sub, .plan.featured li { color: rgba(255, 253, 249, .82); }
+  .price { display: flex; align-items: baseline; gap: 8px; margin: 28px 0 6px; font-family: var(--display); }
+  .price b { font-size: 58px; font-weight: 500; line-height: 1; }
+  .price span { font-family: var(--sans); font-size: 13px; color: var(--muted); }
+  .plan.featured .price span { color: rgba(255, 253, 249, .7); }
+  .plan ul { list-style: none; margin: 26px 0 34px; padding-top: 26px; border-top: 1px solid var(--line); display: grid; gap: 13px; align-content: start; flex: 1; }
+  .plan.featured ul { border-color: rgba(255, 253, 249, .2); }
+  .plan li { display: flex; gap: 12px; font-size: 15px; line-height: 1.5; color: var(--ink); }
+  .plan li svg { flex-shrink: 0; width: 16px; height: 16px; margin-top: 3px; color: var(--gold); }
+  .plan.featured li svg { color: var(--gold-2); }
+  .plan .btn { width: 100%; }
+  .plan.featured .btn-line { border-color: rgba(255, 253, 249, .5); color: var(--paper); }
+  .plan.featured .btn-line:hover { background: var(--paper); color: var(--maroon); }
+  .plans-note { margin-top: 34px; text-align: center; font-size: 14px; color: var(--muted); }
+
+  /* ---------- enquiry ---------- */
+  .enquire { padding: 40px 0 150px; }
+  .enq-card { display: grid; grid-template-columns: .85fr 1.15fr; border-radius: 10px; overflow: hidden; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 50px 90px -60px rgba(70, 30, 38, .6); }
+  .enq-photo { position: relative; min-height: 100%; }
+  .enq-photo .px-img { position: absolute; inset: 0; }
+  .enq-photo .px-img img { object-position: 50% 30%; }
+  .enq-photo figcaption { position: absolute; left: 22px; right: 22px; bottom: 22px; z-index: 2; padding: 16px 18px; border-radius: 6px; background: rgba(255, 253, 249, .93); font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .enq-photo figcaption b { display: block; font-family: var(--display); font-size: 19px; font-weight: 500; color: var(--maroon); }
+  .enq-form { padding: 56px 54px; }
+  .enq-form h2 { margin: 16px 0 10px; font-size: clamp(34px, 3.6vw, 50px); line-height: 1.05; }
+  .enq-form > p { font-size: 15px; line-height: 1.7; color: var(--muted); }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; margin-top: 34px; }
+  .field { display: grid; gap: 8px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .field input, .field select, .field textarea { width: 100%; padding: 14px 16px; border-radius: 6px; border: 1px solid rgba(107, 31, 47, .2); background: var(--ivory); font-size: 15px; outline: 0; transition: border-color .3s, box-shadow .3s; }
+  .field textarea { min-height: 96px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(107, 31, 47, .12); }
+  .enq-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 26px; }
+  .msg { min-height: 22px; font-size: 14px; font-weight: 700; color: var(--maroon); }
+
+  /* ---------- footer ---------- */
+  .site-foot { padding: 90px 0 96px; background: var(--blush); border-top: 1px solid var(--line); overflow: hidden; }
+  .foot-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px; }
+  .foot-grid h4 { margin-bottom: 18px; font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+  .foot-grid a:not(.logo) { display: block; margin-bottom: 10px; font-size: 15px; color: var(--ink); opacity: .82; }
+  .foot-grid a:not(.logo):hover { color: var(--maroon); opacity: 1; }
+  .foot-grid p { max-width: 320px; margin-top: 16px; font-size: 14px; line-height: 1.7; color: var(--muted); }
+  .giant { margin-top: 70px; font-family: var(--script); font-size: 18vw; line-height: .9; white-space: nowrap; color: rgba(107, 31, 47, .12); }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  /* demo badge linking back to the portfolio */
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(44, 26, 30, .92); color: var(--ivory); font-size: 12px; font-weight: 700; box-shadow: 0 16px 36px -12px rgba(44, 26, 30, .6); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ivory); color: var(--maroon); font-size: 13px; }
+
+  :focus-visible { outline: 2px solid var(--maroon); outline-offset: 3px; }
+
+  @media (max-width: 1100px) {
+    .p1 { left: 2%; width: 170px; } .p4 { right: 2%; width: 170px; }
+    .p2 { left: 6%; width: 140px; } .p5 { right: 6%; width: 150px; }
+    .p3, .p6 { width: 130px; }
+  }
+  @media (max-width: 1000px) {
+    .nav-links { display: none; }
+    .moment { gap: 90px; }
+    .quotes, .plans { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; }
+    .plan.featured { transform: none; }
+    .enq-card { grid-template-columns: 1fr; }
+    .enq-photo { min-height: 380px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 760px) {
+    .wrap { width: calc(100% - 36px); }
+    .hero { padding: 220px 0 170px; align-items: center; }
+    .hero-copy .script { display: none; }
+    .hero-copy .eyebrow { letter-spacing: .22em; font-size: 11px; }
+    .hero-copy .eyebrow::before, .hero-copy .eyebrow::after { display: none; }
+    .c-photo img { object-position: 30% 50%; }
+    .hero-ring { width: 120vw; }
+    .hero-copy h1 { font-size: clamp(42px, 12vw, 60px); }
+    .hero-copy p { font-size: 15px; }
+    .print { padding: 6px 6px 0; }
+    .print figcaption { font-size: 15px; padding: 6px 0 7px; }
+    .p1 { left: -14px; top: 76px; width: 104px; }
+    .p4 { right: -12px; top: 70px; width: 100px; }
+    .p2 { left: 4%; top: auto; bottom: 30px; width: 96px; }
+    .p5 { right: 4%; top: auto; bottom: 34px; width: 96px; }
+    .p3, .p6 { display: none; }
+    .scroll-cue { display: none; }
+    .intro { padding: 100px 0 90px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stats div:nth-child(3) { border-left: 0; }
+    .stats div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .stats b { font-size: 34px; }
+    .g-head { height: 96px; }
+    .g-print figcaption { display: none; }
+    .day { padding: 100px 0 80px; }
+    .moment { grid-template-columns: 1fr; gap: 22px; padding: 30px 0 30px 46px; }
+    .moment:nth-child(even) .m-photo { order: 0; }
+    .m-text h3 { font-size: 40px; }
+    .c-panel span { font-size: 34px; }
+    .c-panel.l { padding-right: 12px; } .c-panel.r { padding-left: 12px; }
+    .films, .packages { padding: 100px 0; }
+    .film { width: 78vw; }
+    .words { padding-bottom: 100px; }
+    .quote { padding: 34px 26px 28px; }
+    .band { height: 80vh; }
+    .enq-form { padding: 40px 22px; }
+    .fields { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .nav .wrap { gap: 14px; }
+    .logo { font-size: 23px; }
+    .nav .btn { padding: 10px 16px; font-size: 11px; letter-spacing: .1em; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+  @media (max-width: 380px) { .logo small { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-cue i { animation: none; }
+    .gallery, .curtain { height: auto; }
+    .g-sticky, .c-sticky { position: relative; height: auto; padding: 120px 0; }
+    .g-head h2.g-b { display: none; }
+    .g-head h2.g-a { opacity: 1 !important; }
+    .c-sticky { height: 100vh; }
+    .c-panel, .c-hint { display: none; }
+    .c-caption { opacity: 1; }
+    .moment .m-photo, .moment .m-text { opacity: 1; transform: none; transition: none; }
+    .films-track { overflow-x: auto; width: auto; }
+    .g-print figcaption { --cap: 1; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">Rivaah <small>Studio</small></a>
+    <div class="nav-links">
+      <a href="#stories">Stories</a>
+      <a href="#the-day">The day</a>
+      <a href="#films">Films</a>
+      <a href="#packages">Packages</a>
+    </div>
+    <a href="#enquire" class="btn btn-fill">Enquire</a>
+  </div>
+</nav>
+
+<!-- HERO: photo prints at different depths drift apart and turn as you scroll, and follow the mouse -->
+<header class="hero" id="top">
+  <div class="hero-ring" data-speed="0.2" aria-hidden="true"></div>
+  <figure class="print p1" data-speed="0.32" data-dx="-0.22" data-spin="-0.02" data-depth="34"><img src="img/groom-lifts-bride.jpg" alt="Groom lifting the bride in a garden" /><figcaption>the garden twirl</figcaption></figure>
+  <figure class="print p2" data-speed="0.12" data-dx="-0.34" data-spin="0.026" data-depth="52"><img src="img/ring-exchange.jpg" alt="Bride and groom exchanging a ring" /><figcaption>the ring</figcaption></figure>
+  <figure class="print p3" data-speed="-0.08" data-dx="-0.3" data-spin="-0.03" data-depth="66"><img src="img/gold-rings.jpg" alt="Two gold wedding bands" /><figcaption>two bands</figcaption></figure>
+  <figure class="print p4" data-speed="0.28" data-dx="0.24" data-spin="0.022" data-depth="30"><img src="img/bouquet-on-chair.jpg" alt="Bridal bouquet resting on a wooden chair" /><figcaption>waiting bouquet</figcaption></figure>
+  <figure class="print p5" data-speed="0.1" data-dx="0.32" data-spin="-0.026" data-depth="56"><img src="img/sunflower-bouquet.jpg" alt="Bride holding a sunflower bouquet" /><figcaption>sunflowers</figcaption></figure>
+  <figure class="print p6" data-speed="-0.1" data-dx="0.3" data-spin="0.032" data-depth="70"><img src="img/bride-ring-hands.jpg" alt="Bride's hands with an engagement ring" /><figcaption>her hands</figcaption></figure>
+  <div class="hero-copy" data-speed="0.42" data-depth="10">
+    <span class="script">wedding stories, since 2014</span>
+    <span class="eyebrow both">Photography &amp; films · Jaipur · Udaipur</span>
+    <h1>Your wedding, <em>as it felt.</em></h1>
+    <p>Candid photographs and cinematic films of destination weddings across India, from the first haldi laugh to the last song of the night.</p>
+    <div class="cta-row">
+      <a href="#enquire" class="btn btn-fill">Check your date
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="#stories" class="btn btn-line">See our stories</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><i></i>Scroll</div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <span class="eyebrow both">The studio</span>
+    <blockquote>We are a small team of photographers and filmmakers who would rather <em>disappear into the crowd</em> than direct it. You live the day; we keep it.</blockquote>
+    <div class="stats">
+      <div><b data-count="340">0</b><span>Weddings</span></div>
+      <div><b data-count="11">0</b><span>States</span></div>
+      <div><b data-count="8">0</b><span>Storytellers</span></div>
+      <div><b data-count="12">0</b><span>Years</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY: pinned; scattered prints settle into a neat grid as you scroll through -->
+<section class="gallery" id="stories">
+  <div class="g-sticky">
+    <div class="g-head">
+      <span class="eyebrow both">Selected stories</span>
+      <h2 class="g-a">A thousand moments, <em>scattered</em></h2>
+      <h2 class="g-b" style="opacity:0" aria-hidden="true">gathered into <em>one story</em></h2>
+    </div>
+    <div class="g-stage" id="g-stage">
+      <figure class="g-print" data-g="-0.32,-0.28,-14,0.8"><img src="img/couple-on-steps.jpg" alt="Bride and groom standing on stone steps" loading="lazy" /><figcaption>On the steps</figcaption></figure>
+      <figure class="g-print" data-g="0.05,-0.42,9,0.86"><img src="img/lace-gown-back.jpg" alt="Lace back and buttons of a wedding gown" loading="lazy" /><figcaption>Lace and buttons</figcaption></figure>
+      <figure class="g-print" data-g="0.34,-0.3,16,0.78"><img src="img/wedding-shoes.jpg" alt="Groom's brown brogues beside the bride's white heels" loading="lazy" /><figcaption>Shoes side by side</figcaption></figure>
+      <figure class="g-print" data-g="-0.4,0.02,8,0.82"><img src="img/peony-bouquet.jpg" alt="Bride holding a white peony bouquet" loading="lazy" /><figcaption>White peonies</figcaption></figure>
+      <figure class="g-print" data-g="0,0.04,-6,1.08"><img src="img/couple-walking.jpg" alt="Bride and groom walking away together, veil trailing" loading="lazy" /><figcaption>Walking away together</figcaption></figure>
+      <figure class="g-print" data-g="0.42,0.06,-12,0.84"><img src="img/hands-reaching.jpg" alt="Bride and groom reaching for each other's hands" loading="lazy" /><figcaption>Reaching out</figcaption></figure>
+      <figure class="g-print" data-g="-0.3,0.36,-10,0.86"><img src="img/bride-bouquet.jpg" alt="Bride holding a bright orange and red bouquet" loading="lazy" /><figcaption>A bright bouquet</figcaption></figure>
+      <figure class="g-print" data-g="0.06,0.44,12,0.8"><img src="img/couple-bench-lake.jpg" alt="Couple kissing on a bench by a lake at golden hour" loading="lazy" /><figcaption>Golden hour bench</figcaption></figure>
+      <figure class="g-print" data-g="0.34,0.32,-16,0.82"><img src="img/groom-boutonniere.jpg" alt="Groom in a grey suit with a bow tie and boutonniere" loading="lazy" /><figcaption>The groom's boutonniere</figcaption></figure>
+    </div>
+    <div class="g-progress" aria-hidden="true">Scattered <span><i id="g-bar"></i></span> Gathered</div>
+  </div>
+</section>
+
+<!-- THE WEDDING DAY: a curved path draws itself down the page; each moment fades in beside it -->
+<section class="day" id="the-day">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow both">The wedding day</span>
+      <h2>Five chapters, <em>one thread</em></h2>
+      <p>Indian weddings run for days. We plan coverage around every ritual, so nothing important happens while we are changing lenses.</p>
+    </div>
+    <div class="tl" id="tl">
+      <svg class="tl-svg" id="tl-svg" aria-hidden="true"><path class="ghost" id="tl-ghost" /><path class="ink" id="tl-ink" /></svg>
+      <article class="moment">
+        <figure class="m-photo"><div class="px-img"><img src="img/marigold-garlands.jpg" alt="Rows of orange and yellow marigold garlands" loading="lazy" /></div><figcaption><b>Pictured</b>Marigold garlands, strung and waiting</figcaption></figure>
+        <div class="m-text"><span class="m-time">Morning · Chapter one</span><h3>Haldi</h3><span class="script">turmeric &amp; laughter</span><p>Yellow everywhere, family everywhere. We shoot fast and close on quiet primes, so the giggles stay real and nobody is asked to pose.</p><ul><li>2 photographers</li><li>Candid only</li></ul></div>
+      </article>
+      <article class="moment">
+        <figure class="m-photo"><div class="px-img"><img src="img/henna-hands.jpg" alt="Close-up of two palms covered in intricate henna" loading="lazy" /></div><figcaption><b>Pictured</b>Henna-painted palms, close up</figcaption></figure>
+        <div class="m-text"><span class="m-time">Afternoon · Chapter two</span><h3>Mehendi</h3><span class="script">patterns that tell stories</span><p>Long, unhurried hours of henna and songs. Macro details for the album, slow-motion clips for the film, and the hidden initials found.</p><ul><li>Macro details</li><li>Slow-motion film</li></ul></div>
+      </article>
+      <article class="moment">
+        <figure class="m-photo"><div class="px-img"><img src="img/couple-dancing.jpg" alt="Bride and groom dancing close, holding hands" loading="lazy" /></div><figcaption><b>Pictured</b>A couple dancing, hands joined</figcaption></figure>
+        <div class="m-text"><span class="m-time">Evening · Chapter three</span><h3>Sangeet</h3><span class="script">the night of music</span><p>Rehearsed numbers, unrehearsed dancing. Two cameras on the stage, one roaming the floor, and stage lighting we plan with your decorator.</p><ul><li>Multi-camera</li><li>Live sound</li></ul></div>
+      </article>
+      <article class="moment">
+        <figure class="m-photo"><div class="px-img"><img src="img/hands-held-lace.jpg" alt="Bride and groom holding hands, her lace sleeve beside his cuff" loading="lazy" /></div><figcaption><b>Pictured</b>Hands held, lace sleeve and bracelet</figcaption></figure>
+        <div class="m-text"><span class="m-time">The muhurat · Chapter four</span><h3>Pheras</h3><span class="script">seven promises</span><p>The most important hour, filmed with the most respect. We agree positions with your pandit beforehand and never step into the mandap.</p><ul><li>Silent shutters</li><li>Pre-agreed angles</li></ul></div>
+      </article>
+      <article class="moment">
+        <figure class="m-photo"><div class="px-img"><img src="img/reception-table.jpg" alt="Reception table set with roses, white chairs and glassware" loading="lazy" /></div><figcaption><b>Pictured</b>A reception table dressed in roses</figcaption></figure>
+        <div class="m-text"><span class="m-time">Night · Chapter five</span><h3>Reception</h3><span class="script">the grand finale</span><p>Décor before the doors open, portraits in the last light, speeches, the first dance and every auntie on the dance floor.</p><ul><li>Décor shoot</li><li>Same-night teaser</li></ul></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CURTAIN: two panels slide apart to reveal a full-bleed photograph -->
+<section class="curtain" id="curtain">
+  <div class="c-sticky">
+    <figure class="c-photo" id="c-photo"><img src="img/sunset-silhouette.jpg" alt="A bride and groom silhouetted against a sunset sky, holding hands" loading="lazy" /></figure>
+    <div class="c-caption" id="c-caption">
+      <span class="script">golden hour</span>
+      <h2>Light we chase on purpose.</h2>
+      <p>Pictured: a couple silhouetted against an evening sky</p>
+    </div>
+    <div class="c-panel l" id="c-left" aria-hidden="true"><span>Every frame</span></div>
+    <div class="c-panel r" id="c-right" aria-hidden="true"><span>is a promise.</span></div>
+    <div class="c-hint" id="c-hint" aria-hidden="true">Keep scrolling</div>
+  </div>
+</section>
+
+<!-- FILMS: the row of film cards moves sideways as the section passes -->
+<section class="films" id="films">
+  <div class="wrap sec-head">
+    <span class="eyebrow both">Films</span>
+    <h2>Watch it <em>move</em></h2>
+    <p>Every package includes a highlight film. Edited to your music, colour-graded in-house, delivered in 4K.</p>
+  </div>
+  <div class="films-track" id="films-track">
+    <article class="film"><div class="film-media"><div class="px-img"><img src="img/couple-lakeside-sunset.jpg" alt="Couple sitting together by a lake at sunset" loading="lazy" /></div><span class="kind">Highlight</span><button class="play" type="button" aria-label="Play Sunset by the Water (demo)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></button><span class="dur">6:42</span></div><h3>Sunset by the Water</h3><p>A couple sitting by the lake at dusk</p></article>
+    <article class="film"><div class="film-media"><div class="px-img"><img src="img/groom-lifts-bride.jpg" alt="Groom lifting the bride in a garden" loading="lazy" /></div><span class="kind">Teaser</span><button class="play" type="button" aria-label="Play The Garden Twirl (demo)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></button><span class="dur">1:30</span></div><h3>The Garden Twirl</h3><p>The groom lifts the bride among the flowers</p></article>
+    <article class="film"><div class="film-media"><div class="px-img"><img src="img/champagne-toast.jpg" alt="Groom holding two glasses of champagne beside the bride on steps" loading="lazy" /></div><span class="kind">Highlight</span><button class="play" type="button" aria-label="Play Two Glasses, One Toast (demo)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></button><span class="dur">8:15</span></div><h3>Two Glasses, One Toast</h3><p>A toast on the steps before the party</p></article>
+    <article class="film"><div class="film-media"><div class="px-img"><img src="img/cake-cutting.jpg" alt="Bride and groom cutting a white wedding cake together" loading="lazy" /></div><span class="kind">Reel</span><button class="play" type="button" aria-label="Play Cutting the Cake (demo)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></button><span class="dur">0:58</span></div><h3>Cutting the Cake</h3><p>Two hands on one knife</p></article>
+    <article class="film"><div class="film-media"><div class="px-img"><img src="img/hands-and-bouquet.jpg" alt="Bride holding the groom's hand, a small bouquet at her wrist" loading="lazy" /></div><span class="kind">Documentary</span><button class="play" type="button" aria-label="Play Hand in Hand (demo)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></button><span class="dur">24:10</span></div><h3>Hand in Hand</h3><p>The full-length wedding documentary</p></article>
+    <article class="film"><div class="film-media"><div class="px-img"><img src="img/sparkler-send-off.jpg" alt="Guests holding sparklers at an evening celebration" loading="lazy" /></div><span class="kind">Highlight</span><button class="play" type="button" aria-label="Play Sparklers at Night (demo)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></button><span class="dur">5:04</span></div><h3>Sparklers at Night</h3><p>Guests light up the evening</p></article>
+  </div>
+</section>
+
+<section class="words">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow both">Kind words</span>
+      <h2>From our <em>couples</em></h2>
+    </div>
+    <div class="quotes">
+      <figure class="quote">
+        <div class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg></div>
+        <p>We barely noticed them all weekend, and then the album arrived and we cried at moments we never knew had been seen.</p>
+        <footer><b>Meera &amp; Arjun</b><span>Lake Pichola, Udaipur · Feb 2026</span></footer>
+      </figure>
+      <figure class="quote">
+        <div class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg></div>
+        <p>The sangeet film is now the most-watched video in both our families. My grandmother asks for it every Sunday.</p>
+        <footer><b>Sana &amp; Kabir</b><span>Amer, Jaipur · Nov 2025</span></footer>
+      </figure>
+      <figure class="quote">
+        <div class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg></div>
+        <p>Calm, kind and ridiculously organised. They had a shot list for every ritual and still caught the moments nobody planned.</p>
+        <footer><b>Ishita &amp; Dev</b><span>Goa · Dec 2025</span></footer>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- BAND: the background photo moves slower than the page -->
+<section class="band">
+  <div class="band-bg" data-speed="0.24"><img src="img/sparkler-send-off.jpg" alt="" loading="lazy" /></div>
+  <div class="band-text" data-speed="-0.08">
+    <span class="script">now booking</span>
+    <h2>The 2027 <em>muhurat</em> season</h2>
+    <p>Peak dates in November, December and February fill a year ahead. Tell us yours and we will hold it for seven days, free.</p>
+    <a href="#enquire" class="btn btn-light">Hold my date</a>
+    <small>Pictured: guests with sparklers at an evening celebration</small>
+  </div>
+</section>
+
+<section class="packages" id="packages">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow both">Packages</span>
+      <h2>Simple, <em>honest</em> pricing</h2>
+      <p>All packages include travel within Rajasthan, an online gallery and a private screening of your film.</p>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Intimate</h3><p class="sub">One day, up to 150 guests</p>
+        <div class="price"><b>₹2.5 L</b><span>+ GST</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>2 photographers, 1 filmmaker</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>500+ edited photographs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>4-minute highlight film</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Online gallery for a year</li>
+        </ul>
+        <a href="#enquire" class="btn btn-line" data-plan="Intimate">Choose Intimate</a>
+      </article>
+      <article class="plan featured">
+        <span class="tag">Most booked</span>
+        <h3>Signature</h3><p class="sub">Three days, every ritual</p>
+        <div class="price"><b>₹4.5 L</b><span>+ GST</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>3 photographers, 2 filmmakers</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1,500+ edited photographs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>8-minute film + 60-second reel</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Handmade 40-page album</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Pre-wedding shoot in the city</li>
+        </ul>
+        <a href="#enquire" class="btn btn-light" data-plan="Signature">Choose Signature</a>
+      </article>
+      <article class="plan">
+        <h3>Grand Destination</h3><p class="sub">Up to five days, anywhere in India</p>
+        <div class="price"><b>₹7.5 L</b><span>+ GST</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Full team of 8 with drone</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Unlimited edited photographs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Feature film + documentary cut</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Two heirloom albums</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Same-night teaser at the reception</li>
+        </ul>
+        <a href="#enquire" class="btn btn-line" data-plan="Grand Destination">Choose Grand</a>
+      </article>
+    </div>
+    <p class="plans-note">Travel outside Rajasthan is billed at cost. A 30% retainer confirms your dates.</p>
+  </div>
+</section>
+
+<section class="enquire" id="enquire">
+  <div class="wrap">
+    <div class="enq-card">
+      <figure class="enq-photo"><div class="px-img"><img src="img/bride-garden.jpg" alt="Smiling bride in a lace gown holding a bouquet in a garden" loading="lazy" /></div><figcaption><b>Replies within a day</b>Pictured: a bride smiling in a garden, bouquet in hand</figcaption></figure>
+      <form class="enq-form" id="enq-form">
+        <span class="eyebrow">Enquire</span>
+        <h2>Tell us about <em>your day</em></h2>
+        <p>Share a few details and we will check availability and send a tailored proposal.</p>
+        <div class="fields">
+          <div class="field"><label for="f-names">Your names</label><input id="f-names" required placeholder="Aanya &amp; Rohan" autocomplete="name" /></div>
+          <div class="field"><label for="f-contact">Email or phone</label><input id="f-contact" required placeholder="you@example.com" /></div>
+          <div class="field"><label for="f-date">Wedding date</label><input id="f-date" type="date" required /></div>
+          <div class="field"><label for="f-city">City</label>
+            <select id="f-city" required><option value="">Choose a city</option><option>Udaipur</option><option>Jaipur</option><option>Jodhpur</option><option>Jaisalmer</option><option>Goa</option><option>Kerala</option><option>Somewhere else</option></select></div>
+          <div class="field"><label for="f-guests">Guests</label>
+            <select id="f-guests" required><option value="">How many?</option><option>Under 100</option><option>100 to 250</option><option>250 to 500</option><option>500+</option></select></div>
+          <div class="field"><label for="f-plan">Package</label>
+            <select id="f-plan"><option>Not sure yet</option><option>Intimate</option><option>Signature</option><option>Grand Destination</option></select></div>
+          <div class="field full"><label for="f-note">Anything we should know?</label><textarea id="f-note" placeholder="Venue, rituals, the song you will dance to..."></textarea></div>
+        </div>
+        <div class="enq-actions">
+          <button class="btn btn-fill" type="submit">Send enquiry
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="msg" id="enq-msg" role="status"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo">Rivaah <small>Studio</small></a><p>Wedding photography and films from Jaipur and Udaipur, travelling wherever you say yes. A design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Studio</h4><a href="#stories">Stories</a><a href="#films">Films</a><a href="#packages">Packages</a><a href="#enquire">Enquire</a></div>
+      <div><h4>Visit</h4><a href="#enquire">Jaipur studio</a><a href="#enquire">Udaipur studio</a><a href="#enquire">Book a call</a></div>
+      <div><h4>Follow</h4><a href="#top">Instagram</a><a href="#top">YouTube</a><a href="#top">Pinterest</a></div>
+    </div>
+    <div class="giant" data-marquee aria-hidden="true">Rivaah Studio · Rivaah Studio</div>
+    <div class="foot-bottom"><span>© 2026 Rivaah Studio (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  const nav = document.getElementById("nav");
+  const hero = document.querySelector(".hero");
+  const cue = document.querySelector(".scroll-cue");
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+
+  const gallery = document.getElementById("stories");
+  const gPrints = [...document.querySelectorAll(".g-print")].map((el) => ({ el, g: el.dataset.g.split(",").map(Number) }));
+  const gA = document.querySelector(".g-a"), gB = document.querySelector(".g-b");
+  const gBar = document.getElementById("g-bar");
+
+  const tl = document.getElementById("tl");
+  const tlSvg = document.getElementById("tl-svg");
+  const tlInk = document.getElementById("tl-ink");
+  const tlGhost = document.getElementById("tl-ghost");
+  const moments = [...document.querySelectorAll(".moment")];
+  let dots = [], tlLen = 0;
+
+  const curtain = document.getElementById("curtain");
+  const cLeft = document.getElementById("c-left"), cRight = document.getElementById("c-right");
+  const cPhoto = document.getElementById("c-photo").querySelector("img");
+  const cCaption = document.getElementById("c-caption"), cHint = document.getElementById("c-hint");
+
+  const films = document.getElementById("films");
+  const filmsTrack = document.getElementById("films-track");
+  const giant = document.querySelector("[data-marquee]");
+
+  // Build the timeline's curved path through one node per moment (pixel space, so it never distorts)
+  const buildPath = () => {
+    const w = tl.offsetWidth, h = tl.offsetHeight;
+    const narrow = window.innerWidth <= 760;
+    tlSvg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    const pts = [{ x: narrow ? 16 : w / 2, y: 0 }];
+    moments.forEach((m, i) => {
+      const swing = narrow ? 8 : 34;
+      pts.push({ x: (narrow ? 16 : w / 2) + (i % 2 ? swing : -swing), y: m.offsetTop + (narrow ? 44 : m.offsetHeight / 2) });
+    });
+    pts.push({ x: narrow ? 16 : w / 2, y: h });
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i], dy = (b.y - a.y) / 2;
+      d += ` C${a.x},${a.y + dy} ${b.x},${b.y - dy} ${b.x},${b.y}`;
+    }
+    tlInk.setAttribute("d", d);
+    tlGhost.setAttribute("d", d);
+    tlLen = tlInk.getTotalLength();
+    tlInk.style.strokeDasharray = `${tlLen} ${tlLen}`;
+    dots.forEach((dot) => dot.remove());
+    dots = pts.slice(1, -1).map((p) => {
+      const dot = document.createElement("span");
+      dot.className = "tl-dot";
+      dot.style.left = `${p.x}px`;
+      dot.style.top = `${p.y}px`;
+      dot._y = p.y;
+      tl.appendChild(dot);
+      return dot;
+    });
+  };
+
+  let mouseX = 0, mouseY = 0, frame = null;
+
+  const render = () => {
+    frame = null;
+    const h = window.innerHeight, w = window.innerWidth, sy = window.scrollY;
+    nav.classList.toggle("is-solid", sy > 60);
+    cue.style.opacity = (1 - clamp(sy / 160)).toFixed(3);
+
+    if (!reduce) {
+      // 1. data-speed layers. Hero layers move by scrollY × speed (and the prints also drift
+      //    sideways and turn); everything else moves by its distance from the screen centre.
+      for (const el of speedEls) {
+        const inHero = el.closest(".hero");
+        if (inHero && sy > h * 1.6) continue;
+        const r = el.getBoundingClientRect();
+        const top = r.top - (el._oy || 0); // untransformed position, so the offset never feeds back
+        if (!inHero && (top + r.height < -h || top > h * 2)) continue;
+        const speed = Number(el.dataset.speed);
+        const offset = inHero ? sy * speed : (top + r.height / 2 - h / 2) * speed;
+        const depth = el.dataset.depth ? Number(el.dataset.depth) : 0;
+        const dx = inHero ? sy * Number(el.dataset.dx || 0) : 0;
+        const spin = inHero ? sy * Number(el.dataset.spin || 0) : 0;
+        const y = offset + mouseY * depth;
+        el._oy = y;
+        el.style.transform = `translate3d(${(mouseX * depth + dx).toFixed(1)}px, ${y.toFixed(1)}px, 0)${spin ? ` rotate(${spin.toFixed(2)}deg)` : ""}`;
+      }
+
+      // 2. Photos slide inside their frames
+      for (const img of innerImgs) {
+        const box = img.parentElement.getBoundingClientRect();
+        if (box.bottom < 0 || box.top > h || box.right < 0 || box.left > w) continue;
+        const p = (box.top + box.height) / (h + box.height); // 1 entering, 0 leaving
+        img.style.transform = `translate3d(0, ${((p - 0.5) * 16).toFixed(2)}%, 0)`;
+      }
+
+      // 3. Scatter-to-grid: progress through the pinned section pulls every print into its cell
+      const gr = gallery.getBoundingClientRect();
+      if (gr.bottom > 0 && gr.top < h) {
+        const gp = clamp(-gr.top / Math.max(1, gr.height - h));
+        const e = ease(clamp((gp - 0.08) / 0.7));
+        const stage = document.getElementById("g-stage");
+        const sw = stage.offsetWidth, sh = stage.offsetHeight;
+        gPrints.forEach(({ el, g }, i) => {
+          // the print's own grid cell is the target; the scattered start is an offset from it
+          const col = i % 3, row = Math.floor(i / 3);
+          const cx = (col - 1) / 3, cyy = (row - 1) / 3; // cell centre relative to stage centre
+          const ox = (g[0] - cx) * sw * (w < 760 ? 0.75 : 1), oy = (g[1] - cyy) * sh * 0.8;
+          const k = 1 - e;
+          el.style.transform = `translate3d(${(ox * k).toFixed(1)}px, ${(oy * k).toFixed(1)}px, 0) rotate(${(g[2] * k).toFixed(2)}deg) scale(${(g[3] + (1 - g[3]) * e).toFixed(4)})`;
+          el.style.zIndex = String(i === 4 ? 3 : 1 + (i % 2));
+          el.style.setProperty("--cap", e > 0.97 ? 1 : 0);
+        });
+        gA.style.opacity = (1 - clamp((e - 0.3) / 0.25)).toFixed(3);
+        gB.style.opacity = clamp((e - 0.55) / 0.25).toFixed(3);
+        gBar.style.width = `${(e * 100).toFixed(1)}%`;
+      }
+
+      // 4. Curtain: the two panels slide apart and the photo settles from a slight zoom
+      const cr = curtain.getBoundingClientRect();
+      if (cr.bottom > 0 && cr.top < h) {
+        const cp = clamp(-cr.top / Math.max(1, cr.height - h));
+        const open = ease(clamp(cp / 0.62));
+        cLeft.style.transform = `translate3d(${(-open * 101).toFixed(2)}%, 0, 0)`;
+        cRight.style.transform = `translate3d(${(open * 101).toFixed(2)}%, 0, 0)`;
+        cPhoto.style.transform = `scale(${(1.18 - 0.18 * open).toFixed(4)})`;
+        cHint.style.opacity = (1 - clamp(open * 4)).toFixed(3);
+        const cap = clamp((cp - 0.62) / 0.2);
+        cCaption.style.opacity = cap.toFixed(3);
+        cCaption.style.transform = `translate3d(0, ${((1 - cap) * 36).toFixed(1)}px, 0)`;
+      }
+
+      // 5. Films: the row slides sideways while the section crosses the screen
+      const fr = films.getBoundingClientRect();
+      if (fr.bottom > 0 && fr.top < h) {
+        const fp = clamp((h - fr.top) / (h + fr.height));
+        const travel = Math.max(0, filmsTrack.scrollWidth - w);
+        filmsTrack.style.transform = `translate3d(${(-(fp * 1.25 - 0.12) * travel).toFixed(1)}px, 0, 0)`;
+      }
+
+      // 6. Giant footer script slides sideways
+      const gt = giant.getBoundingClientRect();
+      if (gt.top < h) giant.style.transform = `translate3d(${(-(h - gt.top) / (h + gt.height) * 24).toFixed(2)}%, 0, 0)`;
+    }
+
+    // 7. Timeline: draw the path down to a line 62% of the way down the screen
+    const tr = tl.getBoundingClientRect();
+    const reach = reduce ? tr.height : clamp(h * 0.62 - tr.top, 0, tr.height);
+    if (tlLen) {
+      // map reached height to path length (the curve is monotonic in y, so a ratio is close enough)
+      tlInk.style.strokeDashoffset = (tlLen * (1 - reach / Math.max(1, tr.height))).toFixed(1);
+    }
+    dots.forEach((dot) => dot.classList.toggle("lit", dot._y <= reach));
+    moments.forEach((m) => { if (reduce || m.getBoundingClientRect().top < h * 0.85) m.classList.add("on"); });
+  };
+
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  const relayout = () => { buildPath(); schedule(); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", relayout);
+  window.addEventListener("load", relayout);
+  if (document.fonts) document.fonts.ready.then(relayout);
+
+  // Hero prints follow the mouse; deeper prints move further
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * -1;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * -1;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  buildPath();
+  render();
+
+  // Count up the studio numbers when they appear
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      const end = Number(entry.target.dataset.count);
+      if (reduce) { entry.target.textContent = end; return; }
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / 1400);
+        entry.target.textContent = Math.round(end * (1 - Math.pow(1 - t, 3)));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll("[data-count]").forEach((el) => io.observe(el));
+
+  // Package buttons preselect the package in the enquiry form
+  const planSelect = document.getElementById("f-plan");
+  document.querySelectorAll("[data-plan]").forEach((btn) => btn.addEventListener("click", () => { planSelect.value = btn.dataset.plan; }));
+
+  // Play buttons: demo only
+  document.querySelectorAll(".play").forEach((btn) => btn.addEventListener("click", () => {
+    const label = btn.parentElement.querySelector(".dur");
+    const old = label.textContent;
+    label.textContent = "Demo only";
+    setTimeout(() => { label.textContent = old; }, 1600);
+  }));
+
+  // Enquiry form: demo only, nothing is sent
+  document.getElementById("enq-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const city = document.getElementById("f-city").value;
+    const date = new Date(document.getElementById("f-date").value);
+    const when = isNaN(date) ? "your date" : date.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+    document.getElementById("enq-msg").textContent = `Thank you! ${when} in ${city} looks open (demo only, nothing was sent).`;
+    e.target.reset();
+  });
+})();
+</script>
+</body>
+</html>

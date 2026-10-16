@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lumen Skin — Plant-Based Skincare (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax skincare website demo: a hand-drawn serum bottle floating among ingredients, a pinned ingredient orbit, a sticky routine and a morphing liquid blob, built with plain HTML, CSS and JavaScript by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-skincare/index.html" />
+<meta property="og:title" content="Lumen Skin — Parallax Skincare Website Demo" />
+<meta property="og:description" content="Floating SVG serum bottle, pinned ingredient orbit, sticky routine steps and a morphing liquid blob in plain HTML, CSS and JavaScript." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-skincare/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #eef3ec;
+    --bg-2: #e2ebdf;
+    --mist: #f8faf6;
+    --ink: #1b2a29;
+    --ink-2: #3a4b49;
+    --muted: #5b6c68;
+    --sage: #4f7a63;
+    --sage-d: #355846;
+    --sage-l: #b9d0bd;
+    --citrus: #e9a94b;
+    --peach: #f5d6b6;
+    --lilac: #d9d3ec;
+    --glass: rgba(255, 255, 255, .52);
+    --glass-line: rgba(255, 255, 255, .75);
+    --line: rgba(27, 42, 41, .12);
+    --serif: "Instrument Serif", Georgia, serif;
+    --sans: Figtree, system-ui, sans-serif;
+    --shadow: 0 30px 60px -30px rgba(35, 60, 50, .35);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; line-height: 1.5; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  .wrap { width: min(1220px, calc(100% - 64px)); margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--sage-d); }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--citrus); box-shadow: 0 0 0 4px rgba(233, 169, 75, .22); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
+  h2 { text-wrap: balance; }
+  h2 { font-size: clamp(42px, 5.4vw, 78px); line-height: 1; }
+  h2 em, h1 em { font-style: italic; color: var(--sage); }
+  .lead { font-size: 17px; line-height: 1.75; color: var(--ink-2); }
+  [data-speed], [data-depth], .px-img img { will-change: transform; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .glass { background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2); box-shadow: var(--shadow); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; border-radius: 99px; font-size: 14px; font-weight: 600; letter-spacing: .02em; transition: transform .3s, background .3s, color .3s, box-shadow .3s; }
+  .btn-ink { background: var(--ink); color: var(--mist); box-shadow: 0 16px 30px -14px rgba(27, 42, 41, .6); }
+  .btn-ink:hover { background: var(--sage-d); transform: translateY(-2px); }
+  .btn-soft { background: rgba(255, 255, 255, .6); border: 1px solid rgba(27, 42, 41, .14); }
+  .btn-soft:hover { background: #fff; }
+  .btn svg { width: 16px; height: 16px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(3px); }
+
+  /* soft colour blobs */
+  .blob { position: absolute; border-radius: 50%; filter: blur(50px); pointer-events: none; }
+  .blob i { position: absolute; inset: 0; border-radius: 50%; animation: drift 18s ease-in-out infinite alternate; }
+  @keyframes drift { 0% { translate: 0 0; scale: 1; } 50% { translate: 6% -8%; scale: 1.08; } 100% { translate: -6% 5%; scale: .95; } }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; padding: 22px 0; transition: background .4s, padding .4s, box-shadow .4s; }
+  .nav.is-solid { padding: 12px 0; background: rgba(238, 243, 236, .74); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 1px 0 var(--line); }
+  .nav .wrap { display: flex; align-items: center; gap: 36px; }
+  .logo { display: flex; align-items: center; gap: 10px; margin-right: auto; font-family: var(--serif); font-size: 30px; line-height: 1; }
+  .logo svg { width: 30px; height: 30px; }
+  .logo small { font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: .3em; color: var(--sage-d); align-self: flex-end; margin-bottom: 4px; }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+  .nav-links a { position: relative; color: var(--ink-2); }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -5px; height: 1px; background: var(--ink); transition: right .3s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { right: 0; }
+  .bag { display: flex; align-items: center; gap: 10px; padding: 9px 10px 9px 18px; border-radius: 99px; background: rgba(255, 255, 255, .6); border: 1px solid rgba(27, 42, 41, .12); font-size: 14px; font-weight: 600; }
+  .bag b { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 99px; background: var(--ink); color: var(--mist); font-size: 12px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; padding: 128px 0 48px; display: flex; flex-direction: column; background: linear-gradient(180deg, #e9f1e7 0%, var(--bg) 70%); }
+  .hero .blob-a { left: -8%; top: 8%; width: 46vw; height: 46vw; }
+  .hero .blob-a i { background: radial-gradient(circle, rgba(185, 208, 189, .95), rgba(185, 208, 189, 0) 70%); }
+  .hero .blob-b { right: -10%; top: -6%; width: 42vw; height: 42vw; }
+  .hero .blob-b i { background: radial-gradient(circle, rgba(245, 214, 182, .95), rgba(245, 214, 182, 0) 70%); animation-duration: 22s; }
+  .hero .blob-c { left: 32%; bottom: -24%; width: 40vw; height: 40vw; }
+  .hero .blob-c i { background: radial-gradient(circle, rgba(217, 211, 236, .9), rgba(217, 211, 236, 0) 70%); animation-duration: 26s; animation-direction: alternate-reverse; }
+  .hero-top { position: relative; z-index: 1; text-align: center; }
+  .hero h1 { position: relative; z-index: 1; margin-top: 26px; font-size: clamp(64px, 11.6vw, 176px); line-height: .9; letter-spacing: -.03em; }
+  .hero h1 span { display: block; }
+  .hero h1 .l1 { text-align: left; padding-left: 2%; }
+  .hero h1 .l2 { text-align: right; padding-right: 1%; font-style: italic; color: var(--sage); }
+  .stage { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .stage .layer { position: absolute; }
+  .bottle-wrap { left: 50%; top: 18%; width: clamp(220px, 19vw, 300px); margin-left: calc(clamp(220px, 19vw, 300px) / -2); }
+  .bottle-tilt { transform-origin: 50% 70%; }
+  .bottle-bob { animation: bob 6s ease-in-out infinite; }
+  @keyframes bob { 50% { translate: 0 -14px; } }
+  .bottle-wrap .halo { position: absolute; left: 50%; top: 56%; width: 170%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 62%); }
+  .bottle-wrap .ring { position: absolute; left: 50%; top: 58%; width: 150%; aspect-ratio: 1; translate: -50% -50%; rotate: calc(var(--r, 0) * -.4deg); }
+  .ing { width: 90px; rotate: calc(var(--r, 0) * var(--k, 1) * 1deg); }
+  .ing svg { width: 100%; height: auto; filter: drop-shadow(0 18px 18px rgba(40, 70, 55, .18)); }
+  .ing.soft svg { filter: blur(2.5px); opacity: .8; }
+  .hero-foot { position: relative; z-index: 3; margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; padding-top: 40px; }
+  .hero-card { max-width: 470px; padding: 26px 28px; border-radius: 26px; }
+  .hero-card p { font-size: 16px; line-height: 1.7; color: var(--ink-2); }
+  .hero-card .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .hero-chip { display: flex; align-items: center; gap: 16px; padding: 14px 22px 14px 14px; border-radius: 22px; }
+  .hero-chip .dot { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(145deg, #f8d59e, #eea444); color: #fff; font-family: var(--serif); font-size: 26px; }
+  .hero-chip strong { display: block; font-size: 15px; }
+  .hero-chip span { font-size: 13px; color: var(--muted); }
+  .hero-chip b { margin-left: 14px; font-family: var(--serif); font-size: 30px; font-weight: 400; }
+
+  /* ---------- origin (photo trio) ---------- */
+  .origin { position: relative; padding: 150px 0 140px; }
+  .origin .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
+  .origin h2 { margin: 18px 0 24px; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
+  .facts div { padding: 18px; border-radius: 18px; }
+  .facts b { display: block; font-family: var(--serif); font-size: 34px; font-weight: 400; line-height: 1; }
+  .facts span { display: block; margin-top: 6px; font-size: 13px; color: var(--muted); }
+  .trio { position: relative; height: 620px; }
+  .trio figure { position: absolute; }
+  .px-img { position: relative; overflow: hidden; }
+  .px-img img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; object-fit: cover; }
+  .trio .px-img { width: 100%; height: 100%; border-radius: 28px; box-shadow: var(--shadow); }
+  .trio figcaption { position: absolute; left: 14px; bottom: 14px; z-index: 1; padding: 8px 14px; border-radius: 99px; font-size: 12px; font-weight: 600; background: rgba(248, 250, 246, .85); backdrop-filter: blur(8px); }
+  .t1 { left: 0; top: 40px; width: 46%; height: 400px; }
+  .t2 { right: 0; top: 0; width: 46%; height: 300px; }
+  .t3 { right: 6%; bottom: 0; width: 40%; height: 280px; }
+
+  /* ---------- ingredient orbit (pinned) ---------- */
+  .orbit { position: relative; height: 480vh; background: linear-gradient(180deg, var(--bg), #e7efe4 30%, #e7efe4 70%, var(--bg)); }
+  .orbit-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+  .orbit-sticky > .wrap { display: grid; grid-template-columns: .85fr 1.15fr; gap: 40px; align-items: center; }
+  .orbit-copy h2 { margin: 16px 0 28px; }
+  .detail { position: relative; padding: 30px 32px; border-radius: 28px; min-height: 290px; }
+  .detail-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .detail-num { font-family: var(--serif); font-size: 18px; color: var(--muted); }
+  .detail-num b { font-size: 44px; font-weight: 400; color: var(--ink); }
+  .detail-tag { padding: 6px 12px; border-radius: 99px; background: rgba(79, 122, 99, .12); color: var(--sage-d); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .detail h3 { margin: 12px 0 4px; font-size: 40px; line-height: 1.05; }
+  .detail .from { font-size: 14px; font-weight: 600; color: var(--sage-d); }
+  .detail p { margin-top: 14px; font-size: 16px; line-height: 1.7; color: var(--ink-2); }
+  .detail .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .detail .chips span { padding: 7px 13px; border-radius: 99px; border: 1px solid var(--line); background: rgba(255, 255, 255, .6); font-size: 13px; }
+  .detail-body { transition: opacity .35s, transform .35s; }
+  .detail-body.swap { opacity: 0; transform: translateY(10px); }
+  .orbit-dots { display: flex; gap: 8px; margin-top: 22px; }
+  .orbit-dots i { width: 28px; height: 4px; border-radius: 4px; background: rgba(27, 42, 41, .14); transition: background .3s, width .3s; }
+  .orbit-dots i.on { width: 52px; background: var(--ink); }
+  .orbit-stage { position: relative; width: min(560px, 68vh); aspect-ratio: 1; margin: 0 auto; }
+  .orbit-stage .rings { position: absolute; inset: 0; rotate: calc(var(--orb, 0) * 1deg); }
+  .orbit-stage .core { position: absolute; left: 50%; top: 50%; width: 36%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, rgba(255, 255, 255, .4) 60%, rgba(255, 255, 255, 0) 72%); }
+  .orbit-stage .core-bottle { position: absolute; left: 50%; top: 50%; width: 22%; translate: -50% -54%; rotate: calc(var(--orb, 0) * -.08deg); }
+  .orb-card { position: absolute; left: 50%; top: 50%; width: 132px; margin: -60px 0 0 -66px; padding: 14px 10px 14px; border-radius: 24px; text-align: center; transition: background .35s, box-shadow .35s, opacity .35s; opacity: .72; }
+  .orb-card .ic { width: 58px; height: 58px; margin: 0 auto 8px; }
+  .orb-card strong { display: block; font-size: 14px; font-weight: 600; line-height: 1.25; }
+  .orb-card.on { opacity: 1; background: rgba(255, 255, 255, .9); box-shadow: 0 30px 50px -24px rgba(35, 60, 50, .45); }
+
+  /* ---------- routine ---------- */
+  .routine { position: relative; padding: 140px 0 60px; }
+  .routine-head { max-width: 680px; margin-bottom: 30px; }
+  .routine-head h2 { margin: 16px 0 18px; }
+  .routine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; }
+  .r-visual { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 34px; }
+  .r-circle { position: relative; width: min(440px, 52vh); aspect-ratio: 1; border-radius: 50%; }
+  .r-circle::before { content: ""; position: absolute; inset: 9%; border-radius: 50%; border: 1px dashed rgba(27, 42, 41, .18); }
+  .r-bottle { position: absolute; left: 50%; bottom: 14%; width: 36%; translate: -50% 0; opacity: 0; transform: translateY(30px) scale(.92); transition: opacity .5s, transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .r-bottle.on { opacity: 1; transform: none; }
+  .num { font-style: normal; }
+  .r-tint { position: absolute; inset: 20%; border-radius: 50%; background: #cfe3d3; filter: blur(34px); opacity: .9; transition: background-color .7s; }
+  .r-time { position: absolute; left: 50%; top: 5%; translate: -50% 0; padding: 7px 14px; border-radius: 99px; background: var(--ink); color: var(--mist); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+  .r-steps { position: relative; display: flex; gap: 0; width: min(440px, 100%); justify-content: space-between; list-style: none; }
+  .r-steps::before, .r-steps .fill { content: ""; position: absolute; left: 22px; right: 22px; top: 21px; height: 2px; background: rgba(27, 42, 41, .12); }
+  .r-steps .fill { right: auto; width: 0; background: var(--sage); transition: width .4s; }
+  .r-steps li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  .r-steps li b { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--mist); border: 1px solid var(--line); font-family: var(--serif); font-size: 19px; font-weight: 400; color: var(--ink); transition: background .3s, color .3s, border-color .3s; }
+  .r-steps li.done b { background: var(--sage-l); border-color: transparent; }
+  .r-steps li.on { color: var(--ink); }
+  .r-steps li.on b { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+  .step { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; padding: 40px 0; }
+  .step-num { font-family: var(--serif); font-size: 120px; line-height: .8; color: transparent; -webkit-text-stroke: 1px rgba(27, 42, 41, .3); }
+  .step h3 { margin: 18px 0 14px; font-size: clamp(40px, 4vw, 58px); line-height: 1; }
+  .step p { max-width: 460px; font-size: 17px; line-height: 1.75; color: var(--ink-2); }
+  .step-prod { display: flex; align-items: center; gap: 16px; margin-top: 26px; max-width: 460px; padding: 14px 18px; border-radius: 20px; }
+  .step-prod strong { display: block; font-size: 15px; }
+  .step-prod span { font-size: 13px; color: var(--muted); }
+  .step-prod b { margin-left: auto; font-family: var(--serif); font-size: 28px; font-weight: 400; }
+
+  /* ---------- results / liquid blob ---------- */
+  .results { position: relative; padding: 150px 0 130px; overflow: hidden; }
+  .results-head { text-align: center; max-width: 960px; margin: 0 auto; }
+  .results-head h2 { margin: 16px 0 0; }
+  .liquid { position: relative; height: 720px; margin-top: 30px; }
+  .liquid-svg { position: absolute; left: 50%; top: 50%; width: min(660px, 92vw); aspect-ratio: 1; translate: -50% -50%; }
+  .liquid-svg svg { width: 100%; height: 100%; overflow: visible; }
+  .liquid-text { position: absolute; left: 50%; top: 50%; translate: -50% -50%; text-align: center; width: 300px; }
+  .liquid-text b { display: block; font-family: var(--serif); font-size: 150px; font-weight: 400; line-height: .9; letter-spacing: -.03em; }
+  .liquid-text > span { display: block; margin-top: 10px; font-size: 17px; line-height: 1.5; color: var(--ink-2); }
+  .stat { position: absolute; width: 250px; padding: 22px 24px; border-radius: 24px; }
+  .stat b { display: block; font-family: var(--serif); font-size: 54px; font-weight: 400; line-height: 1; }
+  .stat > span { display: block; margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+  .s1 { left: 2%; top: 14%; }
+  .s2 { right: 2%; top: 30%; }
+  .s3 { left: 9%; bottom: 6%; }
+  .footnote { max-width: 640px; margin: 20px auto 0; text-align: center; font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+  /* ---------- shop ---------- */
+  .shop { position: relative; padding: 120px 0 150px; }
+  .shop-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 56px; }
+  .shop-head h2 { margin-top: 16px; }
+  .shop-head p { max-width: 360px; color: var(--ink-2); line-height: 1.7; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; align-items: start; }
+  .grid .prod:nth-child(even) { margin-top: 70px; }
+  .p-frame { position: relative; aspect-ratio: 4 / 5; border-radius: 28px; overflow: hidden; box-shadow: var(--shadow); }
+  .p-frame .px-img { position: absolute; inset: 0; }
+  .p-frame .px-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(248, 250, 246, .1), rgba(248, 250, 246, .55)); }
+  .p-frame .p-bottle { position: absolute; left: 50%; bottom: 7%; width: 46%; margin-left: -23%; z-index: 1; }
+  .p-frame .p-bottle svg { filter: drop-shadow(0 20px 22px rgba(30, 50, 40, .3)); transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+  .prod:hover .p-bottle svg { transform: translateY(-8px) rotate(-3deg); }
+  .p-badge { position: absolute; left: 14px; top: 14px; z-index: 2; padding: 7px 12px; border-radius: 99px; background: rgba(248, 250, 246, .9); font-size: 12px; font-weight: 700; }
+  .p-info { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; }
+  .p-info h3 { font-size: 27px; line-height: 1.05; }
+  .p-info p { margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .p-info strong { font-family: var(--serif); font-size: 26px; font-weight: 400; white-space: nowrap; }
+  .add { width: 100%; margin-top: 14px; padding: 13px; border-radius: 99px; border: 1px solid rgba(27, 42, 41, .2); font-size: 14px; font-weight: 600; transition: background .3s, color .3s; }
+  .add:hover { background: var(--ink); color: var(--mist); }
+  .add.added { background: var(--sage); color: #fff; border-color: var(--sage); }
+
+  /* ---------- lifestyle band ---------- */
+  .band { position: relative; height: 92vh; min-height: 620px; overflow: hidden; display: flex; align-items: center; }
+  .band-bg { position: absolute; inset: -20% 0; }
+  .band-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 35%; }
+  .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(238, 243, 236, .9), rgba(238, 243, 236, .35) 55%, rgba(238, 243, 236, 0)); }
+  .band .wrap { position: relative; z-index: 1; }
+  .band-card { max-width: 580px; padding: 40px 42px; border-radius: 32px; }
+  .band-card h2 { margin: 16px 0 18px; }
+  .band-card p { font-size: 17px; line-height: 1.75; color: var(--ink-2); }
+  .band-cap { position: absolute; right: 24px; bottom: 40px; z-index: 1; padding: 7px 13px; border-radius: 99px; font-size: 12px; font-weight: 600; background: rgba(248, 250, 246, .82); }
+
+  /* ---------- reviews ---------- */
+  .reviews { position: relative; padding: 150px 0 120px; }
+  .rev-head { display: grid; grid-template-columns: 1.2fr .8fr; gap: 50px; align-items: end; margin-bottom: 60px; }
+  .reviews h2 { margin-top: 16px; }
+  .rev-photo .px-img { aspect-ratio: 16 / 10; border-radius: 28px; box-shadow: var(--shadow); }
+  .kit-photo { margin-top: 34px; max-width: 460px; }
+  .kit-photo .px-img { aspect-ratio: 16 / 9; border-radius: 26px; box-shadow: var(--shadow); }
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+  .rev { padding: 30px; border-radius: 28px; }
+  .rev:nth-child(2) { margin-top: 60px; }
+  .stars { display: flex; gap: 3px; color: var(--citrus); }
+  .stars svg { width: 17px; height: 17px; }
+  .rev blockquote { margin: 16px 0 24px; font-family: var(--serif); font-size: 25px; line-height: 1.3; }
+  .rev-who { display: flex; align-items: center; gap: 12px; }
+  .rev-who i { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; font-style: normal; font-weight: 700; font-size: 15px; }
+  .rev-who strong { display: block; font-size: 15px; }
+  .rev-who span { font-size: 13px; color: var(--muted); }
+
+  /* ---------- kit builder ---------- */
+  .kit { position: relative; padding: 110px 0 150px; overflow: hidden; }
+  .kit .blob-k { right: -12%; top: 10%; width: 50vw; height: 50vw; }
+  .kit .blob-k i { background: radial-gradient(circle, rgba(245, 214, 182, .8), rgba(245, 214, 182, 0) 70%); }
+  .kit .blob-l { left: -14%; bottom: -10%; width: 44vw; height: 44vw; }
+  .kit .blob-l i { background: radial-gradient(circle, rgba(185, 208, 189, .9), rgba(185, 208, 189, 0) 70%); animation-direction: alternate-reverse; }
+  .kit .wrap { position: relative; display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
+  .kit h2 { margin: 16px 0 20px; }
+  .kit-form { padding: 34px; border-radius: 32px; }
+  .kit-form fieldset { border: 0; margin-bottom: 24px; }
+  .kit-form legend { margin-bottom: 12px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--sage-d); }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pills label { position: relative; }
+  .pills input { position: absolute; opacity: 0; inset: 0; }
+  .pills span { display: block; padding: 10px 18px; border-radius: 99px; border: 1px solid rgba(27, 42, 41, .18); background: rgba(255, 255, 255, .55); font-size: 14px; font-weight: 500; cursor: pointer; transition: background .25s, color .25s; }
+  .pills input:checked + span { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+  .pills input:focus-visible + span { outline: 2px solid var(--sage); outline-offset: 2px; }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .picks label { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; border: 1px solid rgba(27, 42, 41, .14); background: rgba(255, 255, 255, .55); cursor: pointer; transition: background .25s, border-color .25s; }
+  .picks label:has(input:checked) { background: #fff; border-color: var(--sage); }
+  .picks input { width: 18px; height: 18px; accent-color: var(--sage-d); }
+  .picks strong { display: block; font-size: 14px; }
+  .picks span { font-size: 13px; color: var(--muted); }
+  .total { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 18px 0; margin-bottom: 18px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .total span { font-size: 14px; color: var(--muted); }
+  .total b { font-family: var(--serif); font-size: 40px; font-weight: 400; }
+  .total small { display: block; font-size: 13px; color: var(--sage-d); font-weight: 600; text-align: right; }
+  .row { display: flex; gap: 10px; }
+  .row input { flex: 1; min-width: 0; padding: 15px 20px; border-radius: 99px; border: 1px solid rgba(27, 42, 41, .18); background: rgba(255, 255, 255, .75); outline: 0; font-size: 15px; }
+  .row input:focus { border-color: var(--sage); }
+  .msg { min-height: 22px; margin-top: 14px; font-size: 14px; font-weight: 500; color: var(--sage-d); }
+  .kit-list { display: grid; gap: 12px; margin-top: 30px; }
+  .kit-list div { display: flex; align-items: center; gap: 14px; font-size: 15px; color: var(--ink-2); }
+  .kit-list svg { flex-shrink: 0; width: 22px; height: 22px; color: var(--sage); }
+
+  /* ---------- footer ---------- */
+  footer { position: relative; padding: 90px 0 96px; background: var(--ink); color: #dfe8e2; overflow: hidden; }
+  footer .logo { color: var(--mist); }
+  footer .logo small { color: var(--sage-l); }
+  .foot-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px; }
+  .foot-grid h4 { margin-bottom: 16px; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #9fb3aa; }
+  .foot-grid a:not(.logo) { display: block; margin-bottom: 10px; font-size: 15px; color: #dfe8e2; }
+  .foot-grid a:not(.logo):hover { color: var(--citrus); }
+  .foot-grid p { max-width: 320px; margin-top: 16px; font-size: 14px; line-height: 1.7; color: #9fb3aa; }
+  .giant { margin-top: 70px; font-family: var(--serif); font-size: 21vw; line-height: .8; letter-spacing: -.04em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(223, 232, 226, .22); }
+  .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; margin-top: 30px; font-size: 13px; color: #9fb3aa; }
+
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 9px; border-radius: 99px; background: rgba(27, 42, 41, .92); color: var(--mist); font-size: 12px; font-weight: 600; box-shadow: 0 16px 36px -12px rgba(27, 42, 41, .55); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--mist); color: var(--ink); font-size: 13px; }
+
+  :focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+
+  @media (max-width: 1080px) {
+    .nav-links { display: none; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .stat { width: 220px; }
+  }
+  @media (max-width: 900px) {
+    .origin .wrap, .kit .wrap { grid-template-columns: 1fr; gap: 50px; }
+    .orbit-sticky > .wrap { grid-template-columns: 1fr; gap: 10px; }
+    .orbit-copy h2 { display: none; }
+    .orbit-copy .eyebrow { display: none; }
+    .orbit-copy { order: 2; }
+    .orbit-stage { width: min(400px, 44svh, 100%); }
+    .detail { min-height: 0; padding: 22px 22px; }
+    .detail h3 { font-size: 32px; }
+    .detail p { font-size: 15px; margin-top: 8px; }
+    .detail .chips { margin-top: 12px; }
+    .orb-card { width: 96px; margin: -46px 0 0 -48px; padding: 10px 6px; border-radius: 18px; }
+    .orb-card .ic { width: 40px; height: 40px; margin-bottom: 4px; }
+    .orb-card strong { font-size: 12px; }
+    .routine-grid { grid-template-columns: 1fr; gap: 0; }
+    .r-visual { top: 58px; z-index: 3; height: auto; padding: 14px 0 16px; gap: 14px; flex-direction: row; justify-content: flex-start; background: rgba(238, 243, 236, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); margin: 0 -32px; padding-left: 32px; padding-right: 32px; }
+    .r-circle { width: 120px; flex-shrink: 0; }
+    .r-circle::before { inset: 4%; }
+    .r-time { display: none; }
+    .r-bottle { bottom: 10%; width: 38%; }
+    .r-steps { flex: 1; }
+    .r-steps li { font-size: 11px; }
+    .r-steps li b { width: 36px; height: 36px; font-size: 16px; }
+    .r-steps::before, .r-steps .fill { top: 17px; left: 18px; right: 18px; }
+    .step { min-height: 70vh; }
+    .step-num { font-size: 84px; }
+    .liquid { height: auto; display: grid; gap: 14px; margin-top: 10px; }
+    .liquid-svg { position: relative; left: auto; top: auto; translate: none; margin: 0 auto; width: min(460px, 100%); }
+    .liquid-text { top: calc(min(460px, 100vw - 36px) / 2); }
+    .stat { position: relative; left: auto; right: auto; top: auto; bottom: auto; width: auto; }
+    .rev-grid { grid-template-columns: 1fr; }
+    .rev-head { grid-template-columns: 1fr; gap: 30px; margin-bottom: 40px; }
+    .rev:nth-child(2) { margin-top: 0; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .shop-head { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 700px) {
+    .wrap { width: calc(100% - 36px); }
+    .hero { padding: 104px 0 36px; }
+    .hero h1 { font-size: clamp(54px, 17vw, 96px); margin-top: 18px; }
+    .hero h1 .l1, .hero h1 .l2 { text-align: center; padding: 0; }
+    .stage { position: relative; inset: auto; height: 400px; margin-top: -30px; }
+    .bottle-wrap { top: 6%; width: 190px; margin-left: -95px; }
+    .ing { width: 64px; }
+    .hide-sm { display: none; }
+    .hero-foot { flex-direction: column; align-items: stretch; padding-top: 0; margin-top: -20px; gap: 14px; }
+    .hero-card { max-width: none; padding: 22px; }
+    .hero-chip b { margin-left: auto; }
+    .origin { padding: 100px 0; }
+    .facts { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .facts div { padding: 14px 12px; }
+    .facts b { font-size: 28px; }
+    .trio { height: 460px; }
+    .t1 { width: 54%; height: 300px; top: 30px; }
+    .t2 { width: 42%; height: 210px; }
+    .t3 { width: 44%; height: 190px; right: 0; }
+    .r-visual { margin: 0 -18px; padding-left: 18px; padding-right: 18px; }
+    .r-circle { width: 92px; }
+    .r-steps li span { display: none; }
+    .step h3 { font-size: 38px; }
+    .grid { gap: 14px; }
+    .grid .prod:nth-child(even) { margin-top: 40px; }
+    .p-frame { border-radius: 20px; }
+    .p-info { flex-direction: column; gap: 4px; }
+    .p-info h3 { font-size: 22px; }
+    .p-info strong { font-size: 22px; }
+    .p-info p { font-size: 12px; }
+    .liquid-text b { font-size: 108px; }
+    .liquid-text > span { font-size: 15px; }
+    .liquid-text { width: 230px; }
+    .band { height: auto; min-height: 0; padding: 300px 0 50px; align-items: flex-end; }
+    .band::after { background: linear-gradient(180deg, rgba(238, 243, 236, 0) 20%, rgba(238, 243, 236, .85) 70%); }
+    .band-card { padding: 28px 24px; }
+    .band-cap { top: 90px; bottom: auto; right: 18px; }
+    .kit-form { padding: 22px; }
+    .picks { grid-template-columns: 1fr; }
+    .row { flex-direction: column; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .foot-grid > div:first-child { grid-column: 1 / -1; }
+    .nav .wrap { gap: 14px; }
+    .logo { font-size: 26px; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .blob i, .bottle-bob { animation: none; }
+    .r-bottle, .detail-body, .orb-card { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Lumen Skin home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 3a13 13 0 0 1 0 26z" fill="#e9a94b"/><circle cx="16" cy="16" r="4" fill="currentColor"/></svg>
+      Lumen<small>SKIN</small>
+    </a>
+    <div class="nav-links">
+      <a href="#ingredients">Ingredients</a>
+      <a href="#routine">Routine</a>
+      <a href="#results">Results</a>
+      <a href="#shop">Shop</a>
+    </div>
+    <a href="#shop" class="bag" aria-label="Shopping bag">Bag <b id="bag-count">0</b></a>
+  </div>
+</nav>
+
+<!-- HERO: a drawn serum bottle floats in the middle; ingredients sit at several depths -->
+<header class="hero" id="top">
+  <div class="blob blob-a" data-speed="0.12"><i></i></div>
+  <div class="blob blob-b" data-speed="0.3"><i></i></div>
+  <div class="blob blob-c" data-speed="-0.1"><i></i></div>
+
+  <div class="wrap hero-top" data-speed="0.32">
+    <span class="eyebrow">Plant-based skincare · Made in Pune</span>
+    <h1><span class="l1">Skincare,</span><span class="l2">simplified.</span></h1>
+  </div>
+
+  <div class="stage" aria-hidden="true">
+    <div class="layer ing soft" style="left:30%;top:12%;width:70px;--k:.5" data-speed="0.08" data-depth="10" data-icon="leaf"></div>
+    <div class="layer ing hide-sm" style="left:20%;top:44%;width:130px;--k:.35" data-speed="0.22" data-depth="34" data-icon="leaf"></div>
+    <div class="layer ing" style="right:21%;top:22%;width:112px;--k:-.9" data-speed="0.4" data-depth="52" data-icon="citrus"></div>
+    <div class="layer ing" style="left:36%;top:30%;width:34px;--k:.2" data-speed="0.55" data-depth="64" data-icon="drop"></div>
+    <div class="layer ing hide-sm" style="right:33%;top:66%;width:26px;--k:-.2" data-speed="0.16" data-depth="22" data-icon="drop"></div>
+    <div class="layer ing" style="right:36%;top:14%;width:22px;--k:.3" data-speed="0.7" data-depth="80" data-icon="drop"></div>
+    <div class="layer ing" style="left:38%;top:64%;width:56px;--k:1.2" data-speed="0.3" data-depth="44" data-icon="petal"></div>
+    <div class="layer ing hide-sm" style="right:16%;top:52%;width:70px;--k:-.7" data-speed="0.5" data-depth="70" data-icon="petal"></div>
+    <div class="layer ing soft hide-sm" style="right:42%;top:8%;width:48px;--k:-1" data-speed="0.12" data-depth="14" data-icon="petal"></div>
+    <div class="layer ing hide-sm" style="left:5%;top:40%;width:80px;--k:.6" data-speed="0.6" data-depth="76" data-icon="aloe"></div>
+
+    <div class="layer bottle-wrap" data-speed="0.16" data-depth="26">
+      <div class="halo"></div>
+      <svg class="ring" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="none" stroke="rgba(27,42,41,.16)" stroke-dasharray="1 5" stroke-linecap="round"/><circle cx="100" cy="100" r="82" fill="none" stroke="rgba(79,122,99,.22)"/><circle cx="100" cy="18" r="3" fill="#e9a94b"/></svg>
+      <div class="bottle-tilt" id="hero-bottle"><div class="bottle-bob" data-bottle="serum"></div></div>
+    </div>
+  </div>
+
+  <div class="wrap hero-foot">
+    <div class="hero-card glass">
+      <p>Five honest, plant-based formulas for Indian weather. Short ingredient lists, no added fragrance, and a routine that takes about five minutes.</p>
+      <div class="cta-row">
+        <a href="#shop" class="btn btn-ink">Shop the routine
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#ingredients" class="btn btn-soft">What's inside</a>
+      </div>
+    </div>
+    <div class="hero-chip glass">
+      <span class="dot">C</span>
+      <div><strong>Vitamin C serum</strong><span>Amla extract · 30 ml</span></div>
+      <b>₹1,299</b>
+    </div>
+  </div>
+</header>
+
+<!-- ORIGIN: three photos drift at their own speeds and slide inside their frames -->
+<section class="origin">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Grown, not invented</span>
+      <h2>Ingredients you can <em>picture</em>.</h2>
+      <p class="lead">Every Lumen formula starts with a short list of plants we can name, sourced from farms in Maharashtra, Kerala and Uttarakhand, then made in small batches in our Pune lab.</p>
+      <div class="facts">
+        <div class="glass"><b>9</b><span>Ingredients or fewer in most formulas</span></div>
+        <div class="glass"><b>0</b><span>Added fragrance</span></div>
+        <div class="glass"><b>100%</b><span>Vegan, never tested on animals</span></div>
+      </div>
+    </div>
+    <div class="trio">
+      <figure class="t1" data-speed="-0.08"><div class="px-img"><img src="img/aloe-leaves.jpg" alt="Close-up of thick green aloe vera leaves" loading="lazy" /></div><figcaption>Aloe vera leaves</figcaption></figure>
+      <figure class="t2" data-speed="0.1"><div class="px-img"><img src="img/lemons-white.jpg" alt="Whole and halved lemons scattered on a white surface" loading="lazy" /></div><figcaption>Fresh lemons</figcaption></figure>
+      <figure class="t3" data-speed="0.2"><div class="px-img"><img src="img/pink-roses.jpg" alt="Soft pink roses in a bouquet" loading="lazy" /></div><figcaption>Pink roses</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- INGREDIENT ORBIT: pinned; scrolling turns the ring of cards and swaps the details -->
+<section class="orbit" id="ingredients">
+  <div class="orbit-sticky">
+    <div class="wrap">
+      <div class="orbit-copy">
+        <span class="eyebrow">Inside the serum</span>
+        <h2>Five ingredients, <em>one</em> bottle.</h2>
+        <div class="detail glass" aria-live="polite">
+          <div class="detail-body" id="detail-body"></div>
+          <div class="orbit-dots" id="orbit-dots" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="orbit-stage" id="orbit-stage">
+        <svg class="rings" viewBox="0 0 400 400" aria-hidden="true">
+          <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(27,42,41,.14)" stroke-dasharray="2 7" stroke-linecap="round"/>
+          <circle cx="200" cy="200" r="118" fill="none" stroke="rgba(79,122,99,.2)"/>
+          <circle cx="200" cy="200" r="196" fill="none" stroke="rgba(27,42,41,.07)"/>
+          <circle cx="200" cy="40" r="4" fill="#e9a94b"/><circle cx="82" cy="282" r="3" fill="#4f7a63"/><circle cx="318" cy="282" r="3" fill="#b9a7d6"/>
+        </svg>
+        <div class="core"></div>
+        <div class="core-bottle" data-bottle="serum"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROUTINE: the sticky visual swaps products as each step's text passes -->
+<section class="routine" id="routine">
+  <div class="wrap">
+    <div class="routine-head">
+      <span class="eyebrow">The daily routine</span>
+      <h2>Four steps. <em>Five minutes.</em></h2>
+      <p class="lead">Use them all or start with one. Each step is designed to layer comfortably under the next, morning and night.</p>
+    </div>
+    <div class="routine-grid">
+      <div class="r-visual" aria-hidden="true">
+        <div class="r-circle glass" id="r-circle">
+          <i class="r-tint" id="r-tint"></i>
+          <span class="r-time" id="r-time">Morning &amp; night</span>
+          <div class="r-bottle on" data-bottle="cleanser"></div>
+          <div class="r-bottle" data-bottle="serum"></div>
+          <div class="r-bottle" data-bottle="cream"></div>
+          <div class="r-bottle" data-bottle="spf"></div>
+        </div>
+        <ol class="r-steps" id="r-steps">
+          <i class="fill" id="r-fill"></i>
+          <li class="on"><b>1</b><span>Cleanse</span></li>
+          <li><b>2</b><span>Treat</span></li>
+          <li><b>3</b><span>Moisturise</span></li>
+          <li><b>4</b><span>Protect</span></li>
+        </ol>
+      </div>
+      <div class="steps">
+        <article class="step" data-time="Morning &amp; night">
+          <span class="step-num">01</span>
+          <h3>Cleanse, gently.</h3>
+          <p>A soft gel with aloe and green tea that lifts away sunscreen, sweat and city dust without leaving skin feeling tight. Massage onto damp skin for thirty seconds, then rinse.</p>
+          <div class="step-prod glass"><div><strong>Gentle gel cleanser</strong><span>150 ml · for all skin types</span></div><b>₹699</b></div>
+        </article>
+        <article class="step" data-time="Morning">
+          <span class="step-num">02</span>
+          <h3>Treat with vitamin C.</h3>
+          <p>Three or four drops of serum pressed into the face and neck. Amla-derived vitamin C and niacinamide help skin look brighter and more even over time.</p>
+          <div class="step-prod glass"><div><strong>Vitamin C serum</strong><span>30 ml · about two months</span></div><b>₹1,299</b></div>
+        </article>
+        <article class="step" data-time="Morning &amp; night">
+          <span class="step-num">03</span>
+          <h3>Moisturise lightly.</h3>
+          <p>A whipped oat and aloe cream that sinks in fast and feels comfortable in humid summers and dry winters alike. A pea-sized amount is enough.</p>
+          <div class="step-prod glass"><div><strong>Oat &amp; aloe cream</strong><span>50 g · fragrance free</span></div><b>₹999</b></div>
+        </article>
+        <article class="step" data-time="Morning, every day">
+          <span class="step-num">04</span>
+          <h3>Protect, every day.</h3>
+          <p>A mineral SPF 50 sunscreen with a sheer finish. Apply two finger-lengths as the last step each morning and reapply when you are out in the sun.</p>
+          <div class="step-prod glass"><div><strong>Daily mineral sunscreen</strong><span>50 g · SPF 50</span></div><b>₹849</b></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS: a liquid blob morphs with time and scroll; stats count up -->
+<section class="results" id="results">
+  <div class="wrap">
+    <div class="results-head">
+      <span class="eyebrow">How it feels</span>
+      <h2>Light on skin, <em>easy</em> to keep up.</h2>
+    </div>
+    <div class="liquid" id="liquid">
+      <div class="liquid-svg" id="liquid-svg" aria-hidden="true">
+        <svg viewBox="0 0 500 500">
+          <defs>
+            <radialGradient id="lq1" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#d6e6d6"/><stop offset="1" stop-color="#a9c8b2"/></radialGradient>
+            <radialGradient id="lq2" cx="70%" cy="70%" r="70%"><stop offset="0" stop-color="#f7d9b5"/><stop offset="1" stop-color="#f7d9b5" stop-opacity="0"/></radialGradient>
+            <linearGradient id="lq3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9d3ec"/><stop offset="1" stop-color="#eef3ec"/></linearGradient>
+          </defs>
+          <path id="lq-back" fill="url(#lq3)" opacity=".85"/>
+          <path id="lq-main" fill="url(#lq1)"/>
+          <path id="lq-glow" fill="url(#lq2)" opacity=".9"/>
+          <ellipse cx="190" cy="150" rx="46" ry="22" fill="#fff" opacity=".55" transform="rotate(-28 190 150)"/>
+        </svg>
+      </div>
+      <div class="liquid-text"><b><i class="num" data-count="92">92</i>%</b><span>said their skin felt softer after four weeks*</span></div>
+      <div class="stat s1 glass" data-speed="0.12" data-desktop><b><i class="num" data-count="87">87</i>%</b><span>said the serum sank in quickly with no sticky feel*</span></div>
+      <div class="stat s2 glass" data-speed="-0.1" data-desktop><b><i class="num" data-count="84">84</i>%</b><span>found the four-step routine easy to keep up*</span></div>
+      <div class="stat s3 glass" data-speed="0.2" data-desktop><b><i class="num" data-count="120">120</i></b><span>people took part over four weeks*</span></div>
+    </div>
+    <p class="footnote">*Fictional figures from an imaginary survey, written for this design demo. They describe how people said their skin felt, not a clinical or medical result.</p>
+  </div>
+</section>
+
+<!-- SHOP: drawn bottles in front of photos that slide inside their frames -->
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="shop-head">
+      <div><span class="eyebrow">Shop the range</span><h2>The everyday <em>four</em>.</h2></div>
+      <p>Free shipping across India on orders over ₹999. Every bottle is recyclable, and refills arrive in paper pouches.</p>
+    </div>
+    <div class="grid">
+      <article class="prod">
+        <div class="p-frame"><span class="p-badge">Step 1</span><div class="px-img"><img src="img/aloe-closeup.jpg" alt="" loading="lazy" /></div><div class="p-bottle" data-speed="-0.05" data-bottle="cleanser"></div></div>
+        <div class="p-info"><div><h3>Gel cleanser</h3><p>Aloe &amp; green tea · 150 ml</p></div><strong>₹699</strong></div>
+        <button class="add" type="button">Add to bag</button>
+      </article>
+      <article class="prod">
+        <div class="p-frame"><span class="p-badge">Bestseller</span><div class="px-img"><img src="img/lemon-water.jpg" alt="" loading="lazy" /></div><div class="p-bottle" data-speed="-0.05" data-bottle="serum"></div></div>
+        <div class="p-info"><div><h3>Vitamin C serum</h3><p>Amla &amp; niacinamide · 30 ml</p></div><strong>₹1,299</strong></div>
+        <button class="add" type="button">Add to bag</button>
+      </article>
+      <article class="prod">
+        <div class="p-frame"><span class="p-badge">Step 3</span><div class="px-img"><img src="img/lilac-vase.jpg" alt="" loading="lazy" /></div><div class="p-bottle" data-speed="-0.05" data-bottle="cream"></div></div>
+        <div class="p-info"><div><h3>Oat &amp; aloe cream</h3><p>Moisturiser · 50 g</p></div><strong>₹999</strong></div>
+        <button class="add" type="button">Add to bag</button>
+      </article>
+      <article class="prod">
+        <div class="p-frame"><span class="p-badge">New</span><div class="px-img"><img src="img/white-daisy.jpg" alt="" loading="lazy" /></div><div class="p-bottle" data-speed="-0.05" data-bottle="spf"></div></div>
+        <div class="p-info"><div><h3>Daily sunscreen</h3><p>Mineral SPF 50 · 50 g</p></div><strong>₹849</strong></div>
+        <button class="add" type="button">Add to bag</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- BAND: full-bleed lifestyle photo moving slower than the page -->
+<section class="band">
+  <div class="band-bg" data-speed="0.18"><img src="img/woman-table.jpg" alt="A woman at a bright table by a window, preparing skincare next to a mirror and a vase of greenery" loading="lazy" /></div>
+  <div class="wrap" data-speed="-0.08">
+    <div class="band-card glass">
+      <span class="eyebrow">A small daily ritual</span>
+      <h2>Five quiet minutes, <em>twice</em> a day.</h2>
+      <p>No twelve-step routines and no guesswork. Just a few products that do their job and feel good to use.</p>
+    </div>
+  </div>
+  <span class="band-cap">Skincare at home</span>
+</section>
+
+<section class="reviews">
+  <div class="wrap">
+    <div class="rev-head">
+      <div><span class="eyebrow">Kind words</span>
+      <h2>What people say after a <em>month</em> or two.</h2></div>
+      <figure class="rev-photo" data-speed="0.08"><div class="px-img"><img src="img/serum-dropper.jpg" alt="A woman applying a drop of serum to her cheek with a glass dropper" loading="lazy" /></div></figure>
+    </div>
+    <div class="rev-grid">
+      <article class="rev glass" data-speed="-0.04">
+        <div class="stars" aria-label="5 out of 5"></div>
+        <blockquote>“The serum feels like water and doesn't pill under sunscreen. My skin looks a little brighter by the end of the week.”</blockquote>
+        <div class="rev-who"><i style="background:#f5d6b6">A</i><div><strong>Ananya R.</strong><span>Bengaluru · Vitamin C serum</span></div></div>
+      </article>
+      <article class="rev glass" data-speed="0.06">
+        <div class="stars" aria-label="5 out of 5"></div>
+        <blockquote>“Finally a moisturiser that works in Mumbai humidity. Light, no shine, and no smell at all, which I love.”</blockquote>
+        <div class="rev-who"><i style="background:#b9d0bd">K</i><div><strong>Karan M.</strong><span>Mumbai · Oat &amp; aloe cream</span></div></div>
+      </article>
+      <article class="rev glass" data-speed="-0.02">
+        <div class="stars" aria-label="4 out of 5" data-stars="4"></div>
+        <blockquote>“The cleanser is gentle enough for my sensitive skin. I'd love a bigger bottle, but the refill pouch helps.”</blockquote>
+        <div class="rev-who"><i style="background:#d9d3ec">M</i><div><strong>Meera S.</strong><span>Jaipur · Gel cleanser</span></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- KIT BUILDER: a working demo form, nothing is sent -->
+<section class="kit" id="kit">
+  <div class="blob blob-k" data-speed="0.15"><i></i></div>
+  <div class="blob blob-l" data-speed="-0.12"><i></i></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Build your kit</span>
+      <h2>Your routine, <em>your</em> way.</h2>
+      <p class="lead">Pick your skin type and the steps you want. Choose all four and the full routine kit is ₹2,799 instead of ₹3,846.</p>
+      <div class="kit-list">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>Free patch-test sachets with every kit</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>30-day returns, even on opened bottles</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>Paper refill pouches, delivered in 2 to 4 days</div>
+      </div>
+      <figure class="kit-photo"><div class="px-img"><img src="img/towel-cream.jpg" alt="A smiling woman in a bath towel and robe holding an open jar of face cream" loading="lazy" /></div></figure>
+    </div>
+    <form class="kit-form glass" id="kit-form">
+      <fieldset>
+        <legend>Skin type</legend>
+        <div class="pills">
+          <label><input type="radio" name="skin" value="Dry" /><span>Dry</span></label>
+          <label><input type="radio" name="skin" value="Oily" /><span>Oily</span></label>
+          <label><input type="radio" name="skin" value="Combination" checked /><span>Combination</span></label>
+          <label><input type="radio" name="skin" value="Sensitive" /><span>Sensitive</span></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Steps</legend>
+        <div class="picks">
+          <label><input type="checkbox" name="p" value="699" checked /><div><strong>Gel cleanser</strong><span>₹699</span></div></label>
+          <label><input type="checkbox" name="p" value="1299" checked /><div><strong>Vitamin C serum</strong><span>₹1,299</span></div></label>
+          <label><input type="checkbox" name="p" value="999" checked /><div><strong>Oat &amp; aloe cream</strong><span>₹999</span></div></label>
+          <label><input type="checkbox" name="p" value="849" /><div><strong>Daily sunscreen</strong><span>₹849</span></div></label>
+        </div>
+      </fieldset>
+      <div class="total"><span>Kit total</span><div><b id="kit-total">₹2,997</b><small id="kit-save">Add sunscreen for the ₹2,799 full kit</small></div></div>
+      <div class="row">
+        <label for="kit-email" class="sr">Email address</label>
+        <input id="kit-email" type="email" required placeholder="Email for your kit summary" />
+        <button class="btn btn-ink" type="submit">Build my kit</button>
+      </div>
+      <p class="msg" id="kit-msg" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#top" class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 3a13 13 0 0 1 0 26z" fill="#e9a94b"/><circle cx="16" cy="16" r="4" fill="currentColor"/></svg>Lumen<small>SKIN</small></a><p>Plant-based skincare made in small batches in Pune. A design demo by Ravindra Nath Jha.</p></div>
+      <div><h4>Shop</h4><a href="#shop">Cleanser</a><a href="#shop">Serum</a><a href="#shop">Moisturiser</a><a href="#kit">Build a kit</a></div>
+      <div><h4>Learn</h4><a href="#ingredients">Ingredients</a><a href="#routine">Routine</a><a href="#results">Survey notes</a></div>
+      <div><h4>Help</h4><a href="#top">Shipping</a><a href="#top">Returns</a><a href="#top">Contact</a></div>
+    </div>
+    <div class="giant" id="giant" aria-hidden="true">Lumen · skin · Lumen</div>
+    <div class="foot-bottom"><span>© 2026 Lumen Skin (fictional brand, design demo). Product claims are illustrative only.</span><span>Photos: StockSnap, CC0 public domain.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?preview hides the demo badge when capturing the gallery thumbnail
+  if (new URLSearchParams(location.search).has("preview")) document.querySelector(".demo-badge")?.remove();
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+
+  /* ---------- drawn products (SVG) ---------- */
+  const PRODUCTS = {
+    serum: { type: "dropper", glass: "#f7cf96", liquid: "#eea444", cap: "#26332f", l1: "Vitamin C", l2: "serum", sub: "AMLA · 30 ML" },
+    cleanser: { type: "pump", glass: "#d2e4d5", liquid: "#a6c9ae", cap: "#f4f6f1", l1: "Gentle gel", l2: "cleanser", sub: "ALOE · 150 ML" },
+    cream: { type: "jar", glass: "#f3eff8", liquid: "#ffffff", cap: "#bfb2dd", l1: "Oat & aloe", l2: "cream", sub: "MOISTURISER · 50 G" },
+    spf: { type: "tube", glass: "#fbead4", liquid: "#f3cfa5", cap: "#e3a24a", l1: "Daily", l2: "sunscreen", sub: "SPF 50 · 50 G" },
+  };
+  let uid = 0;
+  const label = (x, y, w, h, p) => `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" fill="#fffdf8" opacity=".94"/>
+    <text x="100" y="${y + h * .3}" text-anchor="middle" font-family="Instrument Serif, Georgia, serif" font-size="${w * .21}" letter-spacing="2" fill="#1b2a29">LUMEN</text>
+    <line x1="${100 - w * .18}" x2="${100 + w * .18}" y1="${y + h * .4}" y2="${y + h * .4}" stroke="#e9a94b" stroke-width="1.4"/>
+    <text text-anchor="middle" font-family="Figtree, sans-serif" font-weight="600" font-size="${w * .12}" fill="#1b2a29"><tspan x="100" y="${y + h * .58}">${p.l1.replace("&", "&amp;")}</tspan><tspan x="100" y="${y + h * .58 + w * .14}">${p.l2}</tspan></text>
+    <text x="100" y="${y + h * .9}" text-anchor="middle" font-family="Figtree, sans-serif" font-weight="600" font-size="${w * .066}" letter-spacing=".8" fill="#5b6c68">${p.sub.replace("&", "&amp;")}</text>`;
+  const bottleSVG = (key) => {
+    const p = PRODUCTS[key];
+    const id = "b" + (uid += 1);
+    let body = "", parts = "", lab = "", liquidTop = 200, back = "";
+    if (p.type === "dropper") {
+      body = "M84 124H116C116 142 160 144 160 178V322Q160 346 136 346H64Q40 346 40 322V178C40 144 84 142 84 124Z";
+      liquidTop = 196;
+      back = `<rect x="95" y="112" width="10" height="200" rx="5" fill="#fff" opacity=".35"/>`;
+      parts = `<path d="M80 76V40C80 10 120 10 120 40V76Z" fill="${p.cap}"/><path d="M88 66V40C88 24 96 18 100 18" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="4" stroke-linecap="round"/>
+        <rect x="70" y="72" width="60" height="40" rx="8" fill="${p.cap}"/><rect x="70" y="72" width="60" height="40" rx="8" fill="url(#${id}s)"/>
+        <rect x="80" y="108" width="40" height="18" rx="4" fill="${p.cap}" opacity=".92"/>
+        <path d="M80 84H120M80 92H120M80 100H120" stroke="#fff" stroke-opacity=".12"/>`;
+      lab = label(54, 220, 92, 96, p);
+    } else if (p.type === "pump") {
+      body = "M58 152Q58 128 82 128H118Q142 128 142 152V324Q142 346 120 346H80Q58 346 58 324Z";
+      liquidTop = 168;
+      back = `<rect x="96" y="128" width="8" height="200" rx="4" fill="#fff" opacity=".35"/>`;
+      parts = `<rect x="94" y="72" width="12" height="36" fill="#d9ddd5"/>
+        <path d="M76 52Q76 44 84 44H128Q142 44 150 50L166 58V66H124V74H76Z" fill="${p.cap}" stroke="rgba(27,42,41,.15)"/>
+        <rect x="74" y="104" width="52" height="28" rx="6" fill="${p.cap}" stroke="rgba(27,42,41,.15)"/><rect x="74" y="104" width="52" height="28" rx="6" fill="url(#${id}s)"/>`;
+      lab = label(66, 204, 68, 104, p);
+    } else if (p.type === "jar") {
+      body = "M30 252Q30 238 44 238H156Q170 238 170 252V324Q170 346 148 346H52Q30 346 30 324Z";
+      liquidTop = 244;
+      parts = `<rect x="34" y="194" width="132" height="48" rx="10" fill="${p.cap}"/><rect x="34" y="194" width="132" height="48" rx="10" fill="url(#${id}s)"/>
+        <path d="M50 200V236M66 200V236M82 200V236M98 200V236M114 200V236M130 200V236M146 200V236" stroke="#fff" stroke-opacity=".2"/>`;
+      lab = label(54, 254, 92, 80, p);
+    } else {
+      body = "M38 86V72H162V86C162 126 142 250 134 300H66C58 250 38 126 38 86Z";
+      liquidTop = 0;
+      parts = `<rect x="34" y="56" width="132" height="20" rx="4" fill="${p.glass}" stroke="rgba(27,42,41,.12)"/>
+        <path d="M48 58V74M60 58V74M72 58V74M84 58V74M96 58V74M108 58V74M120 58V74M132 58V74M144 58V74M156 58V74" stroke="rgba(27,42,41,.12)"/>
+        <rect x="64" y="298" width="72" height="48" rx="8" fill="${p.cap}"/><rect x="64" y="298" width="72" height="48" rx="8" fill="url(#${id}s)"/>`;
+      lab = label(62, 128, 76, 108, p);
+    }
+    return `<svg viewBox="0 0 200 362" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="${p.glass}"/><stop offset=".42" stop-color="#ffffff" stop-opacity=".7"/><stop offset="1" stop-color="${p.glass}"/></linearGradient>
+        <linearGradient id="${id}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.liquid}" stop-opacity=".7"/><stop offset="1" stop-color="${p.liquid}"/></linearGradient>
+        <linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".3" stop-color="#fff" stop-opacity=".4"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <clipPath id="${id}k"><path d="${body}"/></clipPath>
+      </defs>
+      <ellipse cx="100" cy="350" rx="70" ry="7" fill="#1b2a29" opacity=".12"/>
+      <path d="${body}" fill="url(#${id}g)"/>
+      <g clip-path="url(#${id}k)">
+        ${liquidTop ? `<path d="M20 ${liquidTop}Q60 ${liquidTop - 10} 100 ${liquidTop}T180 ${liquidTop}V362H20Z" fill="url(#${id}l)"/>` : ""}
+        ${back}
+        <rect x="20" y="0" width="160" height="362" fill="url(#${id}s)" opacity=".8"/>
+      </g>
+      <path d="${body}" fill="none" stroke="#1b2a29" stroke-opacity=".14" stroke-width="1.5"/>
+      ${lab}
+      <path d="M50 ${p.type === "tube" ? 96 : p.type === "jar" ? 256 : 186}V${p.type === "tube" ? 200 : 316}" stroke="#fff" stroke-opacity=".65" stroke-width="5" stroke-linecap="round"/>
+      ${parts}
+    </svg>`;
+  };
+  document.querySelectorAll("[data-bottle]").forEach((el) => { el.innerHTML = bottleSVG(el.dataset.bottle); });
+
+  /* ---------- ingredient icons (SVG) ---------- */
+  const ICONS = {
+    leaf: `<svg viewBox="0 0 100 100"><defs><linearGradient id="lf" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4f7a63"/><stop offset="1" stop-color="#9cc2a3"/></linearGradient></defs><path d="M8 92C8 40 44 8 92 8C92 60 60 92 8 92Z" fill="url(#lf)"/><path d="M12 88C38 62 60 40 86 14M34 66C34 56 36 48 38 42M50 50C56 50 64 48 70 46M58 40C58 32 60 26 62 22" fill="none" stroke="#eef3ec" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/></svg>`,
+    citrus: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#f2b448"/><circle cx="50" cy="50" r="40" fill="#fbe7b2"/>${Array.from({ length: 9 }, (_, i) => { const a = (i / 9) * Math.PI * 2, b = ((i + 1) / 9) * Math.PI * 2, r = 35, g = .1; return `<path d="M50 50L${(50 + r * Math.cos(a + g)).toFixed(1)} ${(50 + r * Math.sin(a + g)).toFixed(1)}A${r} ${r} 0 0 1 ${(50 + r * Math.cos(b - g)).toFixed(1)} ${(50 + r * Math.sin(b - g)).toFixed(1)}Z" fill="#f6c45e" opacity=".9"/>`; }).join("")}<circle cx="50" cy="50" r="4" fill="#fbe7b2"/></svg>`,
+    drop: `<svg viewBox="0 0 40 56"><defs><linearGradient id="dp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#b7d3c8"/></linearGradient></defs><path d="M20 2C20 2 38 26 38 37A18 18 0 0 1 2 37C2 26 20 2 20 2Z" fill="url(#dp)" stroke="#9dbfb1" stroke-opacity=".6"/><path d="M11 36C11 30 14 25 16 22" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>`,
+    petal: `<svg viewBox="0 0 60 84"><defs><linearGradient id="pt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7d3d6"/><stop offset="1" stop-color="#e9a8b0"/></linearGradient></defs><path d="M30 2C56 22 58 60 30 82C2 60 4 22 30 2Z" fill="url(#pt)"/><path d="M30 12V74" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/></svg>`,
+    aloe: `<svg viewBox="0 0 60 120"><defs><linearGradient id="al" x1="0" x2="1"><stop offset="0" stop-color="#6f9e7d"/><stop offset="1" stop-color="#a9cdb0"/></linearGradient></defs><path d="M30 2C40 30 46 70 44 118H16C14 70 20 30 30 2Z" fill="url(#al)"/><path d="M19 40l-5 3 5 2M17 62l-5 3 5 2M41 50l5 3-5 2M43 74l5 3-5 2" fill="#5e8b6c"/><path d="M28 20C26 50 26 86 27 112" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none"/></svg>`,
+  };
+  const ORB_ICONS = {
+    amla: `<svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="24" fill="#c9df9a"/><path d="M32 10C24 22 24 46 32 58M32 10C40 22 40 46 32 58M14 24C22 30 22 40 14 46M50 24C42 30 42 40 50 46" fill="none" stroke="#9fbf6a" stroke-width="1.6"/><path d="M32 10C32 6 35 3 39 3" stroke="#4f7a63" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="24" cy="24" rx="5" ry="3" fill="#fff" opacity=".6" transform="rotate(-30 24 24)"/></svg>`,
+    b3: `<svg viewBox="0 0 64 64"><g fill="none" stroke="#4f7a63" stroke-width="2.2"><path d="M32 8L52 20V44L32 56L12 44V20Z" fill="#e3eee4"/><path d="M32 20L42 26V38L32 44L22 38V26Z"/></g><circle cx="32" cy="8" r="4" fill="#e9a94b"/><circle cx="52" cy="44" r="4" fill="#b9a7d6"/><circle cx="12" cy="44" r="4" fill="#9cc2a3"/></svg>`,
+    aloe: `<svg viewBox="0 0 64 64"><path d="M32 4C38 20 40 40 38 60H26C24 40 26 20 32 4Z" fill="#8fbb98"/><path d="M24 60C16 44 10 32 6 22C18 30 26 42 30 60Z" fill="#6f9e7d"/><path d="M40 60C48 44 54 32 58 22C46 30 38 42 34 60Z" fill="#a9cdb0"/></svg>`,
+    centella: `<svg viewBox="0 0 64 64"><path d="M32 56C14 56 6 42 8 30C10 16 22 8 32 14C42 8 54 16 56 30C58 42 50 56 32 56Z" fill="#9cc2a3"/><path d="M32 14V40M32 40L18 28M32 40L46 28M32 40L22 50M32 40L42 50" stroke="#e7f0e6" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M32 40V62" stroke="#4f7a63" stroke-width="2.4" stroke-linecap="round"/></svg>`,
+    rose: `<svg viewBox="0 0 64 64"><path d="M32 6C32 6 50 30 50 42A18 18 0 0 1 14 42C14 30 32 6 32 6Z" fill="#f4d4d7"/><path d="M32 30C40 34 42 44 36 50C30 54 24 48 26 42C28 36 34 38 34 42" fill="none" stroke="#d98d98" stroke-width="2" stroke-linecap="round"/></svg>`,
+  };
+  document.querySelectorAll("[data-icon]").forEach((el) => { el.innerHTML = ICONS[el.dataset.icon]; });
+  const star = `<svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.8 1-5.8L1.5 7.7l5.9-.8z"/></svg>`;
+  const starOff = star.replace('fill="currentColor"', 'fill="rgba(27,42,41,.18)"');
+  document.querySelectorAll(".stars").forEach((el) => { const n = Number(el.dataset.stars || 5); el.innerHTML = star.repeat(n) + starOff.repeat(5 - n); });
+
+  /* ---------- ingredient orbit data ---------- */
+  const INGREDIENTS = [
+    { icon: "amla", name: "Amla vitamin C", from: "Indian gooseberry · Uttar Pradesh", tag: "Brightening", text: "A stable vitamin C from amla fruit that helps skin look brighter and more even with regular use.", chips: ["10% in the serum", "Use mornings"] },
+    { icon: "b3", name: "Niacinamide", from: "Vitamin B3 · plant-fermented", tag: "Balancing", text: "Helps skin feel smoother and look less shiny through the day. Pairs comfortably with vitamin C.", chips: ["4%", "Suits oily skin"] },
+    { icon: "aloe", name: "Aloe vera", from: "Inner leaf juice · Rajasthan", tag: "Soothing", text: "Cold-pressed aloe gives the serum its watery, cooling texture and helps skin feel calm after sun or travel.", chips: ["Base ingredient", "Cooling feel"] },
+    { icon: "centella", name: "Centella asiatica", from: "Gotu kola leaf · Kerala", tag: "Comforting", text: "A traditional leafy herb used in many gentle formulas. It helps skin feel comfortable, especially when it is dry.", chips: ["Leaf extract", "Suits sensitive skin"] },
+    { icon: "rose", name: "Rose water", from: "Steam-distilled petals · Kannauj", tag: "Refreshing", text: "Real rose distillate in place of added perfume. It gives a soft, fresh feel and almost no scent.", chips: ["No added fragrance", "Hydrating base"] },
+  ];
+  const stage = document.getElementById("orbit-stage");
+  const cards = INGREDIENTS.map((ing) => {
+    const c = document.createElement("div");
+    c.className = "orb-card glass";
+    c.setAttribute("aria-hidden", "true");
+    c.innerHTML = `<div class="ic">${ORB_ICONS[ing.icon]}</div><strong>${ing.name}</strong>`;
+    stage.append(c);
+    return c;
+  });
+  const dots = document.getElementById("orbit-dots");
+  dots.innerHTML = INGREDIENTS.map(() => "<i></i>").join("");
+  const dotEls = [...dots.children];
+  const detailBody = document.getElementById("detail-body");
+  const fillDetail = (i) => {
+    const d = INGREDIENTS[i];
+    detailBody.innerHTML = `<div class="detail-top"><span class="detail-num"><b>0${i + 1}</b> / 0${INGREDIENTS.length}</span><span class="detail-tag">${d.tag}</span></div><h3>${d.name}</h3><span class="from">${d.from}</span><p>${d.text}</p><div class="chips">${d.chips.map((c) => `<span>${c}</span>`).join("")}</div>`;
+  };
+  let activeIng = -1, swapTimer = null;
+  const setIngredient = (i) => {
+    if (i === activeIng) return;
+    const first = activeIng < 0;
+    activeIng = i;
+    cards.forEach((c, j) => c.classList.toggle("on", j === i));
+    dotEls.forEach((d, j) => d.classList.toggle("on", j === i));
+    if (first || reduce) { fillDetail(i); return; }
+    detailBody.classList.add("swap");
+    clearTimeout(swapTimer);
+    swapTimer = setTimeout(() => { fillDetail(activeIng); detailBody.classList.remove("swap"); }, 220);
+  };
+
+  /* ---------- elements ---------- */
+  const nav = document.getElementById("nav");
+  const hero = document.querySelector(".hero");
+  const heroBottle = document.getElementById("hero-bottle");
+  const speedEls = [...document.querySelectorAll("[data-speed]")];
+  const innerImgs = [...document.querySelectorAll(".px-img img")];
+  const orbit = document.getElementById("ingredients");
+  const steps = [...document.querySelectorAll(".step")];
+  const rBottles = [...document.querySelectorAll(".r-bottle")];
+  const rItems = [...document.querySelectorAll("#r-steps li")];
+  const rFill = document.getElementById("r-fill");
+  const rTime = document.getElementById("r-time");
+  const rTint = document.getElementById("r-tint");
+  const TINTS = ["#cfe3d3", "#f8d6a0", "#ddd4f2", "#fbdcbc"];
+  const giant = document.getElementById("giant");
+
+  let mouseX = 0, mouseY = 0, frame = null, activeStep = -1;
+
+  const render = () => {
+    frame = null;
+    const h = window.innerHeight;
+    const w = window.innerWidth;
+    const y = window.scrollY;
+    nav.classList.toggle("is-solid", y > 60);
+
+    if (!reduce) {
+      const soft = w < 700 ? 0.5 : 1;
+      // 1. data-speed layers. Hero layers move by scrollY × speed so they start at rest;
+      //    everything else by its distance from the middle of the screen × speed,
+      //    measured from the untransformed position so the offset never feeds back.
+      for (const el of speedEls) {
+        const inHero = el.closest(".hero");
+        if (inHero && y > h * 1.6) continue;
+        if (w < 900 && el.hasAttribute("data-desktop")) { if (el._oy) { el._oy = 0; el.style.transform = ""; } continue; }
+        const r = el.getBoundingClientRect();
+        const top = r.top - (el._oy || 0);
+        if (!inHero && (top + r.height < -h || top > h * 2)) continue;
+        const speed = Number(el.dataset.speed);
+        const offset = inHero ? y * speed * soft : (top + r.height / 2 - h / 2) * speed;
+        const depth = el.dataset.depth ? Number(el.dataset.depth) : 0;
+        el._oy = offset + mouseY * depth;
+        el.style.transform = `translate3d(${(mouseX * depth).toFixed(1)}px, ${el._oy.toFixed(1)}px, 0)`;
+      }
+
+      // 2. Hero: one rotation value that the ring and ingredients multiply by their own factor;
+      //    the bottle tilts with scroll and leans toward the mouse
+      if (y < h * 1.6) {
+        hero.style.setProperty("--r", (y * 0.12).toFixed(2));
+        const spin = Math.min(y * 0.025, 18);
+        heroBottle.style.transform = `perspective(900px) rotateY(${(mouseX * -22).toFixed(2)}deg) rotateX(${(mouseY * 12).toFixed(2)}deg) rotate(${(spin + mouseX * -4).toFixed(2)}deg)`;
+      }
+
+      // 3. Photos slide inside their frames
+      for (const img of innerImgs) {
+        const box = img.parentElement.getBoundingClientRect();
+        if (box.bottom < 0 || box.top > h) continue;
+        const p = (box.top + box.height) / (h + box.height); // 1 entering, 0 leaving
+        img.style.transform = `translate3d(0, ${((p - 0.5) * 18).toFixed(2)}%, 0)`;
+      }
+
+      // giant footer word slides sideways
+      const gr = giant.getBoundingClientRect();
+      if (gr.top < h) giant.style.transform = `translate3d(${(-(h - gr.top) / (h + gr.height) * 24).toFixed(2)}%, 0, 0)`;
+    }
+
+    // 4. Ingredient orbit: progress through the pinned section turns the ring of cards
+    const or = orbit.getBoundingClientRect();
+    const op = clamp(-or.top / Math.max(1, or.height - h));
+    const n = INGREDIENTS.length;
+    const idx = Math.min(n - 1, Math.round(op * (n - 1)));
+    const turn = reduce ? idx : op * (n - 1);
+    const R = stage.offsetWidth * (w < 900 ? 0.38 : 0.4);
+    const step = 360 / n;
+    cards.forEach((c, j) => {
+      const a = ((180 + (j - turn) * step) * Math.PI) / 180;
+      const near = 1 - Math.min(1, Math.abs(j - turn));
+      c.style.transform = `translate3d(${(Math.cos(a) * R).toFixed(1)}px, ${(Math.sin(a) * R).toFixed(1)}px, 0) scale(${(0.9 + near * 0.22).toFixed(3)})`;
+      c.style.zIndex = j === idx ? 3 : 1;
+    });
+    stage.style.setProperty("--orb", (turn * step).toFixed(2));
+    setIngredient(idx);
+
+    // 5. Routine: the step whose top has passed 55% of the screen is active
+    let s = 0;
+    steps.forEach((st, i) => { if (st.getBoundingClientRect().top < h * 0.55) s = i; });
+    if (s !== activeStep) {
+      activeStep = s;
+      rBottles.forEach((b, i) => b.classList.toggle("on", i === s));
+      rItems.forEach((li, i) => { li.classList.toggle("on", i === s); li.classList.toggle("done", i < s); });
+      rTime.innerHTML = steps[s].dataset.time;
+      rTint.style.backgroundColor = TINTS[s];
+    }
+    const first = steps[0].getBoundingClientRect(), last = steps[steps.length - 1].getBoundingClientRect();
+    const rp = clamp((h * 0.55 - first.top) / Math.max(1, last.top - first.top));
+    rFill.style.width = `calc((100% - 44px) * ${rp.toFixed(3)})`;
+  };
+
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+
+  // Hero layers follow the mouse (nearest ingredients move furthest), pointer: fine only
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    hero.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * -1;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * -1;
+      schedule();
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = 0; mouseY = 0; schedule(); });
+  }
+  render();
+
+  /* ---------- liquid blob: points on a circle whose radii wobble, joined with smooth curves ---------- */
+  const lqMain = document.getElementById("lq-main"), lqBack = document.getElementById("lq-back"), lqGlow = document.getElementById("lq-glow");
+  const blobPath = (t, R, cx, cy, seed, amp) => {
+    const n = 8, pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const r = R * (1 + amp * Math.sin(t * 0.9 + i * 1.7 + seed) + amp * 0.7 * Math.sin(t * 1.4 + i * 2.9 + seed * 2));
+      pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+    }
+    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+    for (let i = 0; i < n; i++) {
+      const p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
+      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+      d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+    }
+    return d + "Z";
+  };
+  const liquidSvg = document.getElementById("liquid-svg");
+  let lqRunning = false;
+  const drawBlob = (now) => {
+    const t = now / 1000 * 0.6 + window.scrollY * 0.004;
+    lqBack.setAttribute("d", blobPath(t + 2, 222, 262, 258, 1.3, 0.06));
+    lqMain.setAttribute("d", blobPath(t, 196, 250, 250, 0, 0.07));
+    lqGlow.setAttribute("d", blobPath(t * 1.3, 120, 290, 290, 3.1, 0.12));
+    if (!reduce) {
+      const r = liquidSvg.getBoundingClientRect();
+      const p = clamp((window.innerHeight - r.top) / (window.innerHeight + r.height));
+      liquidSvg.style.scale = (0.86 + Math.sin(p * Math.PI) * 0.14).toFixed(3);
+    }
+    if (lqRunning) requestAnimationFrame(drawBlob);
+  };
+  drawBlob(0);
+  if (!reduce) {
+    new IntersectionObserver((entries) => {
+      const vis = entries[0].isIntersecting;
+      if (vis && !lqRunning) { lqRunning = true; requestAnimationFrame(drawBlob); }
+      if (!vis) lqRunning = false;
+    }).observe(liquidSvg);
+  }
+
+  /* ---------- count-up numbers ---------- */
+  const counters = document.querySelectorAll("[data-count]");
+  if (!reduce) counters.forEach((el) => { el.textContent = "0"; });
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      const end = Number(entry.target.dataset.count);
+      if (reduce) { entry.target.textContent = end; return; }
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / 1500);
+        entry.target.textContent = Math.round(end * (1 - Math.pow(1 - t, 3)));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach((el) => io.observe(el));
+
+  /* ---------- small working interactions ---------- */
+  let bag = 0;
+  const bagCount = document.getElementById("bag-count");
+  document.querySelectorAll(".add").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      bag += 1;
+      bagCount.textContent = bag;
+      btn.textContent = "Added to bag";
+      btn.classList.add("added");
+      setTimeout(() => { btn.textContent = "Add to bag"; btn.classList.remove("added"); }, 1600);
+    });
+  });
+
+  const form = document.getElementById("kit-form");
+  const totalEl = document.getElementById("kit-total"), saveEl = document.getElementById("kit-save");
+  const inr = (v) => "₹" + v.toLocaleString("en-IN");
+  const updateKit = () => {
+    const picked = [...form.querySelectorAll('input[name="p"]:checked')];
+    const sum = picked.reduce((a, el) => a + Number(el.value), 0);
+    if (picked.length === 4) { totalEl.textContent = inr(2799); saveEl.textContent = `Full routine kit · you save ${inr(sum - 2799)}`; }
+    else { totalEl.textContent = inr(sum); saveEl.textContent = picked.length ? `Pick all four for the ${inr(2799)} full kit` : "Pick at least one step"; }
+  };
+  form.addEventListener("change", updateKit);
+  updateKit();
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const picked = form.querySelectorAll('input[name="p"]:checked').length;
+    const skin = form.querySelector('input[name="skin"]:checked').value;
+    document.getElementById("kit-msg").textContent = picked
+      ? `Your ${picked}-step kit for ${skin.toLowerCase()} skin is ready (${totalEl.textContent}). Demo only: nothing was sent or charged.`
+      : "Pick at least one step to build a kit.";
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Momo Mountain — Himalayan Momo House, Delhi (Parallax Website Demo)</title>
+<meta name="description" content="A free parallax restaurant website demo for a fictional Himalayan momo house in Delhi: layered mountain hero, pinned steamer scene, how-momos-are-made sequence and a horizontal menu, built with HTML, CSS, GSAP ScrollTrigger and Lenis by Ravindra Nath Jha." />
+<link rel="canonical" href="https://ravindranathjha.in/demos/parallax-momos/index.html" />
+<meta property="og:title" content="Momo Mountain — Parallax Momo Restaurant Website Demo" />
+<meta property="og:description" content="Layered Himalayan ridges, a bamboo steamer that lifts its lid on scroll, a pleat-by-pleat making-of scene and a sideways menu." />
+<meta property="og:image" content="https://ravindranathjha.in/demos/parallax-momos/preview.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --night: #161a33;
+    --indigo: #232a52;
+    --indigo-2: #2f3766;
+    --mist: #f1eadc;
+    --mist-2: #e4dac6;
+    --ink: #1b1d2c;
+    --bamboo: #c99a5b;
+    --bamboo-d: #8a5e2c;
+    --chilli: #cf3b2b;
+    --chilli-d: #8f2a1c;
+    --saffron: #eaa53a;
+    --pine: #2f5d50;
+    --flag-b: #3f5f9e;
+    --flag-w: #efe7d6;
+    --flag-r: #c4452f;
+    --flag-g: #3e7a59;
+    --flag-y: #e0b04a;
+    --display: "Gloock", Georgia, serif;
+    --sans: "Hanken Grotesk", system-ui, sans-serif;
+    --ease: cubic-bezier(.2, .8, .2, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: clip; }
+  body { background: var(--night); color: var(--mist); font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrap { width: min(1240px, 100% - 48px); margin-inline: auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+  .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; opacity: .7; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: .98; letter-spacing: -.01em; }
+  h2 { font-size: clamp(44px, 6.4vw, 96px); text-wrap: balance; }
+  .ch { display: inline-block; will-change: transform; }
+
+  /* grain over everything */
+  body::after { content: ""; position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .09; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: overlay; }
+
+  /* ---------- buttons ---------- */
+  .btn { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 99px; font-weight: 800; font-size: 15px; letter-spacing: .02em; border: 0; cursor: pointer; transition: background .3s, color .3s, box-shadow .3s; will-change: transform; }
+  .btn-red { background: var(--chilli); color: #fff8ee; box-shadow: 0 14px 34px -12px rgba(207, 59, 43, .8); }
+  .btn-red:hover { background: #e04a37; }
+  .btn-ghost { background: rgba(241, 234, 220, .12); color: var(--mist); box-shadow: inset 0 0 0 1.5px rgba(241, 234, 220, .45); backdrop-filter: blur(6px); }
+  .btn-ghost:hover { background: rgba(241, 234, 220, .22); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px clamp(16px, 3vw, 40px); transition: background .4s, box-shadow .4s, padding .4s; }
+  .nav.solid { background: rgba(22, 26, 51, .88); backdrop-filter: blur(14px); box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .8); padding-block: 10px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 22px; line-height: 1; white-space: nowrap; }
+  .logo svg { width: 38px; height: 38px; flex: none; }
+  .nav-links { display: flex; gap: 6px; list-style: none; }
+  .nav-links a { display: block; padding: 8px 14px; border-radius: 99px; font-size: 14px; font-weight: 700; opacity: .85; transition: background .3s, opacity .3s; }
+  .nav-links a:hover { background: rgba(241, 234, 220, .12); opacity: 1; }
+  .nav .btn { padding: 11px 20px; font-size: 14px; }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; height: 100vh; min-height: 620px; overflow: hidden; background: linear-gradient(180deg, #141733 0%, #262c5a 34%, #5a5486 52%, #c9876a 66%, #f0b27a 74%, #f3c48e 80%); isolation: isolate; }
+  .ly, .mz { position: absolute; inset: 0; pointer-events: none; will-change: transform; }
+  .stars { position: absolute; inset: 0 0 50% 0; background-image: radial-gradient(1.5px 1.5px at 12% 18%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 28% 9%, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 44% 22%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 63% 12%, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 78% 26%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 88% 8%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 6% 34%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 94% 38%, #fff 50%, transparent 51%); opacity: .55; }
+  .bgword { position: absolute; left: 50%; top: 14vh; transform: translateX(-50%); font-family: var(--display); font-size: 36vw; line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(241, 234, 220, .14); white-space: nowrap; letter-spacing: -.02em; }
+  .sun { position: absolute; left: 50%; top: 44vh; width: 34vw; max-width: 520px; aspect-ratio: 1; margin-left: min(-17vw, -260px); border-radius: 50%; background: radial-gradient(circle, #ffe2a6 0%, #f8b866 38%, rgba(240, 150, 90, .55) 56%, rgba(240, 150, 90, 0) 70%); }
+  .ridge { position: absolute; left: -6%; width: 112%; bottom: -60vh; display: flex; flex-direction: column; }
+  .ridge svg { display: block; width: 100%; flex: none; }
+  .ridge i { display: block; height: 60vh; flex: none; }
+  .r1 svg { height: 60vh; } .r1 i { background: #737fae; }
+  .r2 svg { height: 48vh; } .r2 i { background: #59639c; }
+  .r3 svg { height: 38vh; } .r3 i { background: #444d83; }
+  .r4 svg { height: 29vh; } .r4 i { background: #2f3766; }
+  .r5 svg { height: 21vh; } .r5 i { background: #1c2244; }
+  .mist { position: absolute; left: -10%; right: -10%; height: 22vh; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(246, 232, 220, .55), rgba(246, 232, 220, 0) 68%); filter: blur(6px); }
+  .mist.m1 { bottom: 34vh; animation: drift 26s ease-in-out infinite alternate; }
+  .mist.m2 { bottom: 20vh; opacity: .7; animation: drift 34s ease-in-out infinite alternate-reverse; }
+  .mist.m3 { bottom: 4vh; opacity: .45; height: 16vh; animation: drift 30s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
+  .flags { position: absolute; left: 0; width: 100%; bottom: 26vh; height: 22vh; overflow: visible; }
+  .flags .flag { transform-box: fill-box; transform-origin: 50% 0; animation: sway 3.2s ease-in-out infinite alternate; }
+  @keyframes sway { from { transform: rotate(-7deg) skewX(-4deg); } to { transform: rotate(7deg) skewX(4deg); } }
+
+  .hero-copy { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 15vh 20px 0; pointer-events: none; }
+  .hero-copy .eyebrow { color: #f6d8a8; }
+  .hero h1 { margin-top: 18px; font-size: clamp(64px, 11vw, 176px); line-height: .9; color: #fbf3e4; text-shadow: 0 10px 50px rgba(10, 12, 30, .55); }
+  .hero h1 .w { display: inline-block; white-space: nowrap; }
+  .hero-tag { margin-top: 18px; max-width: 520px; font-size: clamp(16px, 1.3vw, 19px); font-weight: 500; color: #efe4d3; text-shadow: 0 2px 16px rgba(10, 12, 30, .6); }
+  .hero-cta { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; pointer-events: auto; }
+
+  .steamer-hero { position: absolute; left: 50%; bottom: -5vh; width: min(46vw, 620px); margin-left: calc(min(46vw, 620px) / -2); z-index: 6; }
+  .steamer-hero svg { width: 100%; height: auto; display: block; overflow: visible; filter: drop-shadow(0 30px 40px rgba(8, 10, 24, .6)); }
+  .wisps { position: absolute; left: 10%; right: 10%; bottom: 62%; height: 70%; }
+  .wisps path { fill: none; stroke: rgba(255, 250, 240, .55); stroke-width: 9; stroke-linecap: round; filter: blur(3px); animation: wisp 4.8s ease-in infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+  .wisps path:nth-child(2) { animation-delay: -1.6s; stroke-width: 12; }
+  .wisps path:nth-child(3) { animation-delay: -3.2s; }
+  .wisps path:nth-child(4) { animation-delay: -2.4s; stroke-width: 7; }
+  @keyframes wisp { 0% { transform: translateY(40px) scaleY(.6); opacity: 0; } 25% { opacity: .9; } 100% { transform: translateY(-120px) scaleY(1.25); opacity: 0; } }
+  .ing { position: absolute; display: block; }
+  .ing svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .ing .bob { width: 100%; height: 100%; animation: bob 6s ease-in-out infinite alternate; }
+  @keyframes bob { from { transform: translateY(-10px) rotate(-6deg); } to { transform: translateY(12px) rotate(8deg); } }
+  .blur-1 { filter: blur(1.5px); } .blur-2 { filter: blur(4px); } .blur-3 { filter: blur(7px); }
+  .scroll-cue { position: absolute; z-index: 7; right: clamp(16px, 3vw, 40px); bottom: 32px; display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: #fbf3e4; }
+  .scroll-cue span { width: 1.5px; height: 46px; background: linear-gradient(#fbf3e4, transparent); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- intro ---------- */
+  .intro { position: relative; background: linear-gradient(180deg, #1c2244 0%, #2a2f57 10%, var(--mist) 26%); color: var(--ink); padding: 12vh 0 14vh; overflow: hidden; }
+  .rows { display: grid; gap: 6px; margin-bottom: 9vh; }
+  .row { display: flex; gap: .4em; white-space: nowrap; font-family: var(--display); font-size: clamp(56px, 10vw, 160px); line-height: 1; will-change: transform; }
+  .row span:nth-child(odd) { color: var(--mist); }
+  .row span:nth-child(even) { color: transparent; -webkit-text-stroke: 1.5px var(--mist); }
+  .row.r-b { transform: translateX(-30%); }
+  .row.r-b span:nth-child(odd) { color: var(--chilli); }
+  .row.r-b span:nth-child(even) { -webkit-text-stroke-color: var(--ink); }
+  .row .dot { color: var(--saffron) !important; -webkit-text-stroke: 0 !important; }
+  .intro-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 6vw, 90px); align-items: center; }
+  .intro .eyebrow { color: var(--chilli-d); }
+  .intro h2 { margin: 16px 0 22px; color: var(--indigo); }
+  .intro p { max-width: 540px; color: #3d3f52; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 34px; }
+  .stat { padding: 20px 22px; border-radius: 22px; background: #fff8ec; box-shadow: 0 18px 40px -26px rgba(35, 42, 82, .5), inset 0 0 0 1px rgba(35, 42, 82, .08); }
+  .stat b { display: block; font-family: var(--display); font-weight: 400; font-size: 46px; line-height: 1; color: var(--indigo); }
+  .stat > span { font-size: 14px; font-weight: 600; color: #5a5c70; }
+  .collage { position: relative; height: clamp(420px, 48vw, 620px); }
+  .frame { position: absolute; overflow: hidden; border-radius: 28px; box-shadow: 0 40px 60px -30px rgba(22, 26, 51, .6); }
+  .frame img { width: 100%; height: 125%; object-fit: cover; will-change: transform; }
+  .frame.f1 { left: 0; top: 0; width: 72%; height: 64%; }
+  .frame.f2 { right: 0; bottom: 0; width: 56%; height: 52%; border-radius: 50%; aspect-ratio: 1; height: auto; box-shadow: 0 40px 60px -30px rgba(22, 26, 51, .7), 0 0 0 10px var(--mist); }
+  .frame.f2 img { height: 100%; }
+  .frame figcaption { position: absolute; left: 14px; bottom: 14px; padding: 6px 12px; border-radius: 99px; background: rgba(22, 26, 51, .72); color: var(--mist); font-size: 12px; font-weight: 700; }
+  .frame.f2 figcaption { left: 50%; transform: translateX(-50%); bottom: 18px; white-space: nowrap; }
+  .collage .ing { z-index: 3; }
+
+  /* ---------- steam scene ---------- */
+  .steam { position: relative; height: 100vh; min-height: 640px; overflow: hidden; background: radial-gradient(ellipse 70% 60% at 50% 88%, #6b4520 0%, #3a2414 40%, #1b120c 75%); color: var(--mist); }
+  .steam-head { position: absolute; z-index: 4; top: 11vh; left: 0; right: 0; text-align: center; padding: 0 20px; }
+  .steam-head .eyebrow { color: var(--saffron); }
+  .steam-head h2 { margin-top: 12px; font-size: clamp(46px, 6.6vw, 104px); }
+  .steam-head p { margin: 12px auto 0; max-width: 520px; color: #d9c8b0; font-size: 16px; }
+  .stage { position: absolute; inset: 0; }
+  .basket { position: absolute; left: 50%; bottom: -4vh; width: min(44vw, 600px); margin-left: calc(min(44vw, 600px) / -2); z-index: 3; }
+  .basket svg { width: 100%; height: auto; display: block; overflow: visible; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .6)); }
+  .lid { position: absolute; left: 50%; bottom: calc(-4vh + min(44vw, 600px) * .37); width: min(44vw, 600px); margin-left: calc(min(44vw, 600px) / -2); z-index: 6; transform: translate(34vw, -46vh) rotate(24deg); }
+  .lid svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 30px rgba(0, 0, 0, .5)); }
+  .puff { position: absolute; left: 50%; bottom: calc(-4vh + min(44vw, 600px) * .42); width: 220px; height: 220px; margin-left: -110px; margin-bottom: -110px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 252, 245, .9) 0%, rgba(255, 252, 245, .45) 45%, rgba(255, 252, 245, 0) 70%); filter: blur(10px); opacity: 0; z-index: 5; pointer-events: none; }
+  .dish { position: absolute; z-index: 4; left: calc(50% + var(--x)); top: calc(var(--y)); width: var(--d); margin-left: calc(var(--d) / -2); text-align: center; }
+  .dish .disc { width: var(--d); aspect-ratio: 1; border-radius: 50%; overflow: hidden; box-shadow: 0 30px 40px -18px rgba(0, 0, 0, .75), 0 0 0 6px rgba(241, 234, 220, .1); background: #2a1c12; }
+  .dish .disc img, .dish .disc svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .dish .lbl { display: inline-block; margin-top: 12px; padding: 6px 14px; border-radius: 99px; background: rgba(241, 234, 220, .95); color: var(--ink); font-size: 13px; font-weight: 800; white-space: nowrap; }
+  .dish .lbl small { display: block; font-size: 11px; font-weight: 600; color: #6a5a48; }
+  .d1 { --x: -38vw; --y: 44vh; --d: clamp(130px, 13vw, 200px); }
+  .d2 { --x: -20vw; --y: 33vh; --d: clamp(140px, 14vw, 215px); }
+  .d3 { --x: 0vw;   --y: 31vh; --d: clamp(150px, 15vw, 230px); }
+  .d4 { --x: 20vw;  --y: 33vh; --d: clamp(140px, 14vw, 215px); }
+  .d5 { --x: 38vw;  --y: 44vh; --d: clamp(130px, 13vw, 200px); }
+  .steam .steam-head { transition: none; }
+
+  /* ---------- how (making) ---------- */
+  .how { position: relative; background: var(--mist); color: var(--ink); padding: 14vh 0; overflow: hidden; }
+  .how-head { margin-bottom: 7vh; display: flex; justify-content: space-between; align-items: end; gap: 30px; flex-wrap: wrap; }
+  .how-head .eyebrow { color: var(--chilli-d); }
+  .how-head h2 { margin-top: 14px; color: var(--indigo); }
+  .pleat-count { display: flex; align-items: baseline; gap: 12px; padding: 16px 26px; border-radius: 22px; background: var(--indigo); color: var(--mist); box-shadow: 0 24px 40px -24px rgba(22, 26, 51, .8); }
+  .pleat-count b { font-family: var(--display); font-weight: 400; font-size: 64px; line-height: 1; color: var(--saffron); font-variant-numeric: tabular-nums; min-width: 1.3em; text-align: right; }
+  .pleat-count span { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+  .step { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: center; padding: 22px; border-radius: 28px; background: #fff8ec; box-shadow: 0 20px 40px -30px rgba(22, 26, 51, .5), inset 0 0 0 1px rgba(35, 42, 82, .08); }
+  .step .vis { position: relative; width: 100%; aspect-ratio: 1; }
+  .step .vis > svg, .step .vis > img { width: 100%; height: 100%; display: block; border-radius: 50%; object-fit: cover; }
+  .step .vis .mini { position: absolute; right: -6%; bottom: -4%; width: 42%; height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 6px #fff8ec, 0 16px 30px -14px rgba(0, 0, 0, .6); }
+  .step .num { font-family: var(--display); font-size: 22px; color: var(--chilli); }
+  .step h3 { font-size: clamp(34px, 3.4vw, 54px); color: var(--indigo); margin: 4px 0 10px; }
+  .step p { color: #4a4c60; font-size: 16px; }
+  .step .vis .wisps2 path { fill: none; stroke: rgba(255, 255, 255, .8); stroke-width: 7; stroke-linecap: round; filter: blur(2px); animation: wisp 4s ease-in infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+  .step .vis .wisps2 path:nth-child(2) { animation-delay: -1.3s; }
+  .step .vis .wisps2 path:nth-child(3) { animation-delay: -2.6s; }
+  .pleat-path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .how-rail { display: none; }
+
+  /* pinned layout for desktop motion */
+  .how.is-pinned { height: 100vh; min-height: 680px; padding: 0; }
+  .how.is-pinned .wrap { height: 100%; display: grid; grid-template-rows: auto 1fr; padding-top: 104px; padding-bottom: 5vh; }
+  .how.is-pinned .how-head { margin-bottom: 2vh; }
+  .how.is-pinned .how-head h2 { font-size: clamp(40px, 5vw, 76px); }
+  .how.is-pinned .steps { position: relative; display: block; }
+  .how.is-pinned .step { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1.05fr; gap: 6vw; padding: 0; background: none; box-shadow: none; }
+  .how.is-pinned .step .vis { width: min(54vh, 470px); justify-self: center; }
+  .how.is-pinned .step .copy { max-width: 440px; }
+  .how.is-pinned .step h3 { font-size: clamp(56px, 6vw, 96px); }
+  .how.is-pinned .step p { font-size: 18px; }
+  .how.is-pinned .how-rail { display: flex; position: absolute; left: 50%; bottom: 5vh; transform: translateX(-50%); gap: 10px; z-index: 3; }
+  .how-rail button { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 99px; border: 0; background: rgba(35, 42, 82, .08); color: var(--indigo); font-weight: 800; font-size: 13px; cursor: pointer; transition: background .3s, color .3s; }
+  .how-rail button.on { background: var(--indigo); color: var(--mist); }
+
+  /* ---------- menu ---------- */
+  .menu { position: relative; background: radial-gradient(ellipse 80% 70% at 50% 40%, #2c3466, var(--night) 75%); padding: 13vh 0 12vh; overflow: hidden; }
+  .menu-bgword { position: absolute; top: 50%; left: 0; transform: translateY(-50%); font-family: var(--display); font-size: 30vw; line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 1.5px rgba(241, 234, 220, .08); pointer-events: none; }
+  .menu-head { position: relative; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 6vh; }
+  .menu-head .eyebrow { color: var(--saffron); }
+  .menu-head h2 { margin-top: 14px; }
+  .legend { display: flex; gap: 18px; font-size: 13px; font-weight: 700; color: #c9c6d8; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .track { position: relative; display: flex; gap: 28px; padding: 30px max(24px, (100vw - 1240px) / 2) 40px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .track::-webkit-scrollbar { display: none; }
+  .card { flex: none; width: clamp(280px, 26vw, 360px); scroll-snap-align: center; border-radius: 30px; background: var(--mist); color: var(--ink); padding: 18px 18px 22px; box-shadow: 0 40px 60px -34px rgba(0, 0, 0, .8); transform-style: preserve-3d; transition: box-shadow .4s; }
+  .card:nth-child(even) { margin-top: 46px; }
+  .card .media { position: relative; height: clamp(220px, 21vw, 290px); border-radius: 22px; overflow: hidden; background: #e6dcc8; }
+  .card .media > img, .card .media > svg { position: absolute; top: 0; left: -10%; width: 120%; max-width: none; height: 100%; object-fit: cover; will-change: transform; }
+  .card .media.art { background: radial-gradient(circle at 50% 45%, #f8efdf, #e1d2b6); }
+  .card .media.art > svg { left: 0; width: 100%; padding: 8%; }
+  .card .tags { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; }
+  .tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 6px; border-radius: 99px; background: rgba(255, 250, 240, .94); font-size: 11px; font-weight: 800; letter-spacing: .04em; color: var(--ink); }
+  .vmark { display: inline-grid; place-items: center; width: 15px; height: 15px; border: 1.6px solid #2f8a3c; border-radius: 3px; flex: none; }
+  .vmark::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #2f8a3c; }
+  .vmark.nv { border-color: #8a3a1e; }
+  .vmark.nv::after { border-radius: 0; width: 0; height: 0; background: none; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid #8a3a1e; }
+  .card h3 { margin: 18px 4px 6px; font-size: 30px; color: var(--indigo); }
+  .card p { margin: 0 4px; font-size: 14.5px; color: #4a4c60; min-height: 70px; }
+  .card .foot { display: flex; justify-content: space-between; align-items: center; margin: 16px 4px 0; }
+  .price { font-family: var(--display); font-size: 30px; color: var(--chilli-d); }
+  .spice { display: inline-flex; align-items: center; gap: 2px; }
+  .spice svg { width: 21px; height: 21px; color: #b8ab96; opacity: .55; }
+  .spice[data-level="1"] svg:nth-child(-n+1), .spice[data-level="2"] svg:nth-child(-n+2), .spice[data-level="3"] svg:nth-child(-n+3), .spice[data-level="4"] svg:nth-child(-n+4), .spice[data-level="5"] svg:nth-child(-n+5) { color: var(--chilli); opacity: 1; }
+  .spice em { font-style: normal; font-size: 11px; font-weight: 800; color: #7a6c5a; margin-left: 6px; letter-spacing: .06em; text-transform: uppercase; }
+  .menu-progress { width: min(1240px, 100% - 48px); height: 3px; margin: 10px auto 0; border-radius: 3px; background: rgba(241, 234, 220, .15); overflow: hidden; }
+  .menu-progress i { display: block; height: 100%; width: 100%; background: var(--saffron); transform-origin: left; transform: scaleX(0); }
+  .menu.is-pinned { height: 100vh; min-height: 700px; padding: 0; display: flex; flex-direction: column; justify-content: center; }
+  .menu.is-pinned .menu-head { margin-bottom: 1vh; }
+  .menu.is-pinned .track { overflow: visible; scroll-snap-type: none; width: max-content; }
+
+  /* ---------- chutney picker ---------- */
+  .chutney { position: relative; background: radial-gradient(ellipse 80% 80% at 70% 50%, #a1301f 0%, #6e1d12 55%, #3f0f09 100%); padding: 14vh 0; overflow: hidden; }
+  .chutney-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 90px); align-items: center; }
+  .chutney .eyebrow { color: #f6c27a; }
+  .chutney h2 { margin: 14px 0 18px; }
+  .chutney p.lead { color: #f0d6c6; max-width: 480px; }
+  .picker { margin-top: 30px; display: grid; gap: 22px; }
+  .picker legend { font-size: 12px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: #f6c27a; margin-bottom: 12px; }
+  .picker fieldset { border: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; border: 0; background: rgba(255, 240, 225, .1); box-shadow: inset 0 0 0 1.5px rgba(255, 240, 225, .25); color: #fff3e6; font-weight: 700; font-size: 14px; cursor: pointer; transition: background .3s, box-shadow .3s; }
+  .chip i { width: 22px; height: 22px; border-radius: 50%; background: var(--c); box-shadow: inset 0 -3px 6px rgba(0, 0, 0, .3); }
+  .chip[aria-checked="true"] { background: #fff3e6; color: #4a130b; box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .6); }
+  .heat { display: grid; gap: 10px; }
+  .heat-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .heat-row b { font-family: var(--display); font-weight: 400; font-size: 34px; color: #fff3e6; }
+  .heat-row span { font-size: 13px; font-weight: 700; color: #f0c9b4; }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 10px; border-radius: 10px; background: linear-gradient(90deg, #f3d26b, #ef8a3a 40%, #d93a22 75%, #7d0f05); outline-offset: 6px; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: #fff3e6; box-shadow: 0 6px 16px rgba(0, 0, 0, .5), inset 0 0 0 6px var(--chilli); cursor: grab; }
+  input[type=range]::-moz-range-thumb { width: 30px; height: 30px; border: 0; border-radius: 50%; background: #fff3e6; box-shadow: 0 6px 16px rgba(0, 0, 0, .5), inset 0 0 0 6px var(--chilli); cursor: grab; }
+  .pairing { padding: 18px 20px; border-radius: 20px; background: rgba(20, 6, 3, .35); box-shadow: inset 0 0 0 1px rgba(255, 240, 225, .14); font-size: 15px; color: #f6e2d4; }
+  .pairing b { color: #fff; }
+  .bowl-stage { position: relative; aspect-ratio: 1; width: min(100%, 540px); justify-self: center; }
+  .bowl-stage > svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .bowl-stage .chillies-photo { position: absolute; left: 0; bottom: 4%; width: 30%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 8px rgba(255, 240, 225, .12), 0 30px 40px -20px rgba(0, 0, 0, .8); }
+  .bowl-stage .cap { position: absolute; left: -4%; bottom: -1%; width: 30%; text-align: center; font-size: 11px; font-weight: 700; color: #f0c9b4; }
+  #sauce { transition: fill .6s var(--ease); }
+  #sauce2 { transition: fill .6s var(--ease); }
+  .flake { transition: opacity .5s, transform .6s var(--ease); }
+  .dipper { transform-box: fill-box; transform-origin: 50% 50%; }
+  .dipper.dip { animation: dip .9s var(--ease); }
+  @keyframes dip { 0% { transform: translate(0, 0) rotate(0); } 45% { transform: translate(-30px, 46px) rotate(-14deg); } 100% { transform: translate(0, 0) rotate(0); } }
+
+  /* ---------- reviews ---------- */
+  .reviews { position: relative; padding: 16vh 0; overflow: hidden; isolation: isolate; }
+  .reviews .bg { position: absolute; inset: -20% 0; z-index: -2; }
+  .reviews .bg img { width: 100%; height: 100%; object-fit: cover; }
+  .reviews::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(22, 26, 51, .92), rgba(22, 26, 51, .62) 40%, rgba(22, 26, 51, .94)); }
+  .reviews-head { text-align: center; margin-bottom: 7vh; }
+  .reviews-head .eyebrow { color: var(--saffron); }
+  .reviews-head h2 { margin-top: 14px; }
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1000px; }
+  .rev { padding: 30px 28px; border-radius: 28px; background: rgba(241, 234, 220, .1); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(241, 234, 220, .18), 0 40px 60px -40px rgba(0, 0, 0, .9); transition: transform .5s var(--ease); transform-style: preserve-3d; }
+  .stars-row { display: flex; gap: 3px; color: var(--saffron); }
+  .stars-row svg { width: 18px; height: 18px; }
+  .rev blockquote { margin: 18px 0 22px; font-family: var(--display); font-size: 24px; line-height: 1.25; color: #fbf3e4; }
+  .rev .who { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+  .rev .av { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--mist); color: var(--indigo); font-weight: 800; }
+  .rev .who small { display: block; color: #b9b6cc; font-size: 12.5px; }
+
+  /* ---------- visit ---------- */
+  .visit { background: var(--mist); color: var(--ink); padding: 14vh 0; overflow: hidden; }
+  .visit-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(30px, 5vw, 70px); align-items: stretch; }
+  .visit .eyebrow { color: var(--chilli-d); }
+  .visit h2 { margin: 14px 0 20px; color: var(--indigo); }
+  .visit-info { display: grid; gap: 18px; align-content: start; }
+  .info-card { padding: 24px 26px; border-radius: 24px; background: #fff8ec; box-shadow: 0 20px 40px -30px rgba(22, 26, 51, .5), inset 0 0 0 1px rgba(35, 42, 82, .08); }
+  .info-card h3 { font-size: 26px; color: var(--indigo); margin-bottom: 10px; }
+  .info-card p, .info-card li { color: #45475a; font-size: 15.5px; }
+  .hours { list-style: none; display: grid; gap: 6px; }
+  .hours li { display: flex; justify-content: space-between; gap: 12px; }
+  .hours li.today { font-weight: 800; color: var(--indigo); }
+  .open-pill { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; padding: 4px 12px; border-radius: 99px; font-family: var(--sans); font-size: 12px; font-weight: 800; vertical-align: middle; background: #e3efe1; color: #24603a; }
+  .open-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .open-pill.closed { background: #f6dfd9; color: #9b2c1b; }
+  .map { position: relative; border-radius: 30px; overflow: hidden; min-height: 460px; background: #e7dcc5; box-shadow: 0 40px 60px -40px rgba(22, 26, 51, .7); }
+  .map > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map .photo { position: absolute; right: 18px; top: 18px; width: 40%; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 6px #fff8ec, 0 20px 30px -16px rgba(0, 0, 0, .5); }
+  .map .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 88%; }
+  .map .photo span { position: absolute; left: 8px; bottom: 8px; padding: 3px 9px; border-radius: 99px; background: rgba(22, 26, 51, .75); color: var(--mist); font-size: 11px; font-weight: 700; }
+
+  /* ---------- order ---------- */
+  .order { position: relative; background: linear-gradient(180deg, var(--indigo), var(--night)); padding: 14vh 0; overflow: hidden; }
+  .order-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(30px, 5vw, 70px); align-items: start; }
+  .order .eyebrow { color: var(--saffron); }
+  .order h2 { margin: 14px 0 18px; }
+  .order p.lead { color: #c9c6d8; max-width: 440px; }
+  .order-sticky { position: sticky; top: 110px; }
+  .order-art { position: relative; margin-top: 40px; width: min(100%, 380px); aspect-ratio: 1; }
+  .order-art svg { width: 100%; height: 100%; overflow: visible; }
+  form.box { padding: clamp(22px, 3vw, 36px); border-radius: 30px; background: var(--mist); color: var(--ink); box-shadow: 0 50px 80px -40px rgba(0, 0, 0, .9); }
+  .items { display: grid; gap: 8px; margin-bottom: 22px; }
+  .item { display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: center; padding: 10px 12px 10px 14px; border-radius: 16px; background: #fff8ec; box-shadow: inset 0 0 0 1px rgba(35, 42, 82, .08); }
+  .item .nm { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; line-height: 1.25; }
+  .item .pr { font-size: 14px; font-weight: 700; color: #6a5a48; font-variant-numeric: tabular-nums; }
+  .qty { display: flex; align-items: center; gap: 4px; }
+  .qty button { width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(35, 42, 82, .08); font-weight: 800; font-size: 18px; line-height: 1; cursor: pointer; color: var(--indigo); transition: background .2s; }
+  .qty button:hover { background: rgba(35, 42, 82, .16); }
+  .qty output { min-width: 24px; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .field { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: #4a4c60; }
+  .field input, .field select { padding: 12px 14px; border-radius: 14px; border: 1.5px solid rgba(35, 42, 82, .18); background: #fffdf8; color: var(--ink); font-size: 15px; font-weight: 500; }
+  .field input:focus, .field select:focus { outline: 2px solid var(--chilli); outline-offset: 1px; border-color: transparent; }
+  .mode { display: flex; gap: 8px; margin-bottom: 16px; }
+  .mode label { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 14px; background: #fff8ec; box-shadow: inset 0 0 0 1.5px rgba(35, 42, 82, .14); font-weight: 700; font-size: 14px; cursor: pointer; }
+  .mode label:has(input:checked) { background: var(--indigo); color: var(--mist); box-shadow: none; }
+  .mode input { accent-color: var(--chilli); }
+  .totals { display: grid; gap: 6px; padding: 16px 18px; border-radius: 18px; background: #efe5d2; font-size: 14.5px; margin-bottom: 18px; }
+  .totals div { display: flex; justify-content: space-between; }
+  .totals .grand { font-size: 18px; font-weight: 800; color: var(--indigo); padding-top: 8px; margin-top: 4px; box-shadow: 0 -1px 0 rgba(35, 42, 82, .15); }
+  .totals .grand b { font-family: var(--display); font-weight: 400; font-size: 30px; color: var(--chilli-d); }
+  form.box .btn { width: 100%; justify-content: center; font-size: 16px; }
+  .status { margin-top: 14px; min-height: 24px; font-size: 14px; font-weight: 600; color: #4a4c60; }
+  .status.ok { color: #24603a; } .status.err { color: #9b2c1b; }
+
+  /* ---------- footer ---------- */
+  footer { position: relative; background: #0f1226; padding: 12vh 0 96px; overflow: hidden; }
+  .foot-top { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; margin-bottom: 8vh; }
+  .foot-top p { max-width: 360px; color: #a9a6bf; font-size: 15px; margin-top: 12px; }
+  .foot-cols { display: flex; gap: 60px; flex-wrap: wrap; }
+  .foot-cols h4 { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--saffron); margin-bottom: 12px; }
+  .foot-cols a, .foot-cols li { display: block; list-style: none; color: #d8d4e6; font-size: 15px; margin-bottom: 6px; }
+  .giant { font-family: var(--display); font-size: 12.2vw; line-height: .82; letter-spacing: -.03em; white-space: nowrap; color: var(--mist); text-align: center; overflow: hidden; padding-bottom: .06em; }
+  .giant .ch:nth-child(n+5) { color: transparent; -webkit-text-stroke: 2px var(--mist); }
+  .foot-flags { height: 40px; margin: 3vh 0 4vh; }
+  .foot-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; box-shadow: 0 -1px 0 rgba(241, 234, 220, .12); color: #8f8ca6; font-size: 13px; }
+
+  .demo-badge { position: fixed; left: 20px; bottom: 20px; z-index: 80; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 99px; background: rgba(241, 234, 220, .96); color: var(--ink); font-size: 12px; font-weight: 800; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .6); transition: transform .3s; }
+  .demo-badge:hover { transform: translateY(-3px); }
+  .demo-badge b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--indigo); color: var(--mist); font-size: 13px; }
+
+  /* ---------- cursor ---------- */
+  .cursor, .cursor-dot { position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none; border-radius: 50%; opacity: 0; transition: opacity .3s; }
+  .cursor { width: 44px; height: 44px; margin: -22px 0 0 -22px; box-shadow: inset 0 0 0 1.5px rgba(241, 234, 220, .9); mix-blend-mode: difference; display: grid; place-items: center; transition: opacity .3s, width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background .3s; }
+  .cursor span { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #111; opacity: 0; transition: opacity .2s; }
+  .cursor.big { width: 84px; height: 84px; margin: -42px 0 0 -42px; background: #f1eadc; }
+  .cursor.big span { opacity: 1; }
+  .cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--chilli); }
+  html.has-cursor .cursor, html.has-cursor .cursor-dot { opacity: 1; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1000px) {
+    .intro-grid, .chutney-grid, .visit-grid, .order-grid { grid-template-columns: 1fr; }
+    .rev-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 767px) {
+    body { font-size: 16px; }
+    .wrap { width: calc(100% - 32px); }
+    .nav { padding: 12px 16px; }
+    .logo { font-size: 19px; } .logo svg { width: 32px; height: 32px; }
+    .nav .btn { padding: 9px 16px; font-size: 13px; }
+    .hero-copy { padding-top: 15vh; }
+    .hero h1 { font-size: 17vw; }
+    .hero h1 .w { display: block; }
+    .hero-tag { font-size: 15px; max-width: 330px; }
+    .hero-copy .eyebrow { font-size: 10.5px; letter-spacing: .16em; }
+    .hero-copy .eyebrow::before { display: none; }
+    .steamer-hero { width: 92vw; margin-left: -46vw; bottom: -3vh; }
+    .sun { width: 80vw; margin-left: -40vw; top: 48vh; }
+    .flags { bottom: 25vh; }
+    .scroll-cue { display: none; }
+    .bgword { top: 30vh; font-size: 56vw; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat b { font-size: 38px; }
+    .collage { height: 420px; }
+    .steam-head { top: 10vh; }
+    .steam-head p { font-size: 14px; }
+    .basket, .lid { width: 92vw; margin-left: -46vw; }
+    .basket { bottom: -2vh; }
+    .lid { bottom: calc(-2vh + 92vw * .37); }
+    .puff { bottom: calc(-2vh + 92vw * .42); }
+    .d1 { --x: -27vw; --y: 52vh; --d: 104px; }
+    .d2 { --x: 27vw;  --y: 52vh; --d: 104px; }
+    .d3 { --x: 0vw;   --y: 37vh; --d: 124px; }
+    .d4 { --x: -30vw; --y: 33vh; --d: 92px; }
+    .d5 { --x: 30vw;  --y: 33vh; --d: 92px; }
+    .dish .lbl { font-size: 11.5px; padding: 4px 10px; margin-top: 8px; }
+    .dish .lbl small { display: none; }
+    .step { grid-template-columns: 1fr; text-align: left; }
+    .step .vis { width: 72%; margin: 0 auto; }
+    .card { width: 82vw; }
+    .card:nth-child(even) { margin-top: 0; }
+    .fields { grid-template-columns: 1fr; }
+    .item { grid-template-columns: 1fr auto; }
+    .item .pr { grid-column: 1; grid-row: 2; margin-top: -6px; }
+    .item .qty { grid-row: 1 / 3; grid-column: 2; }
+    .map { min-height: 380px; }
+    .giant { font-size: 12vw; }
+    .demo-badge { left: 12px; bottom: 12px; font-size: 11px; }
+    .pleat-count b { font-size: 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Shared SVG art: gradients, momos, ingredients, steamer -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="gMomo" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fffbf3"/><stop offset=".6" stop-color="#f2e3c7"/><stop offset="1" stop-color="#d6bb90"/></radialGradient>
+    <radialGradient id="gMomoTop" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#fffbf2"/><stop offset=".7" stop-color="#f1e2c5"/><stop offset="1" stop-color="#d4b98d"/></radialGradient>
+    <radialGradient id="gTand" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#f6b061"/><stop offset=".65" stop-color="#d6662b"/><stop offset="1" stop-color="#8f3414"/></radialGradient>
+    <radialGradient id="gFried" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#f8dc98"/><stop offset=".7" stop-color="#e0a24c"/><stop offset="1" stop-color="#ad6a20"/></radialGradient>
+    <linearGradient id="gChilli" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ee5a40"/><stop offset=".6" stop-color="#c62f22"/><stop offset="1" stop-color="#8d1b12"/></linearGradient>
+    <linearGradient id="gCyl" x1="0" x2="1"><stop offset="0" stop-color="#3b230c" stop-opacity=".75"/><stop offset=".22" stop-color="#3b230c" stop-opacity="0"/><stop offset=".62" stop-color="#fff2d6" stop-opacity=".12"/><stop offset=".8" stop-color="#3b230c" stop-opacity="0"/><stop offset="1" stop-color="#3b230c" stop-opacity=".8"/></linearGradient>
+    <radialGradient id="gBroth" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#f08a3e"/><stop offset=".8" stop-color="#c44f1f"/><stop offset="1" stop-color="#8e3311"/></radialGradient>
+    <radialGradient id="gLeaf" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#a7c27a"/><stop offset="1" stop-color="#5d7f3d"/></radialGradient>
+    <radialGradient id="gBambooTop" cx="50%" cy="50%" r="50%"><stop offset=".78" stop-color="#c39352"/><stop offset=".9" stop-color="#a77738"/><stop offset="1" stop-color="#7c5322"/></radialGradient>
+    <pattern id="weave" width="18" height="12" patternUnits="userSpaceOnUse"><rect width="18" height="12" fill="#c8995a"/><rect width="9" height="6" fill="#b3843f"/><rect x="9" y="6" width="9" height="6" fill="#b3843f"/><path d="M0 6H18M9 0V6M0 6V12M18 6V12" stroke="#8d6029" stroke-width=".8" opacity=".55"/></pattern>
+    <pattern id="weaveLid" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="14" fill="#cfa063"/><rect width="7" height="14" fill="#bb8a49"/><path d="M0 7H14" stroke="#8d6029" stroke-width=".7" opacity=".5"/></pattern>
+
+    <!-- side-view momo; fill can be swapped with --mf -->
+    <symbol id="momo" viewBox="0 0 120 100">
+      <ellipse cx="60" cy="88" rx="46" ry="7" fill="#000" opacity=".22"/>
+      <path d="M12 78 C4 52 28 22 60 14 C92 22 116 52 108 78 C96 92 24 92 12 78 Z" style="fill:var(--mf,url(#gMomo))"/>
+      <g fill="none" stroke="#b99a6c" stroke-width="2.2" stroke-linecap="round" opacity=".7">
+        <path d="M60 18 C50 30 38 44 28 62"/><path d="M60 18 C54 34 49 50 45 68"/><path d="M60 18 C63 36 65 52 67 70"/><path d="M60 18 C71 32 83 46 93 62"/><path d="M60 18 C44 26 30 40 20 56"/><path d="M60 18 C78 26 92 40 100 56"/>
+      </g>
+      <path d="M50 19 C54 5 67 5 70 17 C65 22 55 22 50 19 Z" fill="#f6ead5" stroke="#c4a679" stroke-width="1.4"/>
+      <ellipse cx="42" cy="44" rx="12" ry="6" fill="#fff" opacity=".45" transform="rotate(-30 42 44)"/>
+    </symbol>
+    <!-- top-down momo with 12 pleats -->
+    <symbol id="momoTop" viewBox="-50 -50 100 100">
+      <circle r="46" style="fill:var(--mf,url(#gMomoTop))"/>
+      <g fill="none" stroke="#9b7a4b" stroke-width="2.4" stroke-linecap="round" opacity=".55">
+        <path id="pl" d="M0 -5 C9 -16 11 -30 5 -43"/>
+        <use href="#pl" transform="rotate(30)"/><use href="#pl" transform="rotate(60)"/><use href="#pl" transform="rotate(90)"/><use href="#pl" transform="rotate(120)"/><use href="#pl" transform="rotate(150)"/><use href="#pl" transform="rotate(180)"/><use href="#pl" transform="rotate(210)"/><use href="#pl" transform="rotate(240)"/><use href="#pl" transform="rotate(270)"/><use href="#pl" transform="rotate(300)"/><use href="#pl" transform="rotate(330)"/>
+      </g>
+      <circle r="7" fill="#f7ecd8" stroke="#b69465" stroke-width="1.6"/>
+      <ellipse cx="-16" cy="-18" rx="11" ry="6" fill="#fff" opacity=".35" transform="rotate(-40 -16 -18)"/>
+    </symbol>
+    <symbol id="chilli" viewBox="0 0 100 40">
+      <path d="M6 22 C20 7 60 5 84 13 C93 16 93 24 84 27 C60 33 26 35 6 22 Z" fill="url(#gChilli)"/>
+      <path d="M20 16 C40 10 60 10 78 14" stroke="#fff" stroke-width="2.5" fill="none" opacity=".35" stroke-linecap="round"/>
+      <path d="M86 17 C90 13 94 9 98 3" stroke="#3f7a2c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M80 13 C86 10 92 14 90 21 C88 26 82 26 80 22 Z" fill="#4c8a34"/>
+    </symbol>
+    <symbol id="coriander" viewBox="0 0 100 100">
+      <path d="M50 96 C50 80 50 66 50 56" stroke="#4d7d33" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M50 56 C30 62 10 50 15 33 C19 19 35 22 39 30 C36 14 50 5 58 14 C64 5 82 11 79 28 C90 28 94 45 85 53 C74 63 60 59 50 56 Z" fill="#4f9445"/>
+      <path d="M50 56 C44 44 40 36 36 30 M50 56 C54 42 56 30 57 18 M50 56 C62 48 72 40 78 30" stroke="#2f6b2c" stroke-width="2" fill="none" opacity=".7"/>
+    </symbol>
+    <symbol id="garlic" viewBox="0 0 60 90">
+      <path d="M30 5 C44 20 54 46 50 70 C46 86 14 86 10 70 C6 46 16 20 30 5 Z" fill="#f4ecdb"/>
+      <path d="M30 5 C36 26 40 50 38 82 M30 5 C24 26 21 50 22 82" stroke="#d8c7a3" stroke-width="2" fill="none"/>
+      <path d="M30 5 C31 2 32 1 33 0" stroke="#bfa57c" stroke-width="2.5"/>
+      <ellipse cx="20" cy="50" rx="4" ry="14" fill="#fff" opacity=".6"/>
+    </symbol>
+    <symbol id="onion" viewBox="0 0 60 60">
+      <circle cx="30" cy="30" r="27" fill="#5f9d43"/><circle cx="30" cy="30" r="20" fill="#e2f0c9"/><circle cx="30" cy="30" r="13" fill="#9fca72"/><circle cx="30" cy="30" r="6" fill="#f2f8e4"/>
+    </symbol>
+    <symbol id="i-chilli" viewBox="0 0 24 24"><path fill="currentColor" d="M3 14c3-4 9-6 14-5 2 .4 2.4 2.6.7 3.4C13 15 8 18 3 14Z"/><path d="M17 9.6c1-1.6 2.2-3 3.8-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.3l6.6-.8z"/></symbol>
+
+    <!-- bamboo steamer: back (interior) and front (woven wall), viewBox 0 0 400 250 -->
+    <symbol id="bkBack" viewBox="0 0 400 250">
+      <ellipse cx="200" cy="62" rx="184" ry="46" fill="#7a5226"/>
+      <ellipse cx="200" cy="66" rx="168" ry="38" fill="#3e2711"/>
+      <ellipse cx="200" cy="70" rx="156" ry="32" fill="url(#gLeaf)"/>
+      <path d="M60 72 C120 60 170 80 200 70 C240 58 290 80 340 70" stroke="#486b2e" stroke-width="2" fill="none" opacity=".6"/>
+    </symbol>
+    <symbol id="bkFront" viewBox="0 0 400 250">
+      <path d="M16 62 L16 198 A184 46 0 0 0 384 198 L384 62 A184 46 0 0 1 16 62 Z" fill="url(#weave)"/>
+      <path d="M16 62 L16 198 A184 46 0 0 0 384 198 L384 62 A184 46 0 0 1 16 62 Z" fill="url(#gCyl)"/>
+      <path d="M16 62 L16 88 A184 46 0 0 0 384 88 L384 62 A184 46 0 0 1 16 62 Z" fill="#a8763d"/>
+      <path d="M16 62 L16 88 A184 46 0 0 0 384 88 L384 62 A184 46 0 0 1 16 62 Z" fill="url(#gCyl)"/>
+      <path d="M16 174 L16 198 A184 46 0 0 0 384 198 L384 174 A184 46 0 0 1 16 174 Z" fill="#a8763d"/>
+      <path d="M16 174 L16 198 A184 46 0 0 0 384 198 L384 174 A184 46 0 0 1 16 174 Z" fill="url(#gCyl)"/>
+      <path d="M16 75 A184 46 0 0 0 384 75 M16 186 A184 46 0 0 0 384 186" stroke="#7d5322" stroke-width="1.6" fill="none"/>
+      <path d="M16 62 A184 46 0 0 0 384 62" stroke="#e2b877" stroke-width="3" fill="none"/>
+      <path d="M120 100 l0 26 M200 108 l0 26 M280 100 l0 26" stroke="#7d5322" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+    </symbol>
+    <symbol id="bkLid" viewBox="0 0 400 170">
+      <path d="M16 96 L16 128 A184 46 0 0 0 384 128 L384 96 Z" fill="#a8763d"/>
+      <path d="M16 96 L16 128 A184 46 0 0 0 384 128 L384 96 Z" fill="url(#gCyl)"/>
+      <path d="M16 112 A184 46 0 0 0 384 112" stroke="#7d5322" stroke-width="1.6" fill="none"/>
+      <ellipse cx="200" cy="96" rx="184" ry="46" fill="url(#weaveLid)"/>
+      <ellipse cx="200" cy="96" rx="184" ry="46" fill="none" stroke="#e2b877" stroke-width="3"/>
+      <ellipse cx="200" cy="96" rx="150" ry="37" fill="none" stroke="#8d6029" stroke-width="2" opacity=".55"/>
+      <ellipse cx="200" cy="96" rx="104" ry="26" fill="none" stroke="#8d6029" stroke-width="2" opacity=".5"/>
+      <ellipse cx="200" cy="96" rx="58" ry="14" fill="#b88644" stroke="#8d6029" stroke-width="2"/>
+      <ellipse cx="200" cy="90" rx="150" ry="30" fill="#fff" opacity=".07"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <a class="logo" href="#top" aria-label="Momo Mountain home">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#cf3b2b"/><path d="M6 28 L15 15 L20 21 L25 12 L34 28 Z" fill="#f1eadc"/><path d="M22 15.5 L25 12 L28 17 L26 16 L24.5 18 Z" fill="#cf3b2b" opacity=".35"/><path d="M9 31 h22" stroke="#f1eadc" stroke-width="2.2" stroke-linecap="round"/></svg>
+    Momo Mountain
+  </a>
+  <ul class="nav-links">
+    <li><a href="#steam">Steam</a></li>
+    <li><a href="#how">Craft</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#chutney">Chutney</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <a class="btn btn-red mag" href="#order">Order now</a>
+</nav>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero" aria-label="Momo Mountain">
+  <div class="ly" data-hero="stars"><div class="stars"></div></div>
+  <div class="ly" data-hero="bgword"><div class="mz" data-depth="6"><div class="bgword" aria-hidden="true">MOMO</div></div></div>
+  <div class="ly" data-hero="sun"><div class="mz" data-depth="8"><div class="sun"></div></div></div>
+  <div class="ly" data-hero="r1"><div class="mz" data-depth="10">
+    <div class="ridge r1"><svg viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path fill="#737fae" d="M0 262 L90 200 L160 232 L262 120 L332 172 L420 92 L520 182 L600 142 L700 40 L790 150 L880 112 L960 172 L1060 70 L1150 160 L1240 118 L1330 190 L1440 140 V400 H0 Z"/><g fill="#f4ede2"><path d="M672 74 L700 40 L734 82 L718 74 L706 90 L692 76 Z"/><path d="M398 118 L420 92 L446 124 L432 118 L422 130 L410 120 Z"/><path d="M1036 98 L1060 70 L1088 104 L1072 98 L1062 110 L1050 100 Z"/><path d="M244 140 L262 120 L284 146 L272 142 L262 152 L254 144 Z"/><path d="M1226 134 L1240 118 L1258 140 L1246 136 Z"/></g></svg><i></i></div>
+  </div></div>
+  <div class="ly" data-hero="m1"><div class="mist m1"></div></div>
+  <div class="ly" data-hero="r2"><div class="mz" data-depth="16">
+    <div class="ridge r2"><svg viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path fill="#59639c" d="M0 300 L120 228 L220 272 L340 196 L450 262 L560 208 L660 272 L780 186 L900 262 L1010 218 L1120 282 L1240 206 L1340 262 L1440 228 V400 H0 Z"/><g fill="#e9e3dc" opacity=".8"><path d="M322 210 L340 196 L358 214 L346 210 L338 218 Z"/><path d="M764 200 L780 186 L798 204 L786 200 L778 208 Z"/><path d="M1224 220 L1240 206 L1256 222 L1244 218 Z"/></g></svg><i></i></div>
+  </div></div>
+  <div class="ly" data-hero="m2"><div class="mist m2"></div></div>
+  <div class="ly" data-hero="r3"><div class="mz" data-depth="24">
+    <div class="ridge r3"><svg viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path fill="#444d83" d="M0 320 C120 258 220 300 320 268 C440 228 540 300 660 278 C780 248 860 310 980 288 C1100 258 1200 300 1300 278 C1380 264 1420 288 1440 294 V400 H0 Z"/></svg><i></i></div>
+  </div></div>
+  <div class="ly" data-hero="flags"><div class="mz" data-depth="30"><svg class="flags" id="heroFlags" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true"></svg></div></div>
+  <div class="ly" data-hero="r4"><div class="mz" data-depth="36">
+    <div class="ridge r4"><svg viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path fill="#2f3766" d="M0 336 C160 296 260 330 400 312 C560 292 640 340 800 330 C960 316 1060 286 1200 318 C1320 340 1400 318 1440 312 V400 H0 Z"/></svg><i></i></div>
+  </div></div>
+  <div class="ly" data-hero="m3"><div class="mist m3"></div></div>
+  <div class="ly" data-hero="r5"><div class="mz" data-depth="50">
+    <div class="ridge r5"><svg viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path fill="#1c2244" d="M0 356 C200 326 380 348 560 342 C760 336 900 368 1100 348 C1260 334 1380 348 1440 342 V400 H0 Z"/><g fill="#1c2244"><path d="M40 352 L56 250 L72 352 Z"/><path d="M78 350 L98 220 L118 350 Z"/><path d="M128 350 L142 272 L156 350 Z"/><path d="M1290 346 L1306 262 L1322 346 Z"/><path d="M1326 346 L1348 214 L1370 346 Z"/><path d="M1378 346 L1394 254 L1410 346 Z"/></g></svg><i></i></div>
+  </div></div>
+
+  <!-- back ingredients -->
+  <div class="ly" data-hero="ingBack"><div class="mz" data-depth="40">
+    <span class="ing" style="left:13%;top:50%;width:70px;height:28px"><span class="bob" style="display:block;animation-delay:-2s"><svg><use href="#chilli"/></svg></span></span>
+    <span class="ing" style="left:82%;top:46%;width:46px;height:46px"><span class="bob" style="display:block;animation-delay:-4s"><svg><use href="#onion"/></svg></span></span>
+    <span class="ing" style="left:24%;top:62%;width:30px;height:44px"><span class="bob" style="display:block;animation-delay:-1s"><svg><use href="#garlic"/></svg></span></span>
+    <span class="ing" style="left:70%;top:60%;width:56px;height:56px"><span class="bob" style="display:block;animation-delay:-3s"><svg><use href="#coriander"/></svg></span></span>
+  </div></div>
+
+  <div class="hero-copy">
+    <span class="eyebrow">Himalayan momo house · Majnu ka Tilla, Delhi</span>
+    <h1 id="heroTitle"><span class="w">Momo</span> <span class="w">Mountain</span></h1>
+    <p class="hero-tag">Hand-pleated momos and slow thukpa, steamed in bamboo the way they do it up in the hills. From ₹149.</p>
+    <div class="hero-cta">
+      <a class="btn btn-red mag" href="#menu">See the menu <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <a class="btn btn-ghost mag" href="#order">Order for pickup</a>
+    </div>
+  </div>
+
+  <div class="ly" data-hero="steamer" style="z-index:6"><div class="mz" data-depth="60">
+    <div class="steamer-hero" data-cursor="Hot">
+      <svg class="wisps" viewBox="0 0 400 260" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M120 250 C100 200 150 170 128 120 C110 80 140 50 130 10"/>
+        <path d="M200 250 C220 200 175 160 205 110 C225 76 195 40 210 6"/>
+        <path d="M280 250 C300 206 255 170 276 124 C292 88 265 54 278 16"/>
+        <path d="M160 250 C150 214 182 190 168 150"/>
+      </svg>
+      <svg viewBox="0 0 400 250" role="img" aria-label="Illustrated bamboo steamer filled with momos">
+        <use href="#bkBack" width="400" height="250"/>
+        <use href="#momo" x="70" y="18" width="92" height="76"/>
+        <use href="#momo" x="236" y="16" width="96" height="80"/>
+        <use href="#momo" x="150" y="2" width="104" height="86"/>
+        <use href="#momo" x="104" y="40" width="96" height="80"/>
+        <use href="#momo" x="196" y="42" width="100" height="82"/>
+        <use href="#bkFront" width="400" height="250"/>
+      </svg>
+    </div>
+  </div></div>
+
+  <!-- front ingredients (blurred, fastest) -->
+  <div class="ly" data-hero="ingFront" style="z-index:7"><div class="mz" data-depth="90">
+    <span class="ing blur-2" style="left:4%;top:70%;width:150px;height:60px"><span class="bob" style="display:block"><svg><use href="#chilli"/></svg></span></span>
+    <span class="ing blur-1" style="left:84%;top:72%;width:120px;height:120px"><span class="bob" style="display:block;animation-delay:-2.5s"><svg><use href="#coriander"/></svg></span></span>
+    <span class="ing blur-3" style="left:90%;top:30%;width:90px;height:90px"><span class="bob" style="display:block;animation-delay:-1.2s"><svg><use href="#onion"/></svg></span></span>
+    <span class="ing blur-2" style="left:-1%;top:34%;width:60px;height:90px"><span class="bob" style="display:block;animation-delay:-3.6s"><svg><use href="#garlic"/></svg></span></span>
+  </div></div>
+
+  <div class="scroll-cue"><span></span>Scroll to steam</div>
+</section>
+
+<!-- ================= INTRO ================= -->
+<section class="intro" id="intro">
+  <div class="rows" aria-hidden="true">
+    <div class="row r-a"><span>Hand-pleated</span><span class="dot">·</span><span>Bamboo-steamed</span><span class="dot">·</span><span>Hand-pleated</span><span class="dot">·</span><span>Bamboo-steamed</span></div>
+    <div class="row r-b"><span>Fried</span><span class="dot">·</span><span>Tandoori</span><span class="dot">·</span><span>Jhol</span><span class="dot">·</span><span>Thukpa</span><span class="dot">·</span><span>Fried</span><span class="dot">·</span><span>Tandoori</span></div>
+  </div>
+  <div class="wrap intro-grid">
+    <div>
+      <span class="eyebrow" data-reveal>Since 2019 · Twelve pleats a momo</span>
+      <h2 data-reveal>A little piece of the hills, in North Delhi.</h2>
+      <p data-reveal>We started as a four-stool counter behind the monastery lanes and grew into a 40-seat dining room with a window onto the steamers. The wrappers are rolled to order, the fillings are chopped every morning, and every basket is timed by the cook who folded it.</p>
+      <div class="stats">
+        <div class="stat" data-reveal><b data-count="12">12</b><span>pleats on every momo</span></div>
+        <div class="stat" data-reveal><b data-count="8">8</b><span>minutes in the steamer</span></div>
+        <div class="stat" data-reveal><b data-count="4">4</b><span>house chutneys</span></div>
+        <div class="stat" data-reveal><b>₹<span data-count="149">149</span></b><span>plates start at</span></div>
+      </div>
+    </div>
+    <div class="collage">
+      <figure class="frame f1"><img data-par src="img/sea-of-clouds.jpg" alt="Mountain ridges above a sea of clouds at sunset" loading="lazy" /><figcaption>Above the clouds</figcaption></figure>
+      <figure class="frame f2"><img data-par src="img/fried-dumplings-tray.jpg" alt="Fried dumplings on round bamboo coasters beside spring rolls and a dipping sauce" loading="lazy" /><figcaption>Fried, from the kitchen window</figcaption></figure>
+      <span class="ing" data-float="-120" style="left:58%;top:-4%;width:110px;height:44px"><svg><use href="#chilli"/></svg></span>
+      <span class="ing blur-1" data-float="-220" style="left:-4%;top:70%;width:80px;height:80px"><svg><use href="#coriander"/></svg></span>
+      <span class="ing" data-float="-60" style="left:46%;top:58%;width:34px;height:50px"><svg><use href="#garlic"/></svg></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STEAM IT (pinned) ================= -->
+<section class="steam" id="steam" aria-label="Lift the lid">
+  <div class="steam-head">
+    <span class="eyebrow">Scene one · Steam it</span>
+    <h2>Lift the lid.</h2>
+    <p>Eight minutes over a rolling boil, then the cloud.</p>
+  </div>
+  <div class="stage" id="steamStage">
+    <div class="basket" id="basket" data-cursor="Lift">
+      <svg viewBox="0 0 400 250" role="img" aria-label="Open bamboo steamer">
+        <use href="#bkBack" width="400" height="250"/>
+        <use href="#momo" x="90" y="22" width="90" height="74"/>
+        <use href="#momo" x="220" y="20" width="92" height="76"/>
+        <use href="#momo" x="152" y="36" width="96" height="80"/>
+        <use href="#bkFront" width="400" height="250"/>
+      </svg>
+    </div>
+    <div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div><div class="puff"></div>
+    <div class="dish d1"><div class="disc"><img src="img/fried-dumplings-coaster-a.jpg" alt="Two golden fried dumplings on a round bamboo coaster" /></div><span class="lbl">Fried<small>Crisp at the pleats</small></span></div>
+    <div class="dish d2"><div class="disc"><svg viewBox="-60 -60 120 120" role="img" aria-label="Illustration: steamer of plain steamed momos"><use href="#plateSteam" x="-60" y="-60" width="120" height="120"/></svg></div><span class="lbl">Steamed<small>The classic</small></span></div>
+    <div class="dish d3"><div class="disc"><svg viewBox="-60 -60 120 120" role="img" aria-label="Illustration: momos in an orange jhol broth"><use href="#plateJhol" x="-60" y="-60" width="120" height="120"/></svg></div><span class="lbl">Jhol<small>In sesame-tomato broth</small></span></div>
+    <div class="dish d4"><div class="disc"><svg viewBox="-60 -60 120 120" role="img" aria-label="Illustration: charred tandoori momos with onion rings"><use href="#plateTand" x="-60" y="-60" width="120" height="120"/></svg></div><span class="lbl">Tandoori<small>Clay-oven charred</small></span></div>
+    <div class="dish d5"><div class="disc"><img src="img/spring-rolls-plate.jpg" alt="Spring rolls on lettuce with a red bowl of dipping sauce and chopsticks" /></div><span class="lbl">Spring rolls<small>On the side</small></span></div>
+    <div class="lid" id="lid"><svg viewBox="0 0 400 170" aria-hidden="true"><use href="#bkLid" width="400" height="170"/></svg></div>
+  </div>
+</section>
+
+<!-- ================= HOW MOMOS ARE MADE (pinned) ================= -->
+<section class="how" id="how" aria-label="How momos are made">
+  <div class="wrap">
+    <div class="how-head">
+      <div>
+        <span class="eyebrow">Scene two · The fold</span>
+        <h2>How a momo is made.</h2>
+      </div>
+      <div class="pleat-count" aria-live="off"><b id="pleatNum">12</b><span>pleats<br/>folded</span></div>
+    </div>
+    <div class="steps" id="steps">
+      <article class="step">
+        <div class="vis">
+          <svg viewBox="-100 -100 200 200" role="img" aria-label="Illustration: dough ball, rolled wrapper and rolling pin on a bamboo board">
+            <circle r="98" fill="url(#gBambooTop)"/>
+            <circle r="84" fill="#d9b277"/>
+            <g stroke="#b88a4c" stroke-width="1.2" opacity=".5"><path d="M-84 -20 H84 M-80 -40 H80 M-72 -60 H72 M-84 0 H84 M-84 20 H84 M-80 40 H80 M-72 60 H72"/></g>
+            <g fill="#fff" opacity=".7"><circle cx="-50" cy="-30" r="2"/><circle cx="-38" cy="-46" r="1.5"/><circle cx="30" cy="40" r="2"/><circle cx="52" cy="22" r="1.5"/><circle cx="-20" cy="50" r="1.8"/><circle cx="10" cy="-58" r="1.4"/></g>
+            <ellipse cx="-12" cy="10" rx="50" ry="48" fill="#f8efdf"/>
+            <ellipse cx="-12" cy="10" rx="50" ry="48" fill="none" stroke="#e5d4b6" stroke-width="3"/>
+            <circle cx="46" cy="-42" r="22" fill="#f6ead3"/><ellipse cx="40" cy="-48" rx="8" ry="5" fill="#fff" opacity=".6"/>
+            <g transform="rotate(-32)"><rect x="-96" y="58" width="192" height="18" rx="9" fill="#a8763d"/><rect x="-60" y="58" width="120" height="18" rx="9" fill="#c99a5b"/><rect x="-104" y="61" width="14" height="12" rx="6" fill="#8a5e2c"/><rect x="90" y="61" width="14" height="12" rx="6" fill="#8a5e2c"/></g>
+          </svg>
+        </div>
+        <div class="copy"><span class="num">01</span><h3>Dough</h3><p>Maida, a pinch of salt and warm water, kneaded smooth and rested for an hour. Each ball is rolled thin at the edges and a little thicker in the middle, so the base holds up to the steam.</p></div>
+      </article>
+      <article class="step">
+        <div class="vis">
+          <svg viewBox="-100 -100 200 200" role="img" aria-label="Illustration: thin wrapper with a mound of chopped vegetable filling">
+            <circle r="98" fill="url(#gBambooTop)"/>
+            <circle r="84" fill="#d9b277"/>
+            <circle r="66" fill="#f8efdf"/>
+            <circle r="66" fill="none" stroke="#e5d4b6" stroke-width="3"/>
+            <g id="filling">
+              <circle r="30" fill="#c9d9a5"/>
+              <g fill="#7fae55"><rect x="-22" y="-8" width="9" height="5" rx="2" transform="rotate(20)"/><rect x="6" y="-20" width="10" height="5" rx="2" transform="rotate(-30)"/><rect x="-6" y="12" width="9" height="5" rx="2"/><rect x="12" y="6" width="8" height="4" rx="2" transform="rotate(60)"/><rect x="-18" y="10" width="7" height="4" rx="2" transform="rotate(-40)"/></g>
+              <g fill="#e48a3a"><rect x="-8" y="-16" width="6" height="4" rx="1"/><rect x="16" y="-4" width="6" height="4" rx="1"/><rect x="-24" y="2" width="5" height="4" rx="1"/><rect x="2" y="20" width="6" height="4" rx="1"/></g>
+              <g fill="#a35a88" opacity=".85"><rect x="-2" y="-4" width="8" height="3" rx="1.5" transform="rotate(30)"/><rect x="8" y="14" width="7" height="3" rx="1.5"/><rect x="-14" y="-20" width="7" height="3" rx="1.5" transform="rotate(-20)"/></g>
+              <g fill="#fbf4e4"><circle cx="-10" cy="4" r="2"/><circle cx="14" cy="-12" r="2"/><circle cx="4" cy="-24" r="1.6"/></g>
+            </g>
+          </svg>
+          <img class="mini" src="img/garlic-bulbs.jpg" alt="Whole garlic bulbs" loading="lazy" />
+        </div>
+        <div class="copy"><span class="num">02</span><h3>Filling</h3><p>Cabbage, onion, carrot, ginger and plenty of garlic, chopped by hand each morning and seasoned with a little soy and spring onion. Chicken filling is minced fresh and kept in its own station.</p></div>
+      </article>
+      <article class="step">
+        <div class="vis">
+          <svg viewBox="-100 -100 200 200" role="img" aria-label="Illustration: a momo seen from above with twelve pleats">
+            <circle r="98" fill="url(#gBambooTop)"/>
+            <circle r="84" fill="#d9b277"/>
+            <circle r="70" fill="url(#gMomoTop)"/>
+            <g fill="none" stroke="#9b7a4b" stroke-width="3.4" stroke-linecap="round" id="pleats"></g>
+            <circle r="10" fill="#f7ecd8" stroke="#b69465" stroke-width="2"/>
+            <ellipse cx="-26" cy="-28" rx="16" ry="8" fill="#fff" opacity=".35" transform="rotate(-40 -26 -28)"/>
+          </svg>
+        </div>
+        <div class="copy"><span class="num">03</span><h3>Pleat</h3><p>A spoon of filling, then the fold: thumb holds, finger tucks, twelve times round until the top closes into a little knot. Our fastest cook folds a plate of eight in under two minutes.</p></div>
+      </article>
+      <article class="step">
+        <div class="vis">
+          <img src="img/steaming-pot.jpg" alt="Steam rising from a pot on a dark stove" loading="lazy" />
+          <svg class="wisps2" viewBox="0 0 200 200" style="position:absolute;inset:0;border-radius:0;pointer-events:none" aria-hidden="true"><path d="M80 150 C70 120 96 100 84 70 C74 44 92 26 86 4"/><path d="M110 150 C122 118 98 96 114 66 C126 40 108 24 116 0"/><path d="M140 150 C150 122 130 104 140 78"/></svg>
+        </div>
+        <div class="copy"><span class="num">04</span><h3>Steam</h3><p>Into oiled bamboo baskets, stacked three high over a rolling boil. Eight minutes for veg, ten for chicken, then straight to your table with the chutney still warm.</p></div>
+      </article>
+    </div>
+    <div class="how-rail" aria-hidden="true"><button type="button" class="on">01 Dough</button><button type="button">02 Filling</button><button type="button">03 Pleat</button><button type="button">04 Steam</button></div>
+  </div>
+</section>
+
+<!-- ================= MENU (pinned horizontal) ================= -->
+<section class="menu" id="menu" aria-label="Menu">
+  <div class="menu-bgword" aria-hidden="true">Momo · Thukpa · Momo · Thukpa</div>
+  <div class="wrap menu-head">
+    <div>
+      <span class="eyebrow">Scene three · The menu</span>
+      <h2>Pick your plate.</h2>
+    </div>
+    <div class="legend"><span><i class="vmark"></i>Vegetarian</span><span><i class="vmark nv"></i>Non-vegetarian</span><span><svg width="16" height="16" style="color:var(--chilli)"><use href="#i-chilli"/></svg>Spice level, out of 5</span></div>
+  </div>
+  <div class="track" id="track"></div>
+  <div class="menu-progress"><i id="menuBar"></i></div>
+</section>
+
+<!-- ================= CHUTNEY PICKER ================= -->
+<section class="chutney" id="chutney" aria-label="Chutney and spice picker">
+  <div class="wrap chutney-grid">
+    <div>
+      <span class="eyebrow" data-reveal>Build your dip</span>
+      <h2 data-reveal>How hot is your mountain?</h2>
+      <p class="lead" data-reveal>Every plate comes with a chutney of your choice. Pick one, set the heat, and we will suggest a plate that can take it.</p>
+      <div class="picker">
+        <fieldset>
+          <legend>Chutney</legend>
+          <div class="chips" role="radiogroup" aria-label="Chutney" id="chips">
+            <button type="button" class="chip" role="radio" aria-checked="true" data-name="Tomato &amp; sesame" data-c="#d9472c" data-c2="#a42d18"><i style="--c:#d9472c"></i>Tomato &amp; sesame</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-name="Coriander &amp; green chilli" data-c="#5e9a45" data-c2="#3b6f2b"><i style="--c:#5e9a45"></i>Coriander &amp; green chilli</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-name="Timur &amp; roasted tomato" data-c="#9c2a1c" data-c2="#5f150c"><i style="--c:#9c2a1c"></i>Timur &amp; roasted tomato</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-name="Sesame &amp; peanut" data-c="#c99555" data-c2="#94622a"><i style="--c:#c99555"></i>Sesame &amp; peanut</button>
+          </div>
+        </fieldset>
+        <div class="heat">
+          <div class="heat-row"><b id="heatName">Warm</b><span id="heatNum">Heat 2 of 5</span></div>
+          <label class="sr" for="heat">Spice level</label>
+          <input type="range" id="heat" min="1" max="5" step="1" value="2" />
+        </div>
+        <p class="pairing" id="pairing" aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="bowl-stage" data-cursor="Dip">
+      <svg viewBox="-150 -150 300 300" role="img" aria-label="Illustration: chutney bowl with a momo dipping into it">
+        <circle r="128" fill="#000" opacity=".25" cx="8" cy="14"/>
+        <circle r="128" fill="#efe5d3"/>
+        <circle r="128" fill="none" stroke="#d9c9ac" stroke-width="4"/>
+        <circle r="112" fill="#d8cab0"/>
+        <circle r="104" id="sauce" fill="#d9472c"/>
+        <path id="sauce2" d="M-70 -20 C-40 -70 40 -80 70 -30 C40 -50 -20 -50 -70 -20 Z M-60 40 C-20 70 50 60 74 20 C40 44 -10 50 -60 40 Z" fill="#a42d18" opacity=".7"/>
+        <g fill="#f7ecd5" opacity=".9"><ellipse cx="-30" cy="10" rx="4" ry="2.4" transform="rotate(30 -30 10)"/><ellipse cx="22" cy="-26" rx="4" ry="2.4" transform="rotate(-20 22 -26)"/><ellipse cx="40" cy="30" rx="4" ry="2.4" transform="rotate(60 40 30)"/><ellipse cx="-50" cy="-40" rx="4" ry="2.4"/><ellipse cx="6" cy="52" rx="4" ry="2.4" transform="rotate(10 6 52)"/></g>
+        <g id="flakes"></g>
+        <ellipse cx="-40" cy="-58" rx="40" ry="12" fill="#fff" opacity=".18" transform="rotate(-24 -40 -58)"/>
+        <g class="dipper" id="dipper"><use href="#momo" x="40" y="-150" width="130" height="108" transform="rotate(18 105 -96)"/></g>
+      </svg>
+      <img class="chillies-photo" src="img/dried-red-chillies.jpg" alt="A pile of dried red chillies" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section class="reviews" id="reviews" aria-label="Reviews">
+  <div class="bg"><img data-par2 src="img/himalaya-peak.jpg" alt="" loading="lazy" /></div>
+  <div class="wrap">
+    <div class="reviews-head">
+      <span class="eyebrow" data-reveal>Word from the lanes</span>
+      <h2 data-reveal>4.8 out of 5, mostly for the jhol.</h2>
+    </div>
+    <div class="rev-grid">
+      <article class="rev tilt" data-reveal>
+        <div class="stars-row" aria-label="5 out of 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>“The jhol momos taste like the ones my aunt makes in Darjeeling. Thin wrapper, proper broth, no shortcuts.”</blockquote>
+        <div class="who"><span class="av">TD</span><div>Tenzin D.<small>Majnu ka Tilla regular</small></div></div>
+      </article>
+      <article class="rev tilt" data-reveal>
+        <div class="stars-row" aria-label="5 out of 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>“Went for heat level five with the timur chutney. Regret nothing. The thukpa afterwards was a kindness.”</blockquote>
+        <div class="who"><span class="av">AS</span><div>Aditi S.<small>Civil Lines</small></div></div>
+      </article>
+      <article class="rev tilt" data-reveal>
+        <div class="stars-row" aria-label="4 out of 5"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg style="opacity:.3"><use href="#i-star"/></svg></div>
+        <blockquote>“Weekend queues are real, but you can watch the cooks pleat through the window while you wait.”</blockquote>
+        <div class="who"><span class="av">RM</span><div>Rohan M.<small>Drove in from Gurugram</small></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VISIT ================= -->
+<section class="visit" id="visit" aria-label="Location and hours">
+  <div class="wrap visit-grid">
+    <div class="visit-info">
+      <div><span class="eyebrow" data-reveal>Find us</span><h2 data-reveal>Up the lane, follow the steam.</h2></div>
+      <div class="info-card" data-reveal>
+        <h3>Address</h3>
+        <p>Momo Mountain, 14 Aruna Nagar Market<br/>Near Majnu ka Tilla, Delhi 110054<br/>Three minutes' walk from the Ring Road footbridge.</p>
+      </div>
+      <div class="info-card" data-reveal>
+        <h3>Hours <span class="open-pill" id="openPill">Checking…</span></h3>
+        <ul class="hours" id="hours">
+          <li data-d="1"><span>Monday</span><span>Closed</span></li>
+          <li data-d="2"><span>Tuesday – Friday</span><span>12:00 – 23:00</span></li>
+          <li data-d="6"><span>Saturday – Sunday</span><span>11:00 – 23:30</span></li>
+        </ul>
+      </div>
+      <div class="info-card" data-reveal><h3>Call or walk in</h3><p>+91 11 4000 0000 · tables for up to 8, no bookings on weekends.</p></div>
+    </div>
+    <div class="map" data-reveal>
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stylised map showing the restaurant near the Yamuna and Ring Road">
+        <rect width="600" height="600" fill="#e7dcc5"/>
+        <g stroke="#d6c8ac" stroke-width="2" fill="none"><path d="M0 120 H600 M0 240 H600 M0 360 H600 M0 480 H600 M100 0 V600 M220 0 V600 M340 0 V600 M460 0 V600"/></g>
+        <path d="M600 40 C520 140 560 230 480 320 C410 400 450 500 380 600 L600 600 Z" fill="#a9c3d6"/>
+        <text x="520" y="430" fill="#5f7f96" font-family="Hanken Grotesk, sans-serif" font-size="16" font-weight="700" transform="rotate(-62 520 430)">YAMUNA</text>
+        <path d="M-10 420 C120 380 240 330 330 250 C390 196 430 120 470 -10" stroke="#f6efe2" stroke-width="26" fill="none"/>
+        <path d="M-10 420 C120 380 240 330 330 250 C390 196 430 120 470 -10" stroke="#e6a54a" stroke-width="5" fill="none" stroke-dasharray="14 10"/>
+        <text x="120" y="372" fill="#7a6a50" font-family="Hanken Grotesk, sans-serif" font-size="15" font-weight="800" transform="rotate(-20 120 372)">RING ROAD</text>
+        <path d="M200 600 C230 480 260 400 300 330" stroke="#f6efe2" stroke-width="12" fill="none"/>
+        <g fill="#cdbd9d"><rect x="120" y="140" width="70" height="60" rx="8"/><rect x="240" y="150" width="60" height="70" rx="8"/><rect x="110" y="470" width="80" height="60" rx="8"/><rect x="240" y="420" width="60" height="50" rx="8"/><rect x="380" y="380" width="40" height="40" rx="8"/></g>
+        <g id="mapPin" transform="translate(300 300)">
+          <circle r="46" fill="#cf3b2b" opacity=".18"><animate attributeName="r" values="20;56;20" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".35;0;.35" dur="2.6s" repeatCount="indefinite"/></circle>
+          <path d="M0 18 C-6 6 -22 -4 -22 -22 A22 22 0 0 1 22 -22 C22 -4 6 6 0 18 Z" fill="#cf3b2b" transform="translate(0 -14)"/>
+          <circle cy="-36" r="8" fill="#f1eadc"/>
+        </g>
+        <rect x="236" y="320" width="128" height="34" rx="17" fill="#232a52"/>
+        <text x="300" y="342" text-anchor="middle" fill="#f1eadc" font-family="Hanken Grotesk, sans-serif" font-size="14" font-weight="800">Momo Mountain</text>
+      </svg>
+      <figure class="photo"><img src="img/annapurna-range.jpg" alt="Snow-capped Himalayan range under a blue sky" loading="lazy" /><span>Our namesake</span></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ORDER ================= -->
+<section class="order" id="order" aria-label="Order">
+  <div class="wrap order-grid">
+    <div class="order-sticky">
+      <span class="eyebrow" data-reveal>Pickup or delivery</span>
+      <h2 data-reveal>Order a basket.</h2>
+      <p class="lead" data-reveal>Choose your plates and we will steam them when you are ten minutes away. Delivery within 5 km of Majnu ka Tilla, free above ₹699.</p>
+      <div class="order-art" aria-hidden="true">
+        <svg viewBox="0 0 400 330">
+          <g id="orderLid" style="transform-box:fill-box;transform-origin:50% 100%"><use href="#bkLid" x="0" y="-6" width="400" height="170"/></g>
+          <g transform="translate(0 80)"><use href="#bkBack" width="400" height="250"/><use href="#momo" x="96" y="24" width="90" height="74"/><use href="#momo" x="214" y="22" width="92" height="76"/><use href="#momo" x="152" y="38" width="96" height="80"/><use href="#bkFront" width="400" height="250"/></g>
+        </svg>
+      </div>
+    </div>
+    <form class="box" id="orderForm" novalidate>
+      <div class="items" id="items"></div>
+      <div class="mode" role="radiogroup" aria-label="Pickup or delivery">
+        <label><input type="radio" name="mode" value="pickup" checked /> Pickup</label>
+        <label><input type="radio" name="mode" value="delivery" /> Delivery</label>
+      </div>
+      <div class="fields">
+        <label class="field">Your name<input type="text" id="oname" autocomplete="name" placeholder="Pema Sherpa" /></label>
+        <label class="field">Phone (10 digits)<input type="tel" id="ophone" inputmode="numeric" autocomplete="tel" placeholder="98XXXXXXXX" /></label>
+        <label class="field">Chutney<select id="ochutney"><option>Tomato &amp; sesame</option><option>Coriander &amp; green chilli</option><option>Timur &amp; roasted tomato</option><option>Sesame &amp; peanut</option></select></label>
+        <label class="field">Ready by<select id="otime"><option>As soon as possible</option><option>In 30 minutes</option><option>In 1 hour</option><option>This evening, 8 pm</option></select></label>
+      </div>
+      <div class="totals" aria-live="polite">
+        <div><span>Subtotal</span><span id="tSub">₹0</span></div>
+        <div><span>Delivery</span><span id="tDel">₹0</span></div>
+        <div><span>GST (5%)</span><span id="tTax">₹0</span></div>
+        <div class="grand"><span>Total</span><b id="tTotal">₹0</b></div>
+      </div>
+      <button class="btn btn-red mag" type="submit">Place demo order</button>
+      <p class="status" id="status" role="status">Demo only: no order is sent and no payment is taken.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#cf3b2b"/><path d="M6 28 L15 15 L20 21 L25 12 L34 28 Z" fill="#f1eadc"/><path d="M9 31 h22" stroke="#f1eadc" stroke-width="2.2" stroke-linecap="round"/></svg>Momo Mountain</a>
+        <p>Himalayan momos, thukpa and chutneys from a small kitchen near Majnu ka Tilla, Delhi.</p>
+      </div>
+      <div class="foot-cols">
+        <div><h4>Visit</h4><ul><li>14 Aruna Nagar Market</li><li>Tue – Sun, from noon</li><li>+91 11 4000 0000</li></ul></div>
+        <div><h4>Explore</h4><a href="#steam">Steam it</a><a href="#how">How it's made</a><a href="#menu">Menu</a><a href="#order">Order</a></div>
+      </div>
+    </div>
+  </div>
+  <svg class="foot-flags" id="footFlags" viewBox="0 0 1440 40" preserveAspectRatio="none" width="100%" aria-hidden="true"></svg>
+  <div class="giant" id="giant" aria-hidden="true">MOMO&nbsp;MTN.</div>
+  <div class="wrap">
+    <div class="foot-bottom"><span>© 2026 Momo Mountain (fictional brand, design demo).</span><span>Photos: StockSnap, CC0 public domain. Momo plates and ingredients are illustrations.</span></div>
+  </div>
+</footer>
+
+<a class="demo-badge" href="/templates#parallax-websites"><b>←</b>Demo by Ravindra · Back to templates</a>
+<div class="cursor" id="cursor"><span id="cursorLabel"></span></div><div class="cursor-dot" id="cursorDot"></div>
+
+<!-- top-down plate illustrations used by the steam scene and menu -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs id="plateDefs"></defs></svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.has("preview")) document.querySelector(".demo-badge")?.remove();
+  const capture = params.has("capture");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const rupee = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
+
+  /* ---------- plate illustrations (top view) ---------- */
+  const ring5 = (r, s) => [0, 1, 2, 3, 4].map((i) => { const a = (i * 72 - 90) * Math.PI / 180; return [Math.cos(a) * r, Math.sin(a) * r, s]; });
+  const momos = (pts, fill) => pts.map(([x, y, s]) => `<use href="#momoTop" x="${x - 50 * s}" y="${y - 50 * s}" width="${100 * s}" height="${100 * s}" style="--mf:${fill}"/>`).join("");
+  const bamboo = `<circle r="58" fill="url(#gBambooTop)"/><circle r="50" fill="#b88a4e"/><circle r="50" fill="none" stroke="#8d6029" stroke-width="1.2" opacity=".6"/><circle r="45" fill="url(#gLeaf)"/><path d="M-40 -6 C-20 -14 0 2 20 -6 C30 -10 38 -4 42 0" stroke="#486b2e" stroke-width="1.4" fill="none" opacity=".6"/>`;
+  const plates = {
+    plateSteam: bamboo + momos([[0, 0, .3], ...ring5(25, .3)], "url(#gMomoTop)") + `<use href="#coriander" x="20" y="22" width="22" height="22" transform="rotate(30 31 33)"/>`,
+    plateChicken: bamboo + momos([[0, 0, .3], ...ring5(25, .3)], "url(#gMomoTop)") + `<use href="#onion" x="-36" y="24" width="12" height="12"/><use href="#onion" x="-26" y="30" width="10" height="10"/><use href="#onion" x="26" y="-38" width="11" height="11"/>`,
+    plateTand: `<circle r="58" fill="#2d2f3a"/><circle r="52" fill="#3b3e4b"/><circle r="52" fill="none" stroke="#565a6a" stroke-width="1.5"/>` + momos([[0, 0, .29], ...ring5(25, .29)], "url(#gTand)") +
+      `<g fill="#3a1506" opacity=".55"><circle cx="-6" cy="-4" r="2.4"/><circle cx="6" cy="5" r="1.8"/><circle cx="20" cy="-24" r="2"/><circle cx="-22" cy="-12" r="2.2"/><circle cx="24" cy="12" r="1.8"/><circle cx="-14" cy="24" r="2"/><circle cx="4" cy="28" r="1.6"/></g>` +
+      `<g fill="none" stroke="#e9d5e8" stroke-width="2.4"><circle cx="38" cy="30" r="7"/><circle cx="-40" cy="28" r="6"/></g><g fill="#5f9d43"><circle cx="34" cy="-36" r="3"/><circle cx="40" cy="-30" r="2.4"/></g>`,
+    plateJhol: `<circle r="58" fill="#ece3d2"/><circle r="58" fill="none" stroke="#d8c9ac" stroke-width="2"/><circle r="49" fill="#d7c8ab"/><circle r="45" fill="url(#gBroth)"/><path d="M-30 -20 C-10 -34 16 -32 30 -16" stroke="#ffd29a" stroke-width="2" fill="none" opacity=".45"/>` +
+      momos([[0, 2, .26], ...ring5(22, .25)], "url(#gMomoTop)") +
+      `<use href="#coriander" x="-40" y="-8" width="16" height="16"/><use href="#coriander" x="26" y="18" width="14" height="14" transform="rotate(80 33 25)"/><g fill="#f7ecd5"><ellipse cx="-14" cy="34" rx="2" ry="1.2"/><ellipse cx="18" cy="-34" rx="2" ry="1.2"/><ellipse cx="36" cy="-6" rx="2" ry="1.2"/></g>`,
+    plateFriedArt: bamboo + momos([[0, 0, .3], ...ring5(25, .3)], "url(#gFried)"),
+  };
+  const defs = $("#plateDefs");
+  Object.entries(plates).forEach(([id, body]) => { const s = document.createElementNS(NS, "symbol"); s.setAttribute("id", id); s.setAttribute("viewBox", "-60 -60 120 120"); s.innerHTML = body; defs.appendChild(s); });
+
+  /* ---------- prayer flags ---------- */
+  const flagColors = ["#3f5f9e", "#efe7d6", "#c4452f", "#3e7a59", "#e0b04a"];
+  function stringFlags(svg, { w = 1440, y0, y1, sag, size, gap, rope }) {
+    if (!svg) return;
+    const n = Math.floor(w / gap);
+    let out = `<path d="M0 ${y0} Q${w / 2} ${(y0 + y1) / 2 + sag * 2} ${w} ${y1}" stroke="${rope}" stroke-width="1.6" fill="none"/>`;
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, x = t * w;
+      const y = (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * ((y0 + y1) / 2 + sag * 2) + t * t * y1;
+      const c = flagColors[i % 5];
+      out += `<rect class="flag" x="${x - size / 2}" y="${y}" width="${size}" height="${size * 1.15}" fill="${c}" opacity=".92" style="animation-delay:${(-i * 0.37).toFixed(2)}s"/>`;
+    }
+    svg.innerHTML = out;
+  }
+  stringFlags($("#heroFlags"), { y0: 20, y1: 40, sag: 40, size: 22, gap: 40, rope: "rgba(240,230,215,.7)" });
+  stringFlags($("#footFlags"), { y0: 2, y1: 2, sag: 4, size: 14, gap: 30, rope: "rgba(240,230,215,.35)" });
+
+  /* ---------- pleat paths for the fold step ---------- */
+  const pleatG = $("#pleats");
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElementNS(NS, "path");
+    p.setAttribute("d", "M0 -10 C14 -26 17 -46 8 -66");
+    p.setAttribute("transform", `rotate(${i * 30})`);
+    p.setAttribute("pathLength", "1");
+    p.setAttribute("class", "pleat-path");
+    pleatG.appendChild(p);
+  }
+
+  /* ---------- menu + order data ---------- */
+  const MENU = [
+    { id: "veg", name: "Himalayan Veg", sub: "Steamed · 8 pcs", price: 169, veg: true, spice: 1, art: "plateSteam", desc: "Cabbage, onion, carrot, ginger and garlic in a thin hand-rolled wrapper." },
+    { id: "chk", name: "Chicken Steamed", sub: "Steamed · 8 pcs", price: 219, veg: false, spice: 1, art: "plateChicken", desc: "Fresh chicken mince with spring onion and ginger, finished with sesame oil." },
+    { id: "fry", name: "Golden Fried", sub: "Fried · 6 pcs", price: 199, veg: true, spice: 2, img: "img/fried-dumplings-coaster-b.jpg", alt: "Two golden fried dumplings on a round bamboo coaster", desc: "Our veg momos, fried until the pleats turn crisp and golden." },
+    { id: "tan", name: "Tandoori Paneer", sub: "Clay oven · 6 pcs", price: 249, veg: true, spice: 3, art: "plateTand", desc: "Paneer and veg momos in a yoghurt-chilli marinade, charred in the tandoor." },
+    { id: "jhol", name: "Chicken Jhol", sub: "In broth · 8 pcs", price: 229, veg: false, spice: 3, art: "plateJhol", desc: "Chicken momos poured over with a tangy sesame, tomato and timur broth." },
+    { id: "roll", name: "Veg Spring Rolls", sub: "Fried · 6 pcs", price: 149, veg: true, spice: 1, img: "img/spring-rolls-plate.jpg", alt: "Spring rolls on lettuce with a red bowl of dipping sauce and chopsticks", desc: "Crisp rolls of cabbage and glass noodles with a sweet chilli dip." },
+    { id: "thk1", name: "Chicken & Egg Thukpa", sub: "Noodle soup", price: 299, veg: false, spice: 1, img: "img/chicken-egg-noodle-soup.jpg", alt: "Noodle soup with sliced chicken, boiled egg halves and greens, with a white spoon", desc: "Rice noodles, sliced chicken, a boiled egg and greens in a light broth." },
+    { id: "thk2", name: "Highland Thukpa", sub: "Noodle soup", price: 349, veg: false, spice: 2, img: "img/thukpa-red-bowl.jpg", alt: "Red bowl of noodle soup with braised meat, a soft egg and spring onion", desc: "Our richest bowl: deep broth, braised meat, a soft egg and spring onion." },
+    { id: "chb", name: "Chilli Chicken Bowl", sub: "Noodle soup", price: 279, veg: false, spice: 4, img: "img/chilli-chicken-noodle-bowl.jpg", alt: "Spiced noodle soup with chicken, tofu puffs and long beans, chilli paste on the side", desc: "Spiced noodle soup with chicken, tofu puffs and long beans. Chilli paste on the side." },
+  ];
+  const heatWords = ["", "Mild", "Medium", "Hot", "Fiery", "Himalayan"];
+  const chilliRow = (n) => `<span class="spice" data-level="${n}" aria-label="Spice level ${n} of 5">${'<svg aria-hidden="true"><use href="#i-chilli"/></svg>'.repeat(5)}<em>${heatWords[n]}</em></span>`;
+  const vmark = (v) => `<i class="vmark${v ? "" : " nv"}" aria-hidden="true"></i>`;
+  $("#track").innerHTML = MENU.map((m) => `
+    <article class="card tilt">
+      <div class="media${m.img ? "" : " art"}">
+        ${m.img ? `<img src="${m.img}" alt="${m.alt}" loading="lazy" />` : `<svg viewBox="-60 -60 120 120" role="img" aria-label="Illustration of ${m.name}"><use href="#${m.art}" x="-60" y="-60" width="120" height="120"/></svg>`}
+        <div class="tags"><span class="tag">${vmark(m.veg)}${m.veg ? "Veg" : "Non-veg"}</span>${m.img ? "" : '<span class="tag">Illustration</span>'}</div>
+      </div>
+      <h3>${m.name}</h3>
+      <p>${m.desc}</p>
+      <div class="foot"><span class="price">${rupee(m.price)}</span>${chilliRow(m.spice)}</div>
+    </article>`).join("");
+
+  /* ---------- order form ---------- */
+  const qty = Object.fromEntries(MENU.map((m) => [m.id, 0]));
+  qty.veg = 1; qty.jhol = 1;
+  $("#items").innerHTML = MENU.map((m) => `
+    <div class="item"><span class="nm">${vmark(m.veg)}${m.name}</span><span class="pr">${rupee(m.price)}</span>
+      <span class="qty"><button type="button" data-id="${m.id}" data-d="-1" aria-label="Remove one ${m.name}">−</button><output id="q-${m.id}">0</output><button type="button" data-id="${m.id}" data-d="1" aria-label="Add one ${m.name}">+</button></span></div>`).join("");
+  const form = $("#orderForm");
+  function totals() {
+    const sub = MENU.reduce((s, m) => s + m.price * qty[m.id], 0);
+    const delivery = form.mode.value === "delivery" && sub > 0 && sub < 699 ? 40 : 0;
+    const tax = sub * 0.05;
+    MENU.forEach((m) => { $("#q-" + m.id).textContent = qty[m.id]; });
+    $("#tSub").textContent = rupee(sub);
+    $("#tDel").textContent = form.mode.value === "pickup" ? "Pickup" : delivery ? rupee(delivery) : sub ? "Free" : "₹0";
+    $("#tTax").textContent = rupee(tax);
+    $("#tTotal").textContent = rupee(sub + delivery + tax);
+    return { sub, total: sub + delivery + tax, plates: Object.values(qty).reduce((a, b) => a + b, 0) };
+  }
+  form.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-id]");
+    if (!b) return;
+    qty[b.dataset.id] = Math.max(0, Math.min(20, qty[b.dataset.id] + Number(b.dataset.d)));
+    totals();
+  });
+  form.addEventListener("change", totals);
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const st = $("#status"), t = totals();
+    const name = $("#oname").value.trim(), phone = $("#ophone").value.replace(/\D/g, "");
+    st.className = "status err";
+    if (!t.plates) { st.textContent = "Add at least one plate to your basket."; return; }
+    if (!name) { st.textContent = "Please add your name."; $("#oname").focus(); return; }
+    if (phone.length !== 10) { st.textContent = "Please enter a 10-digit phone number."; $("#ophone").focus(); return; }
+    st.className = "status ok";
+    st.textContent = `Demo only, nothing was sent: ${name}, your ${t.plates}-plate order (${rupee(t.total)}) with ${$("#ochutney").value} chutney would be ready for ${form.mode.value}.`;
+  });
+  totals();
+
+  /* ---------- chutney picker ---------- */
+  const flakesG = $("#flakes");
+  for (let i = 0; i < 30; i++) {
+    const a = Math.random() * Math.PI * 2, r = 20 + Math.random() * 76;
+    const f = document.createElementNS(NS, "path");
+    f.setAttribute("d", "M-4 0 C-2 -3 3 -3 5 0 C3 2 -2 2 -4 0 Z");
+    f.setAttribute("fill", i % 3 ? "#f2a33a" : "#5b0c05");
+    f.setAttribute("class", "flake");
+    f.setAttribute("transform", `translate(${(Math.cos(a) * r).toFixed(1)} ${(Math.sin(a) * r).toFixed(1)}) rotate(${Math.round(Math.random() * 180)}) scale(${(1 + Math.random() * .8).toFixed(2)})`);
+    flakesG.appendChild(f);
+  }
+  const flakes = [...flakesG.children];
+  const pairs = ["Himalayan Veg, steamed", "Chicken Steamed or Golden Fried", "Chicken Jhol or Tandoori Paneer", "Tandoori Paneer with an extra spoon on the side", "Chilli Chicken Bowl, and a glass of water nearby"];
+  const chips = $$(".chip"), heat = $("#heat");
+  let chutney = chips[0];
+  function updatePicker(dip) {
+    const h = Number(heat.value);
+    $("#sauce").setAttribute("fill", chutney.dataset.c);
+    $("#sauce2").setAttribute("fill", chutney.dataset.c2);
+    flakes.forEach((f, i) => { f.style.opacity = i < h * 6 ? 1 : 0; });
+    $("#heatName").textContent = heatWords[h];
+    $("#heatNum").textContent = `Heat ${h} of 5`;
+    $("#pairing").innerHTML = `<b>${chutney.dataset.name}</b> at <b>${heatWords[h].toLowerCase()}</b> goes best with <b>${pairs[h - 1]}</b>.`;
+    if (dip && !reduce) { const d = $("#dipper"); d.classList.remove("dip"); void d.getBoundingClientRect(); d.classList.add("dip"); }
+  }
+  chips.forEach((c) => c.addEventListener("click", () => { chips.forEach((x) => x.setAttribute("aria-checked", x === c)); chutney = c; updatePicker(true); }));
+  $("#chips").addEventListener("keydown", (e) => {
+    if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
+    e.preventDefault();
+    const i = chips.indexOf(chutney), n = chips[(i + (e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : chips.length - 1)) % chips.length];
+    n.focus(); n.click();
+  });
+  heat.addEventListener("input", () => updatePicker(false));
+  heat.addEventListener("change", () => updatePicker(true));
+  updatePicker(false);
+
+  /* ---------- open now (IST) ---------- */
+  try {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date()).map((p) => [p.type, p.value]));
+    const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(parts.weekday);
+    const mins = Number(parts.hour) * 60 + Number(parts.minute);
+    const weekend = day === 0 || day === 6;
+    const open = day !== 1 && (weekend ? mins >= 660 && mins < 1410 : mins >= 720 && mins < 1380);
+    const pill = $("#openPill");
+    pill.textContent = open ? "Open now" : "Closed now";
+    pill.classList.toggle("closed", !open);
+    const row = day === 1 ? 1 : weekend ? 6 : 2;
+    $(`#hours li[data-d="${row}"]`)?.classList.add("today");
+  } catch (e) { $("#openPill").remove(); }
+
+  /* ---------- nav ---------- */
+  const nav = $("#nav");
+  const onScroll = () => nav.classList.toggle("solid", scrollY > 60);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  /* ---------- cursor, magnetic buttons, tilt (desktop pointers only) ---------- */
+  const fine = matchMedia("(pointer: fine)").matches && !reduce;
+  if (fine) {
+    const cur = $("#cursor"), dot = $("#cursorDot"), lab = $("#cursorLabel");
+    let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
+    addEventListener("pointermove", (e) => { document.documentElement.classList.add("has-cursor"); mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px, ${my}px)`; }, { passive: true });
+    (function loop() { cx += (mx - cx) * .18; cy += (my - cy) * .18; cur.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(loop); })();
+    document.addEventListener("pointerover", (e) => {
+      const t = e.target.closest("[data-cursor], a, button, input, select, .card");
+      cur.classList.toggle("big", !!(t && t.dataset.cursor));
+      lab.textContent = t?.dataset.cursor || "";
+      cur.style.background = t && !t.dataset.cursor ? "rgba(241,234,220,.25)" : "";
+    });
+    document.addEventListener("pointerleave", () => { cur.style.opacity = 0; dot.style.opacity = 0; });
+    document.addEventListener("pointerenter", () => { cur.style.opacity = ""; dot.style.opacity = ""; });
+    $$(".mag").forEach((b) => {
+      b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .3}px, ${(e.clientY - r.top - r.height / 2) * .4}px)`; });
+      b.addEventListener("pointerleave", () => { b.style.transition = "transform .5s cubic-bezier(.2,.8,.2,1), background .3s"; b.style.transform = ""; setTimeout(() => (b.style.transition = ""), 500); });
+    });
+    $$(".tilt").forEach((c) => {
+      c.addEventListener("pointermove", (e) => { const r = c.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; c.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-6px)`; });
+      c.addEventListener("pointerleave", () => { c.style.transform = ""; });
+    });
+  }
+
+  /* ---------- counters (with or without GSAP) ---------- */
+  const counters = $$("[data-count]");
+
+  /* ================= GSAP ================= */
+  if (!window.gsap || !window.ScrollTrigger) return; // page stays fully readable in its final state
+  gsap.registerPlugin(ScrollTrigger);
+
+  // split hero title + footer word into letters
+  const split = (el) => { if (!el) return []; const out = []; const walk = (node) => { [...node.childNodes].forEach((n) => { if (n.nodeType === 3) { const f = document.createDocumentFragment(); [...n.textContent].forEach((ch) => { if (ch === " ") { f.appendChild(document.createTextNode(" ")); return; } const s = document.createElement("span"); s.className = "ch"; s.textContent = ch === " " ? " " : ch; f.appendChild(s); out.push(s); }); n.replaceWith(f); } else walk(n); }); }; walk(el); return out; };
+  const heroChars = split($("#heroTitle"));
+  const giantChars = split($("#giant"));
+
+  const mm = gsap.matchMedia();
+  mm.add({ desk: "(min-width: 768px) and (prefers-reduced-motion: no-preference)", mob: "(max-width: 767px) and (prefers-reduced-motion: no-preference)" }, (ctx) => {
+    const { desk } = ctx.conditions;
+    const S = capture ? true : 1;
+    const cleanups = [];
+    let lenisRef = null;
+
+    // Lenis smooth scroll
+    if (!capture && window.Lenis) {
+      const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+      lenisRef = lenis;
+      lenis.on("scroll", ScrollTrigger.update);
+      const raf = (t) => lenis.raf(t * 1000);
+      gsap.ticker.add(raf); gsap.ticker.lagSmoothing(0);
+      $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const t = $(a.getAttribute("href")); if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: 0 }); } }));
+      cleanups.push(() => { gsap.ticker.remove(raf); lenis.destroy(); });
+    }
+
+    /* --- hero intro (load) --- */
+    gsap.from(heroChars, { yPercent: 110, opacity: 0, rotate: 8, duration: 1.1, ease: "expo.out", stagger: .045, delay: .15 });
+    gsap.from(".hero-copy .eyebrow, .hero-tag, .hero-cta", { y: 30, opacity: 0, duration: 1, ease: "power3.out", stagger: .12, delay: .5 });
+    gsap.from(".steamer-hero", { y: 160, duration: 1.4, ease: "expo.out", delay: .2 });
+
+    /* --- hero scroll depth --- */
+    const k = desk ? 1 : .55;
+    const L = (n) => `[data-hero="${n}"]`;
+    const htl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: "#hero", start: "top top", end: desk ? "+=130%" : "bottom top", pin: desk, scrub: S, anticipatePin: 1 } });
+    htl.to(L("stars"), { y: 40 * k }, 0)
+      .to(L("bgword"), { y: 120 * k, scale: 1.25 }, 0)
+      .to(L("sun"), { y: 180 * k }, 0)
+      .to(L("r1"), { y: 140 * k }, 0)
+      .to(L("m1"), { y: 60 * k }, 0)
+      .to(L("r2"), { y: 60 * k }, 0)
+      .to(L("m2"), { y: -60 * k }, 0)
+      .to(L("r3"), { y: -60 * k }, 0)
+      .to(L("flags"), { y: -100 * k }, 0)
+      .to(L("r4"), { y: -125 * k }, 0)
+      .to(L("m3"), { y: -150 * k }, 0)
+      .to(L("r5"), { y: -190 * k }, 0)
+      .to(L("ingBack"), { y: -320 * k, rotate: 6 }, 0)
+      .to(L("steamer"), { y: -40 * k, scale: desk ? 1.28 : 1.12, transformOrigin: "50% 100%" }, 0)
+      .to(L("ingFront"), { y: -700 * k, rotate: -10 }, 0)
+      .to(heroChars, { y: (i) => -(140 + (i % 4) * 70) * k, rotate: (i) => (i % 2 ? 10 : -10), opacity: 0, stagger: .02 }, 0)
+      .to(".hero-copy .eyebrow, .hero-tag, .hero-cta", { y: -120 * k, opacity: 0 }, 0)
+      .to(".scroll-cue", { opacity: 0, duration: .2 }, 0);
+
+    /* --- hero mouse depth --- */
+    if (desk && fine) {
+      const movers = $$("#hero .mz").map((el) => ({ d: Number(el.dataset.depth), x: gsap.quickTo(el, "x", { duration: 1, ease: "power3" }), y: gsap.quickTo(el, "y", { duration: 1, ease: "power3" }) }));
+      const hm = (e) => { const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5; movers.forEach((m) => { m.x(-nx * m.d * .9); m.y(-ny * m.d * .45); }); };
+      $("#hero").addEventListener("pointermove", hm);
+      cleanups.push(() => $("#hero").removeEventListener("pointermove", hm));
+    }
+
+    /* --- intro: opposing word rows + collage --- */
+    gsap.fromTo(".row.r-a", { xPercent: 0 }, { xPercent: -30, ease: "none", scrollTrigger: { trigger: ".intro", start: "top bottom", end: "bottom top", scrub: S } });
+    gsap.fromTo(".row.r-b", { xPercent: -30 }, { xPercent: 0, ease: "none", scrollTrigger: { trigger: ".intro", start: "top bottom", end: "bottom top", scrub: S } });
+    $$("[data-par]").forEach((img) => gsap.fromTo(img, { yPercent: -14 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: S } }));
+    $$("[data-float]").forEach((el) => gsap.fromTo(el, { y: -Number(el.dataset.float) / 2, rotate: -20 }, { y: Number(el.dataset.float) / 2, rotate: 25, ease: "none", scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: S } }));
+    gsap.fromTo(".frame.f1", { y: 60 }, { y: -60, ease: "none", scrollTrigger: { trigger: ".collage", start: "top bottom", end: "bottom top", scrub: S } });
+    gsap.fromTo(".frame.f2", { y: 160, rotate: -8 }, { y: -100, rotate: 4, ease: "none", scrollTrigger: { trigger: ".collage", start: "top bottom", end: "bottom top", scrub: S } });
+
+    /* --- reveals + counters --- */
+    $$("[data-reveal]").forEach((el) => gsap.from(el, { y: 50, opacity: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none reverse" } }));
+    counters.forEach((el) => { const end = Number(el.dataset.count), o = { v: 0 }; gsap.to(o, { v: end, duration: 1.6, ease: "power2.out", onUpdate: () => (el.textContent = Math.round(o.v)), scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none none" } }); });
+
+    /* --- STEAM IT: pinned --- */
+    const stage = $("#steamStage"), basket = $("#basket"), dishes = $$(".dish");
+    const mouth = () => ({ x: basket.offsetLeft + basket.offsetWidth / 2, y: basket.offsetTop + basket.offsetHeight * .3 });
+    const stl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: "#steam", start: "top top", end: desk ? "+=240%" : "+=170%", pin: true, scrub: S, anticipatePin: 1, invalidateOnRefresh: true } });
+    stl.fromTo("#lid", { x: 0, y: 0, rotate: 0 }, { x: 0, y: () => -innerHeight * .08, rotate: -3, duration: .35, ease: "power1.out" }, .1)
+      .to("#basket", { y: 6, duration: .1, repeat: 3, yoyo: true }, .1)
+      .fromTo("#lid", { x: 0, y: () => -innerHeight * .08, rotate: -3 }, { x: () => innerWidth * (desk ? .34 : .5), y: () => -innerHeight * .46, rotate: 24, duration: .8, immediateRender: false, ease: "power2.inOut" }, .45)
+      .fromTo(".puff", { scale: .2, y: 0, x: (i) => (i - 4.5) * 14, opacity: 0 }, { scale: (i) => 1.6 + (i % 3) * .6, y: (i) => -160 - (i % 4) * 60, x: (i) => (i - 4.5) * 34, opacity: .95, stagger: .05, duration: .7 }, .4)
+      .fromTo(".puff", { scale: (i) => 1.6 + (i % 3) * .6, y: (i) => -160 - (i % 4) * 60, x: (i) => (i - 4.5) * 34, opacity: .95 }, { x: (i) => (i - 4.5) * 34, scale: (i) => 3 + (i % 3), y: (i) => -innerHeight * .75 - (i % 4) * 40, opacity: 0, stagger: .05, duration: 1, immediateRender: false }, 1.1)
+      .fromTo(dishes, { x: (i, el) => mouth().x - (el.offsetLeft + el.offsetWidth / 2), y: (i, el) => mouth().y - (el.offsetTop + el.offsetWidth / 2), scale: .2, rotate: (i) => (i - 2) * 40, opacity: 0 }, { x: 0, y: 0, scale: 1, rotate: 0, opacity: 1, stagger: .12, duration: .9, ease: "power2.out" }, 1.0)
+      .fromTo(".dish .lbl", { y: 16, opacity: 0 }, { y: 0, opacity: 1, stagger: .08, duration: .3 }, 1.8)
+      .to(".steam-head p", { opacity: 0, duration: .2 }, .6)
+      .to({}, { duration: .4 });
+
+    /* --- HOW: pinned step sequence (desktop) --- */
+    const how = $("#how"), steps = $$(".step"), rail = $$(".how-rail button"), pleatNum = $("#pleatNum"), pleatPaths = $$(".pleat-path");
+    if (desk) {
+      how.classList.add("is-pinned");
+      ScrollTrigger.refresh();
+      const vis = steps.map((s) => s.querySelector(".vis")), copy = steps.map((s) => s.querySelector(".copy"));
+      gsap.set(steps.slice(1), { autoAlpha: 0 });
+      gsap.set(pleatPaths, { strokeDashoffset: 1 });
+      pleatNum.textContent = "00";
+      const pc = { v: 0 };
+      const htl2 = gsap.timeline({ defaults: { ease: "power2.inOut" }, scrollTrigger: { trigger: how, start: "top top", end: "+=330%", pin: true, scrub: S, anticipatePin: 1,
+        onUpdate: (st) => { const idx = Math.min(3, Math.floor(st.progress * 4.0001)); rail.forEach((b, i) => b.classList.toggle("on", i === idx)); } } });
+      htl2.fromTo(vis[0], { rotate: -30, scale: .8 }, { rotate: 0, scale: 1, duration: .6 }, 0);
+      for (let i = 1; i < 4; i++) {
+        const t = i;
+        htl2.to(vis[i - 1], { scale: .7, rotate: 40, opacity: 0, x: -120, duration: .45 }, t - .25)
+          .to(copy[i - 1], { y: -80, opacity: 0, duration: .25 }, t - .35)
+          .set(steps[i - 1], { autoAlpha: 0 }, t + .2)
+          .set(steps[i], { autoAlpha: 1 }, t - .25)
+          .fromTo(vis[i], { scale: 1.3, rotate: -40, opacity: 0, x: 120 }, { scale: 1, rotate: 0, opacity: 1, x: 0, duration: .5 }, t - .15)
+          .fromTo(copy[i], { y: 90, opacity: 0 }, { y: 0, opacity: 1, duration: .4 }, t - .05);
+      }
+      htl2.to(pleatPaths, { strokeDashoffset: 0, stagger: .055, duration: .1, ease: "none" }, 2.15)
+        .to(pc, { v: 12, duration: .705, ease: "none", onUpdate: () => (pleatNum.textContent = String(Math.round(pc.v)).padStart(2, "0")) }, 2.15)
+        .to({}, { duration: .3 }, 3.7);
+      const railClick = (e) => { const i = rail.indexOf(e.target.closest("button")); if (i < 0) return; const st = htl2.scrollTrigger; const y = st.start + (st.end - st.start) * ((i + .55) / 4); lenisRef ? lenisRef.scrollTo(y) : scrollTo({ top: y, behavior: "smooth" }); };
+      $(".how-rail").addEventListener("click", railClick);
+      cleanups.push(() => $(".how-rail").removeEventListener("click", railClick));
+      cleanups.push(() => { how.classList.remove("is-pinned"); pleatNum.textContent = "12"; gsap.set([steps, ...vis, ...copy, pleatPaths], { clearProps: "all" }); });
+    } else {
+      steps.forEach((s) => gsap.from(s, { y: 60, opacity: 0, duration: .8, ease: "power3.out", scrollTrigger: { trigger: s, start: "top 88%" } }));
+    }
+
+    /* --- MENU: pinned horizontal (desktop) --- */
+    const menu = $("#menu"), track = $("#track"), cards = $$(".card");
+    if (desk) {
+      menu.classList.add("is-pinned");
+      ScrollTrigger.refresh();
+      const dist = () => Math.max(0, track.scrollWidth - innerWidth);
+      const mt = gsap.to(track, { x: () => -dist(), ease: "none", scrollTrigger: { trigger: menu, start: "top top", end: () => "+=" + dist() * 1.1, pin: true, scrub: S, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: (st) => gsap.set("#menuBar", { scaleX: st.progress }) } });
+      gsap.fromTo(".menu-bgword", { xPercent: -30 }, { xPercent: 0, ease: "none", scrollTrigger: { trigger: menu, start: "top top", end: () => "+=" + dist() * 1.1, scrub: S } });
+      cards.forEach((c, i) => {
+        const media = c.querySelector(".media > img, .media > svg");
+        gsap.fromTo(media, { x: c.querySelector(".media.art") ? 0 : -50, rotate: c.querySelector(".media.art") ? -50 : 0 }, { x: c.querySelector(".media.art") ? 0 : 50, rotate: c.querySelector(".media.art") ? 50 : 0, ease: "none", scrollTrigger: { trigger: c, containerAnimation: mt, start: "left right", end: "right left", scrub: true } });
+        gsap.fromTo(c, { y: i % 2 ? 70 : -40, rotate: i % 2 ? 2 : -2 }, { y: i % 2 ? -30 : 40, rotate: i % 2 ? -2 : 2, ease: "none", scrollTrigger: { trigger: c, containerAnimation: mt, start: "left right", end: "right left", scrub: true } });
+      });
+      cleanups.push(() => { menu.classList.remove("is-pinned"); gsap.set([track, ...cards], { clearProps: "transform" }); });
+    }
+
+    /* --- chutney: bowl drifts, chilli photo counter-drifts --- */
+    gsap.fromTo(".bowl-stage > svg", { y: 80, rotate: -12 }, { y: -60, rotate: 10, ease: "none", scrollTrigger: { trigger: ".chutney", start: "top bottom", end: "bottom top", scrub: S } });
+    gsap.fromTo(".chillies-photo", { y: -40 }, { y: 120, ease: "none", scrollTrigger: { trigger: ".chutney", start: "top bottom", end: "bottom top", scrub: S } });
+
+    /* --- reviews background --- */
+    gsap.fromTo("[data-par2]", { yPercent: -10, scale: 1.15 }, { yPercent: 10, scale: 1, ease: "none", scrollTrigger: { trigger: ".reviews", start: "top bottom", end: "bottom top", scrub: S } });
+    $$(".rev").forEach((r, i) => gsap.fromTo(r, { y: 80 + i * 60 }, { y: -40 - i * 30, ease: "none", scrollTrigger: { trigger: ".rev-grid", start: "top bottom", end: "bottom top", scrub: S } }));
+
+    /* --- order basket lid bobs open with scroll --- */
+    gsap.fromTo("#orderLid", { y: 60, rotate: 0 }, { y: -40, rotate: -10, ease: "none", scrollTrigger: { trigger: ".order", start: "top bottom", end: "center center", scrub: S } });
+
+    /* --- footer giant word --- */
+    gsap.from(giantChars, { yPercent: 105, rotate: 6, stagger: .06, ease: "power3.out", scrollTrigger: { trigger: "footer", start: "top 90%", end: "bottom bottom", scrub: S } });
+
+    if (capture) requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cleanups.forEach((f) => f());
+  });
+  addEventListener("load", () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
