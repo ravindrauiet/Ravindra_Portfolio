@@ -228,6 +228,108 @@ export default function PrivacyPolicyPage() {
               View Delhi Metro Policy →
             </a>
           </div>
+
+          {/* Card 3: FITKEY - Gym & Fitness Pass */}
+          <div
+            style={{
+              background: "#ffffff",
+              border: "2px solid #ea580c",
+              borderRadius: "14px",
+              padding: "2.2rem",
+              boxShadow: "0 10px 25px rgba(234, 88, 12, 0.12)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              textTransform: "none",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "inline-block",
+                  background: "#ffedd5",
+                  color: "#c2410c",
+                  fontSize: "1.1rem",
+                  fontWeight: 700,
+                  padding: "0.3rem 0.8rem",
+                  borderRadius: "9999px",
+                  marginBottom: "1rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                Health &amp; Fitness App
+              </div>
+              <h3
+                style={{
+                  fontSize: "2.2rem",
+                  fontWeight: 700,
+                  color: "#0f172a",
+                  marginBottom: "0.5rem",
+                  textTransform: "none",
+                }}
+              >
+                FITKEY
+              </h3>
+              <p
+                style={{
+                  fontSize: "1.3rem",
+                  color: "#64748b",
+                  marginBottom: "1rem",
+                  textTransform: "none",
+                }}
+              >
+                Package: <code style={{ color: "#ea580c", fontWeight: 600 }}>com.fitkey.fitkey_user</code>
+              </p>
+              <p
+                style={{
+                  fontSize: "1.4rem",
+                  color: "#334155",
+                  lineHeight: 1.6,
+                  marginBottom: "1.5rem",
+                  textTransform: "none",
+                }}
+              >
+                Multi-venue gym &amp; studio pass privacy policy, QR check-in camera disclosure, TLS data encryption, and account deletion portal.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+              <Link
+                href="/privacy-policy/fitkey"
+                style={{
+                  display: "inline-block",
+                  textAlign: "center",
+                  background: "#ea580c",
+                  color: "#ffffff",
+                  padding: "1rem 1.5rem",
+                  borderRadius: "8px",
+                  fontWeight: 600,
+                  fontSize: "1.4rem",
+                  textDecoration: "none",
+                  textTransform: "none",
+                }}
+              >
+                View FITKEY Policy →
+              </Link>
+              <Link
+                href="/privacy-policy/fitkey/delete-account"
+                style={{
+                  display: "inline-block",
+                  textAlign: "center",
+                  background: "#fee2e2",
+                  color: "#b91c1c",
+                  padding: "0.7rem 1.5rem",
+                  borderRadius: "8px",
+                  fontWeight: 600,
+                  fontSize: "1.3rem",
+                  textDecoration: "none",
+                  textTransform: "none",
+                }}
+              >
+                Delete Account &amp; Data ↗
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Section: Website Privacy Policy */}
