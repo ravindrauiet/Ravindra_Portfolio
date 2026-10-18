@@ -43,6 +43,12 @@ export default function sitemap() {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/privacy-policy/cosmic-guide`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.5,
+    },
   ];
 
   const stacks = getAllTechStacks();

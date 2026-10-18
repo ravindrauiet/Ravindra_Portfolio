@@ -40,6 +40,9 @@ export default function Footer() {
           <Link href="/experience">
             <i className="fas fa-chevron-circle-right"></i> Experience
           </Link>
+          <Link href="/privacy-policy">
+            <i className="fas fa-chevron-circle-right"></i> Privacy Policy
+          </Link>
         </div>
 
         <div className="box">
