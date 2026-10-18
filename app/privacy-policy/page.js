@@ -398,12 +398,30 @@ export default function PrivacyPolicyPage() {
             <h4 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#1e1b4b", marginTop: "1.5rem", marginBottom: "0.5rem" }}>
               6. User Rights &amp; Data Deletion
             </h4>
-            <p style={{ marginBottom: "0.5rem" }}>
-              You can request the permanent removal of your account and all associated astrological profiles at any time. Simply send an email to{" "}
-              <a href="mailto:ravindranathjha76@gmail.com?subject=Account%20%26%20Data%20Deletion%20Request" style={{ color: "#2506ad", fontWeight: 700 }}>
-                ravindranathjha76@gmail.com
-              </a>{" "}
-              with the subject line <em>&ldquo;Account &amp; Data Deletion Request&rdquo;</em>. All your data will be permanently wiped from our databases within 30 days.
+            <p style={{ marginBottom: "0.8rem" }}>
+              You have the right to request the permanent deletion of your CosmicGuide account and all associated astrological data at any time.
+            </p>
+            <div style={{ marginBottom: "1rem" }}>
+              <a
+                href="mailto:ravindranathjha76@gmail.com?subject=Account%20%26%20Data%20Deletion%20Request%20-%20CosmicGuide&body=Hello%20Ravindra%2C%0A%0AI%20would%20like%20to%20request%20the%20permanent%20deletion%20of%20my%20CosmicGuide%20account%20and%20all%20associated%20data.%0A%0ARegistered%20Email%20%2F%20Google%20Account%3A%20%0A%0AThank%20you."
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  background: "#dc2626",
+                  color: "#ffffff",
+                  padding: "0.8rem 1.6rem",
+                  borderRadius: "6px",
+                  fontWeight: 700,
+                  fontSize: "1.35rem",
+                  textDecoration: "none",
+                }}
+              >
+                <span>🗑️</span> Request Account &amp; Data Deletion
+              </a>
+            </div>
+            <p style={{ marginBottom: "0.5rem", fontSize: "1.35rem", color: "#64748b" }}>
+              All user profile data, coordinates, and natal charts will be permanently wiped within 30 days.
             </p>
 
             <h4 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#1e1b4b", marginTop: "1.5rem", marginBottom: "0.5rem" }}>

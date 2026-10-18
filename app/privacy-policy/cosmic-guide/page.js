@@ -283,18 +283,19 @@ export default function CosmicGuidePrivacyPolicy() {
 
           {/* Section 6 - Account Deletion */}
           <section
+            id="delete-account"
             style={{
               marginBottom: "2.5rem",
               background: "#eff6ff",
               border: "1px solid #bfdbfe",
               borderRadius: "12px",
-              padding: "2rem",
+              padding: "2.5rem 2rem",
               textTransform: "none",
             }}
           >
             <h2
               style={{
-                fontSize: "2rem",
+                fontSize: "2.2rem",
                 color: "#1e3a8a",
                 fontWeight: 700,
                 marginBottom: "1rem",
@@ -304,42 +305,74 @@ export default function CosmicGuidePrivacyPolicy() {
                 textTransform: "none",
               }}
             >
-              <span style={{ color: "#2563eb" }}>6.</span> User Rights & Data Deletion
+              <span style={{ color: "#2563eb" }}>6.</span> User Rights &amp; Data Deletion
             </h2>
-            <p style={{ textTransform: "none", marginBottom: "1rem" }}>
-              You have the right to access, rectify, or request the permanent deletion of your account and all associated
-              astrological profiles at any time.
+            <p style={{ textTransform: "none", marginBottom: "1.2rem" }}>
+              In accordance with Google Play Data Safety requirements and user privacy laws, you have the right to request the permanent deletion of your CosmicGuide account and all associated personal data at any time without needing to reinstall the app.
             </p>
-            <p style={{ textTransform: "none", marginBottom: "0.5rem" }}>
-              To request full account and data deletion:
-            </p>
+
             <div
               style={{
                 background: "#ffffff",
-                padding: "1.2rem 1.5rem",
-                borderRadius: "8px",
-                border: "1px dashed #93c5fd",
+                border: "1px solid #e2e8f0",
+                borderRadius: "10px",
+                padding: "1.5rem",
+                marginBottom: "1.5rem",
                 fontSize: "1.4rem",
                 textTransform: "none",
               }}
             >
-              Send an email to{" "}
+              <h4 style={{ color: "#0f172a", marginBottom: "0.8rem", fontWeight: 700, fontSize: "1.5rem", textTransform: "none" }}>
+                Data Deletion Breakdown:
+              </h4>
+              <ul style={{ paddingLeft: "2rem", marginBottom: "0", textTransform: "none" }}>
+                <li style={{ marginBottom: "0.5rem" }}>
+                  <strong>Data that will be permanently deleted:</strong> User profile, email address, Google authentication tokens, birth details (date, exact time, and birth coordinates), saved Kundlis/horoscopes, and personal astrological notes.
+                </li>
+                <li style={{ marginBottom: "0.5rem" }}>
+                  <strong>Data that may be retained:</strong> None. All user records tied to your identity are erased. Anonymous, aggregated diagnostic crash logs that contain no personal identifiers may be kept strictly for system stability.
+                </li>
+                <li>
+                  <strong>Retention &amp; Processing Period:</strong> All deletion requests are processed and wiped from active databases and backups within <strong>30 days</strong>.
+                </li>
+              </ul>
+            </div>
+
+            <p style={{ textTransform: "none", marginBottom: "1rem", fontWeight: 600, color: "#1e293b" }}>
+              How to submit a deletion request:
+            </p>
+
+            <div style={{ textTransform: "none", marginBottom: "1.5rem" }}>
+              <a
+                href="mailto:ravindranathjha76@gmail.com?subject=Account%20%26%20Data%20Deletion%20Request%20-%20CosmicGuide&body=Hello%20Ravindra%2C%0A%0AI%20would%20like%20to%20request%20the%20permanent%20deletion%20of%20my%20CosmicGuide%20account%20and%20all%20associated%20data.%0A%0ARegistered%20Email%20%2F%20Google%20Account%3A%20%0A%0AThank%20you."
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.8rem",
+                  background: "#dc2626",
+                  color: "#ffffff",
+                  padding: "1.2rem 2.2rem",
+                  borderRadius: "8px",
+                  fontWeight: 700,
+                  fontSize: "1.5rem",
+                  textDecoration: "none",
+                  boxShadow: "0 4px 12px rgba(220, 38, 38, 0.25)",
+                  textTransform: "none",
+                }}
+              >
+                <span>🗑️</span> Request Account &amp; Data Deletion
+              </a>
+            </div>
+
+            <p style={{ textTransform: "none", fontSize: "1.35rem", color: "#475569", margin: "0" }}>
+              Alternatively, send an email manually to{" "}
               <a
                 href="mailto:ravindranathjha76@gmail.com?subject=Account%20%26%20Data%20Deletion%20Request"
                 style={{ color: "#1d4ed8", fontWeight: 700, textDecoration: "underline", textTransform: "none" }}
               >
                 ravindranathjha76@gmail.com
               </a>{" "}
-              with the subject line:
-              <br />
-              <strong style={{ color: "#0f172a", textTransform: "none" }}>
-                &ldquo;Account &amp; Data Deletion Request&rdquo;
-              </strong>
-              .
-            </div>
-            <p style={{ textTransform: "none", marginTop: "1rem", fontSize: "1.35rem", color: "#475569" }}>
-              All your account records, birth data, and generated charts will be permanently wiped from our databases
-              within 30 days.
+              with the subject <em>&ldquo;Account &amp; Data Deletion Request - CosmicGuide&rdquo;</em> including your registered account email.
             </p>
           </section>
 
