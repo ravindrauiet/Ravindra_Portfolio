@@ -91,6 +91,9 @@ export const metadata = {
       "Full Stack Developer & AI Engineer with an M.Tech in Artificial Intelligence from IIT Jodhpur. React.js, Next.js, Node.js and Generative AI.",
     images: ["https://www.ravindranathjha.in/assets/images/Ravindraprofile.jpeg"],
   },
+  other: {
+    "google-adsense-account": "ca-pub-9856231753902677",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -100,6 +103,11 @@ export default function RootLayout({ children }) {
         <link id="favicon" rel="icon" href="/assets/images/favicon.png" type="image/png" />
         <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/assets/images/favicon.png" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9856231753902677"
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         <Script
