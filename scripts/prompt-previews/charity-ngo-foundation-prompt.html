@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TerraVerde — Non-Profit & Environmental Charity preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #064e3b; background: #ffffff; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .top-match { background: #064e3b; color: #ffffff; padding: 10px 80px; font-size: 13.5px; font-weight: 600; text-align: center; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 15px; border-bottom: 1px solid #f0fdf4; }
+  .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 26px; color: #064e3b; margin-right: auto; }
+  .logo span { color: #10b981; }
+  nav span { color: #374151; font-weight: 500; }
+  .btn-donate { padding: 12px 26px; border-radius: 999px; background: #10b981; color: #ffffff; font-weight: 700; font-size: 14.5px; }
+  .hero { text-align: center; padding: 50px 40px 60px; max-width: 960px; margin: 0 auto; }
+  .pill { display: inline-block; padding: 6px 16px; border-radius: 999px; background: #dcfce7; color: #15803d; font-weight: 700; font-size: 13px; }
+  h1 { font-family: "Playfair Display", serif; font-size: 64px; line-height: 1.08; margin: 20px 0 16px; color: #064e3b; }
+  .hero p { color: #374151; font-size: 19.5px; line-height: 1.6; max-width: 680px; margin: 0 auto 36px; }
+  /* Campaign Progress Card */
+  .meter-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 20px; padding: 28px; width: 780px; margin: 0 auto 36px; text-align: left; }
+  .m-head { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; margin-bottom: 12px; }
+  .m-track { height: 16px; background: #dcfce7; border-radius: 999px; overflow: hidden; margin-bottom: 12px; }
+  .m-fill { width: 83%; height: 100%; background: #10b981; border-radius: 999px; }
+  .m-foot { display: flex; justify-content: space-between; font-size: 13px; color: #15803d; font-weight: 600; }
+  /* Donation Chips */
+  .chips-row { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
+  .d-chip { padding: 12px 24px; border-radius: 12px; border: 2px solid #10b981; background: #ffffff; color: #064e3b; font-weight: 800; font-size: 16px; cursor: pointer; }
+  .d-chip.active { background: #10b981; color: #ffffff; }
+  /* Transparency Stats */
+  .trans-sec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 20px 80px 80px; }
+  .t-box { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 24px; text-align: center; }
+  .t-box strong { display: block; font-size: 38px; color: #10b981; font-weight: 800; margin-bottom: 6px; }
+  .t-box span { font-size: 14px; color: #4b5563; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="top-match">EMERGENCY RAINFOREST CAMPAIGN: All donations matched dollar-for-dollar by our philanthropic partners.</div>
+<nav>
+  <div class="logo">Terra<span>Verde</span></div>
+  <span>Our Mission</span><span>Active Projects</span><span>Transparency</span><span>Impact Stories</span>
+  <div class="btn-donate">Donate Today</div>
+</nav>
+<section class="hero">
+  <span class="pill">✦ 501(c)(3) Audited Charity · Platinum Transparency</span>
+  <h1>Restoring our planet’s vital ecosystems</h1>
+  <p>We work directly alongside indigenous leaders to protect endangered rainforest corridors, plant native canopy trees, and safeguard freshwater basins.</p>
+
+  <div class="meter-card">
+    <div class="m-head">
+      <span>The Amazon Canopy Corridor Fund</span>
+      <span>$1,248,000 / $1,500,000 Raised</span>
+    </div>
+    <div class="m-track">
+      <div class="m-fill"></div>
+    </div>
+    <div class="m-foot">
+      <span>● 83% of Campaign Goal Achieved</span>
+      <span>14,892 verified global donors</span>
+    </div>
+  </div>
+
+  <div class="chips-row">
+    <div class="d-chip">$25</div>
+    <div class="d-chip active">$50 · Plants 10 Trees</div>
+    <div class="d-chip">$100</div>
+    <div class="d-chip">$250</div>
+  </div>
+</section>
+
+<section class="trans-sec">
+  <div class="t-box"><strong>88%</strong><span>Directly fund on-the-ground indigenous rangers &amp; trees</span></div>
+  <div class="t-box"><strong>4.8M</strong><span>Native canopy trees planted across degraded watersheds</span></div>
+  <div class="t-box"><strong>120k</strong><span>Acres of ancient primary rainforest permanently protected</span></div>
+</section>
+</body>
+</html>

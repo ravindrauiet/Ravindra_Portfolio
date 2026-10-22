@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Paws & Whiskers — Veterinary Hospital & Pet Care preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #1e293b; background: #ffffff; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .top-hotline { background: #047857; color: #ffffff; padding: 10px 80px; font-size: 13.5px; font-weight: 600; display: flex; justify-content: space-between; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 15px; border-bottom: 1px solid #f0fdf4; }
+  .logo { font-weight: 800; font-size: 24px; color: #047857; margin-right: auto; display: flex; align-items: center; gap: 8px; }
+  .logo span { color: #f59e0b; }
+  nav span { color: #475569; font-weight: 500; }
+  .btn-green { padding: 12px 24px; border-radius: 999px; background: #047857; color: #ffffff; font-weight: 700; font-size: 14.5px; }
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; padding: 48px 80px 70px; background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%); }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #dcfce7; color: #15803d; font-weight: 700; font-size: 13px; }
+  h1 { font-size: 60px; line-height: 1.08; letter-spacing: -2px; margin-top: 18px; color: #0f172a; }
+  h1 b { color: #047857; }
+  .hero p { color: #475569; font-size: 18.5px; line-height: 1.6; margin-top: 18px; max-width: 520px; }
+  /* Booking Form Card */
+  .book-card { background: #ffffff; border: 1px solid #dcfce7; border-radius: 24px; padding: 30px; box-shadow: 0 25px 60px rgba(4, 120, 87, 0.12); }
+  .book-card h3 { font-size: 20px; margin-bottom: 6px; }
+  .book-card p { font-size: 13.5px; color: #64748b; margin-bottom: 18px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #334155; margin-bottom: 6px; }
+  .field select, .field input { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 14px; background: #f8fafc; }
+  .book-btn { width: 100%; padding: 14px; border-radius: 12px; background: #047857; color: #ffffff; font-weight: 700; font-size: 15px; border: none; cursor: pointer; margin-top: 10px; }
+  /* Pet Species Grid */
+  .species-sec { padding: 40px 80px 80px; }
+  .s-head { text-align: center; max-width: 600px; margin: 0 auto 36px; }
+  .s-head h2 { font-size: 34px; letter-spacing: -1px; }
+  .s-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .s-card { border: 1px solid #e2e8f0; border-radius: 18px; padding: 22px; text-align: center; background: #ffffff; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02); }
+  .s-card em { font-style: normal; font-size: 36px; display: block; margin-bottom: 10px; }
+  .s-card h3 { font-size: 18px; margin-bottom: 6px; }
+  .s-card p { font-size: 13px; color: #64748b; line-height: 1.5; margin: 0; }
+</style>
+</head>
+<body>
+<div class="top-hotline">
+  <div>✦ 24/7 PET EMERGENCY DISPATCH: Walk-ins Welcome Anytime · Call: (800) PAW-HELP</div>
+  <div>AAHA Accredited Veterinary Facility</div>
+</div>
+<nav>
+  <div class="logo">Paws<span>&amp;</span>Whiskers</div>
+  <span>Preventative Care</span><span>Surgeries</span><span>Dental Care</span><span>Our Veterinarians</span>
+  <div class="btn-green">Book Appointment</div>
+</nav>
+<section class="hero">
+  <div>
+    <span class="pill">✦ Certified Fear-Free Veterinary Care</span>
+    <h1>Advanced medical care with a <b>loving touch</b></h1>
+    <p>From routine kitten vaccinations to complex orthopedic surgeries, our experienced veterinarians treat your four-legged family members like our own.</p>
+  </div>
+  <div class="book-card">
+    <h3>Schedule Pet Wellness Visit</h3>
+    <p>Comprehensive health screening and digital vaccination records.</p>
+    <div class="field">
+      <label>Pet Species</label>
+      <select><option>Canine (Dog / Puppy)</option><option>Feline (Cat / Kitten)</option><option>Avian (Bird / Parrot)</option><option>Exotics &amp; Small Mammals</option></select>
+    </div>
+    <div class="field">
+      <label>Reason for Appointment</label>
+      <select><option>Annual Wellness &amp; Core Vaccinations</option><option>Dental Cleaning &amp; Plaque Exam</option><option>Senior Pet Mobility &amp; Arthritis</option><option>Minor Illness / Ear Infection</option></select>
+    </div>
+    <div class="field">
+      <label>Preferred Visit Time</label>
+      <input type="text" value="Saturday, 24 Oct (11:00 AM)" />
+    </div>
+    <button class="book-btn">Confirm Visit Time &rarr;</button>
+  </div>
+</section>
+
+<section class="species-sec">
+  <div class="s-head">
+    <h2>Specialized Care For Every Companion</h2>
+  </div>
+  <div class="s-grid">
+    <div class="s-card"><em>🐕</em><h3>Canine Care</h3><p>Puppy development, nutrition, cardiology, and hip evaluations.</p></div>
+    <div class="s-card"><em>🐈</em><h3>Feline Medicine</h3><p>Quiet, cat-only exam rooms with soothing pheromone diffusers.</p></div>
+    <div class="s-card"><em>🦜</em><h3>Avian Health</h3><p>Beak trimming, plumage diagnostics, and wellness exams.</p></div>
+    <div class="s-card"><em>🐇</em><h3>Small Mammals</h3><p>Rabbit gastrointestinal care, dental filings, and habitat advice.</p></div>
+  </div>
+</section>
+</body>
+</html>

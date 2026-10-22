@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Future Stack Podcast — Podcast Show & Audio Network preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #ffffff; background: #0a0d17; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.45; pointer-events: none; }
+  .g1 { width: 500px; height: 500px; background: #f97316; top: -100px; left: 10%; }
+  .g2 { width: 450px; height: 450px; background: #38bdf8; top: 160px; right: 10%; }
+  nav { position: relative; display: flex; align-items: center; gap: 32px; padding: 26px 80px; font-size: 15px; }
+  .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 8px; margin-right: auto; }
+  .logo span { color: #f97316; }
+  nav span { color: #94a3b8; }
+  .btn-orange { padding: 11px 24px; border-radius: 999px; background: #f97316; color: #ffffff; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4); }
+  .hero { position: relative; text-align: center; padding: 44px 40px 60px; max-width: 960px; margin: 0 auto; }
+  .pill { display: inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.4); color: #fdba74; font-size: 13px; font-weight: 600; }
+  h1 { font-size: 68px; line-height: 1.05; letter-spacing: -2px; font-weight: 800; margin: 20px 0 16px; }
+  h1 b { background: linear-gradient(90deg, #f97316, #38bdf8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: 19.5px; color: #94a3b8; max-width: 660px; margin: 0 auto 32px; line-height: 1.55; }
+  .badges-row { display: flex; justify-content: center; gap: 14px; margin-bottom: 40px; }
+  .p-badge { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); padding: 8px 16px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: #e2e8f0; }
+  /* Player Card */
+  .player-card { background: #111728; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; padding: 24px; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6); width: 840px; margin: 0 auto; display: flex; align-items: center; gap: 24px; text-align: left; }
+  .p-cover { width: 100px; height: 100px; border-radius: 14px; background: linear-gradient(135deg, #ea580c, #0284c7); display: flex; align-items: center; justify-content: center; font-size: 38px; flex-shrink: 0; }
+  .p-details { flex: 1; }
+  .p-ep { font-size: 12px; color: #f97316; font-weight: 700; text-transform: uppercase; font-family: "JetBrains Mono", monospace; }
+  .p-title { font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 10px; }
+  .waveform { height: 32px; display: flex; align-items: center; gap: 4px; }
+  .waveform i { flex: 1; background: #334155; border-radius: 2px; }
+  .waveform i.active { background: #38bdf8; }
+  /* Episodes */
+  .episodes-sec { padding: 40px 80px 80px; }
+  .ep-head { text-align: center; max-width: 600px; margin: 0 auto 36px; }
+  .ep-head h2 { font-size: 32px; letter-spacing: -1px; }
+  .ep-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .ep-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 22px; }
+  .ep-card span.num { font-size: 12px; color: #f97316; font-family: "JetBrains Mono", monospace; font-weight: 700; }
+  .ep-card h3 { font-size: 17px; margin: 8px 0; color: #ffffff; line-height: 1.4; }
+  .ep-card p { font-size: 13px; color: #94a3b8; margin: 0; }
+</style>
+</head>
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<nav>
+  <div class="logo">Future<span>Stack</span></div>
+  <span>Episodes</span><span>Guests</span><span>Chapters</span><span>Sponsors</span>
+  <div class="btn-orange">Subscribe Free</div>
+</nav>
+<section class="hero">
+  <span class="pill">✦ 2.5M+ Downloads · Top 10 Tech Podcast</span>
+  <h1>Conversations with the <b>architects of AI</b></h1>
+  <p>Weekly deep dives into systems engineering, foundation models, and scalable architectures with host Alex Rivera.</p>
+  <div class="badges-row">
+    <div class="p-badge">🟢 Spotify · 4.9★</div>
+    <div class="p-badge">🟣 Apple Podcasts</div>
+    <div class="p-badge">🔴 YouTube 4K</div>
+    <div class="p-badge">🟠 Overcast / RSS</div>
+  </div>
+  <div class="player-card">
+    <div class="p-cover">🎙️</div>
+    <div class="p-details">
+      <div class="p-ep">Episode 142 · 52 mins · Released Yesterday</div>
+      <div class="p-title">Dr. Dario Amodei on How Anthropic Trains Reasoning Models</div>
+      <div class="waveform">
+        <i style="height:30%" class="active"></i><i style="height:60%" class="active"></i><i style="height:90%" class="active"></i>
+        <i style="height:45%" class="active"></i><i style="height:75%" class="active"></i><i style="height:100%" class="active"></i>
+        <i style="height:55%" class="active"></i><i style="height:35%" class="active"></i><i style="height:80%"></i>
+        <i style="height:60%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:25%"></i>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="episodes-sec">
+  <div class="ep-head">
+    <h2>Popular Broadcasts</h2>
+  </div>
+  <div class="ep-grid">
+    <div class="ep-card">
+      <span class="num">EPISODE 141</span>
+      <h3>Inside the Vercel Turbopack &amp; Rust Engine</h3>
+      <p>With Lee Robinson · 48 mins</p>
+    </div>
+    <div class="ep-card">
+      <span class="num">EPISODE 140</span>
+      <h3>Autonomous Agent Swarms in Production</h3>
+      <p>With Harrison Chase (LangChain) · 56 mins</p>
+    </div>
+    <div class="ep-card">
+      <span class="num">EPISODE 139</span>
+      <h3>Building PostgreSQL for 100M Daily Queries</h3>
+      <p>With Supabase Core Team · 51 mins</p>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NexusWork – Collaborative Workspaces for Teams preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0f172a; background: #ffffff; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  
+  .top-banner { background: #0f172a; color: #94a3b8; font-size: 13px; font-weight: 500; text-align: center; padding: 10px 20px; }
+  .top-banner b { color: #f8fafc; }
+  .top-banner a { color: #60a5fa; text-decoration: none; margin-left: 8px; font-weight: 600; }
+
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 80px; border-bottom: 1px solid #e2e8f0; background: #ffffff; }
+  .logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+  .logo span { color: #2563eb; }
+  .nav-links { display: flex; gap: 32px; font-size: 14.5px; font-weight: 600; color: #475569; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .btn-blue { background: #2563eb; color: #ffffff; padding: 11px 24px; border-radius: 999px; font-weight: 700; font-size: 14px; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25); }
+
+  /* Hero Split */
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 60px; align-items: center; padding: 60px 80px 70px; max-width: 1240px; margin: 0 auto; width: 100%; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.2); color: #2563eb; font-size: 12.5px; font-weight: 700; margin-bottom: 20px; }
+  h1 { font-size: 60px; line-height: 1.08; letter-spacing: -1.8px; font-weight: 800; margin-bottom: 20px; color: #0f172a; }
+  h1 b { color: #2563eb; }
+  .hero p { font-size: 18.5px; color: #475569; line-height: 1.6; margin-bottom: 32px; }
+  .hero-ctas { display: flex; gap: 16px; align-items: center; margin-bottom: 32px; }
+  .btn-light { border: 1.5px solid #cbd5e1; color: #334155; padding: 11px 24px; border-radius: 999px; font-weight: 700; font-size: 14px; }
+  .hero-perks { display: flex; gap: 24px; font-size: 13.5px; color: #64748b; font-weight: 600; }
+
+  /* Workspace Visual */
+  .workspace-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; padding: 24px; box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08); }
+  .ws-photo { width: 100%; height: 260px; background: linear-gradient(135deg, #1e3a8a, #2563eb, #38bdf8); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; font-size: 54px; margin-bottom: 16px; position: relative; }
+  .ws-tag { position: absolute; top: 16px; left: 16px; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+  .ws-stats { display: flex; justify-content: space-around; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+  .ws-stat-num { font-size: 18px; font-weight: 800; color: #0f172a; }
+  .ws-stat-lbl { font-size: 11.5px; color: #64748b; font-weight: 600; }
+
+  /* Memberships */
+  .plans-sec { padding: 30px 80px 80px; max-width: 1240px; margin: 0 auto; width: 100%; }
+  .plans-head { text-align: center; margin-bottom: 36px; }
+  .plans-head h2 { font-size: 34px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .plan-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 32px 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+  .plan-card.active { border-color: #2563eb; box-shadow: 0 20px 45px rgba(37, 99, 235, 0.12); position: relative; }
+  .popular-tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 4px 14px; border-radius: 999px; }
+  .plan-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .plan-sub { font-size: 13px; color: #64748b; margin-bottom: 18px; }
+  .plan-price { font-size: 40px; font-weight: 800; color: #0f172a; margin-bottom: 20px; }
+  .plan-price small { font-size: 15px; font-weight: 500; color: #64748b; }
+  .plan-features { list-style: none; padding: 0; margin: 0; font-size: 13.5px; color: #334155; line-height: 2; }
+</style>
+</head>
+<body>
+<div class="top-banner">
+  Campuses in New York, London, Singapore & Bengaluru · <b>Schedule a walkthrough</b> <a href="#">Claim Free Day Pass &rarr;</a>
+</div>
+
+<nav>
+  <div class="logo">Nexus<span>Work</span></div>
+  <div class="nav-links">
+    <span>Campuses</span>
+    <span>Memberships</span>
+    <span>Amenities</span>
+    <span>Community Events</span>
+    <span>Enterprise</span>
+  </div>
+  <div class="nav-right">
+    <span style="font-size: 14px; font-weight: 600; color: #475569;">Member Sign In</span>
+    <div class="btn-blue">Book Campus Tour</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="pill">✦ Flexible Coworking & Private Suites</div>
+    <h1>Workspaces designed to <b>energize</b> your team.</h1>
+    <p>Break free from inflexible leases. Enjoy soundproof meeting booths, barista-grade espresso bars, gigabit fiber, and sunlit private office suites for teams of 1 to 50.</p>
+    <div class="hero-ctas">
+      <div class="btn-blue" style="padding: 13px 28px; font-size: 15px;">Book Free Trial Day &rarr;</div>
+      <div class="btn-light">Explore Campuses</div>
+    </div>
+    <div class="hero-perks">
+      <span>✓ No Long Leases</span>
+      <span>✓ 24/7 Keycard Access</span>
+      <span>✓ Herman Miller Chairs</span>
+    </div>
+  </div>
+
+  <div class="workspace-card">
+    <div class="ws-photo">
+      <div class="ws-tag">● Downtown Tech Campus</div>
+      🏢
+    </div>
+    <div class="ws-stats">
+      <div><div class="ws-stat-num">10 Gbps</div><div class="ws-stat-lbl">Fiber Wi-Fi</div></div>
+      <div><div class="ws-stat-num">14</div><div class="ws-stat-lbl">Zoom Rooms</div></div>
+      <div><div class="ws-stat-num">98%</div><div class="ws-stat-lbl">Member NPS</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="plans-sec">
+  <div class="plans-head">
+    <h2>Transparent, Flexible Membership</h2>
+    <p style="color: #64748b; font-size: 15px;">Work solo or scale a distributed team with simple month-to-month terms.</p>
+  </div>
+
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-title">Day Pass</div>
+      <div class="plan-sub">For nomads and remote drop-ins</div>
+      <div class="plan-price">$35 <small>/ day</small></div>
+      <ul class="plan-features">
+        <li>✓ Hot desk in sunlit lounge</li>
+        <li>✓ Unlimited barista coffee & tea</li>
+        <li>✓ High-speed guest Wi-Fi</li>
+        <li>✓ Access 8:00 AM - 6:00 PM</li>
+      </ul>
+    </div>
+
+    <div class="plan-card active">
+      <div class="popular-tag">Most Popular</div>
+      <div class="plan-title">Dedicated Desk</div>
+      <div class="plan-sub">Your personal ergonomic station</div>
+      <div class="plan-price">$390 <small>/ month</small></div>
+      <ul class="plan-features">
+        <li>✓ 24/7 keycard building access</li>
+        <li>✓ Lockable filing cabinet</li>
+        <li>✓ $100 monthly meeting room credits</li>
+        <li>✓ Business mailing address</li>
+      </ul>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-title">Private Office Suite</div>
+      <div class="plan-sub">Enclosed lockable team haven</div>
+      <div class="plan-price">$1,200 <small>/ month</small></div>
+      <ul class="plan-features">
+        <li>✓ For teams of 2 to 20 people</li>
+        <li>✓ Acoustic glass soundproofing</li>
+        <li>✓ Custom company door signage</li>
+        <li>✓ Unlimited boardroom usage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</body>
+</html>
