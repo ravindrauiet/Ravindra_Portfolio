@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SereneMind — Mental Health & Wellness Therapy preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #1e293b; background: #fbfcf8; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .crisis-bar { background: #0f766e; color: #ffffff; padding: 10px 80px; font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 15px; border-bottom: 1px solid #f1f5f0; }
+  .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 24px; color: #0f766e; margin-right: auto; }
+  .logo span { color: #ca8a04; }
+  nav span { color: #475569; font-weight: 500; }
+  .btn-teal { padding: 12px 24px; border-radius: 999px; background: #0f766e; color: #ffffff; font-weight: 700; font-size: 14.5px; }
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; padding: 50px 80px 70px; }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(15, 118, 110, 0.1); color: #0f766e; font-size: 13px; font-weight: 700; }
+  h1 { font-family: "Playfair Display", serif; font-size: 58px; line-height: 1.12; margin: 18px 0 16px; color: #1e293b; }
+  h1 em { color: #0f766e; }
+  .hero p { color: #475569; font-size: 18.5px; line-height: 1.65; max-width: 520px; }
+  /* Questionnaire Card */
+  .match-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 30px; box-shadow: 0 20px 50px rgba(15, 118, 110, 0.08); }
+  .match-card h3 { font-family: "Playfair Display", serif; font-size: 22px; margin-bottom: 6px; }
+  .match-card p { font-size: 13.5px; color: #64748b; margin-bottom: 18px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #334155; margin-bottom: 6px; }
+  .field select { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 14px; background: #f8fafc; }
+  .match-btn { width: 100%; padding: 14px; border-radius: 12px; background: #0f766e; color: #ffffff; font-weight: 700; font-size: 15px; border: none; cursor: pointer; margin-top: 10px; }
+  /* Specialties Grid */
+  .spec-sec { padding: 40px 80px 80px; }
+  .s-head { text-align: center; max-width: 600px; margin: 0 auto 36px; }
+  .s-head h2 { font-family: "Playfair Display", serif; font-size: 34px; }
+  .s-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .s-card { background: #ffffff; border: 1px solid #f1f5f0; border-radius: 18px; padding: 24px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02); }
+  .s-card em { font-style: normal; font-size: 30px; margin-bottom: 12px; display: block; }
+  .s-card h3 { font-family: "Playfair Display", serif; font-size: 19px; margin-bottom: 8px; color: #1e293b; }
+  .s-card p { font-size: 14px; color: #64748b; line-height: 1.55; margin: 0; }
+</style>
+</head>
+<body>
+<div class="crisis-bar">
+  <div>100% Confidential Psychological Care · In-Network Insurance Accepted</div>
+  <div>In Crisis? Dial or Text 988 Anytime</div>
+</div>
+<nav>
+  <div class="logo">Serene<span>Mind</span></div>
+  <span>Therapy Specialties</span><span>Our Clinicians</span><span>How It Works</span><span>Insurance</span>
+  <div class="btn-teal">Book Intro Session</div>
+</nav>
+<section class="hero">
+  <div>
+    <span class="pill">✦ Licensed Clinical Psychologists &amp; Therapists</span>
+    <h1>Find your path to <em>healing and clarity</em></h1>
+    <p>Compassionate, evidence-based psychotherapy tailored to your personal goals. Safe, judgment-free virtual and in-person sessions.</p>
+  </div>
+  <div class="match-card">
+    <h3>Find Your Ideal Therapist</h3>
+    <p>Answer 2 quick questions to match with an available clinician.</p>
+    <div class="field">
+      <label>Primary Focus</label>
+      <select><option>Anxiety, Stress &amp; Burnout</option><option>Depression &amp; Low Mood</option><option>Couples &amp; Relationship Counseling</option><option>Trauma Recovery &amp; EMDR</option></select>
+    </div>
+    <div class="field">
+      <label>Session Format</label>
+      <select><option>Secure Video Telehealth (From Home)</option><option>In-Person Private Suite</option></select>
+    </div>
+    <button class="match-btn">Match with a Clinician &rarr;</button>
+  </div>
+</section>
+
+<section class="spec-sec">
+  <div class="s-head">
+    <h2>Specialized Areas of Care</h2>
+  </div>
+  <div class="s-grid">
+    <div class="s-card">
+      <em>🌱</em>
+      <h3>Anxiety &amp; Panic Relief</h3>
+      <p>Cognitive behavioral strategies to regain calm, master triggers, and sleep deeply.</p>
+    </div>
+    <div class="s-card">
+      <em>🕊️</em>
+      <h3>Depression &amp; Burnout</h3>
+      <p>Compassionate support to rebuild vitality, restore motivation, and rediscover purpose.</p>
+    </div>
+    <div class="s-card">
+      <em>🤝</em>
+      <h3>Couples &amp; Family Communication</h3>
+      <p>Deepen relational intimacy, navigate difficult transitions, and resolve gridlock.</p>
+    </div>
+  </div>
+</section>
+</body>
+</html>

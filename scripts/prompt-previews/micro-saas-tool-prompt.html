@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>PixelCompress — Micro-SaaS Utility & Converter App preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #1e293b; background: #ffffff; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 14.5px; border-bottom: 1px solid #f1f5f9; }
+  .logo { font-weight: 800; font-size: 22px; color: #2563eb; margin-right: auto; display: flex; align-items: center; gap: 8px; }
+  nav span { color: #64748b; font-weight: 500; }
+  .btn-pro { padding: 9px 18px; border-radius: 8px; background: #2563eb; color: #ffffff; font-weight: 700; font-size: 13.5px; }
+  .hero { text-align: center; padding: 50px 40px 60px; max-width: 900px; margin: 0 auto; }
+  .badge-free { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #dcfce7; color: #15803d; font-weight: 700; font-size: 12.5px; }
+  h1 { font-size: 60px; line-height: 1.08; letter-spacing: -2px; margin: 18px 0 14px; color: #0f172a; }
+  h1 b { color: #2563eb; }
+  .hero p { color: #64748b; font-size: 18.5px; line-height: 1.6; max-width: 640px; margin: 0 auto 36px; }
+  /* Dropzone */
+  .dropzone { width: 680px; margin: 0 auto 28px; border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 20px; padding: 44px 20px; transition: border-color 0.2s; }
+  .drop-icon { font-size: 40px; margin-bottom: 12px; }
+  .drop-title { font-size: 18px; font-weight: 700; color: #1e3a8a; margin-bottom: 6px; }
+  .drop-sub { font-size: 13.5px; color: #60a5fa; margin-bottom: 18px; }
+  .browse-btn { padding: 11px 24px; border-radius: 10px; background: #2563eb; color: #ffffff; font-weight: 700; font-size: 14px; display: inline-block; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); }
+  /* Result Mockup */
+  .result-card { width: 680px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center; }
+  .file-info { display: flex; align-items: center; gap: 14px; text-align: left; }
+  .file-icon { width: 42px; height: 42px; border-radius: 10px; background: #e0e7ff; color: #4338ca; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; font-family: "JetBrains Mono", monospace; }
+  .file-name { font-weight: 700; font-size: 15px; color: #0f172a; }
+  .file-sizes { font-size: 13px; color: #64748b; font-family: "JetBrains Mono", monospace; }
+  .savings-pill { background: #dcfce7; color: #15803d; font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 999px; }
+  .download-btn { padding: 10px 20px; border-radius: 8px; background: #10b981; color: #ffffff; font-weight: 700; font-size: 13.5px; }
+  /* Features */
+  .perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 40px 80px 80px; max-width: 1000px; margin: 0 auto; width: 100%; }
+  .perk-box { padding: 22px; border-radius: 14px; background: #f8fafc; border: 1px solid #e2e8f0; text-align: center; }
+  .perk-box em { font-style: normal; font-size: 26px; }
+  .perk-box h3 { font-size: 16px; margin: 10px 0 6px; }
+  .perk-box p { font-size: 13px; color: #64748b; line-height: 1.5; margin: 0; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">PixelCompress</div>
+  <span>Batch Pro</span><span>Developer API</span><span>Privacy Guarantee</span><span>FAQ</span>
+  <div class="btn-pro">Upgrade to Pro ($19)</div>
+</nav>
+<section class="hero">
+  <span class="badge-free">100% Client-Side WebAssembly · Zero Server Uploads</span>
+  <h1>Compress images up to <b>90% smaller</b></h1>
+  <p>Lossless compression for PNG, WebP, AVIF, and SVG. No quality loss, zero watermarks, and completely private.</p>
+
+  <div class="dropzone">
+    <div class="drop-icon">⚡</div>
+    <div class="drop-title">Drag &amp; drop images here to optimize</div>
+    <div class="drop-sub">PNG, JPG, SVG or WebP up to 50MB per file</div>
+    <div class="browse-btn">Choose Files</div>
+  </div>
+
+  <div class="result-card">
+    <div class="file-info">
+      <div class="file-icon">PNG</div>
+      <div>
+        <div class="file-name">hero-product-mockup.png</div>
+        <div class="file-sizes">4.82 MB &rarr; 482 KB <span class="savings-pill">-90% Saved</span></div>
+      </div>
+    </div>
+    <div class="download-btn">Download WebP &darr;</div>
+  </div>
+</section>
+
+<section class="perks">
+  <div class="perk-box"><em>🔒</em><h3>100% Private</h3><p>Files never leave your device. Processed in-memory.</p></div>
+  <div class="perk-box"><em>🚀</em><h3>Instant Speed</h3><p>Compiled with WebAssembly SIMD for multi-threaded speed.</p></div>
+  <div class="perk-box"><em>🎯</em><h3>Core Web Vitals</h3><p>Boost your Google PageSpeed scores by reducing image weight.</p></div>
+</section>
+</body>
+</html>

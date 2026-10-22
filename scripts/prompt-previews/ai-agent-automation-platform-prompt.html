@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NexusAgent — AI Agent & Workflow Platform preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #fff; background: #050816; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.55; pointer-events: none; }
+  .g1 { width: 500px; height: 500px; background: #6366f1; top: -100px; left: 10%; }
+  .g2 { width: 450px; height: 450px; background: #06b6d4; top: 120px; right: 8%; }
+  nav { position: relative; display: flex; align-items: center; gap: 32px; padding: 26px 80px; font-size: 15px; }
+  .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .logo i { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #6366f1, #06b6d4); display: inline-block; }
+  nav span { color: #94a3b8; }
+  .btn { padding: 12px 24px; border-radius: 999px; background: linear-gradient(135deg, #6366f1, #06b6d4); color: #fff; font-weight: 700; font-size: 14.5px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4); display: inline-block; }
+  .hero { position: relative; text-align: center; padding: 40px 40px 60px; max-width: 1000px; margin: 0 auto; }
+  .pill { display: inline-block; padding: 7px 18px; border-radius: 999px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4); color: #c7d2fe; font-size: 13.5px; font-weight: 600; }
+  h1 { font-size: 72px; line-height: 1.05; letter-spacing: -2.5px; font-weight: 800; margin: 24px 0 18px; }
+  h1 b { background: linear-gradient(90deg, #818cf8, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: 20px; color: #94a3b8; max-width: 680px; margin: 0 auto 32px; line-height: 1.55; }
+  .cta-row { display: flex; gap: 14px; justify-content: center; }
+  .ghost { background: rgba(255, 255, 255, 0.06); color: #fff; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: none; }
+  .terminal { width: 880px; margin: 50px auto 0; background: #090d1e; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 18px; padding: 22px; text-align: left; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); font-family: "JetBrains Mono", monospace; font-size: 13.5px; line-height: 1.6; }
+  .term-bar { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .dot-r { background: #ef4444; } .dot-y { background: #f59e0b; } .dot-g { background: #10b981; }
+  .term-title { color: #64748b; font-size: 12px; margin-left: 8px; }
+  .term-line { color: #94a3b8; margin-bottom: 6px; }
+  .term-line span.c { color: #22d3ee; }
+  .term-line span.p { color: #a78bfa; }
+  .term-line span.g { color: #34d399; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 40px 80px 80px; }
+  .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 26px; }
+  .card em { font-style: normal; font-size: 28px; }
+  .card h3 { font-size: 19px; margin: 12px 0 8px; color: #fff; }
+  .card p { font-size: 14.5px; color: #94a3b8; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<nav>
+  <div class="logo"><i></i>NexusAgent</div>
+  <span>Workflows</span><span>Integrations</span><span>Docs</span><span>Pricing</span>
+  <div class="btn">Deploy Agent</div>
+</nav>
+<section class="hero">
+  <span class="pill">✦ NexusAgent 3.0 · Autonomous multi-agent pipelines</span>
+  <h1>Deploy autonomous AI agents in <b>60 seconds</b></h1>
+  <p>Build resilient background workers that research, execute code, trigger APIs, and handle complex enterprise workflows autonomously.</p>
+  <div class="cta-row">
+    <div class="btn">Start Building Free</div>
+    <div class="btn ghost">View Code Example</div>
+  </div>
+  <div class="terminal">
+    <div class="term-bar"><i class="dot-r"></i><i class="dot-y"></i><i class="dot-g"></i><span class="term-title">nexus-orchestrator --session=live-88</span></div>
+    <div class="term-line"><span class="c">&gt; Initializing agent supervisor:</span> <span class="p">LeadResearcher</span> with tools: [GitHub, Postgres, Claude-3.5]</div>
+    <div class="term-line"><span class="c">&gt; Dispatched subagent:</span> CodeAuditor analyzing commit 78a2f...</div>
+    <div class="term-line"><span class="g">&#10003; Analyzed 14 changed files across 3 repositories.</span> Security audit clean.</div>
+    <div class="term-line"><span class="c">&gt; Webhook emitted to #deployments:</span> Status 200 OK. Execution time: 412ms.</div>
+  </div>
+</section>
+<section class="cards">
+  <div class="card"><em>🧠</em><h3>Persistent Memory</h3><p>Built-in semantic vector RAG with zero cold start latency.</p></div>
+  <div class="card"><em>🛡️</em><h3>Human-in-the-Loop</h3><p>Granular approval checkpoints before triggering production mutations.</p></div>
+  <div class="card"><em>⚡</em><h3>Multi-Model Routing</h3><p>Automatically routes queries to Claude, OpenAI, or Gemini based on cost and accuracy.</p></div>
+</section>
+</body>
+</html>

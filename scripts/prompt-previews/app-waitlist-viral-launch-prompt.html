@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chronos — Mobile App Waitlist & Viral Launch preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #ffffff; background: #030712; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.5; pointer-events: none; }
+  .g1 { width: 500px; height: 500px; background: #ec4899; top: -100px; left: 10%; }
+  .g2 { width: 450px; height: 450px; background: #3b82f6; top: 180px; right: 10%; }
+  nav { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 26px 80px; }
+  .logo { font-weight: 800; font-size: 24px; display: flex; align-items: center; gap: 8px; }
+  .logo span { background: linear-gradient(135deg, #ec4899, #3b82f6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .launch-badge { font-size: 13px; font-weight: 600; color: #94a3b8; background: rgba(255, 255, 255, 0.05); padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.1); }
+  .hero { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px; align-items: center; padding: 40px 80px 70px; max-width: 1200px; margin: 0 auto; width: 100%; }
+  .pill { display: inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(236, 72, 153, 0.15); border: 1px solid rgba(236, 72, 153, 0.35); color: #f472b6; font-size: 13px; font-weight: 600; }
+  h1 { font-size: 64px; line-height: 1.06; letter-spacing: -2px; font-weight: 800; margin: 18px 0 16px; }
+  h1 b { background: linear-gradient(90deg, #ec4899, #60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: 19px; color: #94a3b8; line-height: 1.55; margin-bottom: 28px; }
+  /* Waitlist Form */
+  .waitlist-form { display: flex; gap: 10px; margin-bottom: 16px; }
+  .waitlist-input { flex: 1; padding: 14px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: #ffffff; font-size: 15px; outline: none; }
+  .waitlist-btn { padding: 14px 24px; border-radius: 12px; background: linear-gradient(135deg, #ec4899, #3b82f6); color: #ffffff; font-weight: 700; font-size: 15px; border: none; cursor: pointer; white-space: nowrap; box-shadow: 0 10px 25px rgba(236, 72, 153, 0.35); }
+  .queue-status { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #94a3b8; }
+  .queue-status b { color: #34d399; }
+  /* Smartphone Mockup */
+  .phone-frame { width: 310px; height: 580px; margin-left: auto; border-radius: 46px; background: #0b1120; border: 9px solid #1e293b; padding: 22px 18px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7); position: relative; }
+  .notch { width: 90px; height: 18px; background: #1e293b; border-radius: 0 0 14px 14px; margin: -22px auto 20px; }
+  .phone-time { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .phone-sub { font-size: 12.5px; color: #94a3b8; margin-bottom: 20px; }
+  .agenda-card { background: #1a2236; border-radius: 14px; padding: 14px; margin-bottom: 10px; border-left: 4px solid #ec4899; }
+  .agenda-card.blue { border-left-color: #3b82f6; }
+  .agenda-card strong { display: block; font-size: 13.5px; margin-bottom: 4px; }
+  .agenda-card span { font-size: 11.5px; color: #94a3b8; }
+  /* Referral Bar */
+  .referral-bar { padding: 40px 80px 80px; max-width: 1200px; margin: 0 auto; width: 100%; }
+  .ref-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+  .ref-step strong { display: block; font-size: 16px; margin: 10px 0 6px; color: #fff; }
+  .ref-step span { font-size: 13.5px; color: #94a3b8; }
+  .ref-step em { font-style: normal; font-size: 32px; }
+</style>
+</head>
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<nav>
+  <div class="logo">Chronos<span>.ai</span></div>
+  <div class="launch-badge">✦ iOS &amp; Android Private Beta: Q1 2027</div>
+</nav>
+<section class="hero">
+  <div>
+    <span class="pill">✦ 14,892 Founders in Queue</span>
+    <h1>Reclaim 10 hours <b>every week</b></h1>
+    <p>Autonomous AI calendar scheduling that shields your deep work, eliminates meeting conflicts, and reschedules your week automatically.</p>
+    <div class="waitlist-form">
+      <input type="email" placeholder="Enter your work email..." class="waitlist-input" value="sarah@acme.corp" />
+      <button class="waitlist-btn">Join Priority Queue &rarr;</button>
+    </div>
+    <div class="queue-status">
+      <span>● <b>Live:</b> 34 people joined in the last hour</span>
+      <span>· No spam ever.</span>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="notch"></div>
+    <div class="phone-time">9:41 AM</div>
+    <div class="phone-sub">Wednesday · Focus Mode Active</div>
+    <div class="agenda-card">
+      <strong>Deep Work Focus Block</strong>
+      <span>09:30 AM - 11:30 AM (Slack muted)</span>
+    </div>
+    <div class="agenda-card blue">
+      <strong>Product Architecture Sync</strong>
+      <span>11:45 AM - 12:15 PM with Core Team</span>
+    </div>
+    <div class="agenda-card">
+      <strong>Gym &amp; Health Recharge</strong>
+      <span>01:00 PM - 02:00 PM</span>
+    </div>
+  </div>
+</section>
+
+<section class="referral-bar">
+  <div class="ref-box">
+    <div class="ref-step">
+      <em>🚀</em>
+      <strong>Invite 1 Teammate</strong>
+      <span>Skip 1,000 spots in line instantly.</span>
+    </div>
+    <div class="ref-step">
+      <em>⚡</em>
+      <strong>Invite 3 Teammates</strong>
+      <span>Instant Cohort #1 beta access.</span>
+    </div>
+    <div class="ref-step">
+      <em>👑</em>
+      <strong>Invite 5 Teammates</strong>
+      <span>Lifetime free Pro membership tier.</span>
+    </div>
+  </div>
+</section>
+</body>
+</html>

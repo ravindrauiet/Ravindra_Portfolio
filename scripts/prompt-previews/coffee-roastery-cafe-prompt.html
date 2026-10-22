@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Origins Roastery — Specialty Coffee Roastery & Cafe preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Space+Mono&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #fef3c7; background: #140f0b; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .top-strip { background: #1c1510; color: #d97706; padding: 10px 80px; font-size: 13px; font-family: "Space Mono", monospace; display: flex; justify-content: space-between; border-bottom: 1px solid #291e16; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 24px 80px; font-size: 14.5px; border-bottom: 1px solid #291e16; }
+  .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 24px; color: #fef3c7; margin-right: auto; }
+  .logo span { color: #d97706; }
+  nav span { color: #a89f91; font-weight: 500; }
+  .btn-amber { padding: 10px 22px; border-radius: 999px; background: #d97706; color: #140f0b; font-weight: 700; font-size: 14px; }
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; padding: 50px 80px 70px; }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(217, 119, 6, 0.15); border: 1px solid rgba(217, 119, 6, 0.35); color: #f59e0b; font-size: 12.5px; font-family: "Space Mono", monospace; }
+  h1 { font-family: "Playfair Display", serif; font-size: 60px; line-height: 1.1; margin: 18px 0 16px; color: #fef3c7; }
+  h1 em { color: #d97706; }
+  .hero p { color: #d1c7bd; font-size: 18.5px; line-height: 1.6; max-width: 520px; }
+  /* Bag Preview Mockup */
+  .bag-card { background: #1e1711; border: 1px solid #3d2b1f; border-radius: 20px; padding: 28px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }
+  .bag-tag { font-family: "Space Mono", monospace; font-size: 11.5px; color: #d97706; text-transform: uppercase; margin-bottom: 8px; }
+  .bag-title { font-family: "Playfair Display", serif; font-size: 26px; color: #ffffff; margin-bottom: 4px; }
+  .bag-origin { font-size: 14px; color: #a89f91; margin-bottom: 16px; }
+  .flavor-chips { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .chip { padding: 5px 12px; border-radius: 6px; background: rgba(217, 119, 6, 0.15); color: #fbbf24; font-size: 12px; font-weight: 600; }
+  .bag-cta { display: block; width: 100%; padding: 13px; border-radius: 10px; background: #d97706; color: #140f0b; font-weight: 700; font-size: 14.5px; text-align: center; }
+  /* Bean Grid */
+  .bean-sec { padding: 40px 80px 80px; }
+  .b-head { text-align: center; max-width: 600px; margin: 0 auto 36px; }
+  .b-head h2 { font-family: "Playfair Display", serif; font-size: 34px; }
+  .b-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .b-item { background: #1a130e; border: 1px solid #2e2017; border-radius: 16px; padding: 22px; }
+  .b-item strong { display: block; font-family: "Playfair Display", serif; font-size: 20px; margin: 8px 0 4px; }
+  .b-item span.origin { font-size: 13px; color: #a89f91; display: block; margin-bottom: 12px; }
+  .b-price { font-size: 18px; font-weight: 700; color: #d97706; }
+</style>
+</head>
+<body>
+<div class="top-strip">
+  <div>BATCH ROAST SCHEDULE: Monday &amp; Thursday · Small-batch drum roasted</div>
+  <div>Orders ship within 24 hours</div>
+</div>
+<nav>
+  <div class="logo">Origins<span>.</span></div>
+  <span>Single Origins</span><span>Subscriptions</span><span>Flavor Wheel</span><span>Brew Guides</span><span>Cafe Locations</span>
+  <div class="btn-amber">Shop Fresh Roasts</div>
+</nav>
+<section class="hero">
+  <div>
+    <span class="pill">✦ Direct-Trade Micro-Lots · 100% Arabica</span>
+    <h1>Sourced from the cloud forest, <em>roasted for sweetness</em></h1>
+    <p>We partner directly with family estates in Yirgacheffe, Huila, and Chikmagalur to bring you extraordinary sweetness and clarity in every cup.</p>
+  </div>
+  <div class="bag-card">
+    <div class="bag-tag">LIMITED LOT · 1,950M MASL</div>
+    <div class="bag-title">Ethiopia Yirgacheffe Aricha</div>
+    <div class="bag-origin">Natural Anaerobic Process · Heirloom Varietal</div>
+    <div class="flavor-chips">
+      <span class="chip">Jasmine Blossom</span>
+      <span class="chip">Bergamot</span>
+      <span class="chip">Wild Honey</span>
+    </div>
+    <div class="bag-cta">Order 250g Bag — $19.50 &rarr;</div>
+  </div>
+</section>
+
+<section class="bean-sec">
+  <div class="b-head">
+    <h2>Current Roaster Releases</h2>
+  </div>
+  <div class="b-grid">
+    <div class="b-item">
+      <div style="font-size:32px;">☕</div>
+      <strong>Colombia Geisha Finca El Paraiso</strong>
+      <span class="origin">Thermal Shock Process · Huila, Colombia</span>
+      <div class="b-price">$26.00</div>
+    </div>
+    <div class="b-item">
+      <div style="font-size:32px;">☕</div>
+      <strong>Guatemala Antigua Los Volcanes</strong>
+      <span class="origin">Washed Process · Bourbon &amp; Caturra</span>
+      <div class="b-price">$18.00</div>
+    </div>
+    <div class="b-item">
+      <div style="font-size:32px;">☕</div>
+      <strong>Kenya Nyeri Hill PB</strong>
+      <span class="origin">Double Fermentation · SL28 Varietal</span>
+      <div class="b-price">$21.50</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

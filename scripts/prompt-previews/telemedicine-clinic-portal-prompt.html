@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CarePulse Health — Telemedicine & Digital Health Portal preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0f172a; background: #ffffff; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .alert-bar { background: #0284c7; color: #ffffff; padding: 10px 80px; font-size: 13.5px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .alert-bar span.hot { background: rgba(255, 255, 255, 0.2); padding: 3px 8px; border-radius: 6px; font-size: 11px; margin-right: 6px; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 15px; border-bottom: 1px solid #f1f5f9; }
+  .logo { font-weight: 800; font-size: 24px; color: #0284c7; margin-right: auto; display: flex; align-items: center; gap: 8px; }
+  .logo em { font-style: normal; color: #10b981; }
+  nav span { color: #475569; font-weight: 500; }
+  .btn { padding: 12px 24px; border-radius: 999px; background: #0284c7; color: #ffffff; font-weight: 700; font-size: 14.5px; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; padding: 48px 80px 70px; background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%); }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 13px; }
+  h1 { font-size: 64px; line-height: 1.08; letter-spacing: -2px; margin-top: 18px; color: #0f172a; }
+  h1 b { color: #0284c7; }
+  .hero p { color: #475569; font-size: 19px; line-height: 1.6; margin-top: 18px; max-width: 520px; }
+  .badges { display: flex; gap: 20px; margin-top: 32px; font-size: 13.5px; font-weight: 600; color: #334155; }
+  .badges span { display: flex; align-items: center; gap: 6px; }
+  .badges em { color: #10b981; font-style: normal; font-size: 16px; }
+  /* Booking Card */
+  .book-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 25px 60px rgba(2, 132, 199, 0.12); }
+  .book-card h3 { font-size: 20px; margin-bottom: 6px; }
+  .book-card p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field select, .field input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 14.5px; color: #0f172a; background: #f8fafc; }
+  .book-btn { width: 100%; padding: 14px; border-radius: 12px; background: #0284c7; color: #ffffff; font-weight: 700; font-size: 15px; border: none; cursor: pointer; margin-top: 10px; }
+  /* Doctor Cards Section */
+  .doctors { padding: 50px 80px 80px; }
+  .doc-head { text-align: center; max-width: 600px; margin: 0 auto 40px; }
+  .doc-head h2 { font-size: 34px; letter-spacing: -1px; }
+  .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .doc-card { border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; background: #ffffff; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); }
+  .doc-avatar { width: 56px; height: 56px; border-radius: 50%; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+  .doc-card strong { display: block; font-size: 17px; margin-bottom: 4px; }
+  .doc-card span.spec { font-size: 13.5px; color: #0284c7; font-weight: 600; display: block; margin-bottom: 10px; }
+  .avail-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #10b981; font-weight: 700; }
+  .avail-dot i { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="alert-bar">
+  <div><span class="hot">24/7 HOTLINE</span> Need urgent clinical advice? Average wait time is currently under 4 minutes.</div>
+  <div>Emergency: Call 911 / 112</div>
+</div>
+<nav>
+  <div class="logo">CarePulse<em>+</em></div>
+  <span>Specialties</span><span>Doctors</span><span>Insurance</span><span>How It Works</span>
+  <div class="btn">Book Consultation</div>
+</nav>
+<section class="hero">
+  <div>
+    <span class="pill">✦ Board-certified doctors available right now</span>
+    <h1>Expert medical care, <b>from home</b></h1>
+    <p>Skip the crowded waiting room. Connect with top US-licensed doctors for video appointments, digital prescriptions, and personalized treatment plans.</p>
+    <div class="badges">
+      <span><em>✓</em> HIPAA Compliant</span>
+      <span><em>✓</em> 98% Satisfaction</span>
+      <span><em>✓</em> $39 Flat Fee</span>
+    </div>
+  </div>
+
+  <div class="book-card">
+    <h3>Book a Virtual Consult</h3>
+    <p>Select your health concern and pick a convenient time.</p>
+    <div class="field">
+      <label>Medical Concern</label>
+      <select><option>Primary Care &amp; General Health</option><option>Dermatology &amp; Skin Care</option><option>Mental Health &amp; Therapy</option><option>Pediatrics &amp; Child Health</option></select>
+    </div>
+    <div class="field">
+      <label>Consultation Format</label>
+      <select><option>HD Video Call (Phone or Laptop)</option><option>Private Secure Chat</option></select>
+    </div>
+    <div class="field">
+      <label>Preferred Date</label>
+      <input type="text" value="Today, 21 Oct 2026 (Earliest: 15 min)" />
+    </div>
+    <button class="book-btn">Find Available Doctors &rarr;</button>
+  </div>
+</section>
+
+<section class="doctors">
+  <div class="doc-head">
+    <h2>Featured Specialists on Duty</h2>
+  </div>
+  <div class="doc-grid">
+    <div class="doc-card">
+      <div class="doc-avatar">JS</div>
+      <strong>Dr. Jessica Sanders, MD</strong>
+      <span class="spec">Family Medicine · 12 yrs exp</span>
+      <div class="avail-dot"><i></i>Available in 8 mins</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-avatar" style="background:#fef3c7; color:#d97706;">MP</div>
+      <strong>Dr. Marcus Patel, MD</strong>
+      <span class="spec">Dermatology · 16 yrs exp</span>
+      <div class="avail-dot"><i></i>Available in 20 mins</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-avatar" style="background:#f3e8ff; color:#9333ea;">CL</div>
+      <strong>Dr. Claire Laurent, PsyD</strong>
+      <span class="spec">Clinical Psychology · 9 yrs exp</span>
+      <div class="avail-dot"><i></i>Available in 15 mins</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

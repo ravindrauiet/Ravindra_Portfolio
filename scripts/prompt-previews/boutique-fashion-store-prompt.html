@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Atelier Marais — Boutique D2C Fashion Store preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #18181b; background: #fafaf9; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .top-shipping { background: #18181b; color: #d4d4d8; padding: 9px 80px; font-size: 12.5px; text-align: center; letter-spacing: 0.8px; text-transform: uppercase; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 80px; border-bottom: 1px solid #e7e5e4; }
+  .logo { font-family: "Cinzel", serif; font-size: 24px; font-weight: 700; letter-spacing: 3px; color: #18181b; }
+  .nav-links { display: flex; gap: 32px; font-size: 13.5px; text-transform: uppercase; letter-spacing: 1.2px; }
+  .nav-links span { color: #52525b; }
+  .bag-btn { font-family: "Space Mono", monospace; font-size: 13px; font-weight: 700; color: #18181b; }
+  .hero { text-align: center; padding: 60px 40px 70px; max-width: 900px; margin: 0 auto; }
+  .season-pill { font-family: "Space Mono", monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #71717a; margin-bottom: 16px; display: inline-block; }
+  h1 { font-family: "Cinzel", serif; font-size: 60px; line-height: 1.1; letter-spacing: 1px; color: #18181b; margin-bottom: 18px; font-weight: 500; }
+  .hero p { color: #52525b; font-size: 18px; line-height: 1.6; max-width: 540px; margin: 0 auto 36px; font-weight: 300; }
+  .shop-btn { display: inline-block; padding: 14px 34px; background: #18181b; color: #fafaf9; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; text-decoration: none; }
+  /* Product Grid */
+  .product-sec { padding: 40px 80px 80px; max-width: 1200px; margin: 0 auto; width: 100%; }
+  .p-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .p-card { background: #ffffff; border: 1px solid #e7e5e4; padding: 20px; border-radius: 4px; }
+  .p-thumb { height: 280px; background: #f4f4f5; display: flex; align-items: center; justify-content: center; font-size: 42px; margin-bottom: 16px; border-radius: 2px; }
+  .p-card h3 { font-family: "Cinzel", serif; font-size: 18px; margin-bottom: 6px; }
+  .p-card div.price { font-family: "Space Mono", monospace; font-size: 15px; font-weight: 700; color: #18181b; margin-bottom: 12px; }
+  .swatches { display: flex; gap: 8px; margin-bottom: 16px; }
+  .swatch { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.2); }
+  .add-btn { display: block; width: 100%; padding: 10px; border: 1px solid #18181b; background: transparent; color: #18181b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; text-align: center; }
+</style>
+</head>
+<body>
+<div class="top-shipping">COMPLIMENTARY WORLDWIDE EXPRESS SHIPPING ON ORDERS OVER $250 · DUTIES PRE-PAID</div>
+<nav>
+  <div class="nav-links">
+    <span>Outerwear</span><span>Tailoring</span><span>Silk</span><span>Knitwear</span>
+  </div>
+  <div class="logo">Atelier Marais</div>
+  <div class="bag-btn">Bag (0)</div>
+</nav>
+<section class="hero">
+  <span class="season-pill">AUTUMN / WINTER 2026 EDITION</span>
+  <h1>Sculptural Wool &amp; Cashmere</h1>
+  <p>Hand-finished in Northern Italy with sustainable GOTS-certified fibres. Timeless tailoring built for enduring elegance.</p>
+  <a href="#" class="shop-btn">Explore Collection &rarr;</a>
+</section>
+
+<section class="product-sec">
+  <div class="p-grid">
+    <div class="p-card">
+      <div class="p-thumb">🧥</div>
+      <h3>The Oversized Camel Trench</h3>
+      <div class="price">$520.00</div>
+      <div class="swatches">
+        <span class="swatch" style="background:#c29b61;"></span>
+        <span class="swatch" style="background:#292524;"></span>
+        <span class="swatch" style="background:#e7e5e4;"></span>
+      </div>
+      <div class="add-btn">Quick Add</div>
+    </div>
+    <div class="p-card">
+      <div class="p-thumb">🧶</div>
+      <h3>Double-Faced Cashmere Knit</h3>
+      <div class="price">$390.00</div>
+      <div class="swatches">
+        <span class="swatch" style="background:#78716c;"></span>
+        <span class="swatch" style="background:#1c1917;"></span>
+      </div>
+      <div class="add-btn">Quick Add</div>
+    </div>
+    <div class="p-card">
+      <div class="p-thumb">👔</div>
+      <h3>Pleated Virgin Wool Trousers</h3>
+      <div class="price">$340.00</div>
+      <div class="swatches">
+        <span class="swatch" style="background:#3f3f46;"></span>
+        <span class="swatch" style="background:#18181b;"></span>
+      </div>
+      <div class="add-btn">Quick Add</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

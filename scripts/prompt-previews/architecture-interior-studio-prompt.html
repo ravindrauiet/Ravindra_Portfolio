@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Studio Atelier Forma — Architecture & Interior Studio preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #1c1917; background: #f5f5f4; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 32px 80px; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #e7e5e4; }
+  .logo { font-family: "Cinzel", serif; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #1c1917; }
+  nav div.links { display: flex; gap: 36px; }
+  nav span { color: #78716c; }
+  .hero { text-align: center; padding: 80px 40px 70px; max-width: 1040px; margin: 0 auto; }
+  .location-pill { font-family: "Space Mono", monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #78716c; margin-bottom: 24px; display: inline-block; }
+  h1 { font-family: "Cinzel", serif; font-size: 68px; line-height: 1.08; font-weight: 500; letter-spacing: 1px; color: #1c1917; margin-bottom: 24px; }
+  .hero p { font-size: 19px; line-height: 1.7; color: #57534e; max-width: 620px; margin: 0 auto 48px; font-weight: 300; }
+  /* Full bleed photo frame */
+  .arch-frame { width: 1000px; height: 380px; margin: 0 auto 60px; background: linear-gradient(135deg, #d6d3d1, #a8a29e); border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08); }
+  .frame-caption { position: absolute; bottom: 20px; left: 24px; font-family: "Space Mono", monospace; font-size: 12px; color: #ffffff; background: rgba(0, 0, 0, 0.6); padding: 6px 14px; border-radius: 2px; }
+  /* Projects Grid */
+  .projects-sec { padding: 40px 80px 80px; max-width: 1160px; margin: 0 auto; width: 100%; }
+  .p-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .p-card { background: #ffffff; padding: 24px; border-radius: 4px; border: 1px solid #e7e5e4; }
+  .p-thumb { height: 240px; background: #e7e5e4; margin-bottom: 18px; display: flex; align-items: center; justify-content: center; font-family: "Space Mono", monospace; color: #a8a29e; font-size: 13px; }
+  .p-meta { font-family: "Space Mono", monospace; font-size: 11px; color: #78716c; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .p-card h3 { font-family: "Cinzel", serif; font-size: 22px; font-weight: 600; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Studio Forma</div>
+  <div class="links">
+    <span>Portfolio</span><span>Philosophy</span><span>Selected Works</span><span>Monographs</span><span>Contact</span>
+  </div>
+  <div style="font-family:'Space Mono', monospace; font-size:12px; color:#d97706;">Inquire [2026]</div>
+</nav>
+<section class="hero">
+  <span class="location-pill">NEW YORK · MILAN · KYOTO</span>
+  <h1>Spaces designed with quiet restraint</h1>
+  <p>Monolithic residential sanctuaries and bioclimatic structures built from rammed earth, mass timber, and natural daylight.</p>
+  <div class="arch-frame">
+    <div style="font-family:'Cinzel', serif; font-size:32px; color:#ffffff; opacity:0.85;">ATELIER RESIDENCE — KYOTO</div>
+    <div class="frame-caption">PROJECT REF #4092 · 6,400 SQ. FT · COMPLETED 2026</div>
+  </div>
+</section>
+
+<section class="projects-sec">
+  <div class="p-grid">
+    <div class="p-card">
+      <div class="p-thumb">PHOTOGRAPHY / ARCHITECTURAL MONOGRAPH</div>
+      <div class="p-meta">RESIDENTIAL · ASPEN, COLORADO · 2026</div>
+      <h3>The Glass Pavilions</h3>
+    </div>
+    <div class="p-card">
+      <div class="p-thumb">PHOTOGRAPHY / ARCHITECTURAL MONOGRAPH</div>
+      <div class="p-meta">COMMERCIAL CULTURAL · BRERA, MILAN · 2025</div>
+      <h3>Fondazione Gallery</h3>
+    </div>
+  </div>
+</section>
+</body>
+</html>

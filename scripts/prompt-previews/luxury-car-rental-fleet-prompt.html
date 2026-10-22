@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ApexDrive — Luxury Car Rental & Fleet Booking preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #ffffff; background: #0b0f19; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .top-strip { background: #111625; padding: 9px 80px; font-size: 13px; color: #94a3b8; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+  .top-strip span.gold { color: #f59e0b; font-weight: 600; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .logo { font-family: "Cinzel", serif; font-weight: 700; font-size: 24px; letter-spacing: 2px; color: #ffffff; margin-right: auto; }
+  .logo span { color: #f59e0b; }
+  nav span { color: #cbd5e1; font-weight: 500; }
+  .btn-gold { padding: 12px 26px; border-radius: 8px; background: #f59e0b; color: #0b0f19; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+  .hero { text-align: center; padding: 48px 40px 60px; max-width: 1000px; margin: 0 auto; }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #fbbf24; font-size: 12.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  h1 { font-family: "Cinzel", serif; font-size: 64px; line-height: 1.08; letter-spacing: 1px; margin: 20px 0 16px; font-weight: 700; }
+  h1 span { color: #f59e0b; }
+  .hero p { color: #94a3b8; font-size: 18.5px; line-height: 1.6; max-width: 640px; margin: 0 auto 36px; }
+  /* Booking Bar */
+  .search-bar { background: #131a2b; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 16px; padding: 16px 24px; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 16px; align-items: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); text-align: left; }
+  .s-field small { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #f59e0b; font-weight: 700; margin-bottom: 4px; }
+  .s-field div { font-size: 14.5px; font-weight: 600; color: #ffffff; }
+  .search-btn { padding: 14px 28px; border-radius: 10px; background: #f59e0b; color: #0b0f19; font-weight: 700; font-size: 14px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.8px; }
+  /* Fleet Grid */
+  .fleet-sec { padding: 50px 80px 80px; }
+  .fleet-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px; }
+  .fleet-head h2 { font-family: "Cinzel", serif; font-size: 32px; letter-spacing: 1px; }
+  .fleet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .car-card { background: #131a2b; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
+  .car-thumb { height: 160px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 48px; margin-bottom: 16px; }
+  .car-title { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .car-title strong { font-size: 18px; font-weight: 700; }
+  .car-price { font-size: 20px; font-weight: 800; color: #f59e0b; }
+  .car-price small { font-size: 12px; font-weight: 500; color: #94a3b8; }
+  .specs { display: flex; gap: 8px; font-size: 12px; color: #94a3b8; margin-bottom: 18px; }
+  .specs span { background: rgba(255, 255, 255, 0.05); padding: 5px 10px; border-radius: 6px; }
+  .car-btn { display: block; width: 100%; padding: 12px; border-radius: 8px; background: transparent; border: 1px solid #f59e0b; color: #f59e0b; font-weight: 700; font-size: 13.5px; text-align: center; text-transform: uppercase; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="top-strip">
+  <div><span class="gold">VIP CONCIERGE:</span> Deliveries in Dubai, London, Miami &amp; Monaco.</div>
+  <div>WhatsApp: +971 50 123 4567</div>
+</div>
+<nav>
+  <div class="logo">Apex<span>Drive</span></div>
+  <span>Fleet Showcase</span><span>Private Chauffeur</span><span>Locations</span><span>About</span>
+  <div class="btn-gold">Reserve Fleet</div>
+</nav>
+<section class="hero">
+  <span class="pill">✦ Hand-Delivered To Your Private Jet or Hotel</span>
+  <h1>Drive the <span>extraordinary</span></h1>
+  <p>Unrivalled exotic supercars, luxury SUVs, and executive sedans. Fully insured with zero hidden fees and 24/7 dedicated concierge.</p>
+  <div class="search-bar">
+    <div class="s-field"><small>Pickup Location</small><div>Dubai Downtown / DXB</div></div>
+    <div class="s-field"><small>Pickup Date</small><div>Tomorrow, 10:00 AM</div></div>
+    <div class="s-field"><small>Return Date</small><div>25 Oct 2026, 6:00 PM</div></div>
+    <div class="s-field"><small>Vehicle Class</small><div>Supercar / Coupe</div></div>
+    <button class="search-btn">Search Fleet &rarr;</button>
+  </div>
+</section>
+<section class="fleet-sec">
+  <div class="fleet-head">
+    <h2>Current Fleet Availability</h2>
+    <span style="color:#f59e0b; font-weight:600; font-size:14px;">View All 28 Supercars &rarr;</span>
+  </div>
+  <div class="fleet-grid">
+    <div class="car-card">
+      <div class="car-thumb">🏎️</div>
+      <div class="car-title">
+        <strong>Porsche 911 GT3 RS</strong>
+        <div class="car-price">$1,450 <small>/day</small></div>
+      </div>
+      <div class="specs"><span>518 HP</span><span>0-100 in 3.0s</span><span>Automatic PDK</span></div>
+      <div class="car-btn">Book This Vehicle</div>
+    </div>
+    <div class="car-card">
+      <div class="car-thumb">🚗</div>
+      <div class="car-title">
+        <strong>Lamborghini Huracán</strong>
+        <div class="car-price">$1,850 <small>/day</small></div>
+      </div>
+      <div class="specs"><span>640 HP</span><span>0-100 in 2.9s</span><span>V10 Engine</span></div>
+      <div class="car-btn">Book This Vehicle</div>
+    </div>
+    <div class="car-card">
+      <div class="car-thumb">🚙</div>
+      <div class="car-title">
+        <strong>Range Rover Autobiography</strong>
+        <div class="car-price">$980 <small>/day</small></div>
+      </div>
+      <div class="specs"><span>523 HP</span><span>Executive Seating</span><span>AWD</span></div>
+      <div class="car-btn">Book This Vehicle</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

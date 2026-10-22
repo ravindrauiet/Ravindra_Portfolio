@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Apex Dental Studio — Dental & Orthodontics Clinic preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0c4a6e; background: #ffffff; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .top-hotline { background: #0369a1; color: #ffffff; padding: 10px 80px; font-size: 13.5px; font-weight: 600; display: flex; justify-content: space-between; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 80px; font-size: 15px; border-bottom: 1px solid #f0f9ff; }
+  .logo { font-weight: 800; font-size: 24px; color: #0284c7; margin-right: auto; display: flex; align-items: center; gap: 8px; }
+  .logo span { color: #059669; }
+  nav span { color: #475569; font-weight: 500; }
+  .btn-blue { padding: 12px 24px; border-radius: 999px; background: #0284c7; color: #ffffff; font-weight: 700; font-size: 14.5px; }
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; padding: 48px 80px 70px; background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%); }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 13px; }
+  h1 { font-size: 60px; line-height: 1.08; letter-spacing: -2px; margin-top: 18px; color: #0c4a6e; }
+  h1 b { color: #0284c7; }
+  .hero p { color: #475569; font-size: 18.5px; line-height: 1.6; margin-top: 18px; max-width: 520px; }
+  /* Booking Form Card */
+  .book-card { background: #ffffff; border: 1px solid #e0f2fe; border-radius: 24px; padding: 30px; box-shadow: 0 25px 60px rgba(2, 132, 199, 0.12); }
+  .book-card h3 { font-size: 20px; margin-bottom: 6px; }
+  .book-card p { font-size: 13.5px; color: #64748b; margin-bottom: 18px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #334155; margin-bottom: 6px; }
+  .field select, .field input { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 14px; background: #f8fafc; }
+  .book-btn { width: 100%; padding: 14px; border-radius: 12px; background: #0284c7; color: #ffffff; font-weight: 700; font-size: 15px; border: none; cursor: pointer; margin-top: 10px; }
+  /* Treatments Grid */
+  .treatments-sec { padding: 40px 80px 80px; }
+  .t-head { text-align: center; max-width: 600px; margin: 0 auto 36px; }
+  .t-head h2 { font-size: 34px; letter-spacing: -1px; }
+  .t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .t-card { border: 1px solid #e2e8f0; border-radius: 18px; padding: 24px; background: #ffffff; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03); }
+  .t-card em { font-style: normal; font-size: 30px; margin-bottom: 12px; display: block; }
+  .t-card h3 { font-size: 19px; margin-bottom: 8px; color: #0c4a6e; }
+  .t-card p { font-size: 14px; color: #64748b; line-height: 1.55; margin-bottom: 14px; }
+  .t-price { font-size: 13.5px; color: #059669; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="top-hotline">
+  <div>✦ Emergency dental appointments available today. Call: (800) 555-DENT</div>
+  <div>Invisalign Diamond Top Provider 2026</div>
+</div>
+<nav>
+  <div class="logo">ApexDental<span>+</span></div>
+  <span>Cosmetic Treatments</span><span>Smile Gallery</span><span>Our Surgeons</span><span>Financing</span>
+  <div class="btn-blue">Book Online</div>
+</nav>
+<section class="hero">
+  <div>
+    <span class="pill">✦ Pain-Free Laser Dentistry &amp; Sedation</span>
+    <h1>Modern dentistry designed for <b>your comfort</b></h1>
+    <p>Enjoy noise-cancelling headphones, ceiling streaming screens, and gentle needle-free techniques for teeth whitening, veneers, and implants.</p>
+  </div>
+  <div class="book-card">
+    <h3>Schedule Your Smile Consultation</h3>
+    <p>Complimentary 3D digital scan included with all first visits.</p>
+    <div class="field">
+      <label>Treatment Category</label>
+      <select><option>Invisalign Clear Aligners</option><option>Same-Day Dental Implants</option><option>Porcelain Cosmetic Veneers</option><option>Routine Checkup &amp; Cleaning</option></select>
+    </div>
+    <div class="field">
+      <label>Patient Preference</label>
+      <select><option>Standard Gentle Care</option><option>Sedation / Sleep Dentistry (Anxiety-Free)</option></select>
+    </div>
+    <div class="field">
+      <label>Preferred Day</label>
+      <input type="text" value="Tomorrow, Thursday (Morning slot)" />
+    </div>
+    <button class="book-btn">Confirm Reservation &rarr;</button>
+  </div>
+</section>
+
+<section class="treatments-sec">
+  <div class="t-head">
+    <h2>Specialized Smile Procedures</h2>
+  </div>
+  <div class="t-grid">
+    <div class="t-card">
+      <em>✨</em>
+      <h3>Invisalign Clear Aligners</h3>
+      <p>Discreet, comfortable orthodontic straightening without metal brackets or wires.</p>
+      <div class="t-price">From $99/month with 0% APR</div>
+    </div>
+    <div class="t-card">
+      <em>🦷</em>
+      <h3>Same-Day Dental Implants</h3>
+      <p>Precision 3D guided surgical placement for permanent, natural-feeling tooth restoration.</p>
+      <div class="t-price">Lifetime Structural Warranty</div>
+    </div>
+    <div class="t-card">
+      <em>💎</em>
+      <h3>Hand-Layered Porcelain Veneers</h3>
+      <p>Custom shade-matched European porcelain for a luminous, symmetrical Hollywood smile.</p>
+      <div class="t-price">Free Digital Smile Preview</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

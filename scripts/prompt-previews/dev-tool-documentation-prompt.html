@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HyperFetch — Developer Tool & Open-Source Docs preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #ffffff; background: #090d16; min-height: 1400px; display: flex; flex-direction: column; overflow-x: hidden; }
+  body > :last-child { flex: 1; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.45; pointer-events: none; }
+  .g1 { width: 500px; height: 500px; background: #0284c7; top: -100px; left: 15%; }
+  .g2 { width: 450px; height: 450px; background: #10b981; top: 160px; right: 12%; }
+  nav { position: relative; display: flex; align-items: center; gap: 32px; padding: 26px 80px; font-size: 15px; }
+  .logo { font-family: "JetBrains Mono", monospace; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 8px; margin-right: auto; }
+  .logo span { color: #38bdf8; }
+  nav span { color: #94a3b8; }
+  .badge-stars { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); font-size: 13px; font-family: "JetBrains Mono", monospace; color: #fbbf24; }
+  .btn-cyan { padding: 10px 22px; border-radius: 999px; background: #38bdf8; color: #090d16; font-weight: 700; font-size: 14px; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35); }
+  .hero { position: relative; text-align: center; padding: 44px 40px 60px; max-width: 960px; margin: 0 auto; }
+  .pill { display: inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #7dd3fc; font-size: 13px; font-family: "JetBrains Mono", monospace; }
+  h1 { font-size: 68px; line-height: 1.05; letter-spacing: -2px; font-weight: 800; margin: 20px 0 16px; }
+  h1 b { background: linear-gradient(90deg, #38bdf8, #4ade80); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: 19.5px; color: #94a3b8; max-width: 680px; margin: 0 auto 32px; line-height: 1.55; }
+  /* Terminal Install Box */
+  .cmd-box { display: inline-flex; align-items: center; gap: 14px; background: #111827; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 14px; padding: 12px 20px; font-family: "JetBrains Mono", monospace; font-size: 15px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+  .cmd-prompt { color: #38bdf8; }
+  .cmd-copy { background: rgba(255, 255, 255, 0.08); padding: 5px 12px; border-radius: 8px; font-size: 12px; color: #94a3b8; cursor: pointer; }
+  /* Code Preview Split */
+  .docs-preview { display: grid; grid-template-columns: 240px 1fr; gap: 20px; width: 920px; margin: 50px auto 0; background: #0c1220; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 24px; text-align: left; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); }
+  .docs-nav { border-right: 1px solid rgba(255, 255, 255, 0.08); padding-right: 16px; font-size: 13.5px; color: #94a3b8; }
+  .docs-nav div { padding: 8px 12px; border-radius: 8px; margin-bottom: 4px; }
+  .docs-nav div.active { background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-weight: 600; }
+  .code-editor { font-family: "JetBrains Mono", monospace; font-size: 13.5px; line-height: 1.65; color: #e2e8f0; }
+  .kw { color: #f472b6; } .fn { color: #38bdf8; } .str { color: #4ade80; } .cm { color: #64748b; }
+  /* Benchmarks */
+  .benchmarks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 40px 80px 80px; }
+  .b-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 24px; }
+  .b-card strong { display: block; font-size: 32px; font-family: "JetBrains Mono", monospace; color: #38bdf8; margin-bottom: 4px; }
+  .b-card span { font-size: 13.5px; color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<nav>
+  <div class="logo">hyper<span>fetch</span></div>
+  <span>Documentation</span><span>Benchmarks</span><span>Changelog</span><span>Ecosystem</span>
+  <div class="badge-stars">★ 14,892 stars</div>
+  <div class="btn-cyan">Get Started</div>
+</nav>
+<section class="hero">
+  <span class="pill">v4.2 released with native WebAssembly SIMD</span>
+  <h1>The fastest type-safe API client for <b>TypeScript</b></h1>
+  <p>Zero dependencies, automatic schema inference from OpenAPI, and 4x faster request serialization than standard fetch.</p>
+  <div class="cmd-box">
+    <span class="cmd-prompt">$</span>
+    <span>npx hyperfetch init my-api</span>
+    <span class="cmd-copy">Copy Command</span>
+  </div>
+  <div class="docs-preview">
+    <div class="docs-nav">
+      <div class="active">Quick Start</div>
+      <div>Type Inference</div>
+      <div>Retry &amp; Jitter</div>
+      <div>Edge Runtimes</div>
+      <div>OpenAPI Codegen</div>
+    </div>
+    <div class="code-editor">
+      <div class="cm">// 1. Initialize client with full end-to-end type safety</div>
+      <div><span class="kw">import</span> { createClient } <span class="kw">from</span> <span class="str">"hyperfetch"</span>;</div>
+      <br/>
+      <div><span class="kw">const</span> api = <span class="fn">createClient</span>&lt;AppRoutes&gt;({</div>
+      <div>&nbsp;&nbsp;baseUrl: <span class="str">"https://api.domain.com/v1"</span>,</div>
+      <div>&nbsp;&nbsp;retry: { attempts: 3, backoff: <span class="str">"exponential"</span> }</div>
+      <div>});</div>
+      <br/>
+      <div class="cm">// 2. Fully autocompleted and verified at compile time</div>
+      <div><span class="kw">const</span> user = <span class="kw">await</span> api.<span class="fn">users</span>({ id: <span class="str">"usr_88"</span> }).<span class="fn">get</span>();</div>
+    </div>
+  </div>
+</section>
+<section class="benchmarks">
+  <div class="b-card"><strong>4.2x</strong><span>Faster request throughput vs Axios</span></div>
+  <div class="b-card"><strong>0 KB</strong><span>Runtime external dependencies</span></div>
+  <div class="b-card"><strong>100%</strong><span>TypeScript type safety coverage</span></div>
+</section>
+</body>
+</html>
