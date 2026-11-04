@@ -13,7 +13,7 @@ const projectData = [
     tech_stack: ["React", "Node.js", "Express", "MongoDB", "Firebase", "Google Auth"],
     links: {
       view: "https://www.pujakaro.in/",
-      code: "https://github.com/PujaKaro/frontend-vercel"
+      code: "https://github.com/ravindrauiet"
     }
   },
   {
@@ -24,7 +24,7 @@ const projectData = [
     tech_stack: ["React", "Node.js", "Express", "MongoDB", "Gemini AI"],
     links: {
       view: "https://gloupwebapp.vercel.app/",
-      code: "https://github.com/ravindrauiet/gloupwebapp"
+      code: "https://github.com/ravindrauiet"
     }
   },
   {
@@ -57,7 +57,7 @@ const projectData = [
     tech_stack: ["React Native", "Expo", "Node.js", "RESTful API", "Redux"],
     links: {
       view: "#",
-      code: "https://github.com/ravindrauiet/fastag_bajaj_api"
+      code: "https://github.com/ravindrauiet"
     }
   },
   {
