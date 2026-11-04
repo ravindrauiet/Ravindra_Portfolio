@@ -1,4 +1,5 @@
 import Link from "next/link";
+import WebsitePrivacy from "@/components/site/WebsitePrivacy";
 
 export const metadata = {
   title: "Privacy Policy | Ravindra Nath Jha",
@@ -12,6 +13,7 @@ export const metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <main
+      className="policy-page"
       style={{
         minHeight: "100vh",
         backgroundColor: "#f8fafc",
@@ -360,19 +362,7 @@ export default function PrivacyPolicyPage() {
             <strong>Ravindra Nath Jha&apos;s Portfolio (www.ravindranathjha.in)</strong> and how it is protected.
           </p>
 
-          <h3 style={{ fontSize: "1.8rem", color: "#2506ad", marginTop: "2rem", marginBottom: "1rem", textTransform: "none" }}>
-            Information We Collect
-          </h3>
-          <p style={{ color: "#475569", fontSize: "1.45rem", lineHeight: 1.7, textTransform: "none" }}>
-            We only collect personal information when you voluntarily submit it through our contact form (such as your name, email address, phone number, and project message details).
-          </p>
-
-          <h3 style={{ fontSize: "1.8rem", color: "#2506ad", marginTop: "2rem", marginBottom: "1rem", textTransform: "none" }}>
-            How We Use Information
-          </h3>
-          <p style={{ color: "#475569", fontSize: "1.45rem", lineHeight: 1.7, textTransform: "none" }}>
-            The information submitted is exclusively used to respond to your inquiry, discuss software development and freelancing requirements, or provide requested consultation. We never sell, rent, or share your data with third parties.
-          </p>
+          <WebsitePrivacy />
 
           <h3 style={{ fontSize: "1.8rem", color: "#2506ad", marginTop: "2rem", marginBottom: "1rem", textTransform: "none" }}>
             Contact Us

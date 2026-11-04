@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthorBox from "@/components/site/AuthorBox";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
@@ -251,6 +252,8 @@ export default async function PromptDetailPage({ params }) {
               </li>
             </ul>
           </section>
+
+          <AuthorBox label="Prompt written and tested by" />
 
           <section className="lib-block">
             <h2>More website prompts</h2>

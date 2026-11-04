@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthorBox from "@/components/site/AuthorBox";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import CodeTabs from "@/components/library/CodeTabs";
@@ -189,6 +190,8 @@ export default async function TemplateDetailPage({ params }) {
               ))}
             </ul>
           </section>
+
+          <AuthorBox label="Designed and coded by" />
 
           {related.length > 0 && (
             <section className="lib-block">

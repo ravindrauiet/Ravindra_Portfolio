@@ -17,6 +17,7 @@ export default function FitKeyDeleteAccountPage() {
 
   return (
     <main
+      className="policy-page"
       style={{
         minHeight: "100vh",
         backgroundColor: "#f8fafc",
@@ -55,7 +56,7 @@ export default function FitKeyDeleteAccountPage() {
         </div>
 
         {/* Header */}
-        <header
+        <div
           style={{
             borderBottom: "2px solid #e2e8f0",
             paddingBottom: "2rem",
@@ -102,7 +103,7 @@ export default function FitKeyDeleteAccountPage() {
           >
             If you wish to delete your <strong>FITKEY - Gym &amp; Fitness Pass</strong> (<code>com.fitkey.fitkey_user</code>) account and erase your personal fitness records, you can submit your request directly using this page or from inside the app.
           </p>
-        </header>
+        </div>
 
         {/* Content Body */}
         <article

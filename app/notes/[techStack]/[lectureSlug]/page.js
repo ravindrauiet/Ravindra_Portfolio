@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthorBox from "@/components/site/AuthorBox";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, ChevronRight, Clock, ListChecks, UserRound } from "lucide-react";
 import { LectureCode, LectureProse } from "@/components/notes/LectureContent";
@@ -227,6 +228,8 @@ export default async function LectureDetailPage({ params }) {
                   {section.codeSnippet ? <LectureCode code={section.codeSnippet} stackSlug={stack.slug} /> : null}
                 </div>
               ))}
+
+              <AuthorBox />
 
               <LectureFinish
                 stackSlug={stack.slug}

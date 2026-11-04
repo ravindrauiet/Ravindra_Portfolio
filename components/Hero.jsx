@@ -276,28 +276,6 @@ export default function Hero() {
                 <i className="fas fa-envelope"></i>
               </a>
             </li>
-            <li>
-              <a
-                href="https://twitter.com/"
-                className="twitter"
-                aria-label="Twitter"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <i className="fab fa-twitter"></i>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://t.me/"
-                className="telegram"
-                aria-label="Telegram"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <i className="fab fa-telegram-plane"></i>
-              </a>
-            </li>
           </ul>
         </div>
       </div>

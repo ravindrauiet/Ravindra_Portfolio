@@ -3,19 +3,24 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+// Content first: learning sections lead, personal pages follow
+const LINKS = [
+  { href: "/", label: "Home", match: (p) => p === "/" },
+  { href: "/notes", label: "Notes", match: (p) => p.startsWith("/notes") },
+  { href: "/templates", label: "Templates", match: (p) => p.startsWith("/templates") },
+  { href: "/prompts", label: "AI Prompts", match: (p) => p.startsWith("/prompts") },
+  { href: "/projects", label: "Projects", match: (p) => p === "/projects" },
+  { href: "/about", label: "About", match: (p) => p === "/about" },
+  { href: "/contact", label: "Contact", match: (p) => p === "/contact" },
+];
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -34,84 +39,17 @@ export default function Navbar() {
 
       <nav className={`navbar ${menuOpen ? "nav-toggle" : ""}`}>
         <ul>
-          <li>
-            <Link
-              className={pathname === "/" ? "active" : ""}
-              href="/#home"
-              onClick={() => setMenuOpen(false)}
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/#about" onClick={() => setMenuOpen(false)}>
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname === "/skills" ? "active" : ""}
-              href="/skills"
-              onClick={() => setMenuOpen(false)}
-            >
-              Skills
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname.startsWith("/notes") ? "active" : ""}
-              href="/notes"
-              onClick={() => setMenuOpen(false)}
-            >
-              Notes 📚
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname.startsWith("/templates") ? "active" : ""}
-              href="/templates"
-              onClick={() => setMenuOpen(false)}
-            >
-              Templates
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname.startsWith("/prompts") ? "active" : ""}
-              href="/prompts"
-              onClick={() => setMenuOpen(false)}
-            >
-              Prompts
-            </Link>
-          </li>
-          <li>
-            <Link href="/#education" onClick={() => setMenuOpen(false)}>
-              Education
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname === "/projects" ? "active" : ""}
-              href="/projects"
-              onClick={() => setMenuOpen(false)}
-            >
-              Work
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname === "/experience" ? "active" : ""}
-              href="/experience"
-              onClick={() => setMenuOpen(false)}
-            >
-              Experience
-            </Link>
-          </li>
-          <li>
-            <Link href="/#contact" onClick={() => setMenuOpen(false)}>
-              Contact
-            </Link>
-          </li>
+          {LINKS.map((link) => (
+            <li key={link.href}>
+              <Link
+                className={link.match(pathname) ? "active" : ""}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

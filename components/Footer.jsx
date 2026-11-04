@@ -5,22 +5,20 @@ export default function Footer() {
     <section className="footer">
       <div className="box-container">
         <div className="box">
-          <h3>Ravindra Nath Jha&apos;s Portfolio</h3>
+          <h3>Ravindra Nath Jha</h3>
           <p>
-            Thank you for visiting my personal portfolio website. Connect with me over phone, WhatsApp, or social media platforms!
+            Free, in-depth programming notes, UI templates, parallax website demos and AI prompts for developers. Written
+            and maintained by Ravindra Nath Jha, full stack developer (M.Tech AI, IIT Jodhpur).
             <br />
             <br />
-            Keep Rising 🚀. Connect with me over live chat or WhatsApp!
+            Found an error or have a question? <Link href="/contact">Get in touch</Link>.
           </p>
         </div>
 
         <div className="box">
           <h3>Quick Links</h3>
-          <Link href="/#home">
+          <Link href="/">
             <i className="fas fa-chevron-circle-right"></i> Home
-          </Link>
-          <Link href="/#about">
-            <i className="fas fa-chevron-circle-right"></i> About
           </Link>
           <Link href="/skills">
             <i className="fas fa-chevron-circle-right"></i> Skills
@@ -40,8 +38,20 @@ export default function Footer() {
           <Link href="/experience">
             <i className="fas fa-chevron-circle-right"></i> Experience
           </Link>
+          <Link href="/about">
+            <i className="fas fa-chevron-circle-right"></i> About
+          </Link>
+          <Link href="/contact">
+            <i className="fas fa-chevron-circle-right"></i> Contact
+          </Link>
           <Link href="/privacy-policy">
             <i className="fas fa-chevron-circle-right"></i> Privacy Policy
+          </Link>
+          <Link href="/terms">
+            <i className="fas fa-chevron-circle-right"></i> Terms of Use
+          </Link>
+          <Link href="/disclaimer">
+            <i className="fas fa-chevron-circle-right"></i> Disclaimer
           </Link>
         </div>
 

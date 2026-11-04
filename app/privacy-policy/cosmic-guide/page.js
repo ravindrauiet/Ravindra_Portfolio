@@ -11,6 +11,7 @@ export const metadata = {
 export default function CosmicGuidePrivacyPolicy() {
   return (
     <main
+      className="policy-page"
       style={{
         minHeight: "100vh",
         backgroundColor: "#f8fafc",
@@ -49,7 +50,7 @@ export default function CosmicGuidePrivacyPolicy() {
         </div>
 
         {/* Header */}
-        <header
+        <div
           style={{
             borderBottom: "2px solid #e2e8f0",
             paddingBottom: "2rem",
@@ -119,7 +120,7 @@ export default function CosmicGuidePrivacyPolicy() {
               <strong style={{ color: "#334155" }}>Last Updated:</strong> October 18, 2026
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Content Body */}
         <article

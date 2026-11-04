@@ -12,6 +12,7 @@ export const metadata = {
 export default function FitKeyPrivacyPolicy() {
   return (
     <main
+      className="policy-page"
       style={{
         minHeight: "100vh",
         backgroundColor: "#f8fafc",
@@ -50,7 +51,7 @@ export default function FitKeyPrivacyPolicy() {
         </div>
 
         {/* Header */}
-        <header
+        <div
           style={{
             borderBottom: "2px solid #e2e8f0",
             paddingBottom: "2rem",
@@ -129,7 +130,7 @@ export default function FitKeyPrivacyPolicy() {
               <strong style={{ color: "#334155" }}>Contact:</strong> support@fitkey.in
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Content Body */}
         <article
