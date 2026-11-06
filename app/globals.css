@@ -10374,3 +10374,343 @@ a.abt-detail-value:focus-visible {
     padding: 6rem 0;
   }
 }
+
+/* Step-by-step build prompts (prompt detail page) */
+.bs {
+  display: grid;
+  gap: 2.4rem;
+}
+.bs * {
+  text-transform: none;
+}
+.bs-bar {
+  position: sticky;
+  top: 7.6rem;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem 2.4rem;
+  padding: 1.6rem 2rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  border: 1px solid #e8e9f0;
+  box-shadow: 0 10px 30px rgba(0, 32, 87, 0.08);
+}
+.bs-progress {
+  flex: 1 1 32rem;
+  display: grid;
+  gap: 0.9rem;
+}
+.bs-progress-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1.2rem;
+}
+.bs-progress-text strong {
+  font-size: 1.55rem;
+  color: #002057;
+}
+.bs-progress-text span {
+  font-size: 1.35rem;
+  color: #5b6178;
+}
+.bs-track {
+  height: 0.8rem;
+  border-radius: 1rem;
+  background: #eef0f6;
+  overflow: hidden;
+}
+.bs-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2506ad, #4f46e5);
+  transition: width 0.35s ease;
+}
+.bs-bar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.bs-phase {
+  display: grid;
+  gap: 1.2rem;
+}
+.bs-phase-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase !important;
+  color: #2506ad;
+}
+.bs-phase-title span {
+  padding: 0.3rem 0.9rem;
+  border-radius: 5rem;
+  background: #eceafd;
+  font-size: 1.15rem;
+  letter-spacing: 0;
+  text-transform: none !important;
+  color: #2506ad;
+}
+.bs-list {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+}
+.bs-step {
+  border-radius: 1.6rem;
+  background: #fff;
+  border: 1px solid #e8e9f0;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.bs-step:hover {
+  box-shadow: 0 10px 28px rgba(0, 32, 87, 0.07);
+}
+.bs-step.is-next {
+  border-color: #c9c2f5;
+  box-shadow: 0 0 0 3px rgba(37, 6, 173, 0.07);
+}
+.bs-step-head {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1.8rem 2rem;
+}
+.bs-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  background: #f1f0fb;
+  border: 1.5px solid #dcd8f7;
+  color: #2506ad;
+  font-family: inherit;
+  font-size: 1.6rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.bs-num:hover {
+  border-color: #2506ad;
+}
+.bs-step.is-next .bs-num {
+  background: #2506ad;
+  border-color: #2506ad;
+  color: #fff;
+}
+.bs-step.is-done .bs-num {
+  background: #059669;
+  border-color: #059669;
+  color: #fff;
+}
+.bs-step-text {
+  flex: 1;
+  min-width: 0;
+}
+.bs-step-text h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.75rem;
+  line-height: 1.35;
+  color: #002057;
+}
+.bs-step.is-done .bs-step-text h4 {
+  color: #5b6178;
+}
+.bs-next {
+  padding: 0.25rem 0.8rem;
+  border-radius: 5rem;
+  background: #fff1e5;
+  color: #c25a00;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.bs-step-text p {
+  margin-top: 0.3rem;
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: #5b6178;
+}
+.bs-step-actions {
+  flex: none;
+}
+.bs-details {
+  border-top: 1px solid #eef0f6;
+}
+.bs-details summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.2rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2506ad;
+  cursor: pointer;
+  list-style: none;
+}
+.bs-details summary::-webkit-details-marker {
+  display: none;
+}
+.bs-details summary svg {
+  transition: transform 0.2s ease;
+}
+.bs-details[open] summary svg {
+  transform: rotate(180deg);
+}
+.bs-details summary:focus-visible {
+  outline: 2px solid #ff7b00;
+  outline-offset: -2px;
+}
+.bs-details pre {
+  margin: 0 1.6rem;
+  padding: 1.8rem 2rem;
+  border-radius: 1.2rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: inherit;
+  font-size: 1.45rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.bs-details pre:focus-visible {
+  outline: 2px solid #ff7b00;
+}
+.bs-details-foot {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.2rem 1.6rem 1.6rem;
+}
+.bs-done-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: 5rem;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  font-family: inherit;
+  font-size: 1.35rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bs-done-btn:hover {
+  background: #d1fae5;
+}
+@media (max-width: 700px) {
+  .bs-bar {
+    position: static;
+  }
+  .bs-step-head {
+    flex-wrap: wrap;
+    padding: 1.6rem;
+  }
+  .bs-step-text {
+    flex-basis: calc(100% - 6rem);
+  }
+  .bs-step-actions {
+    width: 100%;
+    padding-left: 6rem;
+  }
+  .bs-details pre {
+    margin: 0 1rem;
+    padding: 1.4rem;
+    font-size: 1.4rem;
+  }
+}
+
+/* Step preview image beside the prompt */
+.bs-body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 1.6rem;
+  align-items: start;
+  padding: 0 1.6rem 1.6rem;
+  border-top: 1px solid #eef0f6;
+}
+.bs-body.no-img {
+  grid-template-columns: 1fr;
+}
+.bs-shot {
+  margin-top: 1.6rem;
+  overflow: hidden;
+  border-radius: 1.2rem;
+  border: 1px solid #e3e6f2;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(0, 32, 87, 0.08);
+}
+.bs-shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid #eef0f6;
+  background: #fafbfe;
+}
+.bs-shot-bar i {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: #dfe2ee;
+}
+.bs-shot-bar span {
+  margin-left: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #5b6178;
+}
+.bs-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.bs-body .bs-details {
+  border-top: 0;
+  margin-top: 0.4rem;
+}
+.bs-body .bs-details summary {
+  padding: 1.2rem 0.4rem;
+}
+.bs-body .bs-details pre {
+  margin: 0;
+  max-height: 52rem;
+  overflow: auto;
+}
+.bs-body .bs-details-foot {
+  padding: 1.2rem 0 0;
+}
+@media (max-width: 900px) {
+  .bs-body {
+    grid-template-columns: 1fr;
+    padding: 0 1rem 1.2rem;
+  }
+}
+.bs-side {
+  min-width: 0;
+}
+.bs-hint {
+  display: grid;
+  justify-items: start;
+  gap: 1.2rem;
+  margin-top: 1.6rem;
+  padding: 1.6rem 1.8rem;
+  border-radius: 1.2rem;
+  background: #f6f5fd;
+  border: 1px solid #e6e3fa;
+}
+.bs-hint p {
+  font-size: 1.45rem;
+  line-height: 1.65;
+  color: #2b3150;
+}
