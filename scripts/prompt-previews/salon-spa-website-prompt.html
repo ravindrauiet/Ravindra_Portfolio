@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Lumière Salon &amp; Spa — salon website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #3f2a2e; background: #fdf8f6; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  h1, h2, h3, .logo { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; }
+  nav { display: flex; align-items: center; gap: 34px; padding: 24px 72px; font-size: 15px; border-bottom: 1px solid #f0e2dc; }
+  .logo { font-size: 30px; margin-right: auto; letter-spacing: .5px; } .logo b { color: #be185d; font-weight: 600; }
+  nav span { color: #6d5559; }
+  .btn { display: inline-block; padding: 13px 26px; border-radius: 999px; background: #be185d; color: #fff; font-weight: 600; font-size: 15px; }
+  .ghost { background: transparent; color: #3f2a2e; border: 1.5px solid #d9c3bb; }
+  .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 50px; align-items: center; padding: 56px 72px 70px; }
+  .kicker { color: #be185d; font-weight: 600; letter-spacing: 3px; font-size: 13px; text-transform: uppercase; }
+  .line { width: 60px; height: 1px; background: #d4a373; margin: 18px 0; }
+  h1 { font-size: 88px; line-height: .98; }
+  h1 i { color: #be185d; }
+  .hero p { font-size: 19px; color: #6d5559; line-height: 1.6; margin-top: 20px; max-width: 470px; }
+  .cta { display: flex; gap: 14px; margin-top: 30px; }
+  .meta { display: flex; gap: 40px; margin-top: 40px; }
+  .meta b { display: block; font-family: "Cormorant Garamond", serif; font-size: 36px; } .meta span { color: #8a7176; font-size: 14px; }
+  .photo { position: relative; height: 560px; border-radius: 260px 260px 24px 24px; background:
+    radial-gradient(circle at 50% 32%, #f3d2c1 0 15%, transparent 15.5%),
+    radial-gradient(ellipse at 50% 30%, #4a2c2a 0 22%, transparent 22.5%),
+    radial-gradient(ellipse at 50% 100%, #e9b8a6 0 34%, transparent 34.5%),
+    linear-gradient(180deg, #f6dfd6, #e8c2b4); }
+  .float { position: absolute; left: -40px; bottom: 60px; background: #fff; border-radius: 18px; padding: 16px 20px; box-shadow: 0 20px 40px rgba(63, 42, 46, .14); }
+  .float b { display: block; font-size: 22px; } .float small { color: #8a7176; } .float .st { color: #d4a373; letter-spacing: 2px; }
+  .menu { padding: 60px 72px 80px; background: #fff; }
+  .menu h2 { text-align: center; font-size: 52px; }
+  .tabs { display: flex; justify-content: center; gap: 8px; margin: 22px 0 34px; }
+  .tabs span { padding: 10px 24px; border-radius: 999px; border: 1px solid #ecdcd5; color: #6d5559; font-weight: 600; font-size: 14.5px; }
+  .tabs .on { background: #3f2a2e; color: #fff; border-color: #3f2a2e; }
+  .list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 70px; max-width: 1050px; margin: 0 auto; }
+  .item { display: flex; align-items: baseline; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f3e7e2; }
+  .item b { font-size: 17px; } .item small { color: #8a7176; font-size: 13.5px; }
+  .item i { flex: 1; border-bottom: 1px dotted #d9c3bb; }
+  .item strong { color: #be185d; font-size: 17px; }
+</style>
+</head>
+<body>
+<nav><div class="logo">Lumière <b>Salon</b></div><span>Services</span><span>Packages</span><span>Stylists</span><span>Gallery</span><span>Contact</span><span class="btn">Book appointment</span></nav>
+<section class="hero">
+  <div>
+    <div class="kicker">Hair · Skin · Spa · Bandra West</div>
+    <div class="line"></div>
+    <h1>Look good.<br /><i>Feel better.</i></h1>
+    <p>Expert stylists, gentle skin rituals and a quiet hour just for you, in the heart of Bandra.</p>
+    <div class="cta"><span class="btn">Book appointment</span><span class="btn ghost">View services</span></div>
+    <div class="meta"><div><b>12</b><span>Senior stylists</span></div><div><b>9 yrs</b><span>In Bandra</span></div><div><b>40+</b><span>Treatments</span></div></div>
+  </div>
+  <div class="photo"><div class="float"><span class="st">★★★★★</span><b>4.9 rating</b><small>2,000+ happy clients</small></div></div>
+</section>
+<section class="menu">
+  <h2>Our service menu</h2>
+  <div class="tabs"><span class="on">Hair</span><span>Skin</span><span>Nails</span><span>Spa</span></div>
+  <div class="list">
+    <div class="item"><div><b>Signature haircut</b><br /><small>45 min · wash &amp; blow-dry</small></div><i></i><strong>₹1,200</strong></div>
+    <div class="item"><div><b>Global colour</b><br /><small>120 min · ammonia-free</small></div><i></i><strong>₹4,500</strong></div>
+    <div class="item"><div><b>Keratin smoothing</b><br /><small>180 min · lasts 4 months</small></div><i></i><strong>₹6,800</strong></div>
+    <div class="item"><div><b>Balayage</b><br /><small>150 min · hand-painted</small></div><i></i><strong>₹7,500</strong></div>
+    <div class="item"><div><b>Hair spa ritual</b><br /><small>60 min · deep repair</small></div><i></i><strong>₹1,800</strong></div>
+    <div class="item"><div><b>Bridal styling</b><br /><small>90 min · trial included</small></div><i></i><strong>₹9,000</strong></div>
+  </div>
+</section>
+</body>
+</html>

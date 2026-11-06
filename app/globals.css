@@ -10714,3 +10714,118 @@ a.abt-detail-value:focus-visible {
   line-height: 1.65;
   color: #2b3150;
 }
+
+/* "Make it yours" personalisation panel */
+.bs-mine {
+  padding: 2.2rem 2.4rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  border: 1px solid #e3e0f7;
+  box-shadow: 0 12px 30px rgba(37, 6, 173, 0.06);
+}
+.bs-mine.is-on {
+  border-color: #a7f3d0;
+  box-shadow: 0 12px 30px rgba(5, 150, 105, 0.08);
+}
+.bs-mine-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.4rem;
+}
+.bs-mine-head > div {
+  flex: 1;
+}
+.bs-mine-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 1.2rem;
+  background: #f1f0fb;
+  color: #2506ad;
+}
+.bs-mine.is-on .bs-mine-icon {
+  background: #ecfdf5;
+  color: #059669;
+}
+.bs-mine h3 {
+  font-size: 1.9rem;
+  color: #002057;
+}
+.bs-mine-head p {
+  margin-top: 0.3rem;
+  font-size: 1.45rem;
+  line-height: 1.6;
+  color: #5b6178;
+}
+.bs-mine.is-on .bs-mine-head p {
+  color: #047857;
+  font-weight: 600;
+}
+.bs-mine-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.4rem;
+  margin-top: 1.8rem;
+}
+.bs-mine-grid label {
+  display: grid;
+  gap: 0.6rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2b3150;
+}
+.bs-mine-wide {
+  grid-column: 1 / -1;
+}
+.bs-mine-grid input[type="text"],
+.bs-mine-grid textarea {
+  width: 100%;
+  padding: 1.1rem 1.3rem;
+  border-radius: 1rem;
+  border: 1.5px solid #dfe2ee;
+  background: #fafbfe;
+  font-family: inherit;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: #0f1630;
+  resize: vertical;
+}
+.bs-mine-grid input[type="text"]:focus,
+.bs-mine-grid textarea:focus {
+  outline: none;
+  border-color: #2506ad;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 6, 173, 0.1);
+}
+.bs-color {
+  display: flex;
+  gap: 0.8rem;
+}
+.bs-color input[type="color"] {
+  flex: none;
+  width: 4.6rem;
+  height: 4.6rem;
+  padding: 0.3rem;
+  border-radius: 1rem;
+  border: 1.5px solid #dfe2ee;
+  background: #fff;
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  .bs-mine-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .bs-mine {
+    padding: 1.8rem 1.6rem;
+  }
+  .bs-mine-head {
+    flex-wrap: wrap;
+  }
+  .bs-mine-grid {
+    grid-template-columns: 1fr;
+  }
+}

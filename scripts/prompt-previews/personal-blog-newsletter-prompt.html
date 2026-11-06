@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>The Quiet Build — personal blog and newsletter preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #1c1917; background: #fffefb; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  h1, h2, h3, .logo { font-family: Newsreader, Georgia, serif; font-weight: 500; }
+  nav { display: flex; align-items: center; gap: 30px; padding: 24px 0; width: 900px; margin: 0 auto; font-size: 15px; border-bottom: 1px solid #ede9e3; }
+  .logo { font-size: 26px; margin-right: auto; font-style: italic; }
+  nav span { color: #57534e; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; background: #b45309; color: #fff; font-weight: 600; font-size: 15px; }
+  .intro { width: 900px; margin: 0 auto; padding: 70px 0 50px; }
+  .intro small { color: #b45309; font-weight: 600; letter-spacing: 2px; font-size: 13px; text-transform: uppercase; }
+  h1 { font-size: 60px; line-height: 1.08; margin-top: 14px; letter-spacing: -1px; }
+  .intro p { font-size: 20px; color: #57534e; margin-top: 18px; line-height: 1.6; max-width: 680px; font-family: Newsreader, Georgia, serif; }
+  .sub { display: flex; gap: 10px; margin-top: 28px; max-width: 560px; }
+  .sub span { flex: 1; padding: 14px 16px; border: 1.5px solid #e7e2da; border-radius: 8px; color: #a8a29e; }
+  .fine { color: #78716c; font-size: 14px; margin-top: 12px; } .fine b { color: #1c1917; }
+  .feat { width: 900px; margin: 0 auto; padding: 34px 36px; border-radius: 18px; background: #f7f3ec; display: grid; grid-template-columns: 1fr 220px; gap: 30px; align-items: center; }
+  .feat small { color: #b45309; font-weight: 600; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .feat h2 { font-size: 36px; line-height: 1.15; margin-top: 10px; }
+  .feat p { color: #57534e; margin-top: 10px; line-height: 1.6; font-family: Newsreader, Georgia, serif; font-size: 18px; }
+  .feat .m { color: #78716c; font-size: 14px; margin-top: 14px; }
+  .art { height: 200px; border-radius: 14px; background: radial-gradient(circle at 30% 30%, #fde68a, transparent 40%), linear-gradient(150deg, #b45309, #78350f); position: relative; }
+  .art::after { content: "✎"; position: absolute; right: 22px; bottom: 10px; font-size: 90px; color: rgba(255,255,255,.85); }
+  .posts { width: 900px; margin: 0 auto; padding: 50px 0 80px; }
+  .posts h3 { font-size: 15px; font-family: Inter, sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #78716c; margin-bottom: 8px; }
+  .post { display: grid; grid-template-columns: 130px 1fr auto; gap: 24px; padding: 22px 0; border-bottom: 1px solid #ede9e3; align-items: baseline; }
+  .post time { color: #a8a29e; font-size: 14px; }
+  .post b { font-family: Newsreader, Georgia, serif; font-size: 24px; font-weight: 500; } .post p { color: #57534e; margin-top: 4px; font-size: 15.5px; }
+  .post span { color: #78716c; font-size: 14px; }
+</style>
+</head>
+<body>
+<nav><div class="logo">The Quiet Build</div><span>Writing</span><span>Newsletter</span><span>Topics</span><span>About</span><span class="btn">Subscribe</span></nav>
+<section class="intro">
+  <small>A weekly letter · Since 2023</small>
+  <h1>Notes on building software and a calmer working life</h1>
+  <p>I'm an independent developer writing about shipping small products, growing a career without burning out, and the tools that actually help.</p>
+  <div class="sub"><span>you@example.com</span><span class="btn" style="flex:none">Subscribe</span></div>
+  <div class="fine"><b>Join 8,000+ readers.</b> One email every Sunday. Unsubscribe anytime.</div>
+</section>
+<section class="feat">
+  <div><small>Featured essay</small><h2>Why I stopped chasing productivity and started finishing things</h2><p>Three years of side projects, one simple rule, and what changed when I followed it.</p><div class="m">12 min read · 2 Nov 2026</div></div>
+  <div class="art"></div>
+</section>
+<section class="posts">
+  <h3>Latest writing</h3>
+  <div class="post"><time>28 Oct 2026</time><div><b>Shipping a SaaS in 30 evenings</b><p>The exact plan, the cuts I made and the numbers after one month.</p></div><span>9 min</span></div>
+  <div class="post"><time>19 Oct 2026</time><div><b>A boring tech stack is a feature</b><p>Why I still pick Postgres, Next.js and one server.</p></div><span>6 min</span></div>
+  <div class="post"><time>12 Oct 2026</time><div><b>How to ask for a raise as a developer</b><p>A simple script, with what to bring and what to avoid.</p></div><span>7 min</span></div>
+</section>
+</body>
+</html>

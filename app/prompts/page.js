@@ -4,13 +4,14 @@ import { ArrowRight, Check, ChevronDown, MousePointerClick, PencilLine, Rocket, 
 import CopyButton from "@/components/library/CopyButton";
 import PromptGallery from "@/components/library/PromptGallery";
 import { INDUSTRIES, getAllPrompts, getPrompt } from "@/lib/prompts";
+import { getBuildPlan } from "@/lib/prompts/buildPlan";
 
 const SITE = "https://www.ravindranathjha.in";
 
 export const metadata = {
   title: "Free AI Website Prompts: Build Full Websites with Claude, ChatGPT & Cursor",
   description:
-    "Copy-paste AI prompts that generate complete websites: SaaS landing pages, portfolios, restaurant sites, dashboards, e-commerce pages and more. Each prompt includes the tech stack, sections, how-to steps and follow-up prompts.",
+    "Copy-paste AI prompts that generate complete websites: SaaS landing pages, portfolios, restaurant sites, dashboards, e-commerce pages and more. Each website comes with step-by-step build prompts with preview images, a one-shot prompt and follow-ups.",
   alternates: { canonical: `${SITE}/prompts` },
   openGraph: {
     title: "Free AI Website Prompts | Ravindra Nath Jha",
@@ -26,8 +27,8 @@ const FEATURED_SLUG = "ai-startup-landing-page-prompt";
 
 const STEPS = [
   { icon: MousePointerClick, title: "Choose a prompt", text: "Pick the kind of website you want and open its page." },
-  { icon: PencilLine, title: "Make it yours", text: "Swap the sample business name, colours and details for your own." },
-  { icon: Sparkles, title: "Paste and generate", text: "Run it in Claude, ChatGPT, Cursor, v0 or any AI coding tool." },
+  { icon: PencilLine, title: "Make it yours", text: "Type your business name, city and colours once; every step prompt updates." },
+  { icon: Sparkles, title: "Paste step by step", text: "Paste each step into Claude, ChatGPT, Cursor or v0 and see the preview of what it builds." },
   { icon: Rocket, title: "Refine and publish", text: "Add features with the follow-up prompts, then deploy for free." },
 ];
 
@@ -43,6 +44,10 @@ const FAQS = [
   {
     q: "Do I need to know how to code?",
     a: "No coding is needed to generate the website. Basic knowledge helps when you run and publish it, and every prompt page has step-by-step instructions for that part.",
+  },
+  {
+    q: "Can I build the whole website, not just the home page?",
+    a: "Yes. Every prompt page has a step-by-step build: project setup, one prompt for each section, the extra pages that kind of business needs (such as booking, pricing, cart or a dashboard), then mobile checks, SEO and launch. Each step shows a preview of what it builds.",
   },
   {
     q: "Will my website look exactly like the preview image?",
@@ -80,7 +85,8 @@ function Shot({ slug, name, className = "", preload = false }) {
 export default function PromptsPage() {
   const prompts = getAllPrompts();
   const featured = getPrompt(FEATURED_SLUG) ?? prompts[0];
-  const totalSections = prompts.reduce((sum, prompt) => sum + prompt.sections.length, 0);
+  const stepCounts = Object.fromEntries(prompts.map((prompt) => [prompt.slug, getBuildPlan(prompt).length]));
+  const totalSteps = Object.values(stepCounts).reduce((sum, n) => sum + n, 0);
 
   const items = prompts.map((prompt) => ({
     slug: prompt.slug,
@@ -91,12 +97,13 @@ export default function PromptsPage() {
     stack: prompt.stack.startsWith("Next.js") ? "Next.js + Tailwind" : "HTML + CSS",
     description: prompt.description,
     sectionCount: prompt.sections.length,
+    stepCount: stepCounts[prompt.slug],
     prompt: prompt.prompt,
   }));
 
   const stats = [
     { value: prompts.length, label: "Website prompts" },
-    { value: totalSections, label: "Sections specified" },
+    { value: totalSteps, label: "Step-by-step prompts" },
     { value: AI_TOOLS.length, label: "AI tools supported" },
     { value: "Free", label: "No sign-up" },
   ];

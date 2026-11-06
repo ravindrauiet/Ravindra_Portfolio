@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Coral Cove Resort — beach resort website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #0b3b3c; background: #fffdf8; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  h1, h2, h3, .logo { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; }
+  .hero { position: relative; height: 640px; color: #fff; background:
+    linear-gradient(180deg, rgba(4, 30, 32, .55) 0%, rgba(4, 30, 32, .1) 40%, rgba(4, 30, 32, .65) 100%),
+    radial-gradient(circle at 78% 30%, #ffd89a 0, #f9a65a 7%, transparent 16%),
+    linear-gradient(180deg, #f6b47a 0%, #f3c58f 26%, #7cc3c4 44%, #2a8f95 58%, #0f6b70 70%, #e8d3a6 71%, #d9bf8c 100%); }
+  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: 56%; height: 14%; background: repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 60px, transparent 60px 140px); opacity: .5; }
+  .palm { position: absolute; left: 70px; bottom: 120px; width: 14px; height: 300px; background: #3b2f22; border-radius: 8px; transform: rotate(-8deg); transform-origin: bottom; }
+  .palm::before { content: "🌴"; position: absolute; top: -110px; left: -95px; font-size: 200px; filter: brightness(.55) saturate(.8); }
+  nav { position: relative; display: flex; align-items: center; gap: 34px; padding: 26px 72px; font-size: 15px; font-weight: 500; }
+  .logo { font-size: 28px; margin-right: auto; }
+  nav span { opacity: .9; }
+  .btn { display: inline-block; padding: 13px 26px; border-radius: 999px; background: #0f766e; color: #fff; font-weight: 600; font-size: 15px; }
+  .btn.light { background: #fff; color: #0b3b3c; }
+  .copy { position: relative; text-align: center; margin-top: 90px; }
+  .kicker { letter-spacing: 4px; font-size: 13px; font-weight: 600; text-transform: uppercase; color: #ffe2b0; }
+  h1 { font-size: 76px; line-height: 1.02; margin: 16px auto 0; max-width: 800px; }
+  .copy p { font-size: 19px; opacity: .92; margin-top: 16px; }
+  .book { position: absolute; left: 50%; bottom: -48px; transform: translateX(-50%); width: 980px; display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 0; align-items: center; background: #fff; color: #0b3b3c; border-radius: 22px; box-shadow: 0 30px 60px rgba(11, 59, 60, .2); padding: 14px; }
+  .book div { padding: 10px 22px; border-right: 1px solid #eee6d6; }
+  .book small { display: block; font-size: 12px; font-weight: 600; color: #6b8a8a; text-transform: uppercase; letter-spacing: 1px; }
+  .book b { display: block; font-size: 17px; margin-top: 4px; }
+  .book .btn { margin-left: 14px; padding: 18px 28px; }
+  .rooms { padding: 110px 72px 80px; }
+  .head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 30px; }
+  .head small { color: #0f766e; font-weight: 700; letter-spacing: 3px; font-size: 13px; text-transform: uppercase; }
+  .head h2 { font-size: 46px; margin-top: 6px; }
+  .head a { color: #0f766e; font-weight: 600; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .room { background: #fff; border: 1px solid #efe7d7; border-radius: 22px; overflow: hidden; }
+  .img { height: 210px; position: relative; }
+  .r1 { background: linear-gradient(160deg, #a7d3b4, #5c9c76 60%, #2f6b4d); }
+  .r2 { background: linear-gradient(180deg, #9fd6dc, #3ea3ac 55%, #f0d9a8 56%, #e3c58f); }
+  .r3 { background: linear-gradient(170deg, #c6ecef, #57c1cc 50%, #1f8f9b); }
+  .img span { position: absolute; left: 16px; top: 16px; background: rgba(255,255,255,.92); padding: 6px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 600; }
+  .img i { position: absolute; font-style: normal; font-size: 80px; right: 26px; bottom: 14px; }
+  .room .b { padding: 22px 24px; }
+  .room h3 { font-size: 26px; }
+  .room p { color: #557575; font-size: 14.5px; margin-top: 6px; }
+  .room .row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid #f1eadc; }
+  .room strong { font-size: 22px; } .room strong small { font-size: 13px; color: #6b8a8a; font-weight: 500; }
+  .room .row span { color: #0f766e; font-weight: 600; font-size: 14.5px; }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="palm"></div>
+  <nav><div class="logo">Coral Cove</div><span>Rooms</span><span>Experiences</span><span>Dining</span><span>Offers</span><span>Contact</span><span class="btn light">Book now</span></nav>
+  <div class="copy">
+    <div class="kicker">South Goa · Since 2009</div>
+    <h1>Slow mornings by the Arabian Sea</h1>
+    <p>28 cottages and villas, a private beach and the best sunsets in Palolem.</p>
+  </div>
+  <div class="book">
+    <div><small>Check in</small><b>Fri, 12 Dec</b></div>
+    <div><small>Check out</small><b>Mon, 15 Dec · 3 nights</b></div>
+    <div><small>Guests</small><b>2 adults, 1 child</b></div>
+    <span class="btn">Check availability</span>
+  </div>
+</section>
+<section class="rooms">
+  <div class="head"><div><small>Stay with us</small><h2>Rooms &amp; villas</h2></div><a>View all rooms →</a></div>
+  <div class="grid">
+    <div class="room"><div class="img r1"><span>Garden view</span><i>🌿</i></div><div class="b"><h3>Garden Cottage</h3><p>320 sq ft · 2 guests · Veranda · Rain shower</p><div class="row"><strong>₹7,800 <small>/ night</small></strong><span>Details →</span></div></div></div>
+    <div class="room"><div class="img r2"><span>Most booked</span><i>🌊</i></div><div class="b"><h3>Sea-view Suite</h3><p>540 sq ft · 3 guests · Balcony · Bathtub</p><div class="row"><strong>₹12,400 <small>/ night</small></strong><span>Details →</span></div></div></div>
+    <div class="room"><div class="img r3"><span>Private pool</span><i>🏝️</i></div><div class="b"><h3>Private Pool Villa</h3><p>980 sq ft · 4 guests · Plunge pool · Butler</p><div class="row"><strong>₹24,900 <small>/ night</small></strong><span>Details →</span></div></div></div>
+  </div>
+</section>
+</body>
+</html>

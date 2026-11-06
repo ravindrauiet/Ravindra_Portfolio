@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Prana Yoga House — yoga studio website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #1f2d24; background: #f7f5ef; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  h1, h2, h3, .logo { font-family: Fraunces, Georgia, serif; font-weight: 500; }
+  nav { display: flex; align-items: center; gap: 34px; padding: 24px 72px; font-size: 15px; }
+  .logo { font-size: 26px; margin-right: auto; display: flex; align-items: center; gap: 10px; }
+  .logo i { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 50% 70%, #4d7c0f 0 35%, #e07a5f 36% 60%, #f2c9a0 61%); }
+  nav span { color: #4f5d53; }
+  .btn { display: inline-block; padding: 13px 26px; border-radius: 999px; background: #4d7c0f; color: #fff; font-weight: 600; font-size: 15px; }
+  .ghost { background: transparent; color: #1f2d24; border: 1.5px solid #cfcab9; }
+  .hero { text-align: center; padding: 40px 72px 0; }
+  .pill { display: inline-block; padding: 8px 16px; border-radius: 999px; background: #ece7da; color: #4d7c0f; font-weight: 600; font-size: 14px; }
+  h1 { font-size: 92px; line-height: 1; margin: 18px 0 0; letter-spacing: -1px; }
+  h1 em { color: #e07a5f; }
+  .hero p { font-size: 19px; color: #5b6a60; margin: 18px auto 0; max-width: 560px; line-height: 1.6; }
+  .cta { display: flex; justify-content: center; gap: 14px; margin-top: 28px; }
+  .studio { position: relative; height: 360px; margin: 46px auto 0; max-width: 1100px; border-radius: 200px 200px 28px 28px; overflow: hidden; background:
+    radial-gradient(circle at 80% 18%, #fff4d6 0, transparent 30%),
+    linear-gradient(180deg, #efe4cc 0%, #e6d6b6 62%, #c9a77a 63%, #b98f5f 100%); }
+  .studio .win { position: absolute; top: 40px; width: 120px; height: 170px; border-radius: 60px 60px 6px 6px; background: linear-gradient(180deg, #d7ecf2, #f7f3e6); border: 6px solid #f7f0e0; }
+  .w1 { left: 18%; } .w2 { left: 44%; } .w3 { left: 70%; }
+  .studio .mat { position: absolute; bottom: 26px; width: 210px; height: 30px; border-radius: 8px; transform: skewX(-20deg); }
+  .m1 { left: 12%; background: #4d7c0f; } .m2 { left: 40%; background: #e07a5f; } .m3 { left: 68%; background: #8aa36a; }
+  .plant { position: absolute; bottom: 40px; font-size: 90px; } .p1 { left: 3%; } .p2 { right: 3%; }
+  .sched { padding: 60px 72px 80px; }
+  .sh { display: flex; justify-content: space-between; align-items: end; margin-bottom: 24px; }
+  .sh h2 { font-size: 44px; }
+  .chips span { padding: 9px 18px; border-radius: 999px; border: 1px solid #d6d0bf; margin-left: 6px; font-size: 14px; font-weight: 600; color: #5b6a60; }
+  .chips .on { background: #1f2d24; color: #fff; border-color: #1f2d24; }
+  .days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .day h4 { font-size: 14px; color: #6b766d; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1.5px; }
+  .day.today h4 { color: #e07a5f; }
+  .cls { background: #fff; border: 1px solid #e6e1d3; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; font-size: 14px; }
+  .day.today .cls:first-of-type { border-color: #4d7c0f; box-shadow: 0 0 0 3px rgba(77, 124, 15, .1); }
+  .cls b { display: block; font-size: 15.5px; } .cls small { color: #6b766d; }
+  .lv { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #eef3e3; color: #4d7c0f; }
+  .lv.i { background: #fbeae4; color: #c2593f; }
+</style>
+</head>
+<body>
+<nav><div class="logo"><i></i>Prana Yoga House</div><span>Classes</span><span>Schedule</span><span>Teachers</span><span>Pricing</span><span>Retreats</span><span class="btn">Book a class</span></nav>
+<section class="hero">
+  <span class="pill">First class free · Indiranagar, Bengaluru</span>
+  <h1>Breathe in. <em>Slow down.</em></h1>
+  <p>Hatha, vinyasa and yin classes for every body, in a sunlit studio with small groups.</p>
+  <div class="cta"><span class="btn">Try your first class free</span><span class="btn ghost">See schedule</span></div>
+  <div class="studio"><span class="win w1"></span><span class="win w2"></span><span class="win w3"></span><span class="mat m1"></span><span class="mat m2"></span><span class="mat m3"></span><span class="plant p1">🪴</span><span class="plant p2">🌿</span></div>
+</section>
+<section class="sched">
+  <div class="sh"><h2>This week's classes</h2><div class="chips"><span class="on">All</span><span>Beginner</span><span>Intermediate</span><span>Advanced</span></div></div>
+  <div class="days">
+    <div class="day"><h4>Mon</h4><div class="cls"><b>Hatha basics</b><small>6:30 am · Meera</small><br /><span class="lv">Beginner</span></div><div class="cls"><b>Yin &amp; restore</b><small>7:30 pm · Kabir</small><br /><span class="lv">All levels</span></div></div>
+    <div class="day today"><h4>Tue · Today</h4><div class="cls"><b>Vinyasa flow</b><small>7:00 am · Ananya</small><br /><span class="lv i">Intermediate</span></div><div class="cls"><b>Pranayama</b><small>6:30 pm · Meera</small><br /><span class="lv">Beginner</span></div></div>
+    <div class="day"><h4>Wed</h4><div class="cls"><b>Prenatal yoga</b><small>10:00 am · Ritu</small><br /><span class="lv">All levels</span></div><div class="cls"><b>Power vinyasa</b><small>7:00 pm · Ananya</small><br /><span class="lv i">Advanced</span></div></div>
+    <div class="day"><h4>Thu</h4><div class="cls"><b>Hatha basics</b><small>6:30 am · Kabir</small><br /><span class="lv">Beginner</span></div><div class="cls"><b>Meditation</b><small>8:00 pm · Meera</small><br /><span class="lv">All levels</span></div></div>
+    <div class="day"><h4>Fri</h4><div class="cls"><b>Vinyasa flow</b><small>7:00 am · Ananya</small><br /><span class="lv i">Intermediate</span></div><div class="cls"><b>Yin &amp; restore</b><small>7:30 pm · Ritu</small><br /><span class="lv">All levels</span></div></div>
+  </div>
+</section>
+</body>
+</html>

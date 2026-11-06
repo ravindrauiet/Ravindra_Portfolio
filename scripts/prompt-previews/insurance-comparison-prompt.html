@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CoverWise — insurance comparison website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #0f172a; background: #f8fafc; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 30px; padding: 20px 72px; background: #fff; border-bottom: 1px solid #e8edf3; font-size: 15px; font-weight: 500; }
+  .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 9px; margin-right: 10px; }
+  .logo i { width: 26px; height: 30px; background: #0e7490; clip-path: polygon(50% 0, 100% 18%, 100% 55%, 50% 100%, 0 55%, 0 18%); }
+  nav span { color: #475569; } .sp { margin-left: auto; color: #0e7490 !important; font-weight: 700; }
+  .btn { display: inline-block; padding: 12px 22px; border-radius: 10px; background: #0e7490; color: #fff; font-weight: 700; font-size: 15px; }
+  .ghost { background: #fff; color: #0f172a; border: 1.5px solid #dbe3ec; }
+  .hero { text-align: center; padding: 60px 72px 50px; background: linear-gradient(180deg, #ecfeff, #f8fafc); }
+  h1 { font-size: 64px; letter-spacing: -2.5px; line-height: 1.05; font-weight: 800; } h1 b { color: #0e7490; }
+  .hero > p { color: #64748b; font-size: 18.5px; margin-top: 14px; }
+  .quote { width: 900px; margin: 32px auto 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; box-shadow: 0 30px 60px rgba(15, 23, 42, .08); overflow: hidden; text-align: left; }
+  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid #eef2f6; }
+  .tabs span { padding: 18px; text-align: center; font-weight: 700; color: #64748b; font-size: 15px; }
+  .tabs .on { color: #0e7490; box-shadow: inset 0 -3px 0 #0e7490; background: #f0fdff; }
+  .form { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 14px; align-items: end; padding: 24px; }
+  .form label { font-size: 13px; font-weight: 600; color: #475569; } .form div div { margin-top: 6px; padding: 13px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-weight: 600; }
+  .form .btn { padding: 15px 26px; }
+  .note { padding: 0 24px 20px; color: #64748b; font-size: 13.5px; } .note b { color: #059669; }
+  .trust { display: flex; justify-content: center; gap: 34px; margin-top: 26px; font-weight: 600; font-size: 14.5px; color: #334155; } .trust span::before { content: "✓ "; color: #0e7490; font-weight: 800; }
+  .cmp { padding: 30px 72px 80px; }
+  .cmp h2 { font-size: 34px; letter-spacing: -1px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 18px; overflow: hidden; font-size: 15px; }
+  th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid #eef2f6; }
+  th { background: #f8fafc; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: #64748b; }
+  td:first-child { font-weight: 700; } tr:last-child td { border-bottom: 0; }
+  .best { background: #fffbeb; } .badge { display: inline-block; margin-left: 8px; padding: 3px 9px; border-radius: 999px; background: #f59e0b; color: #fff; font-size: 11.5px; font-weight: 800; }
+  .ok { color: #059669; font-weight: 700; } .sm { padding: 8px 14px; font-size: 13.5px; }
+</style>
+</head>
+<body>
+<nav><div class="logo"><i></i>CoverWise</div><span>Health</span><span>Term life</span><span>Car</span><span>Bike</span><span>Claims</span><span class="sp">📞 1800 210 4455</span><span class="btn ghost">Sign in</span></nav>
+<section class="hero">
+  <h1>Compare insurance.<br /><b>Save up to 40%.</b></h1>
+  <p>Unbiased quotes from 50+ insurers in under a minute, plus free help when you claim.</p>
+  <div class="quote">
+    <div class="tabs"><span class="on">❤ Health</span><span>☂ Term life</span><span>🚗 Car</span><span>🛵 Bike</span></div>
+    <div class="form">
+      <div><label>Your age</label><div>32 years</div></div>
+      <div><label>City</label><div>Hyderabad</div></div>
+      <div><label>Members covered</label><div>Self, spouse, 1 child</div></div>
+      <span class="btn">View plans →</span>
+    </div>
+    <div class="note"><b>No spam calls. Ever.</b> Your number is only shared when you ask for a callback.</div>
+  </div>
+  <div class="trust"><span>IRDAI registered broker</span><span>50+ insurers</span><span>4.8 ★ from 12,000 reviews</span><span>Free claim support</span></div>
+</section>
+<section class="cmp">
+  <h2>Top family health plans for you</h2>
+  <table>
+    <tr><th>Plan</th><th>Cover</th><th>Premium / year</th><th>Waiting period</th><th>Claim settlement</th><th></th></tr>
+    <tr class="best"><td>Care Supreme <span class="badge">Best value</span></td><td>₹10 lakh</td><td>₹18,420</td><td>2 years</td><td class="ok">98.6%</td><td><span class="btn sm">Choose plan</span></td></tr>
+    <tr><td>Niva Bupa ReAssure</td><td>₹10 lakh</td><td>₹19,950</td><td>3 years</td><td class="ok">97.1%</td><td><span class="btn ghost sm">Choose plan</span></td></tr>
+    <tr><td>HDFC ERGO Optima</td><td>₹10 lakh</td><td>₹21,300</td><td>3 years</td><td class="ok">98.3%</td><td><span class="btn ghost sm">Choose plan</span></td></tr>
+  </table>
+</section>
+</body>
+</html>

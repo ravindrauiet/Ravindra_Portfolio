@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Replyfy — AI customer support website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #fff; background: #070b14; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 32px; padding: 22px 72px; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+  .logo i { width: 28px; height: 28px; border-radius: 9px 9px 9px 2px; background: linear-gradient(135deg, #22d3ee, #a78bfa); }
+  nav span { color: #a3adc2; } .sp { margin-left: auto; }
+  .btn { display: inline-block; padding: 12px 22px; border-radius: 10px; background: #22d3ee; color: #04111a; font-weight: 700; font-size: 15px; }
+  .ghost { background: rgba(255,255,255,.06); color: #fff; border: 1px solid rgba(255,255,255,.14); }
+  .hero { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 50px; align-items: center; padding: 70px 72px 60px; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; width: 700px; height: 700px; right: -150px; top: -250px; background: radial-gradient(circle, rgba(167, 139, 250, .25), transparent 60%); }
+  .mono { font-family: "JetBrains Mono", monospace; font-size: 13px; color: #22d3ee; padding: 7px 12px; border: 1px solid rgba(34, 211, 238, .3); border-radius: 8px; background: rgba(34, 211, 238, .06); }
+  h1 { font-size: 64px; line-height: 1.04; letter-spacing: -2.5px; margin-top: 22px; font-weight: 800; }
+  h1 b { background: linear-gradient(90deg, #22d3ee, #a78bfa); -webkit-background-clip: text; color: transparent; }
+  .hero p { color: #a3adc2; font-size: 18.5px; line-height: 1.6; margin-top: 18px; max-width: 520px; }
+  .cta { display: flex; gap: 12px; margin-top: 30px; }
+  .stats { display: flex; gap: 38px; margin-top: 36px; } .stats b { display: block; font-size: 30px; } .stats span { color: #7c869b; font-size: 13.5px; }
+  .chat { position: relative; border-radius: 22px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 40px 80px rgba(0,0,0,.5); overflow: hidden; }
+  .ch { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .ch .av { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #22d3ee, #a78bfa); }
+  .ch b { display: block; font-size: 15px; } .ch small { color: #34d399; font-size: 12.5px; }
+  .msgs { padding: 22px; display: grid; gap: 14px; }
+  .m { max-width: 80%; padding: 13px 16px; border-radius: 16px; font-size: 14.5px; line-height: 1.5; }
+  .u { justify-self: end; background: #22d3ee; color: #04111a; border-bottom-right-radius: 4px; font-weight: 500; }
+  .a { background: rgba(255,255,255,.07); border-bottom-left-radius: 4px; color: #e6e9f2; }
+  .src { display: inline-block; margin-top: 10px; font-family: "JetBrains Mono", monospace; font-size: 12px; color: #a78bfa; padding: 5px 9px; border-radius: 7px; background: rgba(167, 139, 250, .12); }
+  .typing { display: flex; gap: 5px; padding: 14px 16px; width: 70px; background: rgba(255,255,255,.07); border-radius: 16px; } .typing i { width: 7px; height: 7px; border-radius: 50%; background: #7c869b; }
+  .inp { margin: 0 22px 22px; padding: 14px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,.1); color: #7c869b; font-size: 14px; display: flex; justify-content: space-between; } .inp b { color: #22d3ee; }
+  .logos { display: flex; justify-content: space-between; align-items: center; padding: 34px 72px; border-top: 1px solid rgba(255,255,255,.07); border-bottom: 1px solid rgba(255,255,255,.07); color: #7c869b; font-weight: 700; font-size: 17px; }
+  .bento { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px; padding: 50px 72px 70px; }
+  .card { border-radius: 18px; padding: 24px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.09); }
+  .card.big { grid-row: span 2; background: linear-gradient(160deg, rgba(34, 211, 238, .12), rgba(167, 139, 250, .1)); }
+  .card .t { font-family: "JetBrains Mono", monospace; font-size: 12px; color: #22d3ee; } .card h3 { font-size: 20px; margin-top: 10px; } .card p { color: #a3adc2; font-size: 14.5px; margin-top: 8px; line-height: 1.55; }
+  .big h3 { font-size: 28px; margin-top: 90px; }
+</style>
+</head>
+<body>
+<nav><div class="logo"><i></i>Replyfy</div><span>Product</span><span>Integrations</span><span>Pricing</span><span>Docs</span><span class="sp">Sign in</span><span class="btn">Start free</span></nav>
+<section class="hero">
+  <div>
+    <span class="mono">● AI support agent · trained on your docs</span>
+    <h1>Resolve <b>70% of support tickets</b> instantly</h1>
+    <p>Replyfy answers customers on your website and WhatsApp in 40+ languages, cites your help articles and hands off to humans when it should.</p>
+    <div class="cta"><span class="btn">Start free</span><span class="btn ghost">Book a demo</span></div>
+    <div class="stats"><div><b>4 sec</b><span>Avg. first reply</span></div><div><b>92%</b><span>CSAT</span></div><div><b>24/7</b><span>Always on</span></div></div>
+  </div>
+  <div class="chat">
+    <div class="ch"><span class="av"></span><div><b>Basketly Support</b><small>● Replyfy AI · online</small></div></div>
+    <div class="msgs">
+      <div class="m u">My order #48213 is late. Can I still cancel it?</div>
+      <div class="m a">Sorry about the delay! Your order is 4 minutes away, so it can't be cancelled now, but I've added a ₹50 credit to your wallet. You can refuse delivery for a full refund.<br /><span class="src">↗ Help: Cancellations &amp; refunds</span></div>
+      <div class="m u">Ok thanks, that works 🙏</div>
+      <div class="typing"><i></i><i></i><i></i></div>
+    </div>
+    <div class="inp">Type a message… <b>Send ↵</b></div>
+  </div>
+</section>
+<div class="logos"><span>WhatsApp</span><span>Shopify</span><span>Zendesk</span><span>Freshdesk</span><span>Slack</span><span>Intercom</span><span>HubSpot</span><span>WordPress</span></div>
+<section class="bento">
+  <div class="card big"><span class="t">01 / KNOWLEDGE</span><h3>Trained on your docs</h3><p>Connect your help centre, PDFs and website. Answers always cite the source.</p></div>
+  <div class="card"><span class="t">02</span><h3>40+ languages</h3><p>Hindi, Tamil, Spanish and more, automatically.</p></div>
+  <div class="card"><span class="t">03</span><h3>Human handoff</h3><p>Escalates with full context to your team.</p></div>
+  <div class="card"><span class="t">04</span><h3>Order actions</h3><p>Track, refund and reschedule via your APIs.</p></div>
+  <div class="card"><span class="t">05</span><h3>Brand tone</h3><p>Friendly, formal or playful: you decide.</p></div>
+</section>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Aarav Mehta Photography — photographer portfolio preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: #f5f5f4; background: #0c0c0c; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  h1, h2, h3, .logo { font-family: "Playfair Display", Georgia, serif; font-weight: 500; }
+  .hero { position: relative; height: 700px; background:
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.05) 35%, rgba(0,0,0,.7)),
+    radial-gradient(ellipse at 70% 45%, #f0b26b 0, #b9632f 18%, transparent 40%),
+    radial-gradient(ellipse at 30% 80%, #5a2d1b 0, transparent 50%),
+    linear-gradient(180deg, #2a1a14, #6b3a22 55%, #1a0f0b); }
+  .arch { position: absolute; left: 50%; top: 150px; transform: translateX(-50%); width: 380px; height: 470px; border-radius: 190px 190px 0 0; border: 14px solid rgba(233, 196, 106, .25); }
+  .couple { position: absolute; left: 50%; bottom: 80px; transform: translateX(-50%); width: 160px; height: 300px; }
+  .couple::before, .couple::after { content: ""; position: absolute; bottom: 0; width: 70px; border-radius: 35px 35px 6px 6px; background: #120a07; }
+  .couple::before { left: 10px; height: 280px; } .couple::after { right: 6px; height: 250px; background: #2a0c10; border-radius: 35px 35px 60px 60px; }
+  nav { position: relative; display: flex; align-items: center; gap: 36px; padding: 28px 72px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+  .logo { font-size: 24px; letter-spacing: .5px; text-transform: none; margin-right: auto; }
+  nav span { color: #d6d3d1; }
+  .btn { display: inline-block; padding: 12px 24px; border: 1px solid #e9c46a; color: #e9c46a; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+  .copy { position: absolute; left: 72px; bottom: 70px; }
+  .copy small { color: #e9c46a; letter-spacing: 4px; font-size: 13px; text-transform: uppercase; }
+  h1 { font-size: 84px; line-height: 1; margin-top: 12px; } h1 i { color: #e9c46a; }
+  .copy p { color: #d6d3d1; margin-top: 14px; font-size: 17px; letter-spacing: 3px; text-transform: uppercase; }
+  .scroll { position: absolute; right: 72px; bottom: 70px; color: #a8a29e; font-size: 12px; letter-spacing: 3px; writing-mode: vertical-rl; text-transform: uppercase; }
+  .work { padding: 70px 72px 80px; }
+  .wh { display: flex; justify-content: space-between; align-items: end; margin-bottom: 26px; }
+  .wh h2 { font-size: 44px; }
+  .filters span { margin-left: 22px; color: #a8a29e; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; padding-bottom: 6px; }
+  .filters .on { color: #f5f5f4; border-bottom: 1px solid #e9c46a; }
+  .mas { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 150px; gap: 14px; }
+  .mas div { position: relative; }
+  .mas div span { position: absolute; left: 14px; bottom: 12px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.85); }
+  .a { grid-row: span 2; background: linear-gradient(160deg, #7a3b1f, #d9894a 50%, #3b1d10); }
+  .b { background: linear-gradient(200deg, #1f3b4d, #6e9db5); }
+  .c { grid-row: span 2; background: linear-gradient(180deg, #2b2b2b, #8c8c8c 60%, #1b1b1b); }
+  .d { background: linear-gradient(140deg, #4d1d2a, #b5546b); }
+  .e { background: linear-gradient(160deg, #304a2c, #8fb07a); }
+  .f { background: linear-gradient(200deg, #6b4f2a, #e0b36b); }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="arch"></div><div class="couple"></div>
+  <nav><div class="logo">Aarav Mehta</div><span>Work</span><span>Services</span><span>About</span><span>Contact</span><span class="btn">Enquire</span></nav>
+  <div class="copy"><small>Jaipur · Available worldwide</small><h1>Stories told<br />in <i>light</i>.</h1><p>Weddings · Portraits · Travel</p></div>
+  <div class="scroll">Scroll ↓</div>
+</section>
+<section class="work">
+  <div class="wh"><h2>Selected work</h2><div class="filters"><span class="on">All</span><span>Weddings</span><span>Portraits</span><span>Travel</span></div></div>
+  <div class="mas">
+    <div class="a"><span>Amer Fort · Wedding</span></div><div class="b"><span>Udaipur · Monsoon</span></div><div class="c"><span>Studio · Portrait</span></div><div class="d"><span>Mehendi night</span></div>
+    <div class="e"><span>Coorg · Travel</span></div><div class="f"><span>Golden hour</span></div>
+  </div>
+</section>
+</body>
+</html>

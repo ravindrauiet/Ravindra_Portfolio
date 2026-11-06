@@ -117,7 +117,7 @@ export default function PromptGallery({ items, industries }) {
                 <p className="pl-card-desc">{item.description}</p>
                 <ul className="pl-card-chips">
                   <li>{item.stack}</li>
-                  <li>{item.sectionCount} sections</li>
+                  <li>{item.stepCount} build steps</li>
                   <li>{item.tone === "dark" ? "Dark theme" : "Light theme"}</li>
                 </ul>
                 <div className="pl-card-foot">

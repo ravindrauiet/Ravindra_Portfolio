@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Basketly — grocery delivery website preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #052e16; background: #f7fdf9; min-height: 1400px; display: flex; flex-direction: column; }
+  body > :last-child { flex: 1; }
+  nav { display: flex; align-items: center; gap: 22px; padding: 18px 72px; background: #fff; border-bottom: 1px solid #e3f1e8; font-size: 14.5px; }
+  .logo { font-weight: 800; font-size: 24px; color: #16a34a; } .logo b { color: #052e16; }
+  .loc { line-height: 1.25; } .loc small { display: block; font-weight: 800; font-size: 15px; } .loc span { color: #4b6355; font-size: 13px; }
+  .find { flex: 1; padding: 13px 18px; border-radius: 12px; background: #f1f7f3; color: #6b8576; border: 1px solid #e3efe7; }
+  .cart { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 12px; background: #16a34a; color: #fff; font-weight: 700; }
+  .cart i { font-style: normal; background: #facc15; color: #052e16; border-radius: 999px; padding: 1px 8px; font-size: 13px; }
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: 50px 72px 50px; }
+  .pill { display: inline-flex; gap: 8px; align-items: center; padding: 8px 14px; border-radius: 999px; background: #fef9c3; font-weight: 700; font-size: 14px; }
+  h1 { font-size: 74px; line-height: 1.02; letter-spacing: -2.5px; margin-top: 18px; font-weight: 800; } h1 b { color: #16a34a; }
+  .hero p { font-size: 18.5px; color: #4b6355; margin-top: 16px; max-width: 470px; line-height: 1.6; }
+  .pin { display: flex; margin-top: 28px; max-width: 470px; background: #fff; border: 1px solid #dcebe1; border-radius: 16px; padding: 8px; box-shadow: 0 16px 34px rgba(5, 46, 22, .08); }
+  .pin span { flex: 1; padding: 12px 14px; color: #6b8576; } .pin b { padding: 13px 22px; border-radius: 11px; background: #16a34a; color: #fff; }
+  .trust { display: flex; gap: 24px; margin-top: 24px; font-weight: 700; font-size: 15px; } .trust span::before { content: "✓ "; color: #16a34a; }
+  .bag { position: relative; height: 470px; border-radius: 40px; background: radial-gradient(circle at 50% 60%, #bbf7d0, #dcfce7 60%, #f0fdf4); display: grid; place-items: center; }
+  .bag .b { font-size: 230px; filter: drop-shadow(0 30px 40px rgba(5, 46, 22, .25)); }
+  .bag .f { position: absolute; font-size: 70px; } .f1 { left: 40px; top: 40px; } .f2 { right: 40px; top: 70px; } .f3 { left: 60px; bottom: 50px; } .f4 { right: 60px; bottom: 40px; }
+  .timer { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); background: #052e16; color: #fff; border-radius: 999px; padding: 9px 18px; font-weight: 700; font-size: 14.5px; }
+  .cats { padding: 10px 72px 30px; }
+  .cats h2, .deal h2 { font-size: 28px; letter-spacing: -.5px; margin-bottom: 18px; }
+  .row { display: flex; justify-content: space-between; }
+  .cat { text-align: center; width: 100px; font-weight: 600; font-size: 13.5px; }
+  .cat i { display: grid; place-items: center; width: 84px; height: 84px; margin: 0 auto 8px; border-radius: 50%; background: #fff; border: 1px solid #e3efe7; font-style: normal; font-size: 40px; }
+  .deal { padding: 30px 72px 70px; }
+  .dh { display: flex; justify-content: space-between; align-items: center; } .dh span { background: #fee2e2; color: #b91c1c; font-weight: 700; padding: 7px 14px; border-radius: 999px; font-size: 14px; }
+  .prods { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .p { position: relative; background: #fff; border: 1px solid #e3efe7; border-radius: 18px; padding: 16px; }
+  .p .off { position: absolute; left: 12px; top: 12px; background: #facc15; font-weight: 800; font-size: 12px; padding: 4px 8px; border-radius: 8px; }
+  .p .im { height: 110px; display: grid; place-items: center; font-size: 66px; }
+  .p small { color: #6b8576; font-size: 12.5px; } .p b { display: block; font-size: 15px; margin: 2px 0 10px; }
+  .pr { display: flex; justify-content: space-between; align-items: center; } .pr s { color: #9ab0a3; font-size: 13px; margin-left: 4px; }
+  .add { padding: 7px 16px; border-radius: 10px; border: 1.5px solid #16a34a; color: #16a34a; font-weight: 800; font-size: 14px; }
+  .step { display: flex; gap: 12px; align-items: center; padding: 6px 10px; border-radius: 10px; background: #16a34a; color: #fff; font-weight: 800; }
+</style>
+</head>
+<body>
+<nav><div class="logo">bask<b>etly</b></div><div class="loc"><small>Delivery in 9 minutes</small><span>Sector 62, Noida ▾</span></div><div class="find">🔍 Search for atta, milk, chips…</div><span>Login</span><div class="cart">🛒 3 items · ₹486 <i>3</i></div></nav>
+<section class="hero">
+  <div>
+    <span class="pill">⚡ Now in 14 cities across Delhi NCR</span>
+    <h1>Groceries in<br /><b>10 minutes</b></h1>
+    <p>Fresh fruit, daily essentials and 7,000+ products at prices better than your local store.</p>
+    <div class="pin"><span>Enter your pincode</span><b>Check delivery</b></div>
+    <div class="trust"><span>Fresh</span><span>Fast</span><span>Fair prices</span></div>
+  </div>
+  <div class="bag"><span class="timer">⏱ Arriving in 08:42</span><span class="b">🛍️</span><span class="f f1">🥑</span><span class="f f2">🥛</span><span class="f f3">🍓</span><span class="f f4">🥖</span></div>
+</section>
+<section class="cats">
+  <h2>Shop by category</h2>
+  <div class="row"><div class="cat"><i>🍎</i>Fruits</div><div class="cat"><i>🥦</i>Vegetables</div><div class="cat"><i>🧀</i>Dairy</div><div class="cat"><i>🍞</i>Bakery</div><div class="cat"><i>🍿</i>Snacks</div><div class="cat"><i>🧃</i>Beverages</div><div class="cat"><i>🌾</i>Staples</div><div class="cat"><i>🧴</i>Personal care</div><div class="cat"><i>🧽</i>Cleaning</div><div class="cat"><i>🍼</i>Baby care</div></div>
+</section>
+<section class="deal">
+  <div class="dh"><h2>Deals of the day</h2><span>Ends in 05:12:48</span></div>
+  <div class="prods">
+    <div class="p"><span class="off">22% OFF</span><div class="im">🥭</div><small>1 kg</small><b>Alphonso mangoes</b><div class="pr"><span><b style="display:inline">₹249</b><s>₹320</s></span><span class="add">ADD</span></div></div>
+    <div class="p"><span class="off">15% OFF</span><div class="im">🥛</div><small>1 L</small><b>Toned milk</b><div class="pr"><span><b style="display:inline">₹56</b><s>₹66</s></span><span class="step">− 2 +</span></div></div>
+    <div class="p"><span class="off">30% OFF</span><div class="im">🍪</div><small>300 g</small><b>Butter cookies</b><div class="pr"><span><b style="display:inline">₹84</b><s>₹120</s></span><span class="add">ADD</span></div></div>
+    <div class="p"><span class="off">10% OFF</span><div class="im">🍚</div><small>5 kg</small><b>Basmati rice</b><div class="pr"><span><b style="display:inline">₹549</b><s>₹610</s></span><span class="add">ADD</span></div></div>
+    <div class="p"><span class="off">18% OFF</span><div class="im">🧈</div><small>500 g</small><b>Salted butter</b><div class="pr"><span><b style="display:inline">₹246</b><s>₹300</s></span><span class="add">ADD</span></div></div>
+  </div>
+</section>
+</body>
+</html>
