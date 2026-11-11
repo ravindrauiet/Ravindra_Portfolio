@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, ChevronDown, MousePointerClick, PencilLine, Rocket, Sparkles } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
+import AppPromo from "@/components/site/AppPromo";
+import WebRankPromo from "@/components/site/WebRankPromo";
 import PromptGallery from "@/components/library/PromptGallery";
 import { INDUSTRIES, getAllPrompts, getPrompt } from "@/lib/prompts";
 import { getBuildPlan } from "@/lib/prompts/buildPlan";
@@ -255,6 +257,8 @@ export default function PromptsPage() {
           </div>
         </div>
 
+        <AppPromo source="prompts" />
+
         {/* Gallery */}
         <div className="pl-section" id="prompt-gallery">
           <div className="pl-head">
@@ -266,6 +270,8 @@ export default function PromptsPage() {
           </div>
           <PromptGallery items={items} industries={INDUSTRIES} />
         </div>
+
+        <WebRankPromo source="prompts" />
 
         {/* FAQ */}
         <div className="pl-section">

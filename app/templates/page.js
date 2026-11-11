@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Check, ChevronDown, Code2, Copy, Sparkles, Wand2 } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
+import AppPromo from "@/components/site/AppPromo";
+import WebRankPromo from "@/components/site/WebRankPromo";
 import ParallaxShowcase from "@/components/library/ParallaxShowcase";
 import TemplateGallery from "@/components/library/TemplateGallery";
 import { PARALLAX_DEMOS } from "@/lib/demos";
@@ -270,6 +272,8 @@ export default function TemplatesPage() {
           </div>
         </div>
 
+        <AppPromo source="templates" />
+
         <ParallaxShowcase demos={PARALLAX_DEMOS} />
 
         {/* Gallery */}
@@ -283,6 +287,8 @@ export default function TemplatesPage() {
           </div>
           <TemplateGallery items={items} categories={CATEGORIES} />
         </div>
+
+        <WebRankPromo source="templates" />
 
         {/* FAQ */}
         <div className="pl-section">
