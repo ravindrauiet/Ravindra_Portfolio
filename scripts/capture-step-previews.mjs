@@ -450,7 +450,8 @@ function luminance(hex) {
 }
 
 function context(prompt, plan) {
-  const preview = existsSync(join(previewDir, `${prompt.slug}.html`)) ? readFileSync(join(previewDir, `${prompt.slug}.html`), "utf8") : "";
+  const previewFile = [join(previewDir, `${prompt.slug}.html`), prompt.demo && join(root, "public", prompt.demo)].find((f) => f && existsSync(f));
+  const preview = previewFile ? readFileSync(previewFile, "utf8") : "";
   const fontLinks = [...preview.matchAll(/<link[^>]+fonts\.googleapis\.com[^>]+>/g)].map((m) => m[0]).join("\n");
   const families = [...preview.matchAll(/font-family:\s*([^;}]+)/g)].map((m) => m[1].trim());
   const bodyCss = preview.match(/body\s*\{[^}]*font-family:\s*([^;}]+)/)?.[1]?.trim() || families[0] || "Inter, system-ui, sans-serif";

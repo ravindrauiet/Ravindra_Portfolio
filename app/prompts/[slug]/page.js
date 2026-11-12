@@ -163,6 +163,11 @@ export default async function PromptDetailPage({ params }) {
                 Build it step by step
               </a>
               <CopyButton text={prompt.prompt} label="Copy one-shot prompt" copiedLabel="Prompt copied" />
+              {prompt.demo && (
+                <a href={prompt.demo} target="_blank" rel="noopener noreferrer" className="lib-copy">
+                  See the live website ↗
+                </a>
+              )}
             </div>
           </div>
 
@@ -184,7 +189,18 @@ export default async function PromptDetailPage({ params }) {
                   preload
                 />
               </figure>
-              <p>Example of the website this prompt builds. Your result will use your own name, text and images.</p>
+              <p>
+                Example of the website this prompt builds. Your result will use your own name, text and images.
+                {prompt.demo && (
+                  <>
+                    {" "}
+                    <a href={prompt.demo} target="_blank" rel="noopener noreferrer">
+                      Open the live version
+                    </a>
+                    , built from these exact prompts.
+                  </>
+                )}
+              </p>
             </div>
             <dl className="lib-facts">
               <div>
