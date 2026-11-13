@@ -118,6 +118,7 @@ ${jsonLd(schema)}
   Designed and coded by <a href="${SITE}" style="color:#fff;font-weight:700;text-decoration:underline">${AUTHOR}</a>, ${esc(ROLE)} · M.Tech AI, IIT Jodhpur.
   <a href="${SITE}/templates#parallax-websites" style="color:#ff9d4d;margin-left:6px;text-decoration:underline">More parallax websites</a>
 </div>
+<script src="/lead-popup.js" defer></script>
 <!-- seo:end -->`;
   html = html.replace(/<\/body>/i, credit + "\n</body>");
 

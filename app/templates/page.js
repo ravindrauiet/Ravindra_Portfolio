@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import { ArrowRight, Check, ChevronDown, Code2, Copy, Sparkles, Wand2 } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
 import AppPromo from "@/components/site/AppPromo";
@@ -147,6 +148,7 @@ export default function TemplatesPage() {
   return (
     <section className="lib-page pl-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(listSchema) }} />
+      <Script src="/lead-popup.js" strategy="lazyOnload" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }} />
 
       <div className="pl-glow" aria-hidden="true" />

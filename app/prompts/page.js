@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Script from "next/script";
 import Link from "next/link";
 import { ArrowRight, Check, ChevronDown, MousePointerClick, PencilLine, Rocket, Sparkles } from "lucide-react";
 import CopyButton from "@/components/library/CopyButton";
@@ -135,6 +136,7 @@ export default function PromptsPage() {
   return (
     <section className="lib-page pl-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(listSchema) }} />
+      <Script src="/lead-popup.js" strategy="lazyOnload" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }} />
 
       <div className="pl-glow" aria-hidden="true" />

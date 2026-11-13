@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import AuthorBox from "@/components/site/AuthorBox";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
@@ -134,6 +135,7 @@ export default async function PromptDetailPage({ params }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(howToSchema) }} />
+      <Script src="/lead-popup.js" strategy="lazyOnload" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
 
       <article className="lib-page lib-detail">

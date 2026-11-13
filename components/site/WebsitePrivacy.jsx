@@ -10,6 +10,13 @@ export default function WebsitePrivacy() {
         to reply to you and to discuss your request. I do not sell or rent it, and I delete enquiries that do not lead to
         work after 12 months.
       </p>
+      <p>
+        On the templates, prompts and demo pages, a &ldquo;free quote&rdquo; form may appear after you have spent some time on the
+        page. If you fill it in, I receive your name, the email address or phone number you enter, what you need, and the page
+        you were on. I use it only to contact you about your project, in the same way as the contact form. If you close the
+        form, it stays hidden for a few days; after you submit it, it does not appear again. This choice is remembered in your
+        browser&apos;s local storage, not in a cookie.
+      </p>
 
       <h3>Information collected automatically</h3>
       <p>
