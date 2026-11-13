@@ -11183,3 +11183,58 @@ a.abt-detail-value:focus-visible {
     transition: none;
   }
 }
+
+/* Templates page: compact, light featured 3D scene (keeps the page from stacking three big dark banners) */
+.pl-feature-compact {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: 3.6rem;
+  padding: 3rem;
+  border-radius: 2.2rem;
+  color: #0f1630;
+  background: #fff;
+  border: 1px solid #e6e8f0;
+  box-shadow: 0 18px 40px -28px rgba(0, 32, 87, 0.35);
+}
+.pl-feature-compact .pl-feature-shot .pl-win {
+  border-color: #e6e8f0;
+  box-shadow: 0 20px 40px -24px rgba(0, 32, 87, 0.45);
+  transform: none;
+}
+.pl-feature-compact:hover .pl-feature-shot .pl-win {
+  transform: translateY(-4px);
+}
+.pl-feature-compact .pl-feature-body .svc-eyebrow {
+  color: #ff7b00;
+}
+.pl-feature-compact .pl-feature-body h2 {
+  color: #002057;
+  font-size: clamp(2.6rem, 2.6vw, 3.4rem);
+}
+.pl-feature-compact .pl-feature-body > p {
+  color: #5b6178;
+  font-size: 1.5rem;
+}
+.pl-feature-compact .pl-term {
+  margin-top: 1.8rem;
+  background: #0f172a;
+  border-color: #0f172a;
+}
+.pl-feature-compact .pl-term pre {
+  max-height: 10rem;
+  padding: 1.4rem 1.8rem;
+  font-size: 1.25rem;
+}
+.pl-feature-compact .pl-feature-foot {
+  margin-top: 1.8rem;
+}
+.pl-feature-compact .pl-feature-foot li {
+  background: #f1f2f8;
+  color: #2b3150;
+}
+@media (max-width: 900px) {
+  .pl-feature-compact {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+    gap: 2.4rem;
+  }
+}

@@ -242,7 +242,7 @@ export default function TemplatesPage() {
 
         {/* Featured template */}
         <div className="pl-section">
-          <div className="pl-feature">
+          <div className="pl-feature pl-feature-compact">
             <div className="pl-feature-shot">
               <LiveWindow template={featured} />
             </div>
@@ -272,9 +272,9 @@ export default function TemplatesPage() {
           </div>
         </div>
 
-        <AppPromo source="templates" />
-
         <ParallaxShowcase demos={PARALLAX_DEMOS} />
+
+        <AppPromo source="templates" />
 
         {/* Gallery */}
         <div className="pl-section" id="template-gallery">
