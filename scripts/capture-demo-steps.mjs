@@ -20,6 +20,10 @@ const W = 1440, H = 900, SCALE = 0.625; // saved images are 900px wide
 // step number → [selector or "top", extra scroll in px, crop height in px (default full viewport)]
 // A step mapped to null loses its image (used for steps with no matching section).
 const SHOTS = {
+  "wedding-invitation-card-prompt": {
+    demo: "/demos/parallax-invite/index.html",
+    steps: { 2: ["top", 0, 300], 3: ["top", 0], 4: ["#cut", -100], 5: ["#words", 100], 6: ["#gate", 900], 7: ["#events", 200], 8: ["#count", 0], 9: ["#venue", 100], 10: ["#rsvp", 150], 11: ["footer", 0], 13: null },
+  },
   "wedding-day-website-prompt": {
     demo: "/demos/parallax-shaadi/index.html",
     steps: { 2: ["top", 0, 300], 3: ["top", 0], 4: ["#intro", 40], 5: ["#baraat", 700], 6: ["#pheras", 1500], 7: ["#rituals", 0], 8: ["#travel", 0], 9: [".band", 0], 10: ["#rsvp", 40], 11: ["footer", 0], 13: null },
